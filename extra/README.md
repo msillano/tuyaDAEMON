@@ -1,6 +1,6 @@
 # case study: **alarm siren**
 
-_My ['USB alarm siren'](https://www.aliexpress.com/item/4000161671864.html) (WiFi, AC  + BATT, USD 18) don't works with `smart_tuya_devices`: all answers are undecoded strings like this:_
+_My ['USB alarm siren'](https://www.aliexpress.com/item/4000161671864.html) (WiFi, AC  + BATT, USD 18) don't works with `smart_tuya_devices` (2.0.0): all answers are undecoded strings like this:_
 ````
 ERROR from 'USB siren': not JSON data but HEX:332e3300000000000000efbfbd00000001efbfbdefbfbd6f300861efbfbd31efbfbd20efbfbdefbfbdefbfbd7e161610180671efbfbdefbfbdefbfbdefbfbd0451efbfbd530aefbfbdefbfbdefbfbdefbfbd08efbfbd01efbfbdefbfbddf8dc7a41eefbfbd0cefbfbd7defbfbd2ac8baefbfbd6314efbfbdefbfbdefbfbd0cefbfbd135b5f6c02efbfbd28efbfbdefbfbd2c32efbfbd0463efbfbd112f366d1d  ('3.3���o0a�1� ���~q����Q�S
 �������ߍǤ��}�*Ⱥ�c����[_l�(��,2�c�/6m')     
