@@ -16,7 +16,7 @@ This **TRIGGER** mechanism, implemented in **tuyaTRIGGER**, allow a better _tuya
  - _node-red_ can set/get status for _all devices and data point_ not found by `node-red-contrib-tuya-smart-device`.
  - _node-red_ can fire automation on _tuya-cloud_ 
  - _tuya scene_ can control _node-red flows_, so a node-red user can employ _smartlife_ as remote control (from anywhere).
- - _tuya autmations_ can fire flows in _node-red_, implementing this way any control strategy.
+ - _tuya automations_ can fire flows in _node-red_, implementing this way any control strategy not allowed in Tuya.
  - user can fire _node-red flows_ with vocal control (`Googlehome`)
 
 [TuyaSmart App and SmartLife App limits (2021-01-07)](https://support.tuya.com/en/help/_detail/K9q79msw3accz)
