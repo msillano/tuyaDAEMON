@@ -3,7 +3,7 @@
 
 _A two-way bridge between Tuya-cloud and node-red for custom extensions of Tuya ecosystem._
 
-TuyaDAEMON isolates your **custom node-red flows** from all details of tuya/node-red data and commands exchanges:
+TuyaDAEMON isolates your **custom node-red flows** from all details of _tuya/node-red data and commands exchanges_:
 - allows bidirectional exchanges to/from _all tuya devices and Tuya automations_.
 - decodes and transforms incominig Tuya data  to _standard units_.
 - manages all codifications and checks before sending your _commands to Tuya cloud_.
@@ -21,8 +21,7 @@ TuyaDAEMON isolates your **custom node-red flows** from all details of tuya/node
  _note:_ tuyaDEAMON _makes the_ GET _and_ SCHEMA _commands practically superfluous. Their meaning becomes "update now `global.tuyastatus`"_.
 ### OUTPUT
   none: a client flow CAN get device data polling the `global.tuyastatus` structure, RT updated or CAN get historical data from the `messages` DB table.
-  
-
+ 
 _User can define:_
 - TUYA TRIGGERS from _smartlife scene/event/alarm_ to fire custom _node-red flows_
 - RED TRIGGERS from _node-red_ to fire _smartlife automations_.
@@ -61,11 +60,11 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  ![](pics/tuyadaemon01.jpg)
  
  - **tuyaDEAMON CORE:** the main flow, for communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
- - **Connection module:** add to all _real device_ the new RT property 'connected' to report device status. Optional.
+ - **Connection module:** add to all _real device_ the new property 'connected' to report RT the device status. Optional.
  - **System module:** Offerts a `'fake' device` (_system) with some useful RT properties: _Alarms_ in case of WiFi, Lan or AC power down, _list of unconned devices_ etc. Optional, requires the  _'Connection module'_.
  - **tuyaTRIGGER module,** _give us some important features:_
    - The start of **tuya automations** from _node-red_
-   - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote and vocal control_.
+   - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote_ and _vocal_ control.
    - The management RT of `'mirror' devices` for all devices not caught by **tuyapi**
    
     This module, optional, uses a smart trick on a partially dedicated HW device.
@@ -89,7 +88,17 @@ In addition to usual configuration requirements for the nodes `mySQL` and `tuya-
      - see _'Debug pad options'_ comment node.
  
  ### installation
-
+   0. Precondition: _mySQL_ server running: import the  `startmysql.sql`  to create the required table.
+   0. Precondition: at least a _Tuya device_ installed and working with _smartlife_ app. You MUST know the `ID` and `Key` for your Tuya device(s): see [here](https://github.com/codetheweb/tuyapi/blob/master/docs/SETUP.md) for detailed instructions.
+   1. Install in node-red the nodes (I use 'manage pallette'): 
+        - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
+        - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
+        - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
+   2. Import `tuyaDAEMON.json` file in node-red.
+   3. Configure in tuyaDAEMON the DB node `append to DB`
+   4. Add to tuyaDAEMON your device(s). See step-by-step instructions on _`Add a new smart devices 1/2`_ comment nodes. 
+   5. You can delete the unused modules and `example` nodes.
+   
 --------------------
 **Versions**
 
