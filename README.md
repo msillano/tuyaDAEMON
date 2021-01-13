@@ -89,7 +89,7 @@ In addition to usual configuration requirements for the nodes `mySQL` and `tuya-
      - see _'Debug pad options'_ comment node.
  
  ### installation
-   0. Precondition: _mySQL_ server running: import the  `messagesmysql.sql`  to create the required table.
+   0. Precondition: _mySQL_ server running: import the  `tuyamessages.sql`  to create the required table.
    0. Precondition: at least a _Tuya device_ installed and working with _smartlife_ app. You MUST know the `ID` and `Key` for your Tuya device(s): see [here](https://github.com/codetheweb/tuyapi/blob/master/docs/SETUP.md) for detailed instructions.
    1. Install in node-red the nodes (I use 'manage pallette'): 
         - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
