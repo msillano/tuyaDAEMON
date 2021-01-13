@@ -35,7 +35,7 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  
  1) Some devices are unreachables: **TuyAPI** does not support some sensors due to the fact that they only connect to the network when their state changes. Usually are WiFi devices battery-powered.
  
- 2) The implementation of the Tuya protocol is very variable for different devices: e.g. I have found very few devices that respond to `schema` requests.
+ 2) The capabilities of the Tuya communication are very variable for different devices: e.g. I have found very few devices that respond to `schema` requests.
  
  3) _Tuya devices_ can update  their own firmware version via **OTA**: for the user, this is an investment guarantee, but it can introduce problems when the software (`tuyapi` and `tuya-smart-device`) is not updated: some device messages can't be decoded.
  
@@ -45,9 +45,9 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  Because now a **tuya-smart-device** can't be disabled, these useless messages can be very frequent. In normal use, some devices can stay disconnected long time, such as power sockets or power strips used only on request.
 
  
- _To manage such a rapidly changing environment, I choose to use a data structure in **tuyaDAEMON** to describe individual devices and single datapoint capabilities, so that all operations that are actually not managed or bogous can be intercepted and not sent to the devices, giving stable and reliable operations with no surprises. And if the evolution of the SW offers us new features, it is easy to update the behavior of tuyaDAEMON._
+ _To manage such a rapidly changing environment, I choose to use a data structure in **tuyaDAEMON** to describe individual devices and single datapoint capabilities, so that all operations that are actually not managed or bogous can be intercepted and not sent to the device, giving stable and reliable operations with no surprises. And if the evolution of the SW offers us new features, it is easy to update the behavior of tuyaDAEMON._
  
-  _A smart workaround, implemented in [**tuyaTRIGGER**](tuyaTRIGGER) module, allows the bidirectional event communication also with all devices unreachables by `tuyapi`._ _**The user is guaranteed that in all cases all tuya devices will be integrated with tuyaDAEMON.**_
+  _A smart workaround, implemented in [**tuyaTRIGGER**](tuyaTRIGGER) module, allows the bidirectional event communication also with all devices unreachables by `tuyapi`._ _**The TuyaDAEMON user is guaranteed that in all cases all tuya devices will be integrated.**_
 ### Customization
 **TuyaDAEMON** is very sperimental, the CORE module MUST be modified by user for every new device. 
  
@@ -63,13 +63,13 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  - **tuyaDEAMON CORE:** the main flow, for communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
  - **Connection module:** add to all _real device_ the new property 'connected' to report RT the device status. Optional.
  - **System module:** Offerts a `'fake' device` (_system) with some useful RT properties: _Alarms_ in case of WiFi, Lan or AC power down, _list of unconned devices_ etc. Optional, requires the  _'Connection module'_.
- - **tuyaTRIGGER module,** _give us some important features:_
+ - [**tuyaTRIGGER module**](tuyaTRIGGER) _give us some important features:_
    - The start of **tuya automations** from _node-red_
    - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote_ and _vocal_ control.
    - The management RT of `'mirror' devices` for all devices not caught by **tuyapi**
    
     This module, optional, uses a smart trick on a partially dedicated HW device.
-- _Extra flow_: "siren mirror", a 'mirror' device study case.
+- _Extra flow_: ["siren mirror"](extra), a 'mirror' device study case.
 - _Extra flow_: "test devices" with some examples of device tests
  
 ### configuration
@@ -89,7 +89,7 @@ In addition to usual configuration requirements for the nodes `mySQL` and `tuya-
      - see _'Debug pad options'_ comment node.
  
  ### installation
-   0. Precondition: _mySQL_ server running: import the  `startmysql.sql`  to create the required table.
+   0. Precondition: _mySQL_ server running: import the  `messagesmysql.sql`  to create the required table.
    0. Precondition: at least a _Tuya device_ installed and working with _smartlife_ app. You MUST know the `ID` and `Key` for your Tuya device(s): see [here](https://github.com/codetheweb/tuyapi/blob/master/docs/SETUP.md) for detailed instructions.
    1. Install in node-red the nodes (I use 'manage pallette'): 
         - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
@@ -101,7 +101,7 @@ In addition to usual configuration requirements for the nodes `mySQL` and `tuya-
    5. You can delete the unused modules and `example` nodes.
    
 --------------------
-**Versions**
+**versions**
 
 _tuyaDAEMON version 1.0_ (15/01/2021)
 - node-red-contrib-tuya-smart-device 2.0.0
