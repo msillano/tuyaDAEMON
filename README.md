@@ -58,6 +58,7 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  In **tuyaDAEMON** we have now four modules:
  
  ![](pics/tuyadaemon01.jpg)
+ ![](pics/tuyadaemon02.jpg)
  
  - **tuyaDEAMON CORE:** the main flow, for communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
  - **Connection module:** add to all _real device_ the new property 'connected' to report RT the device status. Optional.
