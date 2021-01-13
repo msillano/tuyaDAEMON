@@ -16,6 +16,8 @@ _But while I'm waiting for `tuyap` and `smart-tuya-device `  updates,  I need it
 This siren can produce 10 different sounds, so it can be used also as door bell, phone repeater etc. As Alarm, sound #7 (and #8) are preferred. see EN 50131-4, EN 54-3, DIN 33404-3.
 - The local regolament fixes a max of 180s with a modulated sound, and the max volume to 100 dB (external) and 80 dB (internal). I  measured 70 dB.
 
+![](./../pics/siren01.jpg)
+
 ### 'mirror' device capabilities
    _To reduce complexity I implement in the 'mirror' siren device only a optmized subset of siren capabilities: my interest is only on dynamic options and security issues: function ON/OFF,  the battery status._ 
    _I can implement some 'setup' automations to force 'sound' and 'duration' parameters to the correct values.  So I can still use the same device for more functions (intrusion alarm, fire alarm, door bell...) using different 'setup'._
