@@ -116,7 +116,7 @@ _This tick can be used with any device, named in the flow and in `alldevices` "t
 
 2) _Now I'm waiting for another device, a wifi switch_ [TYWR 7-32](https://www.aliexpress.com/item/1005001292469801.html) (USD 10) _with a micro USB power input. When I get it I will update here after some tests_.
 
-3) 'TuyaTrigger' value in in `msg.payload.tuyatrigger`.  The conversion `data.dp["102"] ==>  msg.payload.tuyatrigger` is done by `"dp converter"` change node. _To config your own `tuya-bridge` device, and to use any `dp`:_
+3) 'TuyaTrigger' value is placed in `msg.payload.tuyatrigger`.  The conversion `data.dp["102"] ==>  msg.payload.tuyatrigger` is done by `"dp converter"` change node. _To config your own `tuya-bridge` device, and to use any `dp`:_
      - modify the  `"dp converter"` change node. 
      - modify the code in `"red trigger"` sub-flow.
 
