@@ -84,7 +84,7 @@ _trgPing: object
 
       In Tuya Automation we need: _`If "sensore di movimento:Allarme", tuya-bridge:countdown:1020`_ 
 
-    See also "siren mirror" extra flow.
+    See also ["siren mirror"](./../extra) extra flow.
 
 2) _TUYATRG (1000-1990) are also used fired by_ smartlife _to signal some  user/device/weather/geolocation action_ 
 
