@@ -14,7 +14,7 @@ _But while I'm waiting for `tuyap` and `smart-tuya-device `  updates,  I need it
 - Alarm `sound`: ENUM [1..10] (RW)
 
 This siren can produce 10 different sounds, so it can be used also as door bell, phone repeater etc. As Alarm, sound #7 (and #8) are preferred. see EN 50131-4, EN 54-3, DIN 33404-3.
-- The local regolament fixes a max of 180s with a modulated sound, and the max volume to 100 dB (external) and 80 dB (internal). I  measured 70 dB.
+- The local regolament (Rome, Italy) fixes a max of 180s with a modulated sound, and the max volume to 100 dB (external) and 80 dB (internal). I  measured 70 dB.
 
 ### 'mirror' device capabilities
    _To reduce complexity I implement in the 'mirror' siren device only a optmized subset of siren capabilities: my interest is only on dynamic options and security issues: function ON/OFF,  the battery status._ 
@@ -23,8 +23,8 @@ This siren can produce 10 different sounds, so it can be used also as door bell,
 
 _status update_ from device events:
 ````
-   - alarm:ON                        trigger 1800
-   - alarm:OFF                       trigger 1810
+   - alarm:ON                         trigger 1800
+   - alarm:OFF                        trigger 1810
             (two triggers are required for a BOOL status)
    - battery level:LOW                trigger 1820
    - battery level:DOWN               trigger 1820  
