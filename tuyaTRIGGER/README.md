@@ -9,7 +9,7 @@ the _node-red_ send/receive actions are performed by **tuyaTRIGGER** flow, the _
  - _node-red => tuya_: **node-red** write a predefined value in the 'counter' and that fires a specific **Tuya** automation: first the automation must reset the 'counter' to 0, then it can do anything.
  Tuya automation, say `trigger1010`:   _If "counter:1010" do "counter:0" and "any-action..."_ 
 
- - _tuya => node-red_: A tuya **sceme** (user action) or **automation** (event) sets  a predefined value on the 'counter' (e.g. 2030), and when node-red read that, it must first reset  the "counter' to 0, then it can do anything.
+ - _tuya => node-red_: A tuya **scene** (user action) or **automation** (event) sets  a predefined value on the 'counter' (e.g. 2030), and when node-red read that, it must first reset  the "counter' to 0, then it can do anything.
  Tuya automation,  say `trigger2030`: _If "any-event" do "counter:2030"_ 
 
 This **TRIGGER** mechanism, implemented in **tuyaTRIGGER**, allow a better _tuya <=> node-red_ integration in **tuyaDAEMON**:
