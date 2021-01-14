@@ -113,9 +113,9 @@ _This tick can be used with any device, named in the flow and in `alldevices` "t
 
 1) _I choose first the Tuya _ [Switch MS-104](https://www.aliexpress.com/item/33012114855.html) (USD 8) _because its countdown (`dp` = 102) is with a large range [0-86400s, i.e. 24H] and still the device can be used as a WiFi switch, because only the countdown function is used by this implementation, plus it is small and cheap. 
 
-   The unique problem is the lack of a battery backup.
+   The unique problem with this switch is the lack of a battery backup.
 
-2) _Now I'm waiting for another device, a Tuya wifi switch_ [TYWR 7-32](https://www.aliexpress.com/item/1005001292469801.html) (USD 10) _with a micro USB power input. When I get it I will update here after some tests_.
+2) _Now I'm waiting for another device, a Tuya wifi switch_ [TYWR 7-32](https://www.aliexpress.com/item/1005001292469801.html) (USD 10) _with a micro USB input, so it can be used with a power bank. When I get it I will update here after some tests_.
 
 3) 'TuyaTrigger' value is placed in `msg.payload.tuyatrigger`.  The conversion `data.dp["102"] ==>  msg.payload.tuyatrigger` is done by `"dp converter"` change node. _To config your own `tuya-bridge` device, and to use any `dp`:_
      - modify the  `"dp converter"` change node. 
