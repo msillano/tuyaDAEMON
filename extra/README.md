@@ -30,6 +30,9 @@ _status update_ from device events:
    - battery level:LOW                trigger 1820
    - battery level:DOWN               trigger 1820  
             (The automations does a battery status polling every 24H)
+   - setup:alarm                      trigger 1830
+            (The echo from automations)
+ 
  ````     
 _commands node-red => device_ to change status:
  ````
@@ -57,9 +60,9 @@ Total count is 7 automations on  `smartlife`, all called 'sirenXXXXY' for sempli
 					"capability":"WO"
 				},
 				{
-					"dp": "2820",
+					"dp": "1830",
 					"name": "setup",
-			        "comment": "values: alarm|(more todo), local update",
+			        "comment": "values: alarm|(more todo)",
 					"capability":"WO"
 				},
 				{
