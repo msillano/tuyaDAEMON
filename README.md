@@ -18,7 +18,6 @@ TuyaDAEMON isolates your **custom node-red flows** from all details of _tuya/nod
      "value":"ON"   }
   ````
   
- _note:_ tuyaDEAMON _makes the_ GET _and_ SCHEMA _commands practically superfluous. Their meaning becomes "update now `global.tuyastatus`"_.
 ### OUTPUT
   none: a client flow CAN get device data polling the `global.tuyastatus` structure, RT updated or CAN get historical data from the `messages` DB table.
  
@@ -44,11 +43,11 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  5) **Tuyapi** throws some errors at the moment not caught by **tuya-smart-device**: `"Error: Error from socket"` and `"find () timeout. Is the device turned on and the correct ID or IP?"`  (see [issue#35](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/35)).
  Because now a **tuya-smart-device** can't be disabled, these useless messages can be very frequent. In normal use, some devices can stay disconnected long time, such as power sockets or power strips used only on request.
 
- 
  _To manage such a rapidly changing environment, I choose to use a data structure in **tuyaDAEMON** to describe individual devices and single datapoint capabilities, so that all operations that are actually not managed or bogous can be intercepted and not sent to the device, giving stable and reliable operations with no surprises. And if the evolution of the SW offers us new features, it is easy to update the behavior of tuyaDAEMON._
  
   _A smart workaround, implemented in [**tuyaTRIGGER**](tuyaTRIGGER) module, allows the bidirectional event communication also with all devices unreachables by `tuyapi`._ _**The TuyaDAEMON user is guaranteed that in all cases all tuya devices will be integrated.**_
-### Customization
+  
+### customization
 **TuyaDAEMON** is very sperimental, the CORE module MUST be modified by user for every new device. 
  
  _Any effort is made to make it modular, small, easy to modify and fully documented.
