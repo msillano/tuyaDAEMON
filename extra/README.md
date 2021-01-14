@@ -90,6 +90,8 @@ The flow "Siren device" implements that. _You CAN put all your 'mirror' devices 
 
 ### implementation
 
+![](./../pics/tuyadaemon03.jpg)
+
 - You can use this _siren device_ as a template for _custom 'mirror' devices_: you obviously need to modify the nodes in the flow. The  `pick and execute`  node code needs to be updated as well.
 
 
