@@ -69,7 +69,7 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
    - The management RT of `'mirror' devices` for all devices not caught by **tuyapi**
    
     This module, optional, uses a smart trick on a partially dedicated HW device.
-- _Extra flow_: ["siren mirror"](extra), a 'mirror' device study case.
+- _Extra flow_: ["siren mirror"](extra), a `'mirror' devices` study case.
 - _Extra flow_: "test devices" with some examples of device tests
  
 ### configuration
