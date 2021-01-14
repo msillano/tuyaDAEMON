@@ -107,7 +107,7 @@ _trgPing: object
 
 ### implementation
 
-_This tick can be used with any device, named in the flow and in `alldevices` "tuya_bridge".
+_This tick can be used with any device, named in the flow and in `alldevices` "tuya_bridge"._
 
 1) _I choose first the_ [Switch MS-104](https://www.aliexpress.com/item/33012114855.html) (USD 8) _because its countdown (`dp` = 102) is with a large range [0-86400s, i.e. 24H] and still the device can be used as a WiFi switch, because only the countdown function is used by this implementation, plus it is small and cheap. 
 
