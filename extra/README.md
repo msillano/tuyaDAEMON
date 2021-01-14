@@ -10,7 +10,7 @@ _But while I'm waiting for `tuyap` and `smart-tuya-device `  updates,  I need it
 ### siren capabilities (data points), from smartlife
 - `alarm`: BOOL, ON/OFF (RW)
 - `duration` of the alarm: INT, [1..60]s  (RW)
-- `battery` level: ENUM (FULL|GOOD|MEDIUM|LOW|DOWN) (RO)
+- `battery` level: ENUM (USB|FULL|GOOD|MEDIUM|LOW|DOWN) (RO)
 - Alarm `sound`: ENUM [1..10] (RW)
 
 This siren can produce 10 different sounds, so it can be used also as door bell, phone repeater etc. As Alarm, sound #7 (and #8) are preferred. see EN 50131-4, EN 54-3, DIN 33404-3.
@@ -29,10 +29,10 @@ _status update_ from device events:
             (two triggers are required for a BOOL status)
    - battery level:LOW                trigger 1820
    - battery level:DOWN               trigger 1820  
-            (The automations does a battery status polling every 24H)
+            (The automation does a battery status polling every 24H)
    - setup:alarm                      trigger 1830
-            (The echo from automations)
- 
+            (The echo from the automation)
+   - setup:todo (reserved)            trigger 1840, 1850 	    
  ````     
 _commands node-red => device_ to change status:
  ````
@@ -60,16 +60,16 @@ Total count is 7 automations on  `smartlife`, all called 'sirenXXXXY' for sempli
 					"capability":"WO"
 				},
 				{
-					"dp": "1830",
-					"name": "setup",
-			        "comment": "values: alarm|(more todo)",
-					"capability":"WO"
-				},
-				{
 					"dp": "1820",
 					"name": "battery",
 			        "comment": "values: OK(default)|LOW, PUSH 24H from device",
 					"capability":"PUSH"
+				},
+				{
+					"dp": "1830",
+					"name": "setup",
+			        "comment": "values: alarm|(more todo)",
+					"capability":"WO"
 				}
 			]
 		},
@@ -81,16 +81,15 @@ The flow "Siren device" implements that. _You CAN put all your 'mirror' devices 
 
 - siren1800: ` if "siren"alarm:off, "tuya_bridge"countdown:1800`
 - siren1810: ` if "siren"alarm:on, "tuya_bridge"countdown:1810`
-- siren1820A:` if "siren"battery:Low,"tuya_bridge"countdown:1820`    (+ timer: 3:00H every day)
-- siren1820B:` if "siren"battery:critic,"tuya_bridge"countdown:1820` (+ timer: 3:00H every day)
+- siren1820A:` if "siren"battery:Low + timer: 3:00H every day,"tuya_bridge"countdown:1820`  
+- siren1820B:` if "siren"battery:critic + timer: 3:00H every day,"tuya_bridge"countdown:1820`
 
 - siren2800:  ` if "tuya_bridge"countdown:2800, "siren"alarm:off`
 - siren2810:  ` if "tuya_bridge"countdown:2810, "siren"alarm:on`
-- siren2820:   `if "tuya_bridge"countdown:2820, "siren"durata:20 + "siren"type:7`
+- siren2820:   `if "tuya_bridge"countdown:2820, "siren"durata:20 + "siren"type:7 + "tuya_bridge"countdown:1830`
 
 ### implementation
 
-- The siren `smart-tuya-device` node can be disabled in **tuyaDAEMON**, to cancel HEX data on debug pad.
 - You can use this _siren device_ as a template for _custom 'mirror' devices_: you obviously need to modify the nodes in the flow. The  `pick and execute`  node code needs to be updated as well.
 
 
