@@ -2,7 +2,7 @@
 
 _This flow enables node-red users to add remote control and voice control to their projects in a simple way._
 
-It uses the `tuya cloud` and only `one switch` device: because _Smartlife_ app and the use of  _Tuya cloud_ are free, only you need to buy the device (USD 8-10), used as dual port register.
+It uses the `tuya cloud` and only `one switch` device: because _Smartlife_ app and the use of  _Tuya cloud_ are free, only you need to buy the device (USD 8-10), used as dual port register. Requires WiFi.
 
 On your _smartlife_ app you can create up to 100 buttons to activate TRIGGER, you can enable up to 20 other users and you get worldwide remote control over your node-red flows.
 
