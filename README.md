@@ -10,6 +10,8 @@ TuyaDAEMON isolates your **custom node-red flows** from all details of _tuya/nod
 - updates the `global.tuyastatus` structure (_device:property:value_) with _status messages from all Tuya devices_.
 - logs all events in the mySQL` 'tuyathome:messages'` table 
 - uses _frendly names_ for all devices and properties, in any language
+
+_If you are interested in the reasons behind tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](why-tuyaDEAMON.pdf) - In italiano: [perché-tuyaDAEMON](perchè-tuyaDEAMON.pdf)._
 ### INPUT
   Only one public entry point, for user commands (SET/GET/SCHEMA/MULTIPLE), the _'IN commands link'_ node (see). Command example (SET), it uses only _frendly names_:
   ````
