@@ -12,4 +12,6 @@ If you want, Googlehome can also add _voice control_ to your TRIGGER.
 
 This is a downsizing of [tuyaTRIGGER](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER), created to _integrate node-red into the tuya ecosystem for home automation_. Watch it for more details on devices tested for this use.
 
-_note: based on switch used, you may must change the 'data point' used by the counter: change it in nodes 'send ACK' and 'trigger selector'._
+- Install in node-red the node (I use 'manage pallette'): [node-red-contrib-tuya-smart-device](https://github.com/vinodsr/node-red-contrib-tuya-smart-device)
+- To use this node, you need the 'id' and 'key' of your device: see [here](https://github.com/codetheweb/tuyapi/blob/master/docs/SETUP.md)
+-_note: based on switch used, you may must change the 'data point' used by the counter: change it in nodes 'send ACK' and 'trigger selector'._
