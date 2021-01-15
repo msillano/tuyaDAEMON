@@ -11,7 +11,7 @@ TuyaDAEMON isolates your **custom node-red flows** from all details of _tuya/nod
 - logs all events in the mySQL` 'tuyathome:messages'` table 
 - uses _frendly names_ for all devices and properties, in any language
 ### INPUT
-  Only one public entry point, for user (SET/GET/SCHEMA/MULTIPLE) commands, the _'IN commands link'_ node (see). Command (SET) example:
+  Only one public entry point, for user commands (SET/GET/SCHEMA/MULTIPLE), the _'IN commands link'_ node (see). Command example (SET), it uses only _frendly names_:
   ````
   {  "device":"USB siren",
      "property":"alarm",
@@ -60,16 +60,17 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  ![](pics/tuyadaemon02.jpg)
  
  - **tuyaDEAMON CORE:** the main flow, for communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
- - **Connection module:** add to all _real device_ the new property 'connected' to report RT the device status. Optional.
- - **System module:** Offerts a `'fake' device` (_system) with some useful RT properties: _Alarms_ in case of WiFi, Lan or AC power down, _list of unconned devices_ etc. Optional, requires the  _'Connection module'_.
  - [**tuyaTRIGGER module**](tuyaTRIGGER) _give us some important features:_
    - The start of **tuya automations** from _node-red_
    - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote_ and _vocal_ control.
    - The management RT of `'mirror' devices` for all devices not caught by **tuyapi**
    
-    This module, optional, uses a smart trick on a partially dedicated HW device.
-- _Extra flow_: ["siren mirror"](extra), a `'mirror' devices` study case.
-- _Extra flow_: "test devices" with some examples of device tests
+   This module, optional, uses a smart trick on a partially dedicated HW device. 
+ - **Connection module:** add to all _real device_ the new property 'connected' to report RT the device status. Optional.
+ - **System module:** Offerts a `'fake' device` (_system) with some useful RT properties: _Alarms_ in case of WiFi, Lan or AC power down, _list of unconned devices_ etc. 
+   Optional, requires the  _'Connection module'_.
+ - _Extra flow_: ["siren mirror"](extra), a `'mirror' devices` study case.
+ - _Extra flow_: "test devices" with some examples of device tests
  
 ### configuration
 
