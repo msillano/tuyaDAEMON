@@ -1,4 +1,4 @@
-# tuyaTRIGGER for node-red users
+# tuyaTRIGGER for node-red app
 
 _This flow enables node-red users to add remote control and voice control to their projects in a simple way._
 
