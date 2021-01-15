@@ -32,7 +32,7 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  To interact with _Tuya devices_ I chose [`node-red-contrib-tuya-smart-device`](https://github.com/vinodsr/node-red-contrib-tuya-smart-device), which uses [tuyapi](https://github.com/codetheweb/tuyapi), the most interesting software on **tuya<=>node-red** integration that I have found.
  They do their job well, but there are some limitations:
  
- 1) Some devices are unreachables: **TuyAPI** does not support some sensors due to the fact that they only connect to the network when their state changes. Usually are WiFi devices battery-powered.
+ 1) Some devices are unreachables: **TuyAPI** does not support some sensors due to the fact that they only connect to the network when their state changes. Usually are WiFi devices battery-powered ([see note](https://github.com/codetheweb/tuyapi#-notes)).
  
  2) The capabilities of the Tuya communication are very variable for different devices: e.g. I have found very few devices that respond to `schema` requests.
  
