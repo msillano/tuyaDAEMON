@@ -48,7 +48,7 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
 
  _To manage such a rapidly changing environment, I choose to use a data structure in **tuyaDAEMON** to describe individual devices and single datapoint capabilities, so that all operations that are actually not managed or bogous can be intercepted and not sent to the device, giving stable and reliable operations with no surprises. And if the evolution of the SW offers us new features, it is easy to update the behavior of tuyaDAEMON._
  
-  _A smart workaround, implemented in [**tuyaTRIGGER**](tuyaTRIGGER) module, allows the bidirectional event communication also with all devices unreachables by `tuyapi`._ _**The TuyaDAEMON user is guaranteed that in all cases all tuya devices will be integrated.**_
+  _A smart workaround, implemented in [**tuyaTRIGGER**](tuyaTRIGGER) module, allows the bidirectional event communication also with all devices unreachables by `tuyapi` (WiFi sensors, IR controls etc.)._ _**The TuyaDAEMON user is guaranteed that in all cases all tuya devices will be integrated.**_
   
 ### customization
 **TuyaDAEMON** is very sperimental, the CORE module MUST be modified by user for every new device. 
