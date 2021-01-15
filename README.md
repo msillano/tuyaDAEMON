@@ -72,9 +72,10 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  - **Connection module:** add to all _real device_ the new property 'connected' to report RT the device status. Optional.
  - **System module:** Offerts a `'fake' device` (_system) with some useful RT properties: _Alarms_ in case of WiFi, Lan or AC power down, _list of unconned devices_ etc. 
    Optional, requires the  _'Connection module'_.
- - _Extra flow_: ["siren mirror"](extra), a `'mirror' devices` study case.
- - _Extra flow_: "test devices" with some examples of device tests
- 
+ - _Extra flow_: ["siren mirror"](extra/siren%20mirror/), a `'mirror' devices` study case.
+ - _Extra flow_: ["test devices"](extra/test%20devices) with some examples of device tests
+ - _Extra flow_: ["tuyapiTRIGGER-minimal"](extra/tuyaTRIGGER%20for%20node-red%20users),  to add remote and voice control to node-red (no home automation).
+
 ### configuration
 
 In addition to usual configuration requirements for the nodes `mySQL` and `tuya-smart-device`:
