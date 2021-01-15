@@ -74,7 +74,7 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
    Optional, requires the  _'Connection module'_.
  - _Extra flow_: ["siren mirror"](extra/siren%20mirror/), a `'mirror' device` study case.
  - _Extra flow_: ["test devices"](extra/test%20devices) with some examples of device tests
- - _Extra flow_: ["tuyapiTRIGGER-minimal"](extra/tuyaTRIGGER%20for%20node-red%20users),  to add remote and voice control to node-red (no home automation).
+ - _Extra flow_: ["tuyapiTRIGGER-minimal"](extra/tuyaTRIGGER%20for%20node-red%20users),  to add remote and voice control to node-red. Use it alone, not for home automation.
 
 ### configuration
 
