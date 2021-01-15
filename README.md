@@ -35,7 +35,7 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  They do their job well, but there are some limitations:
  
   
-  1) The capabilities of the Tuya communication are very variable for different devices: e.g. I have found very few devices that respond to `schema` request.
+  1) The capabilities of the Tuya communication are very variable for different devices: e.g. I have found very few devices that respond to `schema` request, or data exchanges are not MQTT (e.g. infrared universal control).
 
   2) Some devices are unreachables: **TuyAPI** does not support some sensors due to the fact that they only connect to the network when their state changes. Usually are WiFi devices battery-powered ([see note](https://github.com/codetheweb/tuyapi#-notes)).
  
