@@ -72,7 +72,7 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  - **Connection module:** add to all _real device_ the new property 'connected' to report RT the device status. Optional.
  - **System module:** Offerts a `'fake' device` (_system) with some useful RT properties: _Alarms_ in case of WiFi, Lan or AC power down, _list of unconned devices_ etc. 
    Optional, requires the  _'Connection module'_.
- - _Extra flow_: ["siren mirror"](extra/siren%20mirror/), a `'mirror' devices` study case.
+ - _Extra flow_: ["siren mirror"](extra/siren%20mirror/), a `'mirror' device` study case.
  - _Extra flow_: ["test devices"](extra/test%20devices) with some examples of device tests
  - _Extra flow_: ["tuyapiTRIGGER-minimal"](extra/tuyaTRIGGER%20for%20node-red%20users),  to add remote and voice control to node-red (no home automation).
 
@@ -82,11 +82,10 @@ In addition to usual configuration requirements for the nodes `mySQL` and `tuya-
      
 1) _CORE_ includes `global.alldevices`, a big JSON structure with all required information on `real/virtual/fake` devices, that control the _CORE_ behavior on device/dps basis. Any new device must be added to it. To update/modify/edit this structure:
     - you can edit it directly using the _'alldevices'_ config node.
-    - you can export it to the file `alldevices.json` for backup or to edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with cut-paste.
+    - you can export it to the file `alldevices.json` for backup or to edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
     - Soon an application can produce an `'alldevice'` scheletron starting from a _DB of tuya device definitions_.
     - For detailed definitions see _global alldevices_ comment node
-    
-    
+      
 2) To reduce the workload in the production environment:
      - `debug` nodes can control the _debug pad_ content: enabling/disabling them the user can modulate the visible information.
      - `filters` can reduce the info and the DB writing charge. 
@@ -99,7 +98,7 @@ In addition to usual configuration requirements for the nodes `mySQL` and `tuya-
         - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
         - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
         - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
-   2. Import `tuyaDAEMON.json` file in node-red.
+   2. Import `tuyaDAEMON.json` and all required xxxx.json file in node-red.
    3. Configure in tuyaDAEMON the DB node `append to DB`
    4. Add to tuyaDAEMON your device(s). See step-by-step instructions on _`Add a new smart devices 1/2`_ comment nodes. 
    5. You can delete the unused modules and `example` nodes.
