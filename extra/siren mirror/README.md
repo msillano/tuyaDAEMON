@@ -47,7 +47,7 @@ Total count is 7 automations on  `smartlife`, all called 'sirenXXXXY' for sempli
 ### description in alldevice.fake 
 ````
 		{
-			"id": "12347807d8bfc0c5831e",
+			"id": "USB siren mirror",
 			"name": "USB siren",
 			"power": "UPS",
 			"capability":["SET"],
