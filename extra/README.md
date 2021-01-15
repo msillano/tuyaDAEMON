@@ -84,8 +84,8 @@ The flow "Siren device" implements that. _You CAN put all your 'mirror' devices 
 - siren1820A:` if "siren"battery:Low + timer: 3:00H every day,"tuya_bridge"countdown:1820`  
 - siren1820B:` if "siren"battery:critic + timer: 3:00H every day,"tuya_bridge"countdown:1820`
 
-- siren2800:  ` if "tuya_bridge"countdown:2800, "siren"alarm:off`
-- siren2810:  ` if "tuya_bridge"countdown:2810, "siren"alarm:on`
+- siren2800:  ` if "tuya_bridge"countdown:2800, "siren"alarm:off + "tuya_bridge"countdown:0`
+- siren2810:  ` if "tuya_bridge"countdown:2810, "siren"alarm:on + "tuya_bridge"countdown:0`
 - siren2820:   `if "tuya_bridge"countdown:2820, "siren"durata:20 + "siren"type:7 + "tuya_bridge"countdown:1830`
 
 ### implementation
