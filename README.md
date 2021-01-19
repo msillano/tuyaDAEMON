@@ -106,8 +106,15 @@ In addition to usual configuration requirements for the nodes `mySQL` and `tuya-
 --------------------
 **versions**
 
+_tuyaDAEMON version 1.1_ (19/01/2021)
+- node-red-contrib-tuya-smart-device 2.0.0
+- tuyapi ver. 6.1.1
+
+  Code refactoring: added getter methods JSON library.
+  Added DB ALARM, START ALARM.
+
 _tuyaDAEMON version 1.0_ (15/01/2021)
 - node-red-contrib-tuya-smart-device 2.0.0
 - tuyapi ver. 6.1.1
 
-Initial version     
+  Initial version     
