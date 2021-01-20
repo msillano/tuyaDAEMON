@@ -62,10 +62,10 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  ![](./../pics/tuyadaemon02.jpg)
  
  - **tuyaDEAMON CORE:** the main flow, for low-level communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
- - [**tuyaTRIGGER module**](tuyaTRIGGER) for Tuya-cloud comunications, and extra capabilities:
+ - [**tuyaTRIGGER module**](tuyaTRIGGER) for Tuya-cloud comunications, adds extra capabilities:
    - The start of **tuya automations** from _node-red_.
    - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote_ and _vocal_ control.
-   - The management RT of `'mirror' devices` for _all devices not caught by **tuyapi**_.
+   - The management RT of `'mirror' devices` for _all devices not caught at low-level by **tuyapi**_.
    
    This module, optional, uses a smart trick on a partially dedicated HW device. 
  - **Connection module:** add to all _real device_ the new property 'connected' to report RT the device status. Optional.
