@@ -53,7 +53,7 @@ An extestion of `_system` fake device is in tuyaTRIGGER, and manages the propert
   4) `tuya_bridge:counter` is set to 0 by tuya-cloud 
   5) `TRIGGER0` is caught by _node-red_ and decoded.
 
-On my PC I get the result (in ms):
+On my PC I get the result (Rome/it, in ms) (see [Tuya access time](https://developer.tuya.com/en/docs/iot/introduction-of-tuya/tuya-smart-cloud-platform-overview?id=K914joiyhhf7r#title-9-Network%20acceleration)):
 ````
 _trgPing: object
     count: 5
