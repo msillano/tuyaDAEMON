@@ -1,8 +1,8 @@
-# TuyaDAEMON project
+# TuyaDAEMON core
 
-_A two-way bridge between Tuya-cloud and node-red for custom extensions of Tuya ecosystem._
+_TuyaDAEMON's goal is to integrate the entire Tuya ecosystem into node-red, and not just to control some devices, creating a new level of abstraction that includes both Tuya-cloud and all possible custom extensions._
 
-TuyaDAEMON isolates your **custom node-red flows** from all details of _tuya/node-red data and commands exchanges_:
+TuyaDAEMON isolates your home automation **custom node-red flows** from all details of _tuya/node-red data and commands exchanges_:
 - allows bidirectional exchanges to/from _all tuya devices and Tuya automations_.
 - decodes and transforms incominig Tuya data  to _standard units_.
 - manages all codifications and checks before sending your _commands to Tuya cloud_.
@@ -61,8 +61,8 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  ![](./../pics/tuyadaemon01.jpg)
  ![](./../pics/tuyadaemon02.jpg)
  
- - **tuyaDEAMON CORE:** the main flow, for communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
- - [**tuyaTRIGGER module**](tuyaTRIGGER) _give us some important features:_
+ - **tuyaDEAMON CORE:** the main flow, for low-level communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
+ - [**tuyaTRIGGER module**](tuyaTRIGGER) for Tuya-cloud comunications, and extra capabilities:
    - The start of **tuya automations** from _node-red_.
    - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote_ and _vocal_ control.
    - The management RT of `'mirror' devices` for _all devices not caught by **tuyapi**_.
@@ -73,7 +73,7 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
    Optional, requires the  _'Connection module'_.
  - _Extra flow_: ["siren mirror"](extra/siren%20mirror/), a `'mirror' device` study case.
  - _Extra flow_: ["test devices"](extra/test%20devices) with some examples of device tests
- - _Extra flow_: ["tuyapiTRIGGER-minimal"](extra/tuyaTRIGGER%20for%20node-red%20users),  to add remote and voice control to node-red. Use it alone, not for home automation.
+ - _Extra flow_: ["tuyapiTRIGGER-minimal"](extra/tuyaTRIGGER%20for%20node-red%20users),  downsizing of TuyaTIGGER, adds one-way remote and voice control to node-red. Use it alone, not for home automation.
 
 ### configuration
 
