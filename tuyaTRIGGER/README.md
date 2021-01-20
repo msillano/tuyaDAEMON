@@ -47,11 +47,12 @@ Number of homes invited          The maximum number of each App account that can
 
 ###  system:_trgPing
 An extestion of `_system` fake device is in tuyaTRIGGER, and manages the property `_trgPing`: i.e. a measure of the time consumed by a complete _TRIGGER round trip_:
-  1) a `TRIGGER800` is sent by node-red
-  2) The `tuya_bridge:counter` is set to 800 by node-red
+  1) A `TRIGGER800` is sent by node-red, the device sets his counter to 800
+  2) A MQTT message informs tuya-cloud that `tuya_bridge:counter` is set to 800 
   3) An automation is found and fired by _tuya-cloud_ "`if "tuya_bridge"countdown:800, "tuya_bridge"countdown:0`"
-  4) `tuya_bridge:counter` is set to 0 by tuya-cloud 
-  5) `TRIGGER0` is caught by _node-red_ and decoded.
+  4) Tuya-cloud sends a MQTT command to device:  "`tuya_bridge"countdown:0`"
+  5) the device sets his counter to 0, then sends a MQTT message: `tuya_bridge:counter` is set to 0
+  6) `TRIGGER0` is caught by _node-red_ and decoded.
 
 On my PC I get the result (Rome/it, in ms) (see [Tuya access time](https://developer.tuya.com/en/docs/iot/introduction-of-tuya/tuya-smart-cloud-platform-overview?id=K914joiyhhf7r#title-9-Network%20acceleration)):
 ````
