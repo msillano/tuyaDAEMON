@@ -36,7 +36,7 @@ The triggers do not connect to individual devices, but create a direct and bidir
   _However, **Tuya-cloud** resources can be used to create a 'scene' with the sequence of commands needed to tune a TV channel, e.g. "Rai 3 HD", on the living room television. As  icon I will use the RAI3 logo, as name 'tune rai three'. Now I can use the voice command: "Hey Google, run tune Rai three"!_
   _A_ "mirror" device _standardizes this behavior in **tuyaDEAMON**, using TRIGGERS to execute commands. I can now create a node-red automation, which, if I am at home, automatically turns on the television and tunes in RAI 3 when my favorite TV serie is on the air!_
 ````  
-          	   tuyastatus: object
+              tuyastatus: object
                     living.tv: object
                          channel: "RAI3 HD"
                          comment: "available: 'RAI1 HD’,’RAI2 HD’,’RAI3 HD’..."
