@@ -10,7 +10,6 @@ TuyaDAEMON isolates your home automation **custom node-red flows** from all deta
 - logs all events in the mySQL` 'tuyathome:messages'` table 
 - uses _frendly names_ for all devices and properties, in any language
 
-_If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](why-tuyaDEAMON.pdf) - In italiano: [perché-tuyaDAEMON](perchè-tuyaDEAMON.pdf). note: To make links work, download the pdf file and use your viewer._
 ### INPUT
   Only one public entry point, for user commands (SET/GET/SCHEMA/MULTIPLE), the _'IN commands link'_ node (see). Command example (SET), it uses only _frendly names_:
   ````
