@@ -59,6 +59,8 @@ Example: _I also want to integrate some 24H weather forecasts with [weathermaps]
                         PM10 today: [3.6,3.6,3.7,4.1, 4.3, 3.9,3.5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 ````
 
-_Two simple **node-red** flows update this data, say every hour.
-**TuyaDEAMON** automatically logs each measurement on the DB, a useful option for analysis and statistics, while now we are able to manage, in a simple and homogeneous way, new conditions and automatisms that cannot be achieved using only **Tuya-cloud** resources.
+  _Two simple **node-red** flows update this data, say every hour._
+  _**TuyaDEAMON** automatically logs each measurement on the DB, a useful option for analysis and statistics, while now we are able to manage, in a simple and homogeneous way, new conditions and automatisms that cannot be achieved using only **Tuya-cloud** resources._
+
+_If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](why-tuyaDAEMON.pdf) - In italiano: [perché-tuyaDAEMON](perchè-tuyaDEAMON.pdf). note: To make links work, download the pdf file and use your viewer._
 
