@@ -138,6 +138,8 @@ _This tick can be used with any device, named in the flow and in `alldevices` "t
 --------------------
 **Versions**
 
+_tuyaTRIGGER version 1.1_ (19/01/2021)
+  - tuyaDAEMON ver 1.1
 _tuyaTRIGGER version 1.0_ (15/01/2021)
   - tuyaDAEMON ver 1.0
 
