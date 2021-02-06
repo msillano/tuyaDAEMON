@@ -32,7 +32,7 @@ _Examples:_
  - _SCHEMA:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge`.
     - answer: `{"_connected":true,"_t":1611594148,"reserved (trigger)":0,"switch":"OFF"}`
  - _LIST devices:_ `http://localhost:1984/tuyaDAEMON`.
-    - answer: `["Zigbee Gateway","Smart IR 1","HAL@home","BLE MESH（SIG）Gateway","tuya_bridge","Temperature living","Door sensor","USB siren","PIR sensor","external T"]`
+    - answer: `["Zigbee Gateway","Smart IR 1","HAL@home","BLE MESH（SIG）Gateway","tuya_bridge","Temperature living", "Door sensor","USB siren","PIR sensor","external T"]`
 
 note: all devices accept 'GET' and 'SCHEMA' requests via _fast REST_. 
 
