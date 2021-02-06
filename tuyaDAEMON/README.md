@@ -28,7 +28,7 @@ _User can define:_
 Many internal I/O connections are available for private use and for tuyaDAEMON extensions.
 
 ### REST (http)
- Two [REST interfaces](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) makes even easier to develop WEB-enabled projects, see as an exemple the php application [tuyaDAEMO toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit)). 
+ Two [REST interfaces](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) makes even easier to develop WEB-enabled projects, see as an exemple the php application [tuyaDAEMO toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit). 
  
 ### IMPLEMENTATION
 
