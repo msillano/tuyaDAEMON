@@ -19,11 +19,11 @@ This **TRIGGER** mechanism, implemented in **tuyaTRIGGER**, allow a better _tuya
 
 ### implementation
 
-_This tick can be used with any device, named in the flow and in `alldevices` "tuya_bridge"._
+_This technique can be used with any device, named in the flow and in `alldevices` "tuya_bridge"._
 
 ![](./../pics/tuyadaemon04.jpg)![](./../pics/tuyadaemon05.jpg)
 
-1) _I choose first the Tuya_ [Switch MS-104](https://www.aliexpress.com/item/33012114855.html) (USD 8) _because its countdown (`dp` = 102) is with a large range [0-86400s, i.e. 24H] and still the device can be used as a WiFi switch, because only the countdown function is used by this implementation, plus it is small and cheap._ 
+1) _I choose first the Tuya_ [Switch MS-104](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smart_switch01/device_Smart_Switch01.pdf) (USD 8) _because its countdown (`dp` = 102) is with a large range [0-86400s, i.e. 24H] and still the device can be used as a WiFi switch, because only the countdown function is used by this implementation, plus it is small and cheap._ 
 
    The unique problem with this switch is the lack of a battery backup.
 
