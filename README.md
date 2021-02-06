@@ -6,7 +6,7 @@ _**TuyaDAEMON's goal is not to control some Tuya devices but to integrate the en
 
 ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/network_architecture.png)
 
-**TuyaDAEMON** has a high-level interface for custom logic and applications node-red: in reading, the data of all devices are available in an updated global RT object, with a _device:capability:value_ hierarchy and names were chosen by the user.
+**TuyaDAEMON** has a high-level interface for custom node-red logic and applications: in reading, the data of all devices are available in an RT updated global object, with a _device:capability:value_ hierarchy and names were chosen by the user.
 Example:
 ````
               tuyastatus: object
@@ -34,7 +34,7 @@ _Examples:_
  - _LIST devices:_ `http://localhost:1984/tuyaDAEMON`.
     - answer: `["Zigbee Gateway","Smart IR 1","HAL@home","BLE MESH（SIG）Gateway","tuya_bridge","Temperature living","Door sensor","USB siren","PIR sensor","external T"]`
 
-All devices accept 'GET' and 'SCHEMA' requests via _fast REST_. 
+note: all devices accept 'GET' and 'SCHEMA' requests via _fast REST_. 
 
 A second _**debug REST**_ interface is synchronous and dedicated to development applications.
 See, as an example, tuyaDAEMON.toolkit, a PHP application to help devices management.
