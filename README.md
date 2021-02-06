@@ -38,8 +38,8 @@ All devices accept 'GET' and 'SCHEMA' requests via _fast REST_.
 
 A second _**debug REST**_ interface is synchronous and dedicated to development applications.
 See, as an example, tuyaDAEMON.toolkit, a PHP application to help devices management.
- 
 
+------------------
 _All the details of the communication are resolved by **tuyaDAEMON**, using 3 bidirectional communication channels transparently to the user:_
 
 ### LOW LEVEL MQTT (see tuya [DEAMON core](./tuyaDAEMON/README.md))
