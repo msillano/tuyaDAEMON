@@ -78,7 +78,7 @@ Example: _I also want to integrate some 24H weather forecasts with [weathermaps]
 
   _Two simple **node-red** flows update this data, say every hour._
 
-  **TuyaDEAMON** automatically logs any message and measurement on a DB, a useful option for analysis and statistics, while now we are able to manage, in a simple and homogeneous way, new conditions and automatisms that cannot be achieved using only **Tuya-cloud** resources.
+ > **TuyaDEAMON** automatically logs any message and measurement on a DB, a useful option for analysis and statistics, while now we are able to manage, in a simple and homogeneous way, new conditions and automatisms that cannot be achieved using only **Tuya-cloud** resources.
 
 _If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](why-tuyaDAEMON.pdf) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
 
