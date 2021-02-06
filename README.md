@@ -26,13 +26,13 @@ In writing, the state change requests for all devices take the form of a node-re
 To make easier the interoperability with external applications, tuyaDEAMON offers also a _**fast REST**_ asynchronous interface with an immediate JSON response:
 _Examples:_
   - _GET:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge&property=switch`
-       answer:`{"device":"tuya_bridge","property":"switch","value":"OFF"}`
+    - answer:`{"device":"tuya_bridge","property":"switch","value":"OFF"}`
  - _SET:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge&property=switch&value=OFF`
-       answer: `{"status":"sended"}`
+    - answer: `{"status":"sended"}`
  - _SCHEMA:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge`.
-       answer: `{"_connected":true,"_t":1611594148,"reserved (trigger)":0,"switch":"OFF"}`
+    - answer: `{"_connected":true,"_t":1611594148,"reserved (trigger)":0,"switch":"OFF"}`
  - _LIST devices:_ `http://localhost:1984/tuyaDAEMON`.
-       answer: `["Zigbee Gateway","Smart IR 1","HAL@home","BLE MESH（SIG）Gateway","tuya_bridge","Temperature living","Door sensor","USB siren","PIR sensor","external T"]`
+    - answer: `["Zigbee Gateway","Smart IR 1","HAL@home","BLE MESH（SIG）Gateway","tuya_bridge","Temperature living","Door sensor","USB siren","PIR sensor","external T"]`
 
 All devices accept 'GET' and 'SCHEMA' requests via _fast REST_. 
 
@@ -80,7 +80,7 @@ Example: _I also want to integrate some 24H weather forecasts with [weathermaps]
 
   **TuyaDEAMON** automatically logs any message and measurement on a DB, a useful option for analysis and statistics, while now we are able to manage, in a simple and homogeneous way, new conditions and automatisms that cannot be achieved using only **Tuya-cloud** resources.
 
-_If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](why-tuyaDAEMON.pdf) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf). 
+_If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](why-tuyaDAEMON.pdf) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
 
 
 
