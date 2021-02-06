@@ -1,6 +1,6 @@
 # tuyaTRIGGER 
 
-_A real device WiFI, having  a big unused numerical parameter, say a 'counter', writable for both **Tuya** and **node-red**, is all the required hardware to implement a robust bilateral event communication (**TRIGGER**)._
+_A real device WiFI, having  a big unused numerical parameter, say a 'counter', accessible via MQTT by both **Tuya** and **node-red**, is all the required hardware to implement a robust bilateral event communication (**TRIGGER**)._
 
 The 'counter' is used as a dual port register: a sender (_tuya-cloud/node-red_) set the counter to some XX value, the receiver gets the XX value, acts accordingly, and resets the counter to 0 (ACK action): the _node-red_ read/write actions are performed by **tuyaTRIGGER** flow, the _Tuya-cloud_ actions are performed by ad hoc automations, one for TRIGGER.
 
