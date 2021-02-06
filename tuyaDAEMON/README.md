@@ -49,7 +49,7 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
 
  _To manage such a rapidly changing environment, I choose to use a data structure in **tuyaDAEMON** to describe individual devices and single datapoint capabilities, so that all operations that are actually not managed or bogous can be intercepted and not sent to the device, giving stable and reliable operations with no surprises. And if the evolution of the SW offers us new features, it is easy to update the behavior of tuyaDAEMON._
  
-  _A smart workaround, implemented in [**tuyaTRIGGER**](tuyaTRIGGER) module, allows the bidirectional event communication also with all devices unreachables by `tuyapi` (WiFi sensors, IR controls etc.)._ _**The TuyaDAEMON user is guaranteed that in all cases all tuya devices will be integrated.**_
+  _A smart workaround, implemented in [**tuyaTRIGGER**](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) module, allows the bidirectional event communication also with all devices unreachables by `tuyapi` (WiFi sensors, IR controls etc.)._ _**The TuyaDAEMON user is guaranteed that in all cases all tuya devices will be integrated.**_
   
 ### customization
 **TuyaDAEMON** is very sperimental, the CORE module MUST be modified by user for every new device. 
@@ -64,7 +64,7 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  ![](./../pics/tuyadaemon02.jpg)
  
  - **tuyaDEAMON CORE:** the main flow, for low-level communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
- - [**tuyaTRIGGER module**](tuyaTRIGGER) for Tuya-cloud comunications, adds extra capabilities:
+ - [**tuyaTRIGGER module**](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) for Tuya-cloud comunications, adds extra capabilities:
    - The start of **tuya automations** from _node-red_.
    - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote_ and _vocal_ control.
    - The management RT of `'mirror' devices` for _all devices not caught at low-level by **tuyapi**_.
