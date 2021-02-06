@@ -5,12 +5,12 @@ _TuyaDAEMON's goal is to integrate the entire Tuya ecosystem into node-red, and 
 TuyaDAEMON isolates your home automation **custom node-red flows** from all details of _tuya/node-red data and commands exchanges_:
 - allows bidirectional exchanges to/from _all tuya devices and Tuya automations_.
 - decodes and transforms incominig Tuya data  to _standard units_.
-- manages all codifications and checks before sending your _commands to Tuya cloud_.
-- updates the `global.tuyastatus` structure (_device:property:value_) with _status messages from all Tuya devices_.
+- manages all codifications and checks before sending your _commands to devices_
+- updates the `global.tuyastatus` structure (_device:property:value_) with all status messages from Tuya devices_.
 - logs all events in the mySQL` 'tuyathome:messages'` table 
 - uses _frendly names_ for all devices and properties, in any language
 
-### INPUT
+### INPUT (node-red)
   Only one public entry point, for user commands (SET/GET/SCHEMA/MULTIPLE), the _'IN commands link'_ node (see). Command example (SET), it uses only _frendly names_:
   ````
   {  "device":"USB siren",
@@ -18,7 +18,7 @@ TuyaDAEMON isolates your home automation **custom node-red flows** from all deta
      "value":"ON"   }
   ````
   
-### OUTPUT
+### OUTPUT (nede-red)
   none: a client flow CAN get device data polling the `global.tuyastatus` structure, RT updated or CAN get historical data from the `messages` DB table.
  
 _User can define:_
@@ -27,6 +27,9 @@ _User can define:_
 
 Many internal I/O connections are available for private use and for tuyaDAEMON extensions.
 
+### REST (http)
+ Two [REST interfaces](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) makes even easier to develop WEB-enabled projects, see as an exemple the php application [tuyaDAEMO toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit)). 
+ 
 ### IMPLEMENTATION
 
  To interact low-level with _Tuya devices_ I chose [`node-red-contrib-tuya-smart-device`](https://github.com/vinodsr/node-red-contrib-tuya-smart-device), which uses [tuyapi](https://github.com/codetheweb/tuyapi), the most interesting software on **tuya<=>node-red** integration that I have found.
