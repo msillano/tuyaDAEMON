@@ -65,7 +65,6 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
    - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote_ and _vocal_ control.
    - The management RT of `'mirror' devices` for _all devices not caught at low-level by **tuyapi**_.
    
-   This module, optional, uses a smart trick on a partially dedicated HW device. 
  - **Connection module:** add to all _real device_ the new property 'connected' to report RT the device status. Optional.
  - **System module:** Offerts a `'fake' device` (_system) with some useful RT properties: _Alarms_ in case of WiFi, Lan or AC power down, _list of unconned devices_ etc. 
    Optional, requires the  _'Connection module'_.
