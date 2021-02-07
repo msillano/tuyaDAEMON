@@ -21,10 +21,6 @@ TuyaDAEMON isolates your home automation **custom node-red flows** from all deta
 ### OUTPUT (nede-red)
   none: a client flow CAN get device data polling the `global.tuyastatus` structure, RT updated or CAN get historical data from the `messages` DB table.
  
-_User can define:_
-- TUYA TRIGGERS from _smartlife scene/event/alarm_ to fire custom _node-red flows_
-- RED TRIGGERS from _node-red_ to fire _smartlife automations_.
-
 Many internal I/O connections are available for private use and for tuyaDAEMON extensions.
 
 ### REST (http)
