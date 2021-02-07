@@ -6,6 +6,8 @@ _**TuyaDAEMON's goal is not to control some Tuya devices but to integrate the en
 
 ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/network_architecture.png)
 
+### node-red interfaces
+
 **TuyaDAEMON** has a high-level interface for custom node-red logic and applications: in reading, the data of all devices are available in an RT updated global object, with a _device:capability:value_ hierarchy and names were chosen by the user.
 Example:
 ````
@@ -23,6 +25,7 @@ In writing, the state change requests for all devices take the form of a node-re
                     value: "ON"
 ````
 ### REST interfaces
+
 To make easier the interoperability with external applications, tuyaDEAMON offers also a _**fast REST**_ asynchronous interface with an immediate JSON response:
 _Examples:_
   - _GET:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge&property=switch`
