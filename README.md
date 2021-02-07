@@ -86,7 +86,7 @@ See, as an example, tuyaDAEMON.toolkit, a PHP application to help devices manage
 
 ### DataBase interface
 
- **TuyaDEAMON** automatically logs any message and measurement on a DB, a useful option for control, analysis and statistics.
+ **TuyaDEAMON** automatically logs user select messages and measurements on a DB table (`'messages'`), a useful option for control, analysis and statistics.
  
 _If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](why-tuyaDAEMON.pdf) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
 
