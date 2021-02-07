@@ -82,13 +82,13 @@ _Examples:_
 note: all devices accept 'GET' and 'SCHEMA' requests via _fast REST_. 
 
 A second _**debug REST**_ interface is synchronous and dedicated to development applications.
-See, as an example, tuyaDAEMON.toolkit, a PHP application to help devices management.
+See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit), a PHP application to help devices management.
 
 ### DataBase interface
 
  **TuyaDEAMON** automatically logs user select messages and measurements on a DB table (`'messages'`), a useful option for control, analysis and statistics.
  
-_If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](why-tuyaDAEMON.pdf) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
+_If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](https://github.com/msillano/tuyaDAEMON/wiki/why-tuyaDAEMON-%3F) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
 
 
 
