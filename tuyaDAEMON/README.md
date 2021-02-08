@@ -76,11 +76,11 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
 
 In addition to usual configuration requirements for the nodes `mySQL` and `tuya-smart-device`:
      
-1) _CORE_ includes `global.alldevices`, a big JSON structure with all required information on `real/virtual/fake` devices, that control the _CORE_ behavior on device/dps basis. Any new device must be added to it. To update/modify/edit this structure:
+1) _CORE_ includes `global.alldevices`, a big JSON structure with all required information on `real/virtual/fake` devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
     - you can edit it directly using the _'alldevices'_ config node.
     - you can export it to the file `alldevices.json` for backup or to edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
-    - Soon an application can produce an `'alldevice'` scheletron starting from a _DB of tuya device definitions_.
-    - For detailed definitions see _global alldevices_ comment node
+    - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron starting from a _DB of tuya device definitions_.
+    - For detailed definitions see [_global alldevices_](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices)
       
 2) To reduce the workload in the production environment:
      - `debug` nodes can control the _debug pad_ content: enabling/disabling them the user can modulate the visible information.
@@ -96,7 +96,7 @@ In addition to usual configuration requirements for the nodes `mySQL` and `tuya-
         - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
    2. Import `tuyaDAEMON.json` and all required xxxx.json file in node-red.
    3. Configure in tuyaDAEMON the DB node `append to DB`
-   4. Add to tuyaDAEMON your device(s). See step-by-step instructions on _`Add a new smart devices 1/2`_ comment nodes. 
+   4. Add to tuyaDAEMON your device(s). See [step-by-step instructions](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON).
    5. You can delete the unused modules and `example` nodes.
    
 --------------------
