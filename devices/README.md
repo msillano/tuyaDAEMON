@@ -7,7 +7,7 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 1. If you are interested only to add a device on your **_tuyaDAEMON_**:
    - Download the 'device_xxx.zip' file of your interest. 
    - Extract only the device_xxx.json file, and use it to update your 'global.alldevices' structure.
- 2. If you uses **_tuyaDAEMON.toolkit_**:
+2. If you uses **_tuyaDAEMON.toolkit_**:
    - Download the 'device_xxx.zip' file of your interest. 
    - Unzip it in your 'htdocs/tuyadaemontoolkit' dir.
    - In 'htdocs/tuyadaemontoolkit/devicedata' you will found the 'device_xxx.sql' file. Use it to update your mysql dB.
