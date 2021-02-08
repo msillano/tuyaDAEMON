@@ -68,7 +68,7 @@ In writing, the state change requests for all devices take the form of a node-re
 ````
 ### REST interfaces
 
-To make easier the interoperability with external applications, tuyaDEAMON offers also a _**fast REST**_ asynchronous interface with an immediate JSON response:
+To make easier the interoperability with external applications, tuyaDEAMON offers also a [_**fast REST**_](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) asynchronous interface with an immediate JSON response:
 _Examples:_
   - _GET:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge&property=switch`
     - answer:`{"device":"tuya_bridge","property":"switch","value":"OFF"}`
@@ -81,7 +81,7 @@ _Examples:_
 
 note: all devices accept 'GET' and 'SCHEMA' requests via _fast REST_. 
 
-A second _**debug REST**_ interface is synchronous and dedicated to development applications.
+A second [_**debug REST**_](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) interface is synchronous and dedicated to development applications.
 See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit), a PHP application to help devices management.
 
 ### DataBase interface
