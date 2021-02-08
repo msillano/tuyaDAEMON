@@ -1,5 +1,5 @@
 # Devices availables
-For user convenience, this is a collection of data obout some known devices: you can dawnload the xxxx.zip files.
+For user convenience, this is a collection of data about some known devices: you can dawnload the xxxx.zip files.
 
 It is an open list, you can contribute using [tuyaDeamon toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) and sharing the zip file of your devices.
 
