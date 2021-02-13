@@ -48,9 +48,9 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
   _To enable HI-LEVEL two ways communicatrions with tuya-cloud the [**tuyaTRIGGER**](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) module uses [TRIGGER](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER), and that allows the bidirectional event communication also with all devices unreachables by `tuyapi` (WiFi sensors, IR controls etc.)._ _**TuyaDAEMON + tuyaTRIGGER user is guaranteed that in any case all tuya devices will be integrated.**_
   
 ### customization
-**TuyaDAEMON** is very sperimental, the CORE module MUST be modified by user for every new device. 
+**TuyaDAEMON** is very exsperimental, the CORE module MUST be modified by the user for every new device. 
  
- _Any effort is made to make it modular, small, easy to modify and fully documented.
+ _Any effort is made to make it modular, small, easy to modify, and fully documented.
  All contributions and criticisms are welcome._ 
  
  
