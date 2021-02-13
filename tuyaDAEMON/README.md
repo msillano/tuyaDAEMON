@@ -101,6 +101,7 @@ In addition to usual configuration requirements for the `mySQL` and your `tuya-s
    
 --------------------
 **versions**
+
 _tuyaDAEMON version 1.2_ (12/02/2021)
 - node-red-contrib-tuya-smart-device 2.0.0
 - tuyapi ver. 6.1.1
