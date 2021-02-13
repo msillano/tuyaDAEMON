@@ -61,11 +61,10 @@ TuyaDAEMON isolates your home automation **custom node-red flows** from all deta
 
 In addition to usual configuration requirements for the `mySQL` and your `tuya-smart-device` nodes:
      
-1) _CORE_ includes `global.alldevices`, a big JSON structure with all required information on `real/virtual/fake` devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
+1) _CORE_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on `real/virtual/fake` devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
     - you can edit it directly using the _'alldevices'_ config node.
     - you can export it to the file `alldevices.json` for backup or to edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
     - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron starting from a _DB of tuya device definitions_.
-    - For detailed definitions see [_global alldevices_](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices)
       
 2) To reduce the workload in the production environment:
      - `debug` nodes can control the _debug pad_ content: enabling/disabling them the user can modulate the visible information.
