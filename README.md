@@ -17,7 +17,7 @@ Using [node-red-contrib-tuya-smart-device](https://github.com/vinodsr/node-red-c
 The TRIGGERs do not connect to individual devices, but create a direct and bidirectional connection with Tuya-cloud events and 'automation', allowing complete control from anywhere of both the smartlife logic and the devices not handled by LOW-LEVEL MQTT channel (user can define 'mirror' devices: see ['siren mirror'](./extra/siren%20mirror/README.md)).
 
   Example: _Using a “Smart Home Infrared Universal Remote Controller” device you have replicas of the various remote controls on your smartphone, even better than those I had developed in 2016 (see [remoteDB](https://github.com/msillano/remotesDB)). Very well: thanks to Tuya I can now control 2 televisions, a monitor, an air conditioner, a DVB tuner, and a TV-top-box from my smartphone! There are some limitations: voice commands cannot be used, moreover, since the device does not use the MQTT protocol, it cannot be controlled at LOW LEVEL._
-  _However, **Tuya-cloud** resources can be used to create a 'scene' with the sequence of commands needed to tune a TV channel, e.g. "Rai 3 HD", on the living room television. As icon I will use the RAI3 logo, as name 'tune rai three'. Now I can use the voice command: "Hey Google, run tune Rai three"!_
+  _However, **Tuya-cloud** resources can be used to create a 'scene' with the sequence of commands needed to tune a TV channel, e.g. "Rai 3 HD", on the living room television. As icon I will use the RAI3 logo, as name 'tune RAI three'. Now I can use the voice command: "Hey Google, run tune Rai three"!_
   _A_ "mirror" device _standardizes this behavior in **tuyaDEAMON**, using TRIGGERS to execute commands. I can now create a node-red automation, which, if I am at home, automatically turns on the television and tunes in RAI 3 when my favorite TV series is on the air!_
 ````  
               tuyastatus: object
@@ -70,23 +70,23 @@ In writing, the state change requests for all devices take the form of a node-re
 
 To make easier the interoperability with external applications, tuyaDEAMON offers also a [_**fast REST**_](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) asynchronous interface with an immediate JSON response:
 _Examples:_
-  - _GET:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge&property=switch`
-    - answer:`{"device":"tuya_bridge","property":"switch","value":"OFF"}`
  - _SET:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge&property=switch&value=OFF`
-    - answer: `{"status":"sended"}`
+     - answer: `{"status":"sended"}`
+ - _GET:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge&property=switch`
+     - answer:`{"device":"tuya_bridge","property":"switch","value":"OFF"}`
  - _SCHEMA:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge`.
-    - answer: `{"_connected":true,"_t":1611594148,"reserved (trigger)":0,"switch":"OFF"}`
+     - answer: `{"_connected":true,"_t":1611594148,"reserved (trigger)":0,"switch":"OFF"}`
  - _LIST devices:_ `http://localhost:1984/tuyaDAEMON`.
     - answer: `["Zigbee Gateway","Smart IR 1","HAL@home","BLE MESH（SIG）Gateway","tuya_bridge","Temperature living", "Door sensor","USB siren","PIR sensor","external T"]`
 
 note: all devices accept 'GET' and 'SCHEMA' requests via _fast REST_. 
 
 A second [_**debug REST**_](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) interface is synchronous and dedicated to development applications.
-See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit), a PHP application to help devices management.
+See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit), a PHP application to help in the devices management.
 
 ### DataBase interface
 
- **TuyaDEAMON** automatically logs user select messages and measurements on a DB table (`'messages'`), a useful option for control, analysis and statistics.
+ **TuyaDEAMON** automatically logs user select messages and measurements on a DB table (`'messages'`), a useful option for control, analysis, and statistics.
  
  ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/dbtuyathome02.jpg)
  
