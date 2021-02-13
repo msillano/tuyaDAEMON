@@ -10,22 +10,6 @@ TuyaDAEMON isolates your home automation **custom node-red flows** from all deta
 - logs all events in the mySQL` 'tuyathome:messages'` table 
 - uses _frendly names_ for all devices and properties, in any language
 
-### INPUT (node-red)
-  Only one public entry point, for user commands (SET/GET/SCHEMA/MULTIPLE), the _'IN commands link'_ node (see). Command example (SET), it uses only _frendly names_:
-  ````
-  {  "device":"USB siren",
-     "property":"alarm",
-     "value":"ON"   }
-  ````
-  
-### OUTPUT (nede-red)
-  none: a client flow CAN get device data polling the `global.tuyastatus` structure, RT updated or CAN get historical data from the `messages` DB table.
- 
-Many internal I/O connections are available for private use and for tuyaDAEMON extensions.
-
-### REST (http)
- Two [REST interfaces](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) makes even easier to develop WEB-enabled projects, see as an exemple the php application [tuyaDAEMO toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit). 
- 
 ### IMPLEMENTATION
 
  To interact low-level with _Tuya devices_ I chose [`node-red-contrib-tuya-smart-device`](https://github.com/vinodsr/node-red-contrib-tuya-smart-device), which uses [tuyapi](https://github.com/codetheweb/tuyapi), the most interesting software on **tuya<=>node-red** integration that I have found.
@@ -54,7 +38,7 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  All contributions and criticisms are welcome._ 
  
  
- In **tuyaDAEMON** we have now four modules:
+ In **tuyaDAEMON** we have now four modules and a toolkit:
  
  ![](./../pics/tuyadaemon01.jpg)
  ![](./../pics/tuyadaemon02.jpg)
@@ -71,6 +55,8 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
  - _Extra flow_: ["siren mirror"](extra/siren%20mirror/), a `'mirror' device` study case.
  - _Extra flow_: ["test devices"](extra/test%20devices) with some examples of device tests
  - _Extra flow_: ["tuyaTRIGGER-minimal"](extra/tuyaTRIGGER%20for%20node-red%20users),  downsizing of TuyaTIGGER, adds one-way remote and voice control to node-red. Use it alone, not for home automation.
+
+- **tuiaDAEMON.toolkit** is an [external application](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) in PHP that uses a MySQL database to store all information about the devices and creates some useful artifacts.
 
 ### configuration
 
