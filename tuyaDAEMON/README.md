@@ -34,7 +34,7 @@ TuyaDAEMON isolates your home automation **custom node-red flows** from all deta
 ### customization
 **TuyaDAEMON** is very exsperimental, the CORE module MUST be modified by the user for every new device. 
  
- _Any effort is made to make it modular, small, easy to modify, and [fully documented](https://github.com/msillano/tuyaDAEMON/wiki).
+ _Any effort is made to make it modular, small, easy to modify, and [fully documented](https://github.com/msillano/tuyaDAEMON/wiki)._
  
  
  In **tuyaDAEMON** we have now four modules and a toolkit:
