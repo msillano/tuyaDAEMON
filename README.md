@@ -26,7 +26,7 @@ The TRIGGERs do not connect to individual devices, but create a direct and bidir
                          comment: "available: 'RAI1 HD’,’RAI2 HD’,’RAI3 HD’..."
 ````
 
-### CUSTOM CHANNEL (see [_system](./tuyaDAEMON/README.md) 'fake' device)
+### CUSTOM CHANNEL (e.g. _system 'fake' device)
 Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external resources, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON**, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_. Custom channels are implemented additively with specialized flows, one for each 'fake' device.
 
 Example: _I also want to integrate some 24H weather forecasts with [weathermaps](https://openweathermap.org/) and local PM10 measurements (with ad hoc [HW, serial USB interface](https://www.banggood.com/search/pm2.5-pm10-detector-module-dust-sensor-2.8-inch-lcd.html)) into the system for better management of both the internal air conditioning and the outdoor terrace watering system. Two 'fake' devices can be defined:_ 
