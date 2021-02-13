@@ -90,8 +90,8 @@ _tuyaDAEMON version 1.2_ (12/02/2021)
 - node-red-contrib-tuya-smart-device 2.0.0
 - tuyapi ver. 6.1.1
 
-  Added REST interfacce.
-  tuyaDAEMON.toolkit 1.0.
+  Added REST interface.
+  new tuyaDAEMON.toolkit 1.0.
   Updated wiki documentation, added known devices.
 
 _tuyaDAEMON version 1.1_ (19/01/2021)
