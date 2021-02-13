@@ -45,12 +45,12 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
 
  _To manage such a rapidly changing environment, I choose to use a data structure in **tuyaDAEMON** to describe individual devices and single datapoint capabilities, so that all operations that are actually not managed or bogous can be intercepted and not sent to the device, giving stable and reliable operations with no surprises. And if the evolution of the SW offers us new features, it is easy to update the behavior of tuyaDAEMON._
  
-  _To enable HI-LEVEL two ways communicatrions with tuya-cloud the [**tuyaTRIGGER**](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) module uses [TRIGGER](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER), and that allows the bidirectional event communication also with all devices unreachables by `tuyapi` (WiFi sensors, IR controls etc.)._ _**TuyaDAEMON + tuyaTRIGGER user is guaranteed that in any case all tuya devices will be integrated.**_
+  _To enable HI-LEVEL two ways communicatrions with tuya-cloud the [**tuyaTRIGGER**](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) module uses [TRIGGER](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info), and that allows the bidirectional event communication also with all devices unreachables by `tuyapi` (WiFi sensors, IR controls etc.)._ _**TuyaDAEMON + tuyaTRIGGER user is guaranteed that in any case all tuya devices will be integrated.**_
   
 ### customization
 **TuyaDAEMON** is very exsperimental, the CORE module MUST be modified by the user for every new device. 
  
- _Any effort is made to make it modular, small, easy to modify, and fully documented.
+ _Any effort is made to make it modular, small, easy to modify, and [fully documented](https://github.com/msillano/tuyaDAEMON/wiki).
  All contributions and criticisms are welcome._ 
  
  
@@ -70,11 +70,11 @@ Many internal I/O connections are available for private use and for tuyaDAEMON e
    Optional, requires the  _'Connection module'_.
  - _Extra flow_: ["siren mirror"](extra/siren%20mirror/), a `'mirror' device` study case.
  - _Extra flow_: ["test devices"](extra/test%20devices) with some examples of device tests
- - _Extra flow_: ["tuyapiTRIGGER-minimal"](extra/tuyaTRIGGER%20for%20node-red%20users),  downsizing of TuyaTIGGER, adds one-way remote and voice control to node-red. Use it alone, not for home automation.
+ - _Extra flow_: ["tuyaTRIGGER-minimal"](extra/tuyaTRIGGER%20for%20node-red%20users),  downsizing of TuyaTIGGER, adds one-way remote and voice control to node-red. Use it alone, not for home automation.
 
 ### configuration
 
-In addition to usual configuration requirements for the nodes `mySQL` and `tuya-smart-device`:
+In addition to usual configuration requirements for the `mySQL` and your `tuya-smart-device` nodes:
      
 1) _CORE_ includes `global.alldevices`, a big JSON structure with all required information on `real/virtual/fake` devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
     - you can edit it directly using the _'alldevices'_ config node.
@@ -101,6 +101,13 @@ In addition to usual configuration requirements for the nodes `mySQL` and `tuya-
    
 --------------------
 **versions**
+_tuyaDAEMON version 1.2_ (12/02/2021)
+- node-red-contrib-tuya-smart-device 2.0.0
+- tuyapi ver. 6.1.1
+
+  Added REST interfacce.
+  tuyaDAEMON.toolkit 1.0.
+  Updated wiki documentation, added known devices.
 
 _tuyaDAEMON version 1.1_ (19/01/2021)
 - node-red-contrib-tuya-smart-device 2.0.0
