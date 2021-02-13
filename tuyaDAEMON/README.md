@@ -84,7 +84,7 @@ In addition to usual configuration requirements for the nodes `mySQL` and `tuya-
       
 2) To reduce the workload in the production environment:
      - `debug` nodes can control the _debug pad_ content: enabling/disabling them the user can modulate the visible information.
-     - `filters` can reduce the info and the DB writing charge. 
+     - `filters` can reduce the info and the DB writing charge (you can also disable/delete the DB node). 
      - see _'Debug pad options'_ comment node.
  
  ### installation
