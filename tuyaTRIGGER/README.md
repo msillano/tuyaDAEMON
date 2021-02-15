@@ -27,7 +27,8 @@ _This technique can be used with any device, named in the flow and in `alldevice
 
    The unique problem with this switch is the lack of a battery backup.
 
-2) _Now I'm waiting for another device, a Tuya wifi switch_ [TYWR 7-32](https://www.aliexpress.com/item/1005001292469801.html) (USD 10) _with a micro USB input, so it can be used with a power bank. When I get it I will update here after some tests_.
+2) _I also tested another device, a Tuya wifi switch_ [TYWR 7-32](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf) (USD 10) _with a micro USB input, so it can be used with a power bank to get a UPS power supply.
+It has all required features:  countdown (`dp` = 7) with a large range [0-86400s, i.e. 24H], independence (setting the countdown to 0 does not toggle relay), so it is better than Switch MS-104. As against it is bigger and without case._
 
 3) 'TuyaTrigger' value is placed in `msg.payload.tuyatrigger`.  The conversion `data.dp["102"] ==>  msg.payload.tuyatrigger` is done by `"dp converter"` change node. _To config your own `tuya-bridge` device, and to use any `dp`:_
      - modify the  `"dp converter"` change node. 
