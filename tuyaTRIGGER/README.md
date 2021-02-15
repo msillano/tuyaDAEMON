@@ -39,9 +39,9 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
  
  - analog values can't be sent from tuya this way, because tuya does not allow the use of calculated values. But comparations are allowed: e.g. send trigger if `'temperature < 16'`. (Available: `<`; `=`; `>`). We can 'mirror' `BOOLEAN` dp (2 automations) `ENUM` dp: [0|1|2]  (3 automations) or also `INT`, but converted to ENUM when required: `{<15|16-20|21-25|26-30|31-35|36-40|>40}` but many automations are required (12 for this example).
 
- - using a countdown as a trigger, as _Switch MS-104_ does, requires REDTRG with numbers greater (e.g. 2000+) than TUYATRG (e.g. 1000..1999]): so, if _node-red_ is down, a Tuya TRIGGER not caught can't trigger a fake REDTRG.
+ - using a countdown as a trigger, as _all switches_ does, requires REDTRG with numbers greater (e.g. 2000+) than TUYATRG (e.g. 1000..1999]): so, if _node-red_ is down, a Tuya TRIGGER not caught can't trigger a fake REDTRG.
  
- - If the used counter is a time counter (countdown in case of  _Switch MS-104_ ) you must choose trigger values at least separated by 10s, to allow the ACK action.
+ - If the used counter is a time counter (countdown in case of this switches) you must choose trigger values at least separated by 10s, to allow the ACK action. Better if separed by 60, so you can set it easier as HH:MM.
 
  - for fallback, MUST exist a Tuya Automation fired when the countdown is less than any trigger value (e.g. 800), to reset the countdown to 0 without ACK: so the countdown never interferes with the logic of the switch (this automation is also deployed by `_trgPing` implementation). Required automation:  `if "tuya_bridge"countdown:800, "tuya_bridge"countdown:0` 
  
