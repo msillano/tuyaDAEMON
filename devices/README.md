@@ -25,5 +25,11 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Smart_Switch01.jpg) [Smart_Switch01](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smart_Switch01/device_Smart_Switch01.pdf) 
 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_switch-1CH.jpg) [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf) 
+
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_switch-4CH.jpg) [switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf) 
+
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_TRV_Thermostatic_Radiator_Valve.jpg) [TRV_Thermostatic_Radiator_Valve](https://github.com/msillano/tuyaDAEMON/blob/main/devices/TRV_Thermostatic_Radiator_Valve/device_TRV_Thermostatic_Radiator_Valve.pdf) 
+
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_WiFi_IP_Camera.jpg) [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf) 
 
