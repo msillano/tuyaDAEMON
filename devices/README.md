@@ -25,7 +25,7 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Smart_Switch01.jpg) [Smart_Switch01](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smart_Switch01/device_Smart_Switch01.pdf) 
 
-- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Smoke_Detector.jpg) [Smart_Switch01](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smoke_Detector/device_Smoke_Detector.pdf) 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Smoke_Detector.jpg) [Smoke_Detector](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smoke_Detector/device_Smoke_Detector.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_switch-1CH.jpg) [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf) 
 
