@@ -72,8 +72,10 @@ In addition to usual configuration requirements for the `mySQL` and your `tuya-s
      - see _'Debug pad options'_ comment node.
  
  ### installation
-   0. Precondition: _mySQL_ server running: import the  `tuyamessages.sql`  to create the required table.
+   0. Precondition: _mySQL_ server running: import the  `tuyamessages.sql`  to create the required table. (optional)
    0. Precondition: at least a _Tuya device_ installed and working with _smartlife_ app. You MUST know the `ID` and `Key` for your Tuya device(s): see [here](https://github.com/codetheweb/tuyapi/blob/master/docs/SETUP.md) for detailed instructions.
+   0. Precondition: node-red installed and working.
+
    1. Install in node-red the nodes (I use 'manage pallette'): 
         - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
         - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
@@ -82,6 +84,8 @@ In addition to usual configuration requirements for the `mySQL` and your `tuya-s
    3. Configure in tuyaDAEMON the DB node `append to DB`
    4. Add to tuyaDAEMON your device(s). See [step-by-step instructions](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON).
    5. You can delete the unused modules and `example` nodes.
+
+_For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
    
 --------------------
 **versions**
