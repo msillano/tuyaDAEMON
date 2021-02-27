@@ -14,7 +14,7 @@ _All the details of the communication are resolved by **tuyaDAEMON**, using 3 bi
 Using [node-red-contrib-tuya-smart-device](https://github.com/vinodsr/node-red-contrib-tuya-smart-device) you can exchange local MQTT communications with many Tuya devices. You receive notifications of device status changes regardless of the cause: Tuya-cloud, smartlife app, voice control. And vice versa, the commands sent by **tuyaDAEMON** are executed by the devices and all the app interfaces are kept updated in real-time. 
 
 ### HIGH LEVEL TRIGGER (see [tuyaTRIGGER](./tuyaTRIGGER/README.md))
-The TRIGGERs do not connect to individual devices, but create a direct and bidirectional connection with Tuya-cloud events and 'automation', allowing complete control from anywhere of both the smartlife logic and the devices not handled by LOW-LEVEL MQTT channel (user can define 'mirror' devices: see ['siren mirror'](./extra/siren%20mirror/README.md)).
+The TRIGGERs do not connect to individual devices, but create a direct and bidirectional connection with Tuya-cloud events and 'automation', allowing complete control from anywhere of both the smartlife logic and the devices not handled by LOW-LEVEL MQTT channel (user can define 'mirror' devices: see ['Smoke detector'](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study)).
 
   Example: _Using a “Smart Home Infrared Universal Remote Controller” device you have replicas of the various remote controls on your smartphone, even better than those I had developed in 2016 (see [remoteDB](https://github.com/msillano/remotesDB)). Very well: thanks to Tuya I can now control 2 televisions, a monitor, an air conditioner, a DVB tuner, and a TV-top-box from my smartphone! There are some limitations: voice commands cannot be used, moreover, since the device does not use the MQTT protocol, it cannot be controlled at LOW LEVEL._
   _However, **Tuya-cloud** resources can be used to create a 'scene' with the sequence of commands needed to tune a TV channel, e.g. "Rai 3 HD", on the living room television. As icon I will use the RAI3 logo, as name 'tune RAI three'. Now I can use the voice command: "Hey Google, run tune Rai three"!_
@@ -27,6 +27,7 @@ The TRIGGERs do not connect to individual devices, but create a direct and bidir
 ````
 
 ### CUSTOM CHANNEL (e.g. __system_ 'fake' device)
+
 Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external resources, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON**, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_. Custom channels are implemented additively with specialized flows, one for each 'fake' device.
 
 Example: _I also want to integrate some 24H weather forecasts with [weathermaps](https://openweathermap.org/) and local PM10 measurements (with ad hoc [HW, serial USB interface](https://www.banggood.com/search/pm2.5-pm10-detector-module-dust-sensor-2.8-inch-lcd.html)) into the system for better management of both the internal air conditioning and the outdoor terrace watering system. Two 'fake' devices can be defined:_ 
