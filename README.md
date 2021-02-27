@@ -93,5 +93,5 @@ See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/
  
 _If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](https://github.com/msillano/tuyaDAEMON/wiki/why-tuyaDAEMON-%3F) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
 
-
+- For more documentation see also the [wiki](https://github.com/msillano/tuyaDAEMON/wiki).
 
