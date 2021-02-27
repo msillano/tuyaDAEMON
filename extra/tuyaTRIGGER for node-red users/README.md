@@ -10,7 +10,7 @@ On your _smartlife_ app you can create up to 100 buttons to activate your TRIGGE
 
 If you want, Googlehome can also add _voice control_ to your TRIGGER.
 
-This is a downsizing of [tuyaTRIGGER](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER), created to _integrate node-red into the tuya ecosystem for home automation_. Watch it for more details on devices tested for this use.
+This is a downsizing of [tuyaTRIGGER](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER), created to _integrate the tuya ecosystem into node_red for home automation_. Watch it for more details on devices tested for this use.
 
 - Install in node-red the node (I use 'manage pallette'): [node-red-contrib-tuya-smart-device](https://github.com/vinodsr/node-red-contrib-tuya-smart-device)
 - To use this node, you need the 'id' and 'key' of your device: see [here](https://github.com/codetheweb/tuyapi/blob/master/docs/SETUP.md).
