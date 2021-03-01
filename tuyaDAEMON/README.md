@@ -93,7 +93,7 @@ _For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/
 --------------------
 **versions**
 
-ù_tuyaDAEMON version 1.3_ (01/03/2021)
+_tuyaDAEMON version 1.3_ (01/03/2021)
 - node-red-contrib-tuya-smart-device 3.0.2
 - tuyapi ver. 6.1.1
 
