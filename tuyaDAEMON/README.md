@@ -93,6 +93,12 @@ _For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/
 --------------------
 **versions**
 
+ù_tuyaDAEMON version 1.3_ (01/03/2021)
+- node-red-contrib-tuya-smart-device 3.0.2
+- tuyapi ver. 6.1.1
+
+  Tuya_bridge uses relay TYWR 7-32. Trigger flows refactoring to separe custom flows.
+  
 _tuyaDAEMON version 1.2_ (12/02/2021)
 - node-red-contrib-tuya-smart-device 2.0.0
 - tuyapi ver. 6.1.1
