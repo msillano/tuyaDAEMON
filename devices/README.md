@@ -23,6 +23,8 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_PIR_MOTION.jpg) [PIR_motion](https://github.com/msillano/tuyaDAEMON/blob/main/devices/PIR_motion/device_PIR_motion.pdf) 
 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_PM_detector.jpg) [PM_detector](https://github.com/msillano/tuyaDAEMON/blob/main/devices/PM_detector/device_PM_detector.pdf) 
+
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_smart_breaker.jpg) [smart_breaker](https://github.com/msillano/tuyaDAEMON/blob/main/devices/smart_breaker/device_smart_breaker.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Smart_Switch01.jpg) [Smart_Switch01](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smart_Switch01/device_Smart_Switch01.pdf) 
