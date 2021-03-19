@@ -27,7 +27,7 @@ TuyaDAEMON isolates your home automation **custom node-red flows** from all deta
  5) **Tuyapi** throws some errors at the moment not caught by **tuya-smart-device**: `"Error: Error from socket"` and `"find () timeout. Is the device turned on and the correct ID or IP?"`  (see [issue#35](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/35)).
  Because now a **tuya-smart-device** can't be disabled, these useless messages can be very frequent. In normal use, some devices can stay disconnected long time, such as power sockets or power strips used only on request.
  
- 6) Each Tuya device can only make a limited number of simultaneous MQTT connections. This number, which differs from device to device, can be low: in this case the device will close the tuyaDEAMON connection when one or more apps (smartLife, Tuya smart, google home ...) are active. Fortunately, I only found a few devices with very low potential connections. 
+ 6) Each _Tuya device_ can only make a limited number of simultaneous MQTT connections. This number, which differs from device to device, can be low: in this case the device will close the tuyaDEAMON connection when one or more apps (smartLife, Tuya smart, google home ...) are active. Fortunately, I only found a few devices with very low potential connections. 
 
  _To manage such a rapidly changing environment, I choose to use a data structure in **tuyaDAEMON** to describe individual devices and single datapoint capabilities, so that all operations that are actually not managed or bogous can be intercepted and not sent to the device, giving stable and reliable operations with no surprises. And if the evolution of the SW offers us new features, it is easy to update the behavior of tuyaDAEMON._
  
@@ -50,7 +50,7 @@ TuyaDAEMON isolates your home automation **custom node-red flows** from all deta
    - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote_ and _vocal_ control.
    - The management RT of `'mirror' devices` for _all devices not caught at low-level by **tuyapi**_.
    
- - **Connection module:** add to all _real device_ the new property 'connected' to report RT the device status. Optional.
+ - **Connection module:** add to all _real device_ the new property '_connected' to report RT the device status. Optional.
  - **System module:** Offerts a `'fake' device` (_system) with some useful RT properties: _Alarms_ in case of WiFi, Lan or AC power down, _list of unconned devices_ etc. 
    Optional, requires the  _'Connection module'_.
  - _Extra flow_: ["siren mirror"](extra/siren%20mirror/), a `'mirror' device` study case.
