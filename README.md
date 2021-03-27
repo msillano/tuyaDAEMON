@@ -93,7 +93,7 @@ See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/
  **TuyaDEAMON** automatically logs user select messages and measurements on an optional DB table (`'messages'`), a useful option for control, analysis, and statistics.
   _Since ver. 2.0:_
  
- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/dbtuyathome02.jpg)
+ ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/dbtuyathome03.jpg)
  
 ### Version 2.0
  
