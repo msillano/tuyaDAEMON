@@ -71,15 +71,18 @@ In writing, the state change requests for all devices take the form of a node-re
 
 To make easier the interoperability with external applications, tuyaDEAMON offers also a [_**fast REST**_](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) asynchronous interface with an immediate JSON response:
 _Examples:_
- - _SET:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge&property=switch&value=OFF`
-     - answer: `{"status":"sended"}`
- - _GET:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge&property=switch`
-     - answer:`{"device":"tuya_bridge","property":"switch","value":"OFF"}`
+ _Since ver. 2.0:_
+ - _SET:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge&property=relay&value=OFF`
+     - answer: `{"device":"tuya_bridge","property":"switch","status":"sent"}`
+ - _GET:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge&property=relay`
+     - answer: `{"device":"tuya_bridge","property":"relay","value":"ON"}`
  - _SCHEMA:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge`.
-     - answer: `{"_connected":true,"_t":1611594148,"reserved (trigger)":0,"switch":"OFF"}`
+     - answer: `{"device":"tuya_bridge","schema":{"_connected":true,"_t":1616865119,"trigger (reserved)":0,"relay":"ON","restart status":"memory"}}`
  - _LIST devices:_ `http://localhost:1984/tuyaDAEMON`.
-    - answer: `["Zigbee Gateway","Smart IR 1","HAL@home","BLE MESH（SIG）Gateway","tuya_bridge","Temperature living", "Door sensor","USB siren","PIR sensor","external T"]`
-
+    - answer: `{"list":["Zigbee Gateway","Smart IR 1","HAL@home","BLE MESH（SIG）Gateway","tuya_bridge","Temperature living", "Door sensor","USB siren","PIR sensor"]}`
+ - _ERROR:_   `{"status":"ERROR: not found the property (switch) in 'tuya_bridge'"}`
+ - _ERROR:_   `{"status":"ERROR: not found the device 'tuya_trigger'"}`
+  
 note: all devices accept 'GET' and 'SCHEMA' requests via _fast REST_. 
 
 A second [_**debug REST**_](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) interface is synchronous and dedicated to development applications.
@@ -88,10 +91,15 @@ See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/
 ### DataBase interface
 
  **TuyaDEAMON** automatically logs user select messages and measurements on an optional DB table (`'messages'`), a useful option for control, analysis, and statistics.
+  _Since ver. 2.0:_
  
  ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/dbtuyathome02.jpg)
  
- --------------------------------------------
+### Version 2.0
+ 
+_With the version 2.0 tuyaDAEMON reaches 2 milestones: the ability to use and create devices in a [hierarchical OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--Network-and-OO#oo-extensions), and the ability to create distributed devices on a [TuyaDAEMON network](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--Network-and-OO#networking-tuyadaemon)._
+ 
+--------------------------------------------
 - _If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](https://github.com/msillano/tuyaDAEMON/wiki/why-tuyaDAEMON-%3F) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
 
 - For more documentation see also the [wiki](https://github.com/msillano/tuyaDAEMON/wiki).
