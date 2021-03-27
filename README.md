@@ -28,7 +28,8 @@ The TRIGGERs do not connect to individual devices, but create a direct and bidir
 
 ### CUSTOM CHANNEL (e.g. __system_ 'fake' device)
 
-Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external resources, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON**, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_. Custom channels are implemented additively with specialized flows, one for each 'fake' device. See [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a not tuya-compatible device.
+Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external resources, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON**, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_. Custom channels are implemented additively with specialized flows, one for each 'fake' device. See [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a not tuya-compatible device. 
+Since the version 2.0 a generalized OO perspective, in a distributed environement, adds more flexibility to tuyaDAEMON.
 
 Example: _I also want to integrate some 24H weather forecasts with [weathermaps](https://openweathermap.org/) and local PM10 measurements (with ad hoc [HW, serial USB interface](https://www.banggood.com/search/pm2.5-pm10-detector-module-dust-sensor-2.8-inch-lcd.html)) into the system for better management of both the internal air conditioning and the outdoor terrace watering system. Two 'fake' devices can be defined (to see [actual implementation](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study)):_ 
 ````
@@ -95,11 +96,12 @@ See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/
  
  ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/dbtuyathome03.png)
  
+ --------------------
 ### Version 2.0
  
 _With the version 2.0 tuyaDAEMON reaches 2 milestones: the ability to use and create devices in a [hierarchical OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--Network-and-OO#oo-extensions), and the ability to create distributed devices on a [TuyaDAEMON network](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--Network-and-OO#networking-tuyadaemon)._
  
---------------------------------------------
+-----------------
 - _If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](https://github.com/msillano/tuyaDAEMON/wiki/why-tuyaDAEMON-%3F) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
 
 - For more documentation see also the [wiki](https://github.com/msillano/tuyaDAEMON/wiki).
