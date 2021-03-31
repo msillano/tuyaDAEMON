@@ -53,9 +53,9 @@ TuyaDAEMON isolates your home automation **custom node-red flows** from all deta
  - **Connection module:** add to all _real device_ the new property '_connected' to report RT the device status. Optional.
  - **System module:** Offerts a `'fake' device` (_system) with some useful RT properties: _Alarms_ in case of WiFi, Lan or AC power down, _list of unconned devices_ etc. 
    Optional, requires the  _'Connection module'_.
- - _Extra flow_: ["Smoke_Detector"](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study), a `'mirror' device` study case.
- - _Extra flow_: ["PM detector"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a `'custom' device` study case.
- - _Extra flow_: ["watering_sys"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'watering_sys':-case-study), a `OO level 2 device` study case.
+ - _Extra flow_: ["Smoke_Detector"](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study), a `'mirror' device` study case, uses TRIGGER to comunicate to real device.
+ - _Extra flow_: ["PM detector"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a `'custom' device` study case, the device uses USB-serial to comminicate.
+ - _Extra flow_: ["watering_sys"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'watering_sys':-case-study), a `OO level 2 device` study case, a custom super-devices build using 2 switch and 1 sensor.
  - _Extra flow_: ["test devices"](extra/test%20devices) with some examples of device tests
  - _Extra flow_: ["tuyaTRIGGER-minimal"](extra/tuyaTRIGGER%20for%20node-red%20users),  downsizing of TuyaTIGGER, adds one-way remote and voice control to node-red. Use it alone, not for home automation.
 
