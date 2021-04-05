@@ -36,7 +36,11 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_switch-4CH.jpg) [switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf) 
 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Temperature_Humidity_Sensor.jpg) [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf) 
+
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_TRV_Thermostatic_Radiator_Valve.jpg) [TRV_Thermostatic_Radiator_Valve](https://github.com/msillano/tuyaDAEMON/blob/main/devices/TRV_Thermostatic_Radiator_Valve/device_TRV_Thermostatic_Radiator_Valve.pdf) 
+
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_watering_sys.jpg) [watering_sys](https://github.com/msillano/tuyaDAEMON/blob/main/devices/watering_sys/device_watering_sys.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_WiFi_IP_Camera.jpg) [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf) 
 
