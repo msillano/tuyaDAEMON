@@ -97,6 +97,8 @@ _For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/
 --------------------
 **versions**
 
+note: Don't use the **node-red-contrib-tuya-smart-device 4.0.1** because it presents [some problems](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/54).
+
 _tuyaDAEMON version 1.3_ (01/03/2021)
 - node-red-contrib-tuya-smart-device 3.0.2
 - tuyapi ver. 6.1.1
