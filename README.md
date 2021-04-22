@@ -26,7 +26,7 @@ The TRIGGERs do not connect to individual devices, but create a direct and bidir
                          comment: "available: 'RAI1 HD’,’RAI2 HD’,’RAI3 HD’..."
 ````
 
-### CUSTOM CHANNEL (e.g. __system_ 'fake' device)
+### CUSTOM CHANNEL (see [system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) 'fake' device)
 
 Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external resources, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON**, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_. Custom channels are implemented additively with specialized flows, one for each 'fake' device. In many cases the implementation is a simple protocol interface, see [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), that integrates a device that uses USB-COM interface.
 
