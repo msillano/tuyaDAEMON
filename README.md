@@ -70,7 +70,7 @@ _Examples:_
  - _ERROR:_   `{"status":"ERROR: not found the property (switch) in 'tuya_bridge'"}`
  - _ERROR:_   `{"status":"ERROR: not found the device 'tuya_trigger'"}`
   
-note: all devices accept 'GET' and 'SCHEMA' requests via _fast REST_. 
+note: all devices accept 'GET' and 'SCHEMA' requests via _fast REST_: the data comes from the 'global.tuyastatus' structure. 
 
 A second [_**debug REST**_](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) interface is synchronous and dedicated to development applications.
 See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit), a PHP application to help users manage devices.
