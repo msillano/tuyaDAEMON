@@ -28,10 +28,11 @@ The TRIGGERs do not connect to individual devices, but create a direct and bidir
 
 ### CUSTOM CHANNEL (e.g. __system_ 'fake' device)
 
-Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external resources, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON**, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_. Custom channels are implemented additively with specialized flows, one for each 'fake' device. In many cases is a simple protocol interface, see [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), that integrates a device that uses USB-COM interface.
-Since the version 2.0 a generalized OO perspective, in a distributed environement, adds more power to tuyaDAEMON. It is easy to finalize the tuyaDAEMON resources in integratet projects, OO-oriented, with UI and many base devices: see [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study), a terrace watering timer, with fuzzy wheater control.
+Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external resources, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON**, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_. Custom channels are implemented additively with specialized flows, one for each 'fake' device. In many cases the implementation is a simple protocol interface, see [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), that integrates a device that uses USB-COM interface.
 
-**_From version 2.0 tuyaDAEMON is a complete framework for advanced custom IOT project._**
+Since the version 2.0 the generalized OO perspective, in a distributed environement, adds more power to tuyaDAEMON. It is easy to finalize the tuyaDAEMON resources in integrated projects, OO-oriented, with UI and many base devices: see [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study), a terrace watering timer with UI, fuzzy control from wheater, and using 3 tuya devices.
+
+**_From version 2.0 tuyaDAEMON is a complete framework for advanced custom IOT projects._**
 
 ----------------------
 
@@ -46,7 +47,7 @@ Example:
                        spray: "OFF"
                        output: "small"
 ````
-In writing, the state change requests for all devices take the form of a node-red message:
+In writing, the commands for state change requests to all devices take the form of a node-red message:
 ````
               payload: object
                     device: "humidifier"
@@ -76,7 +77,7 @@ See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/
 
 ### DataBase interface
 
- **TuyaDEAMON** automatically logs user select messages and measurements on an optional DB table (`'messages'`), a useful option for control, analysis, and statistics.
+ **TuyaDEAMON** automatically logs user select messages and measurements on one or more DB tables (`'messages'`), a useful option for control, analysis, and statistics.
   _Since ver. 2.0:_
  
  ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/dbtuyathome03.png)
