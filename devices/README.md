@@ -16,6 +16,8 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 --------------------------------------------   
    
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_ACmeter.jpg) [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device_ACmeter.pdf) 
+
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Alarm_siren.jpg) [Alarm_siren](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Alarm_siren/device_Alarm_siren.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Door_Sensor.jpg) [Door_Sensor](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Door_Sensor/device_Door_Sensor.pdf) 
