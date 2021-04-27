@@ -46,7 +46,7 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_TRV_Thermostatic_Radiator_Valve.jpg) [TRV_Thermostatic_Radiator_Valve](https://github.com/msillano/tuyaDAEMON/blob/main/devices/TRV_Thermostatic_Radiator_Valve/device_TRV_Thermostatic_Radiator_Valve.pdf) 
 
-- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_watering_sys.jpg) [watering_sys](https://github.com/msillano/tuyaDAEMON/blob/main/devices/watering_sys/device_watering_sys.pdf) 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_watering_sys.jpg) [watering_sys (custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/watering_sys/device_watering_sys.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_WiFi_IP_Camera.jpg) [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf) 
 
