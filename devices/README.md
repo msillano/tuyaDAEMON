@@ -28,9 +28,13 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_PM_detector.jpg) [PM_detector (custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/PM_detector/device_PM_detector.pdf) 
 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_power_strip.jpg) [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/PM_detector/device_power_strip.pdf) 
+
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_smart_breaker.jpg) [smart_breaker](https://github.com/msillano/tuyaDAEMON/blob/main/devices/smart_breaker/device_smart_breaker.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Smart_Switch01.jpg) [Smart_Switch01](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smart_Switch01/device_Smart_Switch01.pdf) 
+
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico__system.jpg) [_system (SW custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smart_Switch01/device__system.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Smoke_Detector.jpg) [Smoke_Detector](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smoke_Detector/device_Smoke_Detector.pdf) 
 
