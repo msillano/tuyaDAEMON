@@ -77,6 +77,8 @@ In addition to usual configuration requirements for the `mySQL` and your `tuya-s
    
 3)  _node 'tuyaDEAMON.CORE.save path': defines where to save the 'alldevices.json' file._
 
+4) All nodes requiring or allowing some user update are named with an asterisk (e.g. '*device selector') and in the  'node description' you can found specific instructions.
+
  
  ### installation
    0. Precondition: _mySQL_ server running: import the  `tuyamessages.sql`  to create the required table. 
