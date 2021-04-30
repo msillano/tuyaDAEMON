@@ -150,10 +150,6 @@ note: commands that are not implemented or not allowed by a device or DP can hav
 - the message _"json obj data unvalid"_
 - waiting for some time, then disconnection.
 
-_To handle that in the simplest way.in *tuyaDAEMON* is an environement to define and test your Tuya devices, [tuyadaemontoolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit). It produces some artifactcs for documentation and JSON objects, used to build (['alldevices'](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices)). It controls the tuyaDAEMON `msg` processing. So a 'bad' command for any device can not be send. Never._
-- _Custom devices can be designed keeping some tuya compatibility._
-
-
 --------------------
 
 **versions**
