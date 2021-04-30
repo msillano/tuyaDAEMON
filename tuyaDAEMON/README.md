@@ -95,6 +95,7 @@ In addition to usual configuration requirements for the `mySQL` and your `tuya-s
    5. You can delete the unused modules and `example` nodes.
 
 _For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
+
 -------------------
  ### Tuya's capabilities, _as currently known_ ###
 
@@ -141,7 +142,9 @@ note: commands that are not implemented or not allowed by a device or DP can hav
 - Nothing
 - the message *"json obj data unvalid"*
 - waiting for some time, then disconnection.
+
 --------------------
+
 **versions**
 
 note: Don't use the **node-red-contrib-tuya-smart-device 4.0.1** because it presents [some problems](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/54).
