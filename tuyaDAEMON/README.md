@@ -123,20 +123,22 @@ Usually is very dangerous to do generalizations based on few cases._
 
 _DPs are usually atomic, for easy use in automation. 
 The DP can be structured (even complex) eg. in the case of configuration data, usually defined in a page of the UI, and not used for tests._
+_Usually the UI is passive, i.e. shows the received values as response of user events. But can use the REFRESH for a faster update._ 
 
-- A DP can be **PUSHED**, at the initiative of the device, especially to keep a user interface updated:
+
+- A DP can be **PUSHED**, at the initiative of the device, especially to keep the UI updated:
    - at regular intervals (for example, every hour, at XX: 00: 00 see [TRV_Thermostatic_Radiator_Valve](https://github.com/msillano/tuyaDAEMON/blob/main/devices/TRV_Thermostatic_Radiator_Valve/device_TRV_Thermostatic_Radiator.pdf).'Hist day target T').
-   - at irregular intervals (no known rules) (eg [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Senso).'temperature')
-   - a change in value (e.g. every 30 * k: [smart_breaker](https://github.com/msillano/tuyaDAEMON/blob/main/devices/smart_breaker/device_smart_breaker.pdf).'countdown ', e.g. at any variation: [device_switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf).'countdown1')
-   - for some DPs (eg sensors) this may be the unique capability.
+   - at irregular intervals (unknown rule) (e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf).'temperature')
+   - at a change in value (e.g. every 30 * k: [smart_breaker](https://github.com/msillano/tuyaDAEMON/blob/main/devices/smart_breaker/device_smart_breaker.pdf).'countdown ', e.g. at any variation: [device_switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf).'countdown1')
+   - for some DPs (e.g. sensors) this may be the unique capability.(e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf)
 
 - **GET(dp)** is without side effects, it can be requested as many times as you want. GET returns:
     - the present value
     - the last PUSHED value (e.g. [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf).'countdown ')
-    - all data (such as SCHEMA) (eg [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
+    - all data (such as SCHEMA) (e.g. [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
  
-- **SET(dp, value)** If value not null, updates the DP value and returns the new value:
-    - can be used as a trigger, i.e. with side effects, in this case the value may be useless (eg [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
+- **SET(dp, value)** If the value is not null, updates the DP value and returns the new value:
+    - can be used as a trigger, i.e. with side effects, in this case the value may be useless (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
 
 - **SET(DP, null)** returns the last DP value:
     - can be used instead of GET(DP). In some cases it is mandatory (e.g. [Power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf))
@@ -145,10 +147,10 @@ The DP can be structured (even complex) eg. in the case of configuration data, u
 note: commands that are not implemented or not allowed by a device or DP can have many behaviors:
 
 - Nothing
-- the message *"json obj data unvalid"*
+- the message _"json obj data unvalid"_
 - waiting for some time, then disconnection.
 
-_To handle that in the simplest way.in *tuyaDAEMON* is an environement to define and test the Tuya devices, [tuyadaemontoolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit). It produces some artifactcs for documentation and JSON objects, used to build (['alldevices'](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices)). It controls the device `msg` processing. So a 'bad' command for any device can not be send. Never._
+_To handle that in the simplest way.in *tuyaDAEMON* is an environement to define and test your Tuya devices, [tuyadaemontoolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit). It produces some artifactcs for documentation and JSON objects, used to build (['alldevices'](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices)). It controls the tuyaDAEMON `msg` processing. So a 'bad' command for any device can not be send. Never._
 - _Custom devices can be designed keeping some tuya compatibility._
 
 
