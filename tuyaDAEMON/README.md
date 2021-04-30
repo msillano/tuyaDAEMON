@@ -98,6 +98,11 @@ _For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/
 
 -------------------
  ### Tuya's capabilities, _as currently known_ ###
+ 
+Any tuya device can have its own behavior: tuya devices use a poll of common code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in Tuya environment).
+Usually is very dangerous to do generalizations based on few cases.
+
+
 
 **Device Capabilities:**
 
@@ -142,6 +147,12 @@ note: commands that are not implemented or not allowed by a device or DP can hav
 - Nothing
 - the message *"json obj data unvalid"*
 - waiting for some time, then disconnection.
+
+_To handle that in the simplest way:_
+- _In *tuyaDAEMON* is an environement to define and test the Tuya devices, [tuyadaemontoolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit). It produces some artifactcs for documentation and JSON objects._
+- _*tuyaDAEMON* uses a big JSON structure (['alldevices'](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices)), build using the objects maked by `tuyadaemontoolkit`, that maps all used devices and relates DPs capabilities. It controls the device `msg` processing. So a 'bad' command for any device can not be send. Never._
+- _Custom devices can be designed keeping some tuya compatibility._
+
 
 --------------------
 
