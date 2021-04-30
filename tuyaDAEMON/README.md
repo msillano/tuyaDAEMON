@@ -95,7 +95,52 @@ In addition to usual configuration requirements for the `mySQL` and your `tuya-s
    5. You can delete the unused modules and `example` nodes.
 
 _For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
-   
+-------------------
+ ### Tuya's capabilities, _as currently known_ ###
+
+**Device Capabilities:**
+
+
+**MULTIPLE:** implemented in a few devices, it acts like many SETs. It can return:
+
+- all DPs in the command
+- only modified DPs
+- a mixed strategy: if any DP changes, it returns only the modified DPs, otherwise all the DPs. (e.g. [power\_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power\_strip/device\_power\_strip.pdf)).
+
+**SCHEMA:** implemented in the bigger devices, returns the values of all DPs ​​(eg [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device\_ACmeter.pdf)).
+
+**REFRESH:** implemented in few devices, forces a new data sample or update. Returns only the PDs that have changed. 
+
+- By repeating the REFRESH you can get any required data rate, for example to have a responsive UI. For linited time, to reduce resources use.
+
+**Data Point Capabilities:**
+
+_DPs are usually atomic, for easy use in automation. 
+The DP can be structured (even complex) eg. in the case of configuration data, usually defined in a page of the UI, and not used for tests._
+
+- A DP can be **PUSHED**, at the initiative of the device, especially to keep a user interface updated:
+   - at regular intervals (for example, every hour, at XX: 00: 00 see [TRV_Thermostatic_Radiator_Valve](https://github.com/msillano/tuyaDAEMON/blob/main/devices/TRV_Thermostatic_Radiator_Valve/device_TRV_Thermostatic_Radiator.pdf).'Hist day target T').
+   - at irregular intervals (no known rules) (eg [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Senso).'temperature')
+   - a change in value (e.g. every 30 * k: [smart_breaker](https://github.com/msillano/tuyaDAEMON/blob/main/devices/smart_breaker/device_smart_breaker.pdf).'countdown ', e.g. at any variation: [device_switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf).'countdown1')
+   - for some DPs (eg sensors) this may be the unique capability.
+
+- **GET(dp)** is without side effects, it can be requested as many times as you want. GET RETURNS:
+    - the present value
+    - the last PUSHED value (e.g. [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf).'countdown ')
+    - all data (such as SCHEMA) (eg [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
+ 
+- **SET(dp, value)** If value not null, updates the DP value and returns the new value:
+    - can be used as a trigger, i.e. with side effects, in this case the value may be useless (eg [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
+
+- **SET(DP, null)** returns the last DP value:
+    - can be used instead of GET(DP). In some cases it is mandatory (e.g. [Power_strip] (https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf))
+    - can be the only property available: no other SETs, no GETs. (e.g. [device_WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf) .'SD status')
+
+note: commands that are not implemented or not allowed by a device or DP can have many behaviors:
+
+- Nothing
+- the message *"json obj data unvalid"*
+- waiting for some time, then disconnection.
 --------------------
 **versions**
 
