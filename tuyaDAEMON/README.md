@@ -6,7 +6,7 @@ TuyaDAEMON isolates your home automation **custom node-red flows** from all deta
 - allows bidirectional exchanges to/from _all tuya devices and Tuya automations_.
 - decodes and transforms incominig Tuya data  to _standard units_.
 - manages all codifications and checks before sending your _commands to devices_
-- updates the `global.tuyastatus` structure (_device:property:value_) with all status messages from Tuya devices_.
+- updates the `global.tuyastatus` structure (_device:property:value_) with all status messages from Tuya devices.
 - logs all events in the mySQL` 'tuyathome:messages'` table 
 - uses _frendly names_ for all devices and properties, in any language
 
@@ -130,7 +130,7 @@ The DP can be structured (even complex) eg. in the case of configuration data, u
    - a change in value (e.g. every 30 * k: [smart_breaker](https://github.com/msillano/tuyaDAEMON/blob/main/devices/smart_breaker/device_smart_breaker.pdf).'countdown ', e.g. at any variation: [device_switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf).'countdown1')
    - for some DPs (eg sensors) this may be the unique capability.
 
-- **GET(dp)** is without side effects, it can be requested as many times as you want. GET RETURNS:
+- **GET(dp)** is without side effects, it can be requested as many times as you want. GET returns:
     - the present value
     - the last PUSHED value (e.g. [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf).'countdown ')
     - all data (such as SCHEMA) (eg [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
@@ -148,9 +148,7 @@ note: commands that are not implemented or not allowed by a device or DP can hav
 - the message *"json obj data unvalid"*
 - waiting for some time, then disconnection.
 
-_To handle that in the simplest way:_
-- _In *tuyaDAEMON* is an environement to define and test the Tuya devices, [tuyadaemontoolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit). It produces some artifactcs for documentation and JSON objects._
-- _*tuyaDAEMON* uses a big JSON structure (['alldevices'](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices)), build using the objects maked by `tuyadaemontoolkit`, that maps all used devices and relates DPs capabilities. It controls the device `msg` processing. So a 'bad' command for any device can not be send. Never._
+_To handle that in the simplest way.in *tuyaDAEMON* is an environement to define and test the Tuya devices, [tuyadaemontoolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit). It produces some artifactcs for documentation and JSON objects, used to build (['alldevices'](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices)). It controls the device `msg` processing. So a 'bad' command for any device can not be send. Never._
 - _Custom devices can be designed keeping some tuya compatibility._
 
 
