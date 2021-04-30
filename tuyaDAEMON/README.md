@@ -139,7 +139,7 @@ The DP can be structured (even complex) eg. in the case of configuration data, u
     - can be used as a trigger, i.e. with side effects, in this case the value may be useless (eg [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
 
 - **SET(DP, null)** returns the last DP value:
-    - can be used instead of GET(DP). In some cases it is mandatory (e.g. [Power_strip] (https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf))
+    - can be used instead of GET(DP). In some cases it is mandatory (e.g. [Power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf))
     - can be the only property available: no other SETs, no GETs. (e.g. [device_WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf) .'SD status')
 
 note: commands that are not implemented or not allowed by a device or DP can have many behaviors:
