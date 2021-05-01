@@ -106,6 +106,8 @@ Usually is very dangerous to do generalizations based on few cases._
 
 **Device Capabilities:**
 
+**response**
+The return messages, in output from tuya-smart-device nodes, have all the same format, one o more couples (dp: value) regardless of whether they are caused by PUSH, REFRESH, GET, SET or SCHEMA, MULTIPLE.
 
 **MULTIPLE:** implemented in a few devices, it acts like many SETs. It can return:
 
@@ -113,7 +115,7 @@ Usually is very dangerous to do generalizations based on few cases._
 - only modified DPs
 - a mixed strategy: if any DP changes, it returns only the modified DPs, otherwise all the DPs. (e.g. [power\_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power\_strip/device\_power\_strip.pdf)).
 
-**SCHEMA:** implemented in the bigger devices, returns the values of all DPs ​​(eg [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device\_ACmeter.pdf)).
+**SCHEMA:** implemented in few bigger devices, returns the values of all DPs (e.g. [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device\_ACmeter.pdf)).
 
 **REFRESH:** implemented in few devices, forces a new data sample or update. Returns only the PDs that have changed. 
 
@@ -122,20 +124,20 @@ Usually is very dangerous to do generalizations based on few cases._
 **Data Point Capabilities:**
 
 _DPs are usually atomic, for easy use in automation. 
-The DP can be structured (even complex) eg. in the case of configuration data, usually defined in a page of the UI, and not used for tests._
-_Usually the UI is passive, i.e. shows the received values as response of user events. But can use the REFRESH for a faster update._ 
+But DPs can be structured (even complex) e.g. in the case of configuration data, usually defined in a page of the UI, and not used for tests._
+_Usually the UI is passive, i.e. shows the received values as response of user events. But it can use the REFRESH for a faster update._ 
 
 
 - A DP can be **PUSHED**, at the initiative of the device, especially to keep the UI updated:
-   - at regular intervals (for example, every hour, at XX: 00: 00 see [TRV_Thermostatic_Radiator_Valve](https://github.com/msillano/tuyaDAEMON/blob/main/devices/TRV_Thermostatic_Radiator_Valve/device_TRV_Thermostatic_Radiator.pdf).'Hist day target T').
+   - at regular intervals (for example, every hour, at XX:00:00 see [TRV_Thermostatic_Radiator_Valve](https://github.com/msillano/tuyaDAEMON/blob/main/devices/TRV_Thermostatic_Radiator_Valve/device_TRV_Thermostatic_Radiator.pdf).'Hist day target T').
    - at irregular intervals (unknown rule) (e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf).'temperature')
    - at a change in value (e.g. every 30 * k: [smart_breaker](https://github.com/msillano/tuyaDAEMON/blob/main/devices/smart_breaker/device_smart_breaker.pdf).'countdown ', e.g. at any variation: [device_switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf).'countdown1')
-   - for some DPs (e.g. sensors) this may be the unique capability.(e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf)
+   - for some DPs (e.g. sensors) PUSH may be the unique capability.(e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf)
 
 - **GET(dp)** is without side effects, it can be requested as many times as you want. GET returns:
     - the present value
     - the last PUSHED value (e.g. [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf).'countdown ')
-    - all data (such as SCHEMA) (e.g. [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
+    - all DPs (such as SCHEMA) (e.g. [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
  
 - **SET(dp, value)** If the value is not null, updates the DP value and returns the new value:
     - can be used as a trigger, i.e. with side effects, in this case the value may be useless (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
