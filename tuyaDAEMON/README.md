@@ -129,7 +129,6 @@ _Usually the UI is passive, i.e. shows the received values as response of user e
 
 Any DP as is own behavior:
 
-
 - A DP can be **PUSHED** proctively by a device, especially to keep the UI updated:
    - at regular intervals (for example, every hour, at XX:00:00 see [TRV_Thermostatic_Radiator_Valve](https://github.com/msillano/tuyaDAEMON/blob/main/devices/TRV_Thermostatic_Radiator_Valve/device_TRV_Thermostatic_Radiator.pdf).'Hist day target T').
    - at irregular intervals (unknown rule) (e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf).'temperature')
@@ -145,13 +144,14 @@ Any DP as is own behavior:
     - can be used as a trigger, i.e. with side effects, in this case the value may be useless (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
 
 - **SET(DP, null)** returns the last DP value:
-    - if it works, can be used instead of GET(DP). In some cases it is mandatory (e.g. [Power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf))
+    - if it works, can be used instead of GET(DP). It is useful when GET(DP) is not standard (e.g. [Power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
     - can be the only property available: no other SETs, no GETs. (e.g. [device_WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf) .'SD status')
     - can be not allowed: all SET(dp, value) are ok, but not SET(DP, null).
 
 note: commands that are not implemented or not allowed by a device or DP can have many effects:
 
 - Nothing, silent ignore
+- SET/GET of unespected values
 - the message _"json obj data unvalid"_
 - waiting for some time, then disconnection.
 - device hangup.
