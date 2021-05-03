@@ -127,11 +127,13 @@ _DPs are usually atomic, for easy use in automation.
 But DPs can be structured (even complex) e.g. in the case of configuration data, usually defined in a page of the UI, and not used for tests._
 _Usually the UI is passive, i.e. shows the received values as response of user events. But it can use the REFRESH for a faster update._ 
 
+Any DP as is own behavior:
 
-- A DP can be **PUSHED**, at the initiative of the device, especially to keep the UI updated:
+
+- A DP can be **PUSHED** proctively by a device, especially to keep the UI updated:
    - at regular intervals (for example, every hour, at XX:00:00 see [TRV_Thermostatic_Radiator_Valve](https://github.com/msillano/tuyaDAEMON/blob/main/devices/TRV_Thermostatic_Radiator_Valve/device_TRV_Thermostatic_Radiator.pdf).'Hist day target T').
    - at irregular intervals (unknown rule) (e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf).'temperature')
-   - at a change in value (e.g. every 30 * k: [smart_breaker](https://github.com/msillano/tuyaDAEMON/blob/main/devices/smart_breaker/device_smart_breaker.pdf).'countdown ', e.g. at any variation: [device_switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf).'countdown1')
+   - at a change in value (e.g. every 30s * k: [smart_breaker](https://github.com/msillano/tuyaDAEMON/blob/main/devices/smart_breaker/device_smart_breaker.pdf).'countdown ', e.g. at any variation: [device_switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf).'countdown1')
    - for some DPs (e.g. sensors) PUSH may be the unique capability.(e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf)).
 
 - **GET(dp)** is without side effects, it can be requested as many times as you want. GET returns:
@@ -143,14 +145,16 @@ _Usually the UI is passive, i.e. shows the received values as response of user e
     - can be used as a trigger, i.e. with side effects, in this case the value may be useless (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
 
 - **SET(DP, null)** returns the last DP value:
-    - can be used instead of GET(DP). In some cases it is mandatory (e.g. [Power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf))
+    - if it works, can be used instead of GET(DP). In some cases it is mandatory (e.g. [Power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf))
     - can be the only property available: no other SETs, no GETs. (e.g. [device_WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf) .'SD status')
+    - can be not allowed: all SET(dp, value) are ok, but not SET(DP, null).
 
-note: commands that are not implemented or not allowed by a device or DP can have many behaviors:
+note: commands that are not implemented or not allowed by a device or DP can have many effects:
 
-- Nothing
+- Nothing, silent ignore
 - the message _"json obj data unvalid"_
 - waiting for some time, then disconnection.
+- device hangup.
 
 --------------------
 
