@@ -99,7 +99,7 @@ _For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/
 -------------------
  ### Tuya's capabilities, _as currently known_ ###
  
-_Any tuya device can have its own behavior: tuya devices use a poll of common code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in Tuya environment).
+_Any tuya device, any DP can have its own behavior: tuya devices use a poll of common code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in Tuya environment).
 Usually is very dangerous to do generalizations based on few cases._
 
 
