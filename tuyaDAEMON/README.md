@@ -119,13 +119,12 @@ The return messages, in output from tuya-smart-device nodes, have all the same f
 
 **REFRESH:** implemented in few devices, forces a new data sample or update. Returns only the PDs that have changed. 
 
-- By repeating the REFRESH you can get any required data rate, for example to have a responsive UI. For linited time, to reduce resources use.
+- _smartLife app_ repeats REFRESH every 5s, when is required a responsive UI, but only if the UI is visible, to reduce the resources use.
 
 **Data Point Capabilities:**
 
 _DPs are usually atomic, for easy use in automation. 
 But DPs can be structured (even complex) e.g. in the case of configuration data, usually defined in a page of the UI, and not used for tests._
-_Usually the UI is passive, i.e. shows the received values as response of user events. But it can use the REFRESH for a faster update._ 
 
 Any DP as is own behavior:
 
