@@ -154,8 +154,9 @@ note: commands that are not implemented or not allowed by a device or a DP can h
 - the message _"json obj data unvalid"_
 - waiting for some time, then device disconnection.
 - gateway disconnection.
-- device hangup.
-- gateway hangup.
+- the device "reboot themself".
+- the device hangup, you must restart.
+- the gateway hangup.
 
 --------------------
 
