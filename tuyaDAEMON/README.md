@@ -107,7 +107,7 @@ Usually is very dangerous to do generalizations based on few cases._
 **Device Capabilities:**
 
 **response**
-The return messages, in output from tuya-smart-device nodes, have all the same format, one o more couples (dp: value) regardless of whether they are caused by PUSH, REFRESH, GET, SET or SCHEMA, MULTIPLE.
+The return messages, in output from tuya-smart-device nodes, have all the same format, one o more couples (dp: value) regardless of whether they are caused by PUSH, REFRESH, GET, SET or SCHEMA, MULTIPLE (see core.logging node).
 
 **MULTIPLE:** implemented in a few devices, it acts like many SETs. It can return:
 
@@ -120,12 +120,12 @@ The return messages, in output from tuya-smart-device nodes, have all the same f
 
 **REFRESH:** implemented in few devices, forces a new data sample or update. Returns only the PDs that have changed. 
 
-- _smartLife app_ repeats REFRESH every 5s, when is required a responsive UI, but only if the UI is visible, to reduce the resources use.
+- _smartLife app_ repeats REFRESH every 5s, when is required a responsive UI, but only when the UI is visible, to reduce the resources use.
 
 **Data Point Capabilities:**
 
-_DPs are usually atomic, for easy use in automation. 
-But DPs can be structured (even complex) e.g. in the case of configuration data, usually defined in a page of the UI, and not used for tests._
+_DPs are usually atomic, for easy use in tuya-cloud automation. 
+But DPs can be structured (even complex) e.g. in the case of configuration data, usually defined in a page of the UI, and not used in automation._
 
 Any DP as is own behavior:
 
