@@ -114,6 +114,7 @@ The return messages, in output from tuya-smart-device nodes, have all the same f
 - all DPs in the command
 - only modified DPs
 - a mixed strategy: if any DP changes, it returns only the modified DPs, otherwise all the DPs. (e.g. [power\_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power\_strip/device\_power\_strip.pdf)).
+- deprecated in tuyaDAEMON because it requires encoded data values.
 
 **SCHEMA:** implemented in few bigger devices, returns the values of all DPs (e.g. [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device\_ACmeter.pdf)).
 
