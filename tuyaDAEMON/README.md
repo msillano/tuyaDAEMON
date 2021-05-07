@@ -76,7 +76,7 @@ In addition to usual configuration requirements for the `mySQL` and your `tuya-s
     - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron starting from a _DB of tuya device definitions_.
       
 2) To reduce the workload in the production environment:
-     - `debug` nodes can control the _debug pad_ content: enabling/disabling them the user can modulate the visible information.
+     - `debug` 'trace' nodes can control the _debug pad_ content: enabling/disabling them the user can modulate the visible information.
      - `filters` can reduce the info and the DB writing charge (you can also disable/delete the DB node). 
      - see _'Debug pad options'_ comment node.
    
