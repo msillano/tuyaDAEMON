@@ -47,7 +47,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
  In **tuyaDAEMON** we have now four modules and a toolkit:
  
  ![](./../pics/tuyadaemon01.jpg)
- ![](./../pics/tuyadaemon02.jpg)
+
  
  - **tuyaDEAMON CORE:** the main flow, for low-level communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
  - [**tuyaTRIGGER module**](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) for Tuya-cloud comunications, adds extra capabilities:
