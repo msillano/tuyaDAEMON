@@ -104,7 +104,7 @@ _For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/
 -------------------
  ### Tuya devices capabilities, _as currently known_ ###
  
-_Any tuya device, any DP can have its own behavior: tuya devices use a poll of common code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in Tuya environment).
+_Any tuya device, any DP can have its own behavior: tuya devices use a poll of [common definitions](https://developer.tuya.com/en/docs/iot/terms?id=K914joq6tegj4) and code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in the Tuya environment).
 Usually is very dangerous to do generalizations based on few cases._
 
 
@@ -117,7 +117,7 @@ The return messages, in output from tuya-smart-device nodes, have all the same f
 **MULTIPLE:** implemented in a few devices, it acts like many SETs. It can return:
 
 - all DPs in the command
-- only modified DPs
+- only the modified DPs
 - a mixed strategy: if any DP changes, it returns only the modified DPs, otherwise all the DPs. (e.g. [power\_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power\_strip/device\_power\_strip.pdf)).
 - deprecated in tuyaDAEMON because it requires encoded data values.
 
@@ -129,8 +129,8 @@ The return messages, in output from tuya-smart-device nodes, have all the same f
 
 **Data Point Capabilities:**
 
-_DPs are usually atomic, for easy use in tuya-cloud automation. 
-But DPs can be structured (even complex) e.g. in the case of configuration data, usually defined in a page of the UI, and not used in automation._
+_The value of a DP is usually atomic (boolean, integer, string), for easy use in tuya-cloud automation. 
+But some DPs can use structured values, e.g. in the case of configuration data, usually defined in a page of the UI, and not used in automation._
 
 Any DP as is own behavior:
 
