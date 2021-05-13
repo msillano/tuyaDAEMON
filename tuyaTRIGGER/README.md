@@ -51,7 +51,9 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
 
 --------------------
 **Versions**
-
+_tuyaTRIGGER version 2.0_ (13/05/2021)
+  - included in tuyaDAEMON ver 2.0 (tuyaDAEMOM-full.2.0.json)
+  
 _tuyaTRIGGER version 1.1_ (19/01/2021)
   - tuyaDAEMON ver 1.1
   
