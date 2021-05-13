@@ -47,7 +47,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 
  
  - **tuyaDEAMON CORE:** the main flow, for low-level communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
- - 
+ 
  - [**tuyaTRIGGER module**](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) for Tuya-cloud comunications, adds extra capabilities:
    - The start of **tuya automations** from _node-red_.
    - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote_ and _vocal_ control.
@@ -57,9 +57,9 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
  
   - _Extra flow_: ["mirror devices"](extra/test%20devices) with some examples of trigger use.
 
- - _Extra flow_: ["PM detector"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a `'custom' device` study case, the device uses USB-serial to comminicate.
+ - _Extra flow_: ["PM detector"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a `'custom' device` study case, this device uses USB-serial to comminicate.
  
- - _Extra flow_: ["watering_sys"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'watering_sys':-case-study), a `OO level 2 device` study case, a custom super-devices build using 2 switch and 1 sensor.
+ - _Extra flow_: ["watering_sys"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'watering_sys':-case-study), a `OO level 2 device` study case, a custom super-device build using 2 switch and 1 sensor.
  
  - _Extra flow_: ["exta.test"](extra/test%20devices) with some examples of device tests
  
@@ -173,12 +173,17 @@ note: commands that are not implemented or not allowed by a device or a DP can h
 
 **versions**
 
+_tuyaDAEMON version 2.0_ (13/05/2021)
+- node-red-contrib-tuya-smart-device 4.0.2, modified as in [ISSUE#57](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/57#issue-863780858).
+- tuyapi ver. 7.1.0
+- refactoring _system. added 'share', OO and remote extensions. Updated wiki
+- more custom devices (water_sys, PM_detector)
+-
 note: Don't use the **node-red-contrib-tuya-smart-device 4.0.1** because it presents [some problems](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/54).
 
 _tuyaDAEMON version 1.3_ (01/03/2021)
 - node-red-contrib-tuya-smart-device 3.0.2
-- tuyapi ver. 6.1.1
-
+- tuyapi ver. 3.1.1
   Tuya_bridge uses the TYWR 7-32 relay. Trigger flows refactoring to separe custom flows.
   
 _tuyaDAEMON version 1.2_ (12/02/2021)
