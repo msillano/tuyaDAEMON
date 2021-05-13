@@ -11,4 +11,4 @@ This **_Toolkit_** is developed in 'php' and you need a WEB server. I use [*xamp
 For the toolkit use, see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit).
 
 ------------------------
-Last version:  tuyadaemontoolkit.2.0.zip (13/05/2021) The sql with data is file DB-full.2.0.sql.
+Last version:  tuyadaemontoolkit.2.0.zip (13/05/2021) The sql with data is the file DB-full.2.0.sql.
