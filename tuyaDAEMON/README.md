@@ -178,7 +178,7 @@ _tuyaDAEMON version 2.0_ (13/05/2021)
 - tuyapi ver. 7.1.0
 - refactoring _system. added 'share', OO and remote extensions. Updated wiki
 - more custom devices (water_sys, PM_detector)
--
+
 note: Don't use the **node-red-contrib-tuya-smart-device 4.0.1** because it presents [some problems](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/54).
 
 _tuyaDAEMON version 1.3_ (01/03/2021)
