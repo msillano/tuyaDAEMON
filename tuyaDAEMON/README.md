@@ -24,10 +24,7 @@ TuyaDAEMON isolates your home automation **custom node-red flows** from all deta
  
  4) Tuyapi sometimes finds an error message from devices: `"json obj data unvalid"`: the source of this is not clear (see [issue#246](https://github.com/codetheweb/tuyapi/issues/246)), but the best interpretation is "_the required operation is not available_".
  
- 5) **Tuyapi** throws some errors at the moment not caught by **tuya-smart-device**: `"Error: Error from socket"` and `"find () timeout. Is the device turned on and the correct ID or IP?"`  (see [issue#35](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/35)).
- Because now a **tuya-smart-device** can't be disabled, these useless messages can be very frequent. In normal use, some devices can stay disconnected long time, such as power sockets or power strips used only on request.
- 
- 6) Each _Tuya device_ can only make a limited number of simultaneous MQTT connections. This number, which differs from device to device, can be low: in this case the device will close the tuyaDEAMON connection when one or more apps (smartLife, Tuya smart, google home ...) are active. Fortunately, I only found a few devices with very low potential connections. 
+ 5) Each _Tuya device_ can only make a limited number of simultaneous MQTT connections. This number, which differs from device to device, can be low: in this case the device will close the tuyaDEAMON connection when one or more apps (smartLife, Tuya smart, google home ...) are active. Fortunately, I only found a few devices with very low potential connections. 
 
  _To manage such a rapidly changing environment, I choose to use a data structure in **tuyaDAEMON** to describe individual devices and single datapoint capabilities, so that all operations that are actually not managed or bogous can be intercepted and not sent to the device, giving stable and reliable operations with no surprises. And if the evolution of the SW offers us new features, it is easy to update the behavior of tuyaDAEMON._
  
@@ -44,27 +41,29 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
  _Any effort is made to make it modular, small, easy to modify, and [fully documented](https://github.com/msillano/tuyaDAEMON/wiki)._
  
  
- In **tuyaDAEMON** we have now four modules and a toolkit:
+ In **tuyaDAEMON** 2.0 we have now 3 main modules plus some extras:
  
  ![](./../pics/tuyadaemon01.jpg)
 
  
  - **tuyaDEAMON CORE:** the main flow, for low-level communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
+ - 
  - [**tuyaTRIGGER module**](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) for Tuya-cloud comunications, adds extra capabilities:
    - The start of **tuya automations** from _node-red_.
    - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote_ and _vocal_ control.
    - The management RT of `'mirror' devices` for _all devices not caught at low-level by **tuyapi**_.
    
- - **Connection module:** add to all _real device_ the new property '_connected' to report RT the device status. Optional.
- - **System module:** Offerts a `'fake' device` (_system) with some useful RT properties: _Alarms_ in case of WiFi, Lan or AC power down, _list of unconned devices_ etc. 
-   Optional, requires the  _'Connection module'_.
- - _Extra flow_: ["Smoke_Detector"](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study), a `'mirror' device` study case, uses TRIGGER to comunicate to real device.
- - _Extra flow_: ["PM detector"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a `'custom' device` study case, the device uses USB-serial to comminicate.
- - _Extra flow_: ["watering_sys"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'watering_sys':-case-study), a `OO level 2 device` study case, a custom super-devices build using 2 switch and 1 sensor.
- - _Extra flow_: ["test devices"](extra/test%20devices) with some examples of device tests
- - _Extra flow_: ["tuyaTRIGGER-minimal"](extra/tuyaTRIGGER%20for%20node-red%20users),  downsizing of TuyaTIGGER, adds one-way remote and voice control to node-red. Use it alone, not for home automation.
+  - [**System module:**](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) In form of `'fake' device` **_system offerts** some useful properties: _Alarms_ in case of WiFi, Lan or AC power down, access to remote tuyaDEAMON servers, etc. See also the [reference documentation](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_system/device__system.pdf).
+ 
+  - _Extra flow_: ["mirror devices"](extra/test%20devices) with some examples of trigger use.
 
-- **tuiaDAEMON.toolkit** is an [external application](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) in PHP that uses a MySQL database to store all information about the devices and creates some useful artifacts.
+ - _Extra flow_: ["PM detector"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a `'custom' device` study case, the device uses USB-serial to comminicate.
+ 
+ - _Extra flow_: ["watering_sys"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'watering_sys':-case-study), a `OO level 2 device` study case, a custom super-devices build using 2 switch and 1 sensor.
+ 
+ - _Extra flow_: ["exta.test"](extra/test%20devices) with some examples of device tests
+ 
+- **tuiaDAEMON.toolkit** is an [external application](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) in PHP that uses a MySQL database to store all information about the devices and creates some useful artifacts. A growing collection of [known devices](https://github.com/msillano/tuyaDAEMON/tree/main/devices) is ready, but it is easy extend it to new devices.
 
 ### configuration
 
@@ -86,18 +85,24 @@ In addition to usual configuration requirements for the `mySQL` and your `tuya-s
 
  
  ### installation
-   0. Precondition: _mySQL_ server running: import the  `tuyamessages.sql`  to create the required table. 
-   0. Precondition: at least a _Tuya device_ installed and working with _smartlife_ app. You MUST know the `ID` and `Key` for your Tuya device(s): see [here](https://github.com/codetheweb/tuyapi/blob/master/docs/SETUP.md) for detailed instructions.
+   0. Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON ver.2.0: the installation allows to test **_system** capability and the user can add later the devices. 
    0. Precondition: node-red installed and working.
+   0. Precondition: a _mySQL_ server is required for a serous use: import the  `DB-full.2.0.sql`  to create the required table. 
 
    1. Install in node-red the nodes (I use 'manage pallette'): 
         - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
         - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
         - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
-   2. Import `tuyaDAEMON.json` and all required xxxx.json file in node-red.
-   3. Configure in tuyaDAEMON the DB node `append to DB` (optional: you can disable/delete the DB node).
-   4. Add to tuyaDAEMON your device(s). See [step-by-step instructions](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON).
-   5. You can delete the unused modules and `example` nodes.
+        - [node-red-contrib-jsontimer](https://flows.nodered.org/node/node-red-contrib-jsontimer)
+        - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
+        - [node-red-contrib-play-audio](https://flows.nodered.org/node/node-red-contrib-play-audio)
+        - [node-red-contrib-timerswitch](https://flows.nodered.org/node/node-red-contrib-timerswitch)
+        - [node-red-contrib-ui-led](https://flows.nodered.org/node/node-red-contrib-ui-led)
+        - [node-red-dashboard](https://flows.nodered.org/node/node-red-dashboard)
+        - [node-red-node-base64](https://flows.nodered.org/node/node-red-node-base64)
+        - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
+        
+   2. Import `tuyaDAEMOM-full.2.0.json` file in node-red.
 
 _For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
 
