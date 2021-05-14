@@ -43,7 +43,9 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
  
  In **tuyaDAEMON** 2.0 we have now 3 main modules plus some extras:
  
- ![](./../pics/tuyadaemon01.jpg)
+![](./../pics/tuyadaemon01.jpg)
+
+![](./../pics/tuyadaemon07.jpg)
 
  
  - **tuyaDEAMON CORE:** the main flow, for low-level communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
