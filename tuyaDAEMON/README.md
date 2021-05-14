@@ -84,7 +84,7 @@ In addition to usual configuration requirements for the `mySQL` and your `tuya-s
 
  
  ### installation
-   0. Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON ver.2.0: the installation allows to test **_system** capability and the user can add later the devices. 
+   0. Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON ver.2.0: the installation allows to test the **_system** capabilities and the user can add later the devices. 
    0. Precondition: node-red installed and working.
    0. Precondition: a _mySQL_ server is required for a serious use: import the  `DB-full.2.0.sql`  to create the required tables. 
 
