@@ -53,13 +53,13 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
    - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote_ and _vocal_ control.
    - The management RT of `'mirror' devices` for _all devices not caught at low-level by **tuyapi**_.
    
-  - [**System module:**](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) In form of `'fake' device` **_system offerts** some useful properties: _Alarms_ in case of WiFi, Lan or AC power down, access to remote tuyaDEAMON servers, etc. See also the [reference documentation](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_system/device__system.pdf).
+  - [**System module:**](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) In form of `'fake' device` **_system** offerts some useful properties: _Alarms_ in case of WiFi, Lan or AC power down, access to remote tuyaDEAMON servers, etc. See also the [reference documentation](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_system/device__system.pdf).
  
-  - _Extra flow_: ["mirror devices"](extra/test%20devices) with some examples of trigger use.
+  - _Extra flow_: ["mirror devices"](extra/test%20devices) with some examples of triggers use.
 
  - _Extra flow_: ["PM detector"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a `'custom' device` study case, this device uses USB-serial to comminicate.
  
- - _Extra flow_: ["watering_sys"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'watering_sys':-case-study), a `OO level 2 device` study case, a custom super-device build using 2 switch and 1 sensor.
+ - _Extra flow_: ["watering_sys"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'watering_sys':-case-study), a `OO level 2 device` study case, a custom super-device build using 2 switch and 1 sensor. With an UI ad hoc.
  
  - _Extra flow_: ["exta.test"](extra/test%20devices) with some examples of device tests
  
@@ -77,7 +77,6 @@ In addition to usual configuration requirements for the `mySQL` and your `tuya-s
 2) To reduce the workload in the production environment:
      - `debug` 'trace' nodes can control the _debug pad_ content: enabling/disabling them the user can modulate the visible information.
      - `filters` can reduce the info and the DB writing charge (you can also disable/delete the DB node). 
-     - see _'Debug pad options'_ comment node.
    
 3)  _node 'tuyaDEAMON.CORE.save path': defines where to save the 'alldevices.json' file._
 
@@ -87,7 +86,7 @@ In addition to usual configuration requirements for the `mySQL` and your `tuya-s
  ### installation
    0. Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON ver.2.0: the installation allows to test **_system** capability and the user can add later the devices. 
    0. Precondition: node-red installed and working.
-   0. Precondition: a _mySQL_ server is required for a serous use: import the  `DB-full.2.0.sql`  to create the required table. 
+   0. Precondition: a _mySQL_ server is required for a serious use: import the  `DB-full.2.0.sql`  to create the required tables. 
 
    1. Install in node-red the nodes (I use 'manage pallette'): 
         - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
