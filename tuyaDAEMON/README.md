@@ -175,7 +175,9 @@ note: commands that are not implemented or not allowed by a device or a DP can h
 _tuyaDAEMON version 2.0_ (13/05/2021)
 - node-red-contrib-tuya-smart-device 4.0.2, modified as in [ISSUE#57](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/57#issue-863780858).
 - tuyapi ver. 7.1.0
-- refactoring _system. added 'share', OO and remote extensions. Updated wiki
+
+ General revision: core added OO and remote extensions,  added 'share'.
+ Refactoring '_system'.,  Updated wiki
 - more custom devices (water_sys, PM_detector)
 
 note: Don't use the **node-red-contrib-tuya-smart-device 4.0.1** because it presents [some problems](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/54).
@@ -183,6 +185,7 @@ note: Don't use the **node-red-contrib-tuya-smart-device 4.0.1** because it pres
 _tuyaDAEMON version 1.3_ (01/03/2021)
 - node-red-contrib-tuya-smart-device 3.0.2
 - tuyapi ver. 3.1.1
+- 
   Tuya_bridge uses the TYWR 7-32 relay. Trigger flows refactoring to separe custom flows.
   
 _tuyaDAEMON version 1.2_ (12/02/2021)
