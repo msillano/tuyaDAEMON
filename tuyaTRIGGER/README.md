@@ -23,12 +23,12 @@ _This technique can be used with any device, named in the flow and in `alldevice
 
 [![](./../pics/tuyadaemon04.jpg)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smart_switch01/device_Smart_Switch01.pdf) [![](./../pics/tuyadaemon05.jpg)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf) ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/tuya-bridge02.jpg)
 
-1) _I choose first the Tuya_ [Switch MS-104](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smart_switch01/device_Smart_Switch01.pdf) (USD 8) _because its countdown (`dp` = 102) is with a large range [0-86400s, i.e. 24H] and still the device can be used as a WiFi switch, because only the countdown function is used by this implementation, plus it is small and cheap._ 
+1) _I choose first the Tuya_ [Switch MS-104](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smart_switch01/device_Smart_Switch01.pdf) (USD 8) _because its countdown (`dp` = 102) is with a large range [0-86400s, i.e. 24H] and still the device can be used as a WiFi switch, because only the countdown is used by tuyaTRIGGER, plus it is small and cheap._ 
 
    The unique problem with this switch is the lack of a battery backup.
 
-2) _I also tested another device, a Tuya wifi switch_ [TYWR 7-32](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf) (USD 10) _with a micro USB input, so it can be used with a power bank to get a UPS power supply.
-It has all required features:  countdown (`dp` = 7) with a large range [0-86400s, i.e. 24H], independence (setting the countdown to 0 does not toggle the relay), so it is better than Switch MS-104._
+2) _I also tested another device, a Tuya wifi switch_ [TYWR 7-32](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf) (USD 10) _with a micro USB input, so it can be used with a power bank to get a UPS power supply._
+It has all required features:  countdown (`dp` = 7) with a large range [0-86400s, i.e. 24H], independence (setting the countdown to 0 does not toggle the relay), so it is better than Switch MS-104.
 
    As against it is bigger and without case, and needs an external UPS power supply.
    
