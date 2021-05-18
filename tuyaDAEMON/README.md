@@ -140,18 +140,18 @@ But some DPs can use structured values, e.g. in the case of configuration data, 
 
 Any DP as is own behavior:
 
-- A DP can be **PUSHED** proctively by a device, especially to keep the UI updated:
+- A DP can be proctively **PUSHED** by a device, especially to keep the UI up to date:
    - at regular intervals (for example, every hour, at XX:00:00 see [TRV_Thermostatic_Radiator_Valve](https://github.com/msillano/tuyaDAEMON/blob/main/devices/TRV_Thermostatic_Radiator_Valve/device_TRV_Thermostatic_Radiator.pdf).'Hist day target T').
    - at irregular intervals (unknown rule) (e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf).'temperature')
    - at a change in value (e.g. every 30s * k: [smart_breaker](https://github.com/msillano/tuyaDAEMON/blob/main/devices/smart_breaker/device_smart_breaker.pdf).'countdown ', e.g. at any variation: [device_switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf).'countdown1')
    - for some DPs (e.g. sensors) PUSH may be the unique capability.(e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf)).
 
-- **GET(dp)** is without side effects, it can be requested as many times as you want. GET returns:
+- **GET(DP)** is without side effects, it can be requested as many times as you want. GET returns:
     - the present value
     - the last PUSHED value (e.g. [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf).'countdown ')
     - all DPs (such as SCHEMA) (e.g. [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
  
-- **SET(dp, value)** If the value is not null, updates the DP value and returns the new value:
+- **SET(DP, value)** If the value is not null, updates the DP value and returns the new value:
     - can be used as a trigger, i.e. with side effects, in this case the value may be useless (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
 
 - **SET(DP, null)** returns the last DP value:
