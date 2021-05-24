@@ -6,6 +6,6 @@ See [wiki](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozon
 The original DIY Sonoff project is [here](https://github.com/msillano/Ozone-coronavirus-sonoff/blob/master/PROJECTS-DIY/timerPDM/timerPDM_sonoff_en.pdf)
 
 Files: 
-- _MQTT-ozone-1.subflow.json_ : Import this subflow in node-red tuyaDAEMON to add MQTT_ozone_PMtimer device to **tuyaDAEMON**.
+- _MQTT-ozone-1.subflow.json_ : Import this subflow in node-red tuyaDAEMON to add _'MQTT ozone PMtimer' device_ to **tuyaDAEMON**.
 - _IoT-MQTT-Panel.timerPDM#1.json_ : Import this file in [**IoT MQTT Panel**](https://play.google.com/store/apps/details?id=snr.lab.iotmqttpanel.prod) (Android) to get the UI for Ozone_PDMdevice.
 
