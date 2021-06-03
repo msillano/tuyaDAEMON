@@ -77,9 +77,25 @@ See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/
 
 ### MQTT interface
 
-It is easy to connect MQTT devices to **tuyaDAEMON**, see [Ozone_PDMtimer](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study. But with version 2.1 is added to  **tuyaDAEMON** a MQTT broker and a MQTT interface, both for events and commands. This was done thinking to UI. On PC, node-red offerts good interfaces, but is required some development time. SmartLife is good, but become fast to big to be very friendly. Interfaces can be done in HTML/js/php but also in this case the development is not for all. Using MQTT it is easy found ready UI:
-- For PC I found  [mqtt-explorer](http://mqtt-explorer.com), that shows all data (also with charts) and allow to send all commands. Good tool for developper
+It is easy to connect MQTT devices to **tuyaDAEMON**, see [Ozone_PDMtimer](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study).
 
+But with version 2.1 I added to  **tuyaDAEMON** a _MQTT broker_ and a _MQTT interface_, both for events and commands. This was done thinking to UI. On PC (and portables), **node-red** offerts good interfaces, but is required some development time. **SmartLife** is good, but become fast to big to be very friendly. Interfaces can be done in **HTML/js/php** but also in this case the development is not for all. Using **MQTT** it is easy to found ready UI:
+- For PC I use the client [mqtt-explorer](http://mqtt-explorer.com), that shows all data, also with charts, and allows to send any command. Ready, car it do not requires customization. Good tool for the developper.
+- For Android, as portable UI (but also on PC with a simulator), I found very good and customizable, but still simple, the client [IOT MQTT panel](https://play.google.com/store/apps/details?id=snr.lab.iotmqttpanel.prod), with a nice look and JSON handling. Equivalent and on some aspects superior to node-red.dashboard, I used it to make some specialized UI. Any UI is a file JSON. that can be exported and imported.
+As example see [here](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study) the `node-red` and `IOT MQTT panel` implementations of the same interface, side by side.
+
+The MQTT topics structure is simple:
+> tuyaDAEMON/<remote_name>/<device_name>|<device_id>|' '/event|command[/<property_name>|<property_id>[/value]]  (compare to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#commands)).
+
+  So: 
+  - `tuyaDAEMON/DEVPC/tuya_bridge/command/Switch/ON`    is a local SET
+  - `tuyaDAEMON/ANDROID/tuya_bridge/command`            is a remote GET SCHEMA
+  - `tuyaDAEMON/ANDROID/ /command`                      is a remote LIST (a space is required as undefined device)
+ 
+ Really minimal.
+  
+
+  
 ### DataBase interface
 
  **TuyaDEAMON** automatically logs user select messages and measurements on one or more DB tables (`'messages'`), a useful option for control, analysis, and statistics.
