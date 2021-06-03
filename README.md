@@ -75,6 +75,10 @@ note: all devices accept 'GET' and 'SCHEMA' requests via _fast REST_: the data c
 A second [_**debug REST**_](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) interface is synchronous and dedicated to development applications.
 See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit), a PHP application to help users manage devices.
 
+### MQTT interface
+
+It is easy to connect MQTT devices to **tuyaDAEMON**, see [Ozone_PDMtimer](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study. But with version 2.1 is added to  **tuyaDAEMON** a MQTT broker and MQTT interface, both for events and commands. 
+
 ### DataBase interface
 
  **TuyaDEAMON** automatically logs user select messages and measurements on one or more DB tables (`'messages'`), a useful option for control, analysis, and statistics.
