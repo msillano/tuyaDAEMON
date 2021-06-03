@@ -77,7 +77,8 @@ See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/
 
 ### MQTT interface
 
-It is easy to connect MQTT devices to **tuyaDAEMON**, see [Ozone_PDMtimer](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study. But with version 2.1 is added to  **tuyaDAEMON** a MQTT broker and MQTT interface, both for events and commands. 
+It is easy to connect MQTT devices to **tuyaDAEMON**, see [Ozone_PDMtimer](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study. But with version 2.1 is added to  **tuyaDAEMON** a MQTT broker and a MQTT interface, both for events and commands. This was done thinking to UI. On PC, node-red offerts good interfaces, but is required some development time. SmartLife is good, but become fast to big to be very friendly. Interfaces can be done in HTML/js/php but also in this case the development is not for all. Using MQTT it is easy found ready UI:
+- For PC I found  [mqtt-explorer](http://mqtt-explorer.com), that shows all data (also with charts) and allow to send all commands. Good tool for developper
 
 ### DataBase interface
 
