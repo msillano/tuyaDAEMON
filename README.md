@@ -85,14 +85,14 @@ But with version 2.1 I added to  **tuyaDAEMON** a _MQTT broker_ and a _MQTT inte
 As example see [here](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study) the `node-red` and `IOT MQTT panel` implementations of the same interface, side by side.
 
 The MQTT topics structure is simple:
-> tuyaDAEMON/<remote_name>/<device_name>|<device_id>|' '/event|command[/<property_name>|<property_id>[/value]]  
+> tuyaDAEMON/<remote_name>/<device_name>|<device_id>|' '/event|command[/<property_name>|<property_id>]  
 
 Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#commands).
 
   So: 
-  - `tuyaDAEMON/DEVPC/tuya_bridge/command/Switch/ON`    is a local SET
-  - `tuyaDAEMON/ANDROID/tuya_bridge/command`            is a remote GET SCHEMA
-  - `tuyaDAEMON/ANDROID/ /command`                      is a remote LIST (a space is required as undefined device)
+  - `tuyaDAEMON/DEVPC/tuya_bridge/command/Switch`  + 'ON'   is a local SET
+  - `tuyaDAEMON/ANDROID/tuya_bridge/command`       + ''     is a remote GET SCHEMA
+  - `tuyaDAEMON/ANDROID/ /command`                 + ''     is a remote LIST (a space is required as undefined device)
  
  Really minimal.
   
