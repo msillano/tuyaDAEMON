@@ -58,6 +58,7 @@ Some fast tests to do in **MQTT explorer** (copy/paste, maybe edit value), see a
  | property  | op. |    MQTT topic               | value |                         notes|
 | :------:  |:---------:|----------------------------|-----------|---|
 |SCHEMA | GET| tuyaDAEMON/DEVPC/tuya_bridge/command  | &lt;empty> ||
+| SCHEMA (tuyastatus) | GET |tuyaDAEMON/DEVPC/HAL@home/command/\_tuyastatus | {"device":"tuya_bridge"} | 5 |
 |relay | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/relay | ON/OFF | |
 |restart status | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/restart status | off/on/menory | |
 |backlight | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/backlight | true/false | |
@@ -75,7 +76,8 @@ _notes_
 1) The "day" is a string of 7 chars (a week), starting from 'Sunday': '-' minds 'skip', any char minds 'run'
 2) Reseved to TRIGGERs, not accessible directly via GET/SET (see `global.alldevices` definition).
 3) TRIGGER SET using `'system'.\_doTrigger`: the TRIGGER is sent to _tuya-cloud_, where it fires an existing  automation 'If "tuya_bridge"Countdown 1 : equals 5000 (or 5020)...'
-4) TRIGGER SET using `'system'.\_toFastIN` (no checks): the TRIGGER is sent to _tuya-cloud_, where it fires an existing automation 'If "tuya_bridge"Countdown 1 : equals 5000 (or 5020)...'|
+4) TRIGGER SET using `'system'.\_toFastIN` (no checks): the TRIGGER is sent to _tuya-cloud_, where it fires an existing automation 'If "tuya_bridge"Countdown 1 : equals 5000 (or 5020)...'
+5) The standard _SCHEMA_ is usable only on devices that implement it, the _SCHEMA (_tuyastatus)_ reads data from `global.tuyastatus` and can be used with any device.
 --------------------
 **Versions**
 
