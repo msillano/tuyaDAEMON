@@ -53,7 +53,7 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
 --------------------
 ### MQTT tuya_bridge tests
 
-Some fast tests to do in **MQTT explorer**, see also [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf):
+Some fast tests to do in **MQTT explorer** (copy/paste, maybe edit value), see also [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf):
 
  | property  | op. |    MQTT topic               | value |                         notes|
 | :------:  |:---------:|----------------------------|-----------|---|
@@ -72,10 +72,10 @@ Some fast tests to do in **MQTT explorer**, see also [switch-1CH](https://github
 |TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_toFastIN   |{"device":"tuya_bridge", "property":"trigger (reserved)", "value" : 5020} |4|
 
 _notes_
-1) The "day" is a strinf of 7 chars (a week), starting from 'Sunday': '-' minds 'skip', any char minds 'run'
+1) The "day" is a string of 7 chars (a week), starting from 'Sunday': '-' minds 'skip', any char minds 'run'
 2) Reseved to TRIGGERs, not accessible directly via GET/SET (see global.alldevices definition).
 3) TRIGGER SET using `'system'.\_doTrigger`: the TRIGGER is sent to _tuya-cloud_, where it fires an existing  automation 'If "tuya_bridge"Countdown 1 : equals 5000 (or 5020)...'
-4) TRIUGGER SET using `'system'.\_toFastIN` (no checks): the TRIGGER is sent to _tuya-cloud_, where it fires an existing automation 'If "tuya_bridge"Countdown 1 : equals 5000...'|
+4) TRIGGER SET using `'system'.\_toFastIN` (no checks): the TRIGGER is sent to _tuya-cloud_, where it fires an existing automation 'If "tuya_bridge"Countdown 1 : equals 5000...'|
 --------------------
 **Versions**
 
