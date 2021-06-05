@@ -73,7 +73,7 @@ Some fast tests to do in **MQTT explorer**, see also [switch-1CH](https://github
 
 _notes_
 1) The "day" is a strinf of 7 chars (a week), starting from 'Sunday': '-' minds 'skip', any char minds 'run'
-2) Reseved to TRIGGERs, not accessible directly.
+2) Reseved to TRIGGERs, not accessible directly via GET/SET (see global.alldevices definition).
 3) TRIGGER SET using `'system'.\_doTrigger`: the TRIGGER is sent to _tuya-cloud_, where it fires an existing  automation 'If "tuya_bridge"Countdown 1 : equals 5000 (or 5020)...'
 4) TRIUGGER SET using `'system'.\_toFastIN` (no checks): the TRIGGER is sent to _tuya-cloud_, where it fires an existing automation 'If "tuya_bridge"Countdown 1 : equals 5000...'|
 --------------------
