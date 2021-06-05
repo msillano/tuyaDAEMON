@@ -64,7 +64,7 @@ Some fast tests to do in **MQTT explorer** (copy/paste, maybe edit value), see a
 |circulate | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/circulate | [{"active": "true"/"false", "day":"SMTWTF-", "start": "HH:MM", "end": "HH:MM", "on": "HH:MM", "off": "HH:MM"},..]/[] | 1 |
 |random  | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/inching  |[{"active": "true"/"false", "day":"DLMMGVS", "start": "HH:MM", "end": "HH:MM"},..]/[]|1  |
 |inching | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/inching  | 	{ "inching": "true"/"false" "delay": 0..3660}| |
-|light mode | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/light mode | 	'pos'/'none'/'relay'| |
+|light mode | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/light mode | 	pos/none/relay| |
 |tigger (reserved) |  |  | 0..86500 | 2|
 |TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_doTrigger    |5000| 3|
 |TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_doTrigger     |5020|3|
