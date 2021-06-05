@@ -55,13 +55,13 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
 
 Some fast tests to do in **MQTT explorer**, see also [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf):
 
- | property  | operation |    MQTT topic               | value |                         notes|
-| :------:  |----------- |---------------------------- |-----------|---|
+ | property  | op. |    MQTT topic               | value |                         notes|
+| :------:  |:---------:|----------------------------|-----------|---|
 |SCHEMA | GET| tuyaDAEMON/DEVPC/tuya_bridge/command  | none ||
 |relay | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/relay | ON/OFF | |
-|rstart status | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/restart status | off/on/menory | |
-|baklight | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/backlight | true/false | |
-|crculate | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/circulate | [{"active": "true"/"false", "day":"SMTWTF-", "start": "HH:MM", "end": "HH:MM", "on": "HH:MM", "off": "HH:MM"},..]/[] | 1 |
+|restart status | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/restart status | off/on/menory | |
+|backlight | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/backlight | true/false | |
+|circulate | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/circulate | [{"active": "true"/"false", "day":"SMTWTF-", "start": "HH:MM", "end": "HH:MM", "on": "HH:MM", "off": "HH:MM"},..]/[] | 1 |
 |random  | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/inching  |[{"active": "true"/"false", "day":"DLMMGVS", "start": "HH:MM", "end": "HH:MM"},..]/[]|1  |
 |inching | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/inching  | 	{ "inching": "true"/"false" "delay": 0..3660}| |
 |light mode | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/light mode | 	'pos'/'none'/'relay'| |
