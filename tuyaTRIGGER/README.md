@@ -68,8 +68,8 @@ Some fast tests to do in **MQTT explorer**, see also [switch-1CH](https://github
 |tigger (reserved) |  |  | 0..86500 | 2|
 |TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_doTrigger    |5000| 3|
 |TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_doTrigger     |5020|3|
-|TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_toFastIN    | 4|
-|TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_toFastIN    |4|
+|TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_toFastIN   |{"device":"tuya_bridge", "property":"trigger (reserved)", "value" : 5000} | 4|
+|TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_toFastIN   |{"device":"tuya_bridge", "property":"trigger (reserved)", "value" : 5020} |4|
 
 _notes_
 1) The "day" is a strinf of 7 chars (a week), starting from 'Sunday': '-' minds 'skip', any char minds 'run'
