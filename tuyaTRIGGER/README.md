@@ -50,7 +50,32 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
  - for fallback, MUST exist a Tuya Automation fired when the countdown is less than any trigger value (e.g. 1000), to reset the countdown to 0 without ACK: so the countdown never interferes with the logic of the switch (this automation is also deployed by `_trgPing` implementation). Required automation:  `if "tuya_bridge"countdown:1000, "tuya_bridge"countdown:0` 
  
 - this implementation does not verify the ACKs presence and timing, and not uses any handshake strategy, so it is theoretically possible to have some interferences.
+--------------------
+### MQTT tuya_bridge tests
 
+Some fast tests to do in **MQTT explorer**, see also [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf):
+
+ | property  | operation |    MQTT topic               | value |                         notes|
+| :------:  |----------- |---------------------------- |-----------|---|
+|SCHEMA | GET| tuyaDAEMON/DEVPC/tuya_bridge/command  | none ||
+|relay | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/relay | ON/OFF | |
+|rstart status | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/restart status | off/on/menory | |
+|baklight | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/backlight | true/false | |
+|crculate | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/circulate | [{"active": "true"/"false", "day":"SMTWTF-", "start": "HH:MM", "end": "HH:MM", "on": "HH:MM", "off": "HH:MM"},..]/[] | 1 |
+|random  | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/inching  |[{"active": "true"/"false", "day":"DLMMGVS", "start": "HH:MM", "end": "HH:MM"},..]/[]|1  |
+|inching | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/inching  | 	{ "inching": "true"/"false" "delay": 0..3660}| |
+|light mode | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/light mode | 	'pos'/'none'/'relay'| |
+|tigger (reserved) |  |  | 0..86500 | 2|
+|TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_doTrigger    |5000| 3|
+|TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_doTrigger     |5020|3|
+|TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_toFastIN    | 4|
+|TRIGGER | SET |   tuyaDAEMON/DEVPC/HAL@home/command/\_toFastIN    |4|
+
+_notes_
+1) The "day" is a strinf of 7 chars (a week), starting from 'Sunday': '-' minds 'skip', any char minds 'run'
+2) Reseved to TRIGGERs, not accessible directly.
+3) TRIGGER SET using `'system'.\_doTrigger`: the TRIGGER is sent to _tuya-cloud_, where it fires an existing  automation 'If "tuya_bridge"Countdown 1 : equals 5000 (or 5020)...'
+4) TRIUGGER SET using `'system'.\_toFastIN` (no checks): the TRIGGER is sent to _tuya-cloud_, where it fires an existing automation 'If "tuya_bridge"Countdown 1 : equals 5000...'|
 --------------------
 **Versions**
 
