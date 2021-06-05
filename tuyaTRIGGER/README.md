@@ -57,7 +57,7 @@ Some fast tests to do in **MQTT explorer** (copy/paste, maybe edit value), see a
 
  | property  | op. |    MQTT topic               | value |                         notes|
 | :------:  |:---------:|----------------------------|-----------|---|
-|SCHEMA | GET| tuyaDAEMON/DEVPC/tuya_bridge/command  | <empty> ||
+|SCHEMA | GET| tuyaDAEMON/DEVPC/tuya_bridge/command  | &lt;empty> ||
 |relay | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/relay | ON/OFF | |
 |restart status | SET |  tuyaDAEMON/DEVPC/tuya_bridge/command/restart status | off/on/menory | |
 |backlight | SET | tuyaDAEMON/DEVPC/tuya_bridge/command/backlight | true/false | |
