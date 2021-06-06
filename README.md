@@ -80,7 +80,7 @@ See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/
 It is easy to connect MQTT devices to **tuyaDAEMON**, see [Ozone_PDMtimer](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study).
 
 But with version 2.1 I added to  **tuyaDAEMON** a _MQTT broker_ and a _MQTT interface_, both for events and commands. This was done thinking to UI. On PC (and portables), **node-red** offerts good interfaces, but is required some development time. **SmartLife** is good, but become fast to big to be very friendly. Interfaces can be done in **HTML/js/php** but also in this case the development is not for all. Using **MQTT** it is easy to found ready UI:
-- For PC I use the client ['mqtt-explorer'](http://mqtt-explorer.com), that shows all data, locals and remotes, also with charts, and allows to send any command. Ready, car it do not requires customization. Good tool for developpers, it can be the general pourpose UI to **tyuaDAEMON**.
+- For PC I use the client ['mqtt-explorer'](http://mqtt-explorer.com), that shows all data, locals and remotes, also with charts, and allows to send any command. Ready, car it do not requires customization. Good tool for developpers, it can be the general pourpose UI for **tyuaDAEMON**.
 - For Android, as portable UI (but also on PC with a simulator), I found very good and customizable, but still simple, the client ['IOT MQTT panel'](https://play.google.com/store/apps/details?id=snr.lab.iotmqttpanel.prod), with a nice look and JSON handling. Look equivalent to node-red.dashboard, I used it to make some specialized UI. Any UI is a file JSON. that can be exported and imported.
 As an example see [here](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study) the `node-red` and `IOT MQTT panel` implementations of the same interface, side by side.
 
@@ -90,7 +90,7 @@ The MQTT topics structure is simple:
 Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#commands).
 
   So: 
-  - `tuyaDAEMON/DEVPC/tuya_bridge/command/Switch`  + 'ON'   is a local SET
+  - `tuyaDAEMON/DEVPC/tuya_bridge/command/relay`   + 'ON'   is a local SET
   - `tuyaDAEMON/ANDROID/tuya_bridge/command`       + ''     is a remote GET SCHEMA
   - `tuyaDAEMON/ANDROID/ /command`                 + ''     is a remote LIST (a space is required as undefined device)
  
