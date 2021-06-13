@@ -182,18 +182,18 @@ _tuyaDAEMON version 2.1_ (13/06/2021)
 - node-red-contrib-tuya-smart-device 4.1.1
 - tuyapi ver. 7.2.0
 
-Added tuyaDAEMON MQTT interface
-minor bug corrections
+   Added tuyaDAEMON MQTT interface
+   minor bug corrections
 
 _tuyaDAEMON version 2.0_ (13/05/2021)
 - node-red-contrib-tuya-smart-device 4.0.2, modified as in [ISSUE#57](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/57#issue-863780858).
 - tuyapi ver. 7.1.0
 
- General revision: core added OO and remote extensions,  added 'share'.
- Refactoring '_system'.,  Updated wiki
-- more custom devices (water_sys, PM_detector)
+   General revision: core added OO and remote extensions,  added 'share'.
+  Refactoring '_system'.,  Updated wiki
+  - more custom devices (water_sys, PM_detector)
 
-note: Don't use the **node-red-contrib-tuya-smart-device 4.0.1** because it presents [some problems](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/54).
+   note: Don't use the **node-red-contrib-tuya-smart-device 4.0.1** because it presents [some problems](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/54).
 
 _tuyaDAEMON version 1.3_ (01/03/2021)
 - node-red-contrib-tuya-smart-device 3.0.2
