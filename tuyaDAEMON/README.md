@@ -173,6 +173,12 @@ note: to send commands that are not implemented or not allowed by a device or a 
 --------------------
 
 **versions**
+_tuyaDAEMON version 2.1_ (13/06/2021)
+- node-red-contrib-tuya-smart-device 4.1.1
+- tuyapi ver. 7.2.0
+
+Added tuyaDAEMON MQTT interface
+minor bug corrections
 
 _tuyaDAEMON version 2.0_ (13/05/2021)
 - node-red-contrib-tuya-smart-device 4.0.2, modified as in [ISSUE#57](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/57#issue-863780858).
