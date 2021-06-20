@@ -164,7 +164,7 @@ Any DP as is own behavior:
     - can be the only property available: no other SETs, no GETs. (e.g. [device_WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf) .'SD status')
     - can be not allowed: all SET(dp, value) are ok, but not SET(DP, null).
 
-note: to send commands that are not implemented or not allowed by a device or a DP can have many bad effects:
+note: to send commands that are not implemented or not allowed or bad data type or bad value to a DP can have many bad effects:
 
 - Nothing, silent ignore
 - SET/GET of unespected values
