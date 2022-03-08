@@ -45,11 +45,13 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
 
  - using a countdown as a trigger, as _all switches_ does, requires REDTRG with numbers greater (e.g. 5000+) than TUYATRG (e.g. 1010..4999]): so, if _node-red_ is down, a Tuya TRIGGER not caught can't trigger a fake REDTRG.
  
- - If the used counter is a time counter (countdown in case of this switches) you must choose trigger values at least separated by 10s, to allow the ACK action. Better if separed by 60, so you can set it easier as HH:MM, if allowed by _smartlife_ interface.
-
- - for fallback, MUST exist a Tuya Automation fired when the countdown is less than any trigger value (e.g. 1000), to reset the countdown to 0 without ACK: so the countdown never interferes with the logic of the switch (this automation is also deployed by `_trgPing` implementation). Required automation:  `if "tuya_bridge"countdown:1000, "tuya_bridge"countdown:0` 
+ - If the used counter is a time counter (countdown in case of this switches) you must choose trigger values at least separated enough space, to allow the ACK action. 
  
-- this implementation does not verify the ACKs presence and timing, and not uses any handshake strategy, so it is theoretically possible to have some interferences.
+ -note: if you are using 'SmartLife' to set 'automation', it can be difficult to set an exact value (eg 10100). Create the 'automation' with a temportary fake value, then update it in 'edit mode': you can change the number with a keyboard.
+ 
+ - for fallback, MUST exist a Tuya Automation fired when the countdown is less than any trigger value (e.g. 1000), to reset the countdown to 0 without ACK: so the countdown never interferes with the logic of the switch (this automation is also deployed by `_trgPing` implementation). Required automation:  `if "tuya_bridge"countdown = 1000, "tuya_bridge"countdown:0` 
+ 
+- Actual implementation does not verify the ACKs presence and timing, and not uses any handshake strategy, so it is theoretically possible to have some interferences.
 --------------------
 ### MQTT tuya_bridge tests
 
