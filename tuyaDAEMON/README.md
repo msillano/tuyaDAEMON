@@ -30,7 +30,7 @@ TuyaDAEMON isolates your home automation **custom node-red flows** from all deta
  
   _To enable HI-LEVEL two ways communicatrions with tuya-cloud the [**tuyaTRIGGER**](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) module uses [TRIGGER](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info), and that allows the bidirectional event communication also with all devices unreachables by `tuyapi` (WiFi sensors, IR controls etc.)._ _**TuyaDAEMON + tuyaTRIGGER user is guaranteed that in any case all tuya devices will be integrated.**_
   
-### customization
+### applications
 _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor) with a rich framework for IoT, offering to the power user many ways to implement their own projects:_
 
 1. users can build a chain using existing tasks to get the required complex behavior (meta-programming) (see [command chains](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#share-and-command-chains))
@@ -107,9 +107,11 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
         - [node-red-node-base64](https://flows.nodered.org/node/node-red-node-base64)
         - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
         
-   2. Import required json file in node-red.
+   2. Now you can import the required tuyaDEAMON modules (json file) in node-red.
   
-   3. For any module, see the documentation of the 'Config' node: it contains all the updated configuration instructions.
+   3. For any added module, see the documentation of the 'Config' node: it contains all the updated configuration instructions.
+   
+   4.In each module, you will find some standalone tests (see node documentation), to verify your installation: after you can delete them.
 
 _For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
 
