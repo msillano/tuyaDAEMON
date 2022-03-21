@@ -2,12 +2,14 @@
 
 _TuyaDAEMON's goal is to integrate the entire Tuya ecosystem into node-red, and not just to control some devices, creating a new level of abstraction that includes both Tuya-cloud and all possible custom extensions._
 
-TuyaDAEMON isolates your home automation **custom node-red flows** from all details of _tuya/node-red data and commands exchanges_:
+TuyaDAEMON isolates your home automation **custom application** from all details of _tuya/node-red data and commands exchanges_:
 - allows bidirectional exchanges to/from _all tuya devices and Tuya automations_.
 - decodes and transforms incominig Tuya data  to _standard units_.
 - manages all codifications and checks before sending your _commands to devices_
-- updates the `global.tuyastatus` structure (_device:property:value_) with all status messages from Tuya devices.
-- logs all events in the mySQL` 'tuyathome:messages'` table 
+- tuyaDAEMON is 'open' by design:
+    - updates the `global.tuyastatus` structure (_device:property:value_) with all status messages from all controlled devices.
+    - logs all commands and events in the mySQL` 'tuyathome:messages'` table
+    - offerts complete MQTT and HTTP REST interfaces 
 - uses _frendly names_ for all devices and properties, in any language
 
 ### IMPLEMENTATION
