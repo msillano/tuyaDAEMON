@@ -164,7 +164,7 @@ Any DP as is own behavior:
 
 - **SET(DP, null)** returns the last DP value:
     - if it works, can be used instead of GET(DP). It is useful when GET(DP) is not standard (e.g. [Power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
-    - can be the only property available: no other SETs, no GETs. (e.g. [device_WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf) .'SD status')
+    - can be the only capability available: no other SETs, no GETs. (e.g. [device_WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf) .'SD status')
     - can be not allowed: all SET(dp, value) are ok, but not SET(DP, null).
 
 note: to send commands that are not implemented or not allowed or bad data type or bad value to a DP can have many bad effects:
@@ -178,6 +178,10 @@ note: to send commands that are not implemented or not allowed or bad data type 
 - the device hangup, you must restart.
 - the gateway hangup.
 
+To have a flexible but robust framework it is always necessary:
+1. study each new device in detail
+2. use a data structure that verifies the commands sent to each device ('global.alldevices' for tyuaDAEMON).
+ 
 --------------------
 
 **versions**
