@@ -37,11 +37,12 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 2. users can add new functionalities, i.e. new tasks, building more js SW only devices, to cover the sector of interest (see [_system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system))
 3. users can design and build new devices from existing ones, in OO style (see [OO devices](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#oo-devices) and [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study))
 4. users can add an HW not-tuya device, with a simple node-red interface flow (see [PM_detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study))
+5. The entire tuyaDAEMON engine can be integrated into any large user project using the interfaces: node-red or MQTT or HTTP REST.
  
  _Any effort is made to make it modular, small, easy to modify, and [fully documented](https://github.com/msillano/tuyaDAEMON/wiki)._
  
  
- In **tuyaDAEMON** 2.0 we have now 3 main modules plus some extras:
+ In **tuyaDAEMON**  since 2.0 we have 3 main modules plus some extras:
  
 ![](./../pics/tuyadaemon01.jpg)
 
