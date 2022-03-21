@@ -3,8 +3,9 @@
 _TuyaDAEMON's goal is to integrate the entire Tuya ecosystem into node-red, and not just to control some devices, creating a new level of abstraction that includes both Tuya-cloud and all possible custom extensions._
 
 TuyaDAEMON isolates your home automation **custom application** from all details of _tuya/node-red data and commands exchanges_:
-- allows bidirectional exchanges to/from _all tuya devices and Tuya automations_.
-- decodes and transforms incominig Tuya data  to _standard units_.
+- do not require user hacking in any Tuya or custom device.
+- allows bidirectional exchanges to/from _any Tuya or custom device and Tuya-cloud_.
+- decodes and transforms incominig data  to _standard units_.
 - manages all codifications and checks before sending your _commands to devices_
 - tuyaDAEMON is 'open' by design:
     - updates the `global.tuyastatus` structure (_device:property:value_) with all status messages from all controlled devices.
@@ -20,7 +21,7 @@ TuyaDAEMON isolates your home automation **custom application** from all details
   
   1) The capabilities of the Tuya communication are very variable for different devices: e.g. I have found very few devices that respond to `schema` request, and found cases where the data exchanges are not MQTT (e.g. infrared universal control).
 
-  2) Some devices are unreachables: **TuyAPI** does not support some sensors due to the fact that they only connect to the network when their state changes. Usually are WiFi devices battery-powered ([see note](https://github.com/codetheweb/tuyapi#-notes)).
+  2) Some devices are unreachables: **TuyAPI** does not support some sensors due to the fact that they only connect to the network when their state changes. They are usually battery powered WiFi devices ([see note](https://github.com/codetheweb/tuyapi#-notes)).
  
  3) _Tuya devices_ can update  their own firmware version via **OTA**: for the user, this is an investment guarantee, but it can introduce problems when the software (`tuyapi` and `tuya-smart-device`) is not updated: some device messages can't be decoded (see [issue#17](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/27)).
  
