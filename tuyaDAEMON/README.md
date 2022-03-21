@@ -96,6 +96,7 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
    0. Precondition: a _mySQL_ server is required for a serious use: import the  `DB-full.2.0.sql`  to create the required tables. 
 
    1. Install in node-red the nodes (I use 'manage pallette'): 
+   ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/palette.png?raw=true)
         - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
         - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
         - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
