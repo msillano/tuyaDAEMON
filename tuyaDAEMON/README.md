@@ -48,12 +48,12 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 ![](./../pics/tuyadaemon07.jpg)
 
  
- - **tuyaDEAMON CORE:** the main flow, for low-level communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
+ - **tuyaDEAMON CORE:** the main flow, for low-level MQTT communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
  
  - [**tuyaTRIGGER module**](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) for Tuya-cloud comunications, adds extra capabilities:
    - The start of **tuya automations** from _node-red_.
    - The ability to fire **node-red flows** from _smartlife_, enabling _node-red remote_ and _vocal_ control.
-   - The management RT of `'mirror' devices` for _all devices not caught at low-level by **tuyapi**_.ù
+   - The management RT of `'mirror' devices` for _all devices not caught at low-level by **tuyapi**_.
   
    
   - [**System module:**](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) In form of `'fake' device` **_system** offerts some useful properties: _Alarms_ in case of WiFi, Lan or AC power down, access to remote tuyaDEAMON servers, etc. See also the [reference documentation](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_system/device__system.pdf).
@@ -74,24 +74,24 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 
 ### configuration
 
-In addition to usual configuration requirements for the `mySQL` and your `tuya-smart-device` nodes:
+In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your `tuya-smart-device` nodes:
      
-1)  _CORE_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on `real/virtual/fake` devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
-    - you can edit it directly using the _'alldevices'_ config node.
+1) Since 2.2.0, all configuration data are in a 'Config' node, with a friendly user interface (one in every module) to make simple the configuration task. Only some special nodes requires the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
+     
+2)  _CORE_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on `real/virtual/fake` devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
+    - you can edit it directly using the CORE config node.
     - you can export it to the file `alldevices.json` for backup or to edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
     - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron starting from a _DB of tuya device definitions_.
       
 2) To reduce the workload in the production environment:
-     - `debug` 'trace' nodes can control the _debug pad_ content: enabling/disabling them the user can modulate the visible information.
-     - `filters` can reduce the info and the DB writing charge (you can also disable/delete the DB node). 
+      - `filters` can reduce the info and the DB writing charge (you can also disable/delete the DB node). 
+      - sice 2.2.0: general _filtering_ feature, on device/dp basis, user defined in _alldevices_.
    
-3)  _node 'tuyaDEAMON.CORE.save path': defines where to save the 'alldevices.json' file._
-
 4) All nodes requiring or allowing some user update are named with an asterisk (e.g. '*device selector') and in the  'node description' you can found specific instructions.
 
  
  ### installation
-   0. Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON ver.2.0: the installation allows to test the **_system** capabilities and the user can add later the devices. 
+   0. Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as framework for any puorpose. Since ver.2.2.0: you can test any module capabilities and the user can add later the devices. 
    0. Precondition: node-red installed and working.
    0. Precondition: a _mySQL_ server is required for a serious use: import the  `DB-full.2.0.sql`  to create the required tables. 
 
