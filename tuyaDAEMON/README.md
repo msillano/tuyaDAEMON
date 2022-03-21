@@ -109,15 +109,17 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
         - [node-red-node-base64](https://flows.nodered.org/node/node-red-node-base64)
         - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
         
-   2. Import `tuyaDAEMOM-full.2.0.json` file in node-red.
+   2. Import required json file in node-red.
+  
+   3. For any module, see the documentation of the 'Config' node: it contains all the updated configuration instructions.
 
 _For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
 
 -------------------
  ### Tuya devices capabilities, _as currently known_ ###
  
-_Any tuya device, any DP can have its own behavior: tuya devices use a poll of [common definitions](https://developer.tuya.com/en/docs/iot/terms?id=K914joq6tegj4) and code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in the Tuya environment).
-Usually is very dangerous to do generalizations based on few cases._
+_Any tuya device, any DP can have its own behavior: tuya devices use a poll of [common definitions](https://developer.tuya.com/en/docs/iot/terms?id=K914joq6tegj4) and code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in the Tuya environment, etc...).
+Usually it is very dangerous to do generalizations based on few cases._
 
 
 
@@ -179,6 +181,12 @@ note: to send commands that are not implemented or not allowed or bad data type 
 --------------------
 
 **versions**
+_tuyaDAEMON version 2.2.0_ 
+  - added 'hide' field to global.alldevices
+  - configuration standardization
+  - code minor updates
+  - added tests to any module
+  
 _tuyaDAEMON version 2.1_ (13/06/2021)
 - node-red-contrib-tuya-smart-device 4.1.1
 - tuyapi ver. 7.2.0
