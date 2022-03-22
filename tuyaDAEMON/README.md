@@ -80,7 +80,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 
 In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your `tuya-smart-device` nodes:
      
-1) Since 2.2.0, all configuration data are in a 'Config' node, with a friendly user interface (one in every module) to make simple the configuration task. Only some special nodes requires the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
+1) Since 2.2.0, all configuration data are in a 'Config' node, with a friendly user interface (one in every module) to make simple the configuration task. Only some special node-red configuration nodes requires the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
      
 2)  _CORE_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on `real/virtual/fake` devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
     - you can edit it directly using the CORE config node.
@@ -88,8 +88,8 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
     - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron starting from a _DB of tuya device definitions_.
       
 2) To reduce the workload in the production environment:
-      - `filters` can reduce the info and the DB writing charge (you can also disable/delete the DB node). 
-      - sice 2.2.0: general _filtering_ feature, on device/dp basis, user defined in _alldevices_.
+      - `filters xxx` node reduce the info and the DB writing charge (you can also disable/delete the DB nodes if you don't need it). 
+      - sice 2.2.0: added a general _filtering_ feature, on device/dp basis, user defined in _alldevices_ (see [alldevice wiki](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices#output-control))
    
 4) All nodes requiring or allowing some user update are named with an asterisk (e.g. '*device selector') and in the  'node description' you can found specific instructions.
 
