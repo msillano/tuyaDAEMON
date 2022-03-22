@@ -192,9 +192,10 @@ To have a flexible but robust framework it is always necessary:
 
 **versions**
 _tuyaDAEMON version 2.2.0_ 
-  - added 'hide' field to global.alldevices
-  - configuration standardization
-  - code minor updates
+  - added 'hide' field to global.alldevices for user visibility control.
+  - configuration standardization in 'Global MODULE config' nodes.
+  - bug corrections and code minor updates
+  - added properties to 'core' and 'trigger'
   - added tests to any module
   
 _tuyaDAEMON version 2.1_ (13/06/2021)
