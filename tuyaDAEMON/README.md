@@ -196,10 +196,7 @@ _tuyaDAEMON version 2.2.0_
   - goals: better user experience, installation, customization.
   - standardization of options in 'Global MODULE config' nodes.
   - Flows startup on three steps, general and robust
-  - Refactoring 'json_library', now implemented as a global singleton. Benefits:
-     - more compact code and now in a node (standard debugging).
-     - elimination of runtime eval(), methods can call each other
-     - 3-4 times faster (does not require global.get ()).
+  - Refactoring 'json_library', now implemented as a global singleton.
   - separate node for encoding/decoding functions library.
   - added "hide" field to global.alldevices for user visibility control.
   - bug fixes and minor code updates
