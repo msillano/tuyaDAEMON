@@ -112,6 +112,7 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
         - [node-red-dashboard](https://flows.nodered.org/node/node-red-dashboard)
         - [node-red-node-base64](https://flows.nodered.org/node/node-red-node-base64)
         - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
+        - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
         
    2. Now you can import the required tuyaDEAMON modules (json file) in node-red.
   
