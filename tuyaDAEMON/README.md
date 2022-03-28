@@ -192,12 +192,19 @@ To have a flexible but robust framework it is always necessary:
 
 **versions**
 _tuyaDAEMON version 2.2.0_ 
-  - added 'hide' field to global.alldevices for user visibility control.
-  - configuration standardization in 'Global MODULE config' nodes.
-  - bug corrections and code minor updates
-  - added properties to 'core' and 'trigger'
+  - goals: better user experience, installation, customization.
+  - standardization of options in 'Global MODULE config' nodes.
+  - Flows startup on three steps, general and robust
+  - Refactoring 'json_library', now implemented as a global singleton. Benefits:
+     - more compact code and now in a node (standard debugging).
+     - elimination of runtime eval(), methods can call each other
+     - 3-4 times faster (does not require global.get ()).
+  - separate node for encoding/decoding functions library.
+  - added "hide" field to global.alldevices for user visibility control.
+  - bug fixes and minor code updates
+  - added properties to 'core' and 'trigger' (new 'fake' devices).
   - added tests to any module
-  
+    
 _tuyaDAEMON version 2.1_ (13/06/2021)
 - node-red-contrib-tuya-smart-device 4.1.1
 - tuyapi ver. 7.2.0
