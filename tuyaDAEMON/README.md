@@ -83,7 +83,7 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
 1) Since 2.2.0, all configuration data are in a ´Global MODULE config´ node, with a friendly user interface (one in every module) to make simple the configuration task. Only some special node-red configuration nodes requires the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
      
 2)  _CORE_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on `real/virtual/fake` devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
-    - you can edit it directly using the CORE config node.
+    - you can edit it directly using the 'global CORE config' node.
     - you can export it to the file `alldevices.json` for backup or to edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
     - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron starting from a _DB of tuya device definitions_.
       
@@ -116,6 +116,7 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
    0. Precondition: a _mySQL_ server is optional, but required for a serious use: import the  `DB-core.2.2.0.sql.zip`  to create the required tables. 
 
    1. Install in node-red the nodes (I use 'manage pallette'): 
+   
    ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/palette.png?raw=true)
         - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
         - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
