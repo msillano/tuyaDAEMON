@@ -95,9 +95,25 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
 
  
  ### installation
-   0. Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as framework for any puorpose. Since ver.2.2.0: you can test any module capabilities and the user can add later the devices. 
-   0. Precondition: node-red installed and working.
-   0. Precondition: a _mySQL_ server is required for a serious use: import the  `DB-full.2.0.sql`  to create the required tables. 
+   0. Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as framework for any IOT purpose. Since ver.2.2.0: you can test any module capabilities and the user can add later the devices. 
+   
+   0. Precondition: node-red installed and working.<br>
+         _note on node-red_:
+      > _It is possible to have multiple instances of node-red running on the same PC (example: 'test' and 'development')._ <br>
+      > _To get it, you neeed to use a different port and working directory for each instance. Here how I do it (on Windows):_<br>
+      > _I choose port <code>1984</code> and dir <code>D:\nodered\flow-1984</code> plus port <code>1985</code> and dir <code>D:\nodered\flow-1985</code> and so on..._<br>
+      > _I create a small BAT file to activate any instance. Example, the <code>start-1984-IOT.bat</code> file:_<br>
+      > <pre>
+      > REM nodered/flows-1984: tuyaDEAMON project
+      > REM set DEBUG=*
+      > start /b cmd /c node-red -p 1984 -u d:/nodered/flow-1984
+      > ping -n 6 127.0.0.1 > nul
+      > start chrome http://localhost:1984
+      > </pre>
+      > _On first run <code>node-red</code> will create the required structure in your working directory._<br>
+      > _The flowFile is:   <code>d:/nodered/flow-1984/flows_&lt;hostname&gt;.json</code>_
+
+   0. Precondition: a _mySQL_ server is optional, but required for a serious use: import the  `DB-core.2.2.0.sql.zip`  to create the required tables. 
 
    1. Install in node-red the nodes (I use 'manage pallette'): 
    ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/palette.png?raw=true)
@@ -114,11 +130,9 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
         - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
         - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
         
-   2. Now you can import the required tuyaDEAMON modules (json file) in node-red.
-  
-   3. For any added module, see the documentation of the 'Config' node: it contains all the updated configuration instructions.
-   
-   4.In each module, you will find some standalone tests (see node documentation), to verify your installation: after you can delete them.
+   2. Now you can import the required tuyaDEAMON modules (json file) in node-red. 
+   3. For any added module, see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions.  
+   4. In each module, you will find some standalone tests (see node documentation), to verify your installation: after you can delete them.
 
 _For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
 
