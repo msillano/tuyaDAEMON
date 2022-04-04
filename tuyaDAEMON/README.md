@@ -118,22 +118,24 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
    1. Install in node-red the nodes (I use 'manage pallette'): 
    
    ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/palette.png?raw=true)
-        - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
-        - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
-        - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
-        - [node-red-contrib-jsontimer](https://flows.nodered.org/node/node-red-contrib-jsontimer)
-        - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
-        - [node-red-contrib-play-audio](https://flows.nodered.org/node/node-red-contrib-play-audio)
-        - [node-red-contrib-timerswitch](https://flows.nodered.org/node/node-red-contrib-timerswitch)
-        - [node-red-contrib-ui-led](https://flows.nodered.org/node/node-red-contrib-ui-led)
-        - [node-red-dashboard](https://flows.nodered.org/node/node-red-dashboard)
-        - [node-red-node-base64](https://flows.nodered.org/node/node-red-node-base64)
-        - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
-        - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
+   
+ - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
+ - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
+ - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
+ - [node-red-contrib-jsontimer](https://flows.nodered.org/node/node-red-contrib-jsontimer)
+ - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
+ - [node-red-contrib-play-audio](https://flows.nodered.org/node/node-red-contrib-play-audio)
+ - [node-red-contrib-timerswitch](https://flows.nodered.org/node/node-red-contrib-timerswitch)
+ - [node-red-contrib-ui-led](https://flows.nodered.org/node/node-red-contrib-ui-led)
+ - [node-red-dashboard](https://flows.nodered.org/node/node-red-dashboard)
+ - [node-red-node-base64](https://flows.nodered.org/node/node-red-node-base64)
+ - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
+ - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
         
-   2. Now you can import the required tuyaDEAMON modules (json file) in node-red. 
-   3. For any added module, see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions.  
-   4. In each module, you will find some standalone tests (see test node documentation), to verify your installation: after you can delete them.
+ 2. Now you can import the required tuyaDEAMON modules (json file) in node-red. 
+
+ 3. For any added module, see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions.  
+ 4. In each module, you will find some standalone tests (see test node documentation), to verify your installation: after you can delete them.
 
 _For Android deployement see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
 
@@ -166,7 +168,7 @@ All tuya devices react to external or internal commands by sending messages, whi
 **Data Point Capabilities:**
 
 _The value of a DP is usually atomic (boolean, integer, string), for easy use in tuya-cloud automation. 
-But some DPs can use structured values, e.g. in the case of configuration data, usually defined in a page of the UI, and not used in automation._
+But some DPs can use structured values, e.g. in the case of configuration data, usually defined in a page of the UI, and not used in automation. Structured data is usually JSON, base64 encoded. In many cases the [encode/decode functions]() are indispensable for obtaining human readable values._
 
 Any DP as is own behavior:
 
