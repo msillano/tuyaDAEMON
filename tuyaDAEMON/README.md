@@ -78,7 +78,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 
 ### configuration
 
-In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your `tuya-smart-device` nodes:
+In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and your `tuya-smart-device` nodes:
      
 1) Since 2.2.0, all configuration data are in a ´Global MODULE config´ node, with a friendly user interface (one in every module) to make simple the configuration task. Only some special node-red configuration nodes requires the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
      
@@ -134,8 +134,8 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
         
  2. Now you can import the required tuyaDEAMON modules (json file) in node-red. 
 
- 3. For any added module, see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions.  
- 4. In each module, you will find some standalone tests (see test node documentation), to verify your installation: after you can delete them.
+ 3. For any added module, read the flow description and see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions.  
+ 4. In each module, you will find some standalone tests (see also each test node documentation), to verify your installation: after you can delete them.
 
 _For Android deployement see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
 
