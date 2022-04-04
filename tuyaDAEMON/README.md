@@ -80,7 +80,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 
 In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your `tuya-smart-device` nodes:
      
-1) Since 2.2.0, all configuration data are in a 'Config' node, with a friendly user interface (one in every module) to make simple the configuration task. Only some special node-red configuration nodes requires the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
+1) Since 2.2.0, all configuration data are in a ´Global MODULE config´ node, with a friendly user interface (one in every module) to make simple the configuration task. Only some special node-red configuration nodes requires the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
      
 2)  _CORE_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on `real/virtual/fake` devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
     - you can edit it directly using the CORE config node.
@@ -132,9 +132,9 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
         
    2. Now you can import the required tuyaDEAMON modules (json file) in node-red. 
    3. For any added module, see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions.  
-   4. In each module, you will find some standalone tests (see node documentation), to verify your installation: after you can delete them.
+   4. In each module, you will find some standalone tests (see test node documentation), to verify your installation: after you can delete them.
 
-_For Android deployement see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
+_For Android deployement see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
 
 -------------------
  ### Tuya devices capabilities, _as currently known_ ###
@@ -181,14 +181,14 @@ Any DP as is own behavior:
     - all DPs (such as SCHEMA) (e.g. [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
  
 - **SET(DP, value)** If the value is not null, updates the DP value and returns the new value:
-    - can be used as a trigger, i.e. with side effects, in this case the value may be useless (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
+    - can be used as a trigger, i.e. with side effects, in this case the value may be useless and 'any' (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
 
 - **SET(DP, null)** returns the last DP value:
     - if it works, can be used instead of GET(DP). It is useful when GET(DP) is not standard (e.g. [Power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
     - can be the only capability available: no other SETs, no GETs. (e.g. [device_WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf) .'SD status')
     - can be not allowed: all SET(dp, value) are ok, but not SET(DP, null).
 
-note: to send commands that are not implemented or not allowed or bad data type or bad value to a DP can have many bad effects:
+IMPORTANT: Sending commands that are not implemented or not allowed or sending wrong data type or wrong value to a DP can have many bad effects:
 
 - Nothing, silent ignore
 - SET/GET of unespected values
