@@ -14,6 +14,8 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
    - Download the 'device_xxx.zip' file of your interest. 
    - Extract only the device_xxx.json file, and use it to update your 'global.alldevices' structure.
 
+3. If you are interest to detailed **info about a device**:
+   - consult this documentation sheets.
 --------------------------------------------   
    
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_ACmeter.jpg) [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device_ACmeter.pdf) 
