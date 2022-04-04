@@ -168,7 +168,7 @@ All tuya devices react to external or internal commands by sending messages, whi
 **Data Point Capabilities:**
 
 _The value of a DP is usually atomic (boolean, integer, string), for easy use in tuya-cloud automation. 
-But some DPs can use structured values, e.g. in the case of configuration data, usually defined in a page of the UI, and not used in automation. Structured data is usually JSON, base64 encoded. In many cases the [encode/decode functions]() are indispensable for obtaining human readable values._
+But some DPs can use structured values, e.g. in the case of configuration data, usually defined in a page of the UI, and not used in automation. Structured data is usually JSON, base64 encoded. In many cases the ´encode/decode´ functions (see <code>core.ENCODE/DECODE user library</code> node) are indispensable for obtaining human readable values._
 
 Any DP as is own behavior:
 
