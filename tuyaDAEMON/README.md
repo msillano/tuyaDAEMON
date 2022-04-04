@@ -102,7 +102,7 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
       > _It is possible to have multiple instances of node-red running on the same PC (example: 'test' and 'development')._ <br>
       > _To get it, you neeed to use a different port and working directory for each instance. Here how I do it (on Windows):_<br>
       > _I choose port <code>1984</code> and dir <code>D:\nodered\flow-1984</code> plus port <code>1985</code> and dir <code>D:\nodered\flow-1985</code> and so on..._<br>
-      > _I create a small BAT file to activate any instance. Example, the <code>start-1984-IOT.bat</code> file:_<br>
+      > _I create a small BAT file to activate an instance. Example, the <code>start-1984-IOT.bat</code> file:_<br>
       > <pre>
       > REM nodered/flows-1984: tuyaDEAMON project
       > REM set DEBUG=*
@@ -113,7 +113,9 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
       > _On first run <code>node-red</code> will create the required structures in your working directory._<br>
       > _The default flowFile is:   <code>d:/nodered/flow-1984/flows&lowbar;&lt;hostname&gt;.json</code>_
 
-   0. Precondition: a _mySQL_ server is optional, but required for a serious use: import the  `DB-core.2.2.0.sql.zip`  to create the required tables. 
+   0. Precondition: a _mySQL_ server is optional, but required for a serious use.
+         - Create a DB 'tuyathome' (as start: user 'root' and no password)
+         - Import the  `DB-core.2.2.0.sql.zip`  to create the required tables. 
 
    1. Install in node-red the nodes (I use 'manage pallette'): 
    
