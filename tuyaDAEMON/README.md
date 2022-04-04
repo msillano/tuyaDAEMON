@@ -110,8 +110,8 @@ In addition to usual configuration requirements for the `mySQL`, 'MQTT' and your
       > ping -n 6 127.0.0.1 > nul
       > start chrome http://localhost:1984
       > </pre>
-      > _On first run <code>node-red</code> will create the required structure in your working directory._<br>
-      > _The flowFile is:   <code>d:/nodered/flow-1984/flows_&lt;hostname&gt;.json</code>_
+      > _On first run <code>node-red</code> will create the required structures in your working directory._<br>
+      > _The default flowFile is:   <code>d:/nodered/flow-1984/flows&lowbar;&lt;hostname&gt;.json</code>_
 
    0. Precondition: a _mySQL_ server is optional, but required for a serious use: import the  `DB-core.2.2.0.sql.zip`  to create the required tables. 
 
