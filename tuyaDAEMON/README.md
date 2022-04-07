@@ -95,16 +95,16 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
 
  
  ### installation
-   0. Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as framework for any IOT purpose. Since ver.2.2.0: you can test any module capabilities and the user can add later the devices. 
+ - Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as framework for any IOT purpose. Since ver.2.2.0: you can test any module capabilities and the user can add later the devices. 
    
-   0. Precondition: clean node-red installed and working.<br>
+ - Precondition: clean node-red installed and working.<br>
       See also [multiple instances](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#multiple-instances-of-tuyadaemon-in-the-same-server) before install tuyaDEAMON.
   
-   0. Precondition: a _mySQL_ server is optional, but required for a serious use.
+ - Precondition: a _mySQL_ server is optional, but required for a serious use.
          - Create a DB 'tuyathome' (as start: user 'root' and no password)
          - Import the  `DB-core.2.2.0.sql.zip`  to create the required tables. 
 
-   1. Install in node-red the nodes (I use 'manage pallette'): 
+1. Install in node-red the required nodes (I use 'manage pallette'): 
    
    ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/palette.png?raw=true)
    
@@ -121,10 +121,11 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
  - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
  - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
         
- 2. Now you can import the required tuyaDEAMON modules (json file) in node-red. 
+2. Now you can import the required tuyaDEAMON modules (json file) in node-red. 
 
- 3. For any added module, read the flow description and see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions.  
- 4. In each module, you will find some standalone tests (see also each test node documentation), to verify your installation: after you can delete them.
+3. For any added module, read the flow description and see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions. 
+
+4. In each module, you will find some standalone tests (see also each test node documentation), to verify your installation: after you can delete them.
 
 _For Android deployement see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
 
