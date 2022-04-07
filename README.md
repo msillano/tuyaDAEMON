@@ -26,9 +26,11 @@ The TRIGGERs do not connect to individual devices, but create a direct and bidir
                          comment: "available: 'RAI1 HD’,’RAI2 HD’,’RAI3 HD’..."
 ````
 
-### CUSTOM CHANNEL (see [system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) 'fake' device)
+### CUSTOM CHANNEL (see [system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) a 'fake' device)
 
-Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external devices, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON** processor, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_. Custom channels are implemented additively with specialized flows, one for each 'fake' device. In many cases the implementation is a simple protocol interface, like in case of [MQTT devices](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Ozone_PDMtimer/device_Ozone_PDMtimer.pdf) or in case of [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), that integrates a device that uses USB-COM interface.
+Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external devices, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON** processor, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_. 
+
+Custom channels are implemented additively with specialized flows, one for each 'fake' device. In many cases the implementation is a simple protocol interface, like in case of [MQTT devices](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Ozone_PDMtimer/device_Ozone_PDMtimer.pdf) or in case of [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), that integrates a device that uses USB-COM interface.
 
 Since the version 2.0 the generalized [OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#oo-devices), in a [distributed environement](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#networking-tuyadaemon), adds more power to tuyaDAEMON. It is easy to finalize the tuyaDAEMON resources in integrated projects, OO-oriented, with UI and many base devices: see [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study), a terrace watering timer with UI, fuzzy control from wheater, and using 3 tuya devices.
 
@@ -38,7 +40,7 @@ Since the version 2.0 the generalized [OO perspective](https://github.com/msilla
 
 ### node-red interfaces
 
-**TuyaDAEMON** has a high-level interface for custom node-red logic and applications: in reading, the data of all devices are available in an RT updated global object, with a _device:capability:value_ hierarchy and names were chosen by the user.
+**TuyaDAEMON** has a high-level interface for custom node-red logic and applications: in reading, the data of all devices are available in an RT updated global object (´tuyastatus´), with a _device:capability:value_ hierarchy and names were chosen by the user.
 Example:
 ````
               tuyastatus: object
