@@ -34,9 +34,9 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
    
    I changed `tuya_bridge` to TYWR 7-32 at ver. 2.0: I put it in a box and connected it to the Android server USB, because this server is with a UPS power supply.
 
-3) 'TuyaTrigger' value is placed in `msg.payload.tuyatrigger`.  The conversion `data.dp["102"] ==>  msg.payload.tuyatrigger` is done by `"dp converter"` change node. _To config your own `tuya-bridge` device, and to use any `dp`:_
-     - modify the  `"dp converter"` change node. 
-     - modify the code in `"red trigger"` sub-flow.
+4)  'TuyaTrigger' value is placed in ad-hoc `msg.payload.tuyatrigger`.  
+
+5)  COSTOMIZATION: you can use other devices to implement 'tuya-bridge. Updated information on 'Global TRIGGER config' node (since 2.2.0).
 
 
 **note**
