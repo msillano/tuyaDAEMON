@@ -89,7 +89,7 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
       
 2) To reduce the workload in the production environment:
       - `filters xxx` node reduce the info and the DB writing charge (you can also disable/delete the DB nodes if you don't need it). 
-      - sice 2.2.0: added a general _filtering_ feature, on device/dp basis, user defined in _alldevices_ (see [alldevice wiki](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices#output-control))
+      - sice 2.2.0: added a general _filtering_ feature, on device/dp basis, user defined in _alldevices_ (see [alldevices wiki](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices#output-control))
    
 4) All nodes requiring or allowing some user update are named with an asterisk (e.g. '*device selector') and in the  'node description' you can found specific instructions.
 
@@ -97,22 +97,9 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
  ### installation
    0. Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as framework for any IOT purpose. Since ver.2.2.0: you can test any module capabilities and the user can add later the devices. 
    
-   0. Precondition: node-red installed and working.<br>
-         _note on node-red_:
-      > _It is possible to have multiple instances of node-red running on the same PC (example: 'test' and 'development')._ <br>
-      > _To get it, you neeed to use a different port and working directory for each instance. Here how I do it (on Windows):_<br>
-      > _I choose port <code>1984</code> and dir <code>D:\nodered\flow-1984</code> plus port <code>1985</code> and dir <code>D:\nodered\flow-1985</code> and so on..._<br>
-      > _I create a small BAT file to activate an instance. Example, the <code>start-1984-IOT.bat</code> file:_<br>
-      > <pre>
-      > REM nodered/flows-1984: tuyaDEAMON project
-      > REM set DEBUG=*
-      > start /b cmd /c node-red -p 1984 -u d:/nodered/flow-1984
-      > ping -n 6 127.0.0.1 > nul
-      > start chrome http://localhost:1984
-      > </pre>
-      > _On first run <code>node-red</code> will create the required structures in your working directory._<br>
-      > _The default flowFile is:   <code>d:/nodered/flow-1984/flows&lowbar;&lt;hostname&gt;.json</code>_
-
+   0. Precondition: clean node-red installed and working.<br>
+      See also [multiple instances](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#multiple-instances-of-tuyadaemon-in-the-same-server) before install tuyaDEAMON.
+  
    0. Precondition: a _mySQL_ server is optional, but required for a serious use.
          - Create a DB 'tuyathome' (as start: user 'root' and no password)
          - Import the  `DB-core.2.2.0.sql.zip`  to create the required tables. 
