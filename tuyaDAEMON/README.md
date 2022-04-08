@@ -209,6 +209,8 @@ _tuyaDAEMON version 2.2.0_
   - bug fixes and minor code updates
   - added properties to 'core' and 'trigger' (new 'fake' devices).
   - added tests to any module
+  - node-red-contrib-tuya-smart-device 4.1.1, modified as in [ISSUE#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83).
+  - tuyapi ver. 7.2.0
     
 _tuyaDAEMON version 2.1_ (13/06/2021)
 - node-red-contrib-tuya-smart-device 4.1.1
