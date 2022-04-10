@@ -122,7 +122,7 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
  - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
         
 2. If you like, you can update the node-red-contrib-tuya-smart-device v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83).
-3. Now you can import the required tuyaDEAMON modules (json file) in node-red. 
+3. Now you can import the [required tuyaDEAMON modules](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaDEAMON.full.2.2.0.zip) (json file) in node-red. 
 4. For any added module, read the flow description and see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions. 
 5. In each module, you will find some standalone tests (see also each test node documentation), to verify your installation: after you can delete them.
 
