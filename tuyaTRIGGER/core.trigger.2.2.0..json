@@ -1,0 +1,2502 @@
+[
+    {
+        "id": "66ca1554.e4c85c",
+        "type": "subflow",
+        "name": "REDTRG",
+        "info": "Build a REDTRG SET command for the tuya_bridge device. \nUsed in 'mirror' devices.\n\n### Parameters\n\n   <dl class=\"message-properties\">\n        <dt>TRGnumber\n            <span class=\"property-type\">integer | string | @string</span>\n        </dt>\n        <dd>  A count value used as trigger command.\n \n - Uses [late binding](https://discourse.nodered.org/t/subflows-and-configuration-late-and-runtime-parameters-binding/60042) node (extended), and accepts:\n   - early binding:  a number | string, e.g. `7140`\n   - late binding: a string starting with 'global.' | 'flow.' | 'msg.' e.g. `global.MIRRORGUARD`\n   - evalued value: a string starting with '@', e.g. `@global.get('MIRRORGUARD') + 70 * 2`\n - runtime override: from `msg.TRGnumber` value\n        </dd>\n   </dl>\n\n### Inputs\n\nAny, used only to provoke the output or to override the parameter (`msg.TRGnumber`).\n\n### Outputs\n\nA **low level SET message** for the tuya_bridge device:\n````\n    object\n      {\n       \"payload\": {\n          \"dps\":<COUNTDP>, \n          \"set\": <TRGnumber>     \n          }}\n\n````\nIt can ben routed to `tuya_bridge_IN` input node of `core.trigger` flow.\n\n### Details\n\n- _convention_: REDTRIG nodes and related Tuya-cloud automation are named _REDTRGnnnnn_, where nnnnn is `TRGnumber`. \n\n- _hardware dependency_: the `dp` used is defined by `core.global.COUNTDP`.\n\n### References\n\nThe TRGnumber values are user defined. For the rules and the trigger values ranges, see _triggerMAP_ in `core_trigger` flow.<bR>\nSee also [trigger-info](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info)\n",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "da4079ee99ffcd9d"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 600,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "f0932848.b39158",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "TRGnumber",
+                "type": "str",
+                "value": "see triggerMAP",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#A6BBCF",
+        "inputLabels": [
+            "any msg"
+        ],
+        "outputLabels": [
+            "continue"
+        ],
+        "icon": "font-awesome/fa-arrow-right"
+    },
+    {
+        "id": "f0932848.b39158",
+        "type": "function",
+        "z": "66ca1554.e4c85c",
+        "name": "builds  X TRIGGER",
+        "func": "const triggerDP = global.get('COUNTDP');  // tuya-bridge countdown\n\nxvalue = flow.get(\"TRGnumber\");\n\nxvalue = Number.isInteger(xvalue)? xvalue: parseInt(xvalue);\n\n//  SET by default\nvar trig = {\n       \"payload\": {\n          \"dps\":triggerDP.toString(),   // String required\n          \"set\": xvalue                 // Integer required\n          }\n}\n\nreturn trig ;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 80,
+        "wires": [
+            []
+        ],
+        "info": "Make the low level command for tuya_bridge devices"
+    },
+    {
+        "id": "da4079ee99ffcd9d",
+        "type": "function",
+        "z": "66ca1554.e4c85c",
+        "name": "late binding",
+        "func": "\nfunction _upadateParam(_pname){\n     var  _xvalue = env.get(_pname);\n     if (_xvalue){\n        let temp = _xvalue.toString().trim();\n        if (temp.startsWith('global.'))\n           _xvalue = global.get(temp.substring(7));\n        else if(temp.startsWith('flow.'))\n           _xvalue = flow.get(\"$parent.\"+ temp.substring(5));\n        else if(temp.startsWith('msg.'))\n           _xvalue = msg[temp.substring(4)];\n// extra eval           \n        else if(temp.startsWith('@'))\n           _xvalue = eval(temp.substring(1));\n      }\n      \n// optional: to set the parameter dynamically with a message property, same name\n      if(msg[_pname])\n           _xvalue = msg[_pname];\n           \n// save actual value in the (sub)flow context           \n      flow.set(_pname, _xvalue);\n      }\n      \n// CUSTOMIZE HERE\n// get actual values\n _upadateParam(\"TRGnumber\");\n // done\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 80,
+        "wires": [
+            [
+                "f0932848.b39158"
+            ]
+        ],
+        "info": "See [Subflows and configuration: late and runtime parameters binding](https://discourse.nodered.org/t/subflows-and-configuration-late-and-runtime-parameters-binding/60042)\n\nModified:\n- added evalued binding: @&lt;expression>  => eval(&lt;expression>). e.g. `@7000 + 70*2` \n- runtime override: uses `msg.TRGnumber`"
+    },
+    {
+        "id": "ee953c15.ada29",
+        "type": "subflow",
+        "name": "static retry",
+        "info": "Transform the `status` msg from a _tuya-smart-device_ node into an _event_ message.\r\n\r\nRequired adding  a new Tuya device (alternative: `dynamic rety` subflow)\r\n\r\n### Parameters\r\n\r\n   <dl class=\"message-properties\">\r\n        <dt>deviceId\r\n            <span class=\"property-type\">string</span>\r\n        </dt>\r\n        <dd>   The ID of the wired Tuya device (same as in `core.global.alldevices`).\r\n        </dd>\r\n   </dl>\r\n\r\n### Inputs\r\n\r\n From _tuya-smart-device_ `client satus` output.\r\n\r\n### Outputs\r\n\r\n A new event message:\r\n ````\r\n  object\r\n   { \"payload\":{\r\n      \"deviceId\": <deviceID>,\r\n      \"data\": {\r\n          \"dps\":{\r\n            \"_connected\": true|false\r\n          }}}}\r\n ````\r\n \r\n It can ben routed to _logging_ input node of `core` flow.\r\n\r\n### Details\r\n\r\nProcess the `status` output from a tuya-smart-device node. If the connection status changes, it creates an event for standard logging, filtering unecessary messages.\r\n\r\nUse it with Tuya devices always ON. \r\n\r\n\r\nIf the device is disconnected, the reconnect interval, function(findTimeout, retryTimeout), is fixed. It is set in the _tuya-smart-device_ node (default) and modified with the pseudo-dp: \r\n  - SET  `_findTimeout`   Integer [ms]\r\n  - SET  `_retryTimeout`  Integer [ms]\r\n\r\n### References\r\n\r\nSee also `dynamic retry` subflow.<br>\r\nFor the event formats see `core.logging` INPUT node.",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "6160136.f5f99ec"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 510,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "6160136.f5f99ec",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "deviceId",
+                "type": "str",
+                "value": " ID (see global.alldevices)",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99",
+        "inputLabels": [
+            "in staus"
+        ],
+        "outputLabels": [
+            "to log"
+        ],
+        "icon": "font-awesome/fa-rss-square"
+    },
+    {
+        "id": "6160136.f5f99ec",
+        "type": "function",
+        "z": "ee953c15.ada29",
+        "name": "connected message - static",
+        "func": "// to set global.tuyasyatus.xxxx._connected \n// creates a response for the dp \"_connected\"\n// store value and filter events\n\nvar CONN = \"_connected\";  //  tuyadaemon internal define\n// see also tuyaDAEMON.\"connection check\" function\n// local function\nfunction _sendReal(idevice,  value){\n// builds a fake OUT message \nvar newMsg = { \"payload\":{\n      \"deviceId\": idevice,\n      \"data\": {\n          \"dps\":{\n            [CONN]:value\n          }}}};\nreturn newMsg;  \n}\n\n// user set parameter device id (simple)\nvar deviceId = env.get(\"deviceId\");\n\nvar nowconnected;\nif((msg.payload !== undefined)&&(msg.payload.state !== undefined)){\n   nowconnected =  (msg.payload.state == \"CONNECTED\" || msg.payload.state == \"node-red:common.status.connected\" );        // can change\n}\nif((msg.status !== undefined)&&(msg.status.text !== undefined)){\n   nowconnected =  (msg.status.text == \"CONNECTED\" || msg.status.text == \"node-red:common.status.connected\" );        // can change\n}\nif (nowconnected == undefined) return null;\n// filering \nlet old = context.get(deviceId+\"_con\");\n// node.warn([\"STATUS \",msg, nowconnected, old]);\n\nif (old === nowconnected) return null;\ncontext.set(deviceId+\"_con\", nowconnected);\n\nreturn(_sendReal(deviceId, nowconnected));\n\n\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// set the default status _connected to 'none' in tuyastatus\nvar deviceId = env.get(\"deviceId\");\ncontext.set(deviceId+\"_con\",\"none\");",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 80,
+        "wires": [
+            []
+        ],
+        "info": "Makes  the _event_ message."
+    },
+    {
+        "id": "638c6657.ce65c8",
+        "type": "tab",
+        "label": "core_TRIGGER",
+        "disabled": false,
+        "info": "*tuyaDAEMON TRIGGERS*\n\nA 'real' device WiFI, having  a big unused numerical parameter, say a 'counter', writable by both **Tuya-cloud** and **node-red**, is all the required hardware to implement a robust bilateral event communication (**TRIGGER**).\n\nsee: https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER/README.md\n\n### Advantages\n *   Bilateral communication between any Tuya device and tuyaDAEMON  (also for devices not compatible with 'tuya-smart-device'  node. e.g. WiFI alarms).\n *   Capability to fire any Tuya 'automation' from tuyaDAEMON, and viceversa, to control from tuya-cloud any application and custom device handled by TuyaDAEMON.\n *   Remote cantrol (wordwide) of tuyaDAEMON.\n\n### more properties\nThis flow add, to native capabilies of the used switch ([switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf)):\n\n_tstPing: to measure the TRIGGER roundtrip time, [see here](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info#tuyadaemon_trgping).\n\n_testPing24H: long run test, [see here](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info#tuyadaemon_testping24h).\n\n\n### Customization\nTo use a different hardware:\n - see: https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER/README.md\n - see wiki : https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info\n - see node: 'Tuya-bridge MAP (example)' details.\n\n### Installation\n   1) Disable core_TRIGGER flow and install your selected switch device in 'core', as a stendard device named 'tuya_bridge'.\n       - for detail [see here](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON).\n       - When you upadate the CORE flow, in '*device selector', use the position 2 for now (do not use #1). \n       - Do tests with the device near the WiFi (1-2 m), to eliminate a potential problem.             \n       - Update `global.alldevice` to meet your device. Use the name 'tuya_bridge'.\n       - note: you can use a different name, but you MUST update the TUYABRDG value in the 'Global TRIGGER config' node (and also in all test nodes).\n    \n       - Deploy: when you send commands from your phone to the device, you MUST see in the debugpad the events echo, like:\n                        [\"RX: 'tuya_bridge'/'relay' \",\"ON\"] \n                        \n       - Only when all works as expected go to next step.\n        \n   2) Enable the 'core_TRIGGER' flow to use your own 'tuya_bridge' device:\n        - Update the 'tuya_bridge' node with your device parameters.\n        - 'tuya_bridge' must reconnect fast: set both timeout to 500-1000 ms.\n      In CORE, update the '*device selector': 'tuya_bridge' now MUST be the first device.\n        -  Delete the temporary nodes in CORE used to test the device.\n      Update `global.alldevices`, merging `_trigger` DPs to the native switch DPs, so in `global.alldevices` you have only one 'real' device, called 'tuya_bridge', with native DPs plus `_tstPing` and `_testPing24H`.\n   \n   3) Click the comment 'Tuya-bridge MAP (example)': maybe you like to do some changes.\n       - Update, if required, the values in the 'Global TRIGGER config' node.\n       - Use a smartphone and the 'smartLife' app to create the two required automation in the Tuya-cloud.\n\n   4) Deploy and try the tests in the 'tuyaDAEMON.core.triggers' flow.\n\n\nnote: If a Tuya device refuses the connection at startup try:\n- wait and be patient: usually  a device connects in 1-4 retries\n- node-red \"Deploy\" command\n- node-red \"Restart flows\" command\n- Switch off then switch on the device power.\n- Restart node-red.\n\nnote: After debugging, in production, it is better to hide the trigger messages: Add \"hide\"=\"K\" to dp used (COUNTDP).\n\n"
+    },
+    {
+        "id": "798c4138.06176",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to core.logging",
+        "mode": "link",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 1295,
+        "y": 420,
+        "wires": [],
+        "icon": "node-red/arrow-in.svg"
+    },
+    {
+        "id": "ebf1518e.eb3e2",
+        "type": "comment",
+        "z": "638c6657.ce65c8",
+        "name": "CORE TRIGGER  extension 2.2.0",
+        "info": "",
+        "x": 190,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "69321d9a.30b7d4",
+        "type": "link in",
+        "z": "638c6657.ce65c8",
+        "name": "tuya_bridge_IN",
+        "links": [
+            "305e7686.63b0fa",
+            "3df8859ba0592faa",
+            "48835dfc5f2bbeaa",
+            "6b384f7b272aa858",
+            "7a071a53e4c423c1",
+            "808817eb.3be488",
+            "83ab4822.a4d028",
+            "a3dfd8c8.7dac98",
+            "e42359cc711c63f0"
+        ],
+        "x": 160,
+        "y": 420,
+        "wires": [
+            [
+                "3fedf2c3bf838184"
+            ]
+        ],
+        "icon": "node-red/arrow-in.svg",
+        "l": true,
+        "info": "\nAccepts device low level msg\nlike: \n\nmsg.payload:\n    {\n    \"operation\": \"SET\",\n    \"dps\": \"7\",        // HW dependent, used defined in `core-trigger.global.COUNTDP`\n    \"set\": 1050           // user defined values: see `core-trigger.triggerMAP` node.\n    }\n    \nsee also subflow \"REDTRG\", to build this msg.   \n"
+    },
+    {
+        "id": "bfddb028.1da3",
+        "type": "debug",
+        "z": "638c6657.ce65c8",
+        "d": true,
+        "name": "*trace: msg OUT from tuya_bridge",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1150,
+        "y": 140,
+        "wires": [],
+        "info": "CUSTOMIZATION\n\n- Enable to see in the debug pad all msg FROM the 'tuya_bridge' device.\n- Normal use: disabled"
+    },
+    {
+        "id": "2710cd5f.1eb562",
+        "type": "debug",
+        "z": "638c6657.ce65c8",
+        "d": true,
+        "name": "*trace: msg IN for tuya_bridge",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 100,
+        "wires": [],
+        "info": "CUSTOMIZATION\n\n- Enable to see in the debug pad all msg TO the 'tuya_bridge' device.\n- Normal use: disabled"
+    },
+    {
+        "id": "63e6d5d.0a5da2c",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to core.more_devices_IN",
+        "links": [
+            "c90b7eb2.07595"
+        ],
+        "x": 1295,
+        "y": 480,
+        "wires": [],
+        "icon": "node-red/arrow-in.svg"
+    },
+    {
+        "id": "fd3a31f5.8912d",
+        "type": "subflow:ee953c15.ada29",
+        "z": "638c6657.ce65c8",
+        "name": "",
+        "env": [
+            {
+                "name": "deviceId",
+                "value": "example1234567",
+                "type": "str"
+            },
+            {
+                "name": "deviceID",
+                "value": "bfa355aa196ae5975cy6ii",
+                "type": "str"
+            }
+        ],
+        "x": 1120,
+        "y": 480,
+        "wires": [
+            [
+                "63e6d5d.0a5da2c"
+            ]
+        ]
+    },
+    {
+        "id": "c81edba3.cbcd58",
+        "type": "delay",
+        "z": "638c6657.ce65c8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "30",
+        "nbRateUnits": "10",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 740,
+        "y": 380,
+        "wires": [
+            [
+                "bd44880d.8cdda8",
+                "2710cd5f.1eb562"
+            ]
+        ],
+        "info": "limit throughput, but allows smooth operations and less connection problems\n\nnote: node not usable for fast rates: internal delay limit about 690/10s\n"
+    },
+    {
+        "id": "cf1237ea.b909e8",
+        "type": "comment",
+        "z": "638c6657.ce65c8",
+        "name": "Debug trace",
+        "info": "**Disable unwonted trace messages on debug pad.**\n\n - Disable unwonted trace nodes.\n  \n ",
+        "x": 920,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "bd44880d.8cdda8",
+        "type": "tuya-smart-device",
+        "z": "638c6657.ce65c8",
+        "deviceName": "tuya_bridge",
+        "disableAutoStart": false,
+        "deviceId": "example1234567",
+        "deviceKey": "b2feff3e0caaabbb",
+        "deviceIp": "",
+        "retryTimeout": "2000",
+        "findTimeout": "1000",
+        "tuyaVersion": "3.1",
+        "eventMode": "event-both",
+        "x": 970,
+        "y": 380,
+        "wires": [
+            [
+                "798c4138.06176",
+                "bfddb028.1da3",
+                "fca3a57fc47a3e96",
+                "e0da8796d94ce562"
+            ],
+            [
+                "fd3a31f5.8912d",
+                "814751a536bb1ec0"
+            ]
+        ],
+        "info": "CUSTOMIZATION\n\n- About TRIGGERS and devices [see here](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER#implementation) \n\nSetup for a new tuya_bridge device: any device as a different 'countdown' dp, so you must update the cconst 'triggerDP':\n\n- the node trigger.'dp convert'\n- the sub-flow 'red-trigger'\n- the code for 'case \"_doTrigger\":' in _system.'sistem cmd selector 2' node."
+    },
+    {
+        "id": "481011f1.6ca57",
+        "type": "comment",
+        "z": "638c6657.ce65c8",
+        "name": "test   Tuya_bridge counter  + CORE",
+        "info": "\nTest some TRIGGER capabilities.\n\nRuquires core trigger  'Global TRIGGER config' node updated.",
+        "x": 180,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "4dc55bb5a48b532d",
+        "type": "comment",
+        "z": "638c6657.ce65c8",
+        "name": "triggerMAP (example)",
+        "info": "\nThis id hardware depended, and can be customized.\n\n1) HW:  I use a TYWR 7-32  switch (see wiki:\nhttps://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER and here: https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf), \n - the countdown (dps = 7) has a range 0..86500 s (24 H).\n - the countdown is PUSHed every 30 s.\n\nThe switch is free and usable by any applications: the TRIGGER uses only the countdown function and does NOT interfere with the status of the switch.\n\n2) RULES:\n\n - Tuya limits:  100 automations for 'home' and 20 'homes' per account, i.e. max. 2000 triggers (see wiki, https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info).\n - The problem is that the countdown counts anytime, so, if an ACK is missed, the count can TRIGGER the next value (interference).\n - If the direction is Tuya-cloud -> tuyaDAEMON, the receiver (tuyaDAEMON) MUST send asap an ACK (SET to 0 the dp 7).\n - If the direction is tuyaDAEMON -> Tuya-cloud, the relate automation MUST, as first action, set to 0 the countdown.\n  - In the used tuya_bridge device, the countdown sends every 30s the actual value, as PUSH. This PUSH is used as fallback mechanism to reset the countdown to 0.\n  - So: the receiver MUST send an ACK asap, max. 30s. After the fallback (countdown PUSH + code in node 'ACK and filter') reset the conter.\n  - However, interference between two events or commands that are too close together is possible: if necessary, a complete HANDSHAKE protocol can be implemented.\n\nThe range 1 - 86500 can be used, for user commands or mirror devices.\nI use following rules:\n\n - Assign close values to each device/application but use values multiple of a fixed amount, e.g. 70s (defined in the 'Config' node), This gives us a total 1235 triggers and it allows 2 fallback intervents before interference.\n \n - Before a critical application (e.g. alarm), to be safe, you can insert an extra guard.\n \n - Place commands TO Tuya-cloud in the upper range, messages FROM Tuya-cloud in the lower range: in case of tuyaDEAMOW off, cammands are not sended, and the messages from devices, not handled, are without dangerous conseguences.\n  \n . I keep separate the trigger used for the 'mirror' devices (i.e. devices NOT handled by 'node-tuya-smart-device') and the 'user-trigger', used to do other communications to/from tuya-cloud.\n \n------------------------- the trigger MAP for  TYWR 7-32  switch \ncount\n    0       This MUST never be reached, because the switch toggles at 0.\n             SET(countdown):0  is allowed: the switch does not toggle. \n 1..1049  Not used (security gap)\n  1050    LOW Guard value, handled by Tuya-cloud (case of tuyaDAEMON shutdown).\n          The management of a guard is entirely entrusted to Tuya automation (add it to Tuya-cloud):\n                `if \"tuya_bridge\"(countdown1) = 1050,\n                      then 0 => \"tuya_bridge\"(countdown1)`\n          note: This automation is also used to measure the tuyaDAEMP roundtrip time (see _tuya_bridge._trgPing).\n  1051\n  ...     Reserved (future uses) \n 10009  \n 10010\n  ...     area for about 130 user-events FROM TUYA (TuyaTRG)\n 20020 \n  ...     area for about 130 user-commands  TO TUYA \n 29960    MIRROR GUARD value (add the Tuya-cloud guard Automation)\n 30030\n  ...     Area for about 270  events FROM Tuya 'mirror' devices\n 50050\n  ...     Area for about 270 commands TO Tuya 'mirror' devices\n 70070\n 70071\n  ...     Reserved (future uses)    \n 86500\n\n - A 'mirror' device complete example in [Smoke detector](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study).\n\n-------------------------\n\n",
+        "x": 370,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "5e16c6406853382f",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test:  GET(1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"operation\":\"SET\",\"dps\":\"1\",\"set\":null}",
+        "payloadType": "json",
+        "x": 170,
+        "y": 900,
+        "wires": [
+            [
+                "3df8859ba0592faa"
+            ]
+        ],
+        "info": "test: GET switch status\n\nprecondition:\n     tuya_bridge device connected.\n\nexpected result:\n      in debugpad the message with the correct tuya_bridge switch status;\n      [\"RX: 'tuya_bridge'/'relay' \",\"OFF\"]  (or \"ON\")"
+    },
+    {
+        "id": "814751a536bb1ec0",
+        "type": "debug",
+        "z": "638c6657.ce65c8",
+        "d": true,
+        "name": "trace tuya_bridge control output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "8c28f6c5beba8e9b",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test:  SET(1) = false",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"operation\":\"SET\",\"dps\":\"1\",\"set\":false}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 820,
+        "wires": [
+            [
+                "3df8859ba0592faa"
+            ]
+        ],
+        "info": "test: SET switch OFF\n\nprecondition:\n     tuya_bridge device connected.\n\nexpected result:\n      on debugpad the message:\n      [\"RX: 'tuya_bridge'/'relay' \",\"OFF\"]"
+    },
+    {
+        "id": "75e31aa1e4d7875d",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test:  SET(1) = true",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"operation\":\"SET\",\"dps\":\"1\",\"set\":true}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 860,
+        "wires": [
+            [
+                "3df8859ba0592faa"
+            ]
+        ],
+        "info": "test: SET switch ON\n\nprecondition:\n     tuya_bridge device connected.\n\nexpected result:\n      on debugpad the message:\n      [\"RX: 'tuya_bridge'/'relay' \",\"ON\"]"
+    },
+    {
+        "id": "438ecc948a2a88ee",
+        "type": "comment",
+        "z": "638c6657.ce65c8",
+        "name": "LOW LEVEL only for test (device dependent) ",
+        "info": "Test the tuya_bridge device.\n\nEnable node *trace: msg IN for tuya_bridge\nEnable node *trace: msg OUT from tuya_bridge\n\n\nTested on Switch-1CH (TYWR 7-32, see https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf):\n\n- The switch is dp 1\n- The countdown is dp 7\n- The countdow is refreshed every 30s (PUSH)\n\nCUSTIMIZATION:\n- using a different device maybe not all DPs are implemented and you must update all LOW LEVEL messages.",
+        "x": 230,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "3df8859ba0592faa",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "69321d9a.30b7d4"
+        ],
+        "x": 545,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "22c97a73f137fea7",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "counter:  GET(COUNTDP)  ",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "payload.dps",
+                "v": "COUNTDP",
+                "vt": "global"
+            },
+            {
+                "p": "operation",
+                "v": "SET",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"set\": null}",
+        "payloadType": "json",
+        "x": 1250,
+        "y": 820,
+        "wires": [
+            [
+                "7a071a53e4c423c1"
+            ]
+        ],
+        "info": "counter READ\n\nnote about the used device:\n  -  Read returns not the actual value, but the last PUSHed.\n  -  GET(dp) must be implemented as SET(dp, null).\n\nsee https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf\n\nprecondition:\n     tuya_bridge device connected.\n\nexpected result:\n      [ \"RX: 'tuya_bridge'/'trigger (re…\", xxx ]   (usually 0)"
+    },
+    {
+        "id": "df04c0472fbe8e94",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "fallback:   SET counter 700",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "payload.dps",
+                "v": "COUNTDP",
+                "vt": "global"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"operation\":\"SET\",\"set\":700}",
+        "payloadType": "json",
+        "x": 1250,
+        "y": 1020,
+        "wires": [
+            [
+                "7a071a53e4c423c1"
+            ]
+        ],
+        "info": "test fallback \n\n _The values used in the counter as TRIGGER are multiple of 70 (flow.COUNTSTEP)._\n _See 'Tuya-bridge MAP (example)' node._\n \n _Normally the receiver, when a TRIGGER arrives, sends an ACK (reset 0) to the counter, to avoid interference with the previous TRIGGER, or worse, the relay toggle if the counter reaches 0._\n \n _To reduce interference, tuyaDAEMON exploits PUSHed values every 30s from the counter to do a fallback auto-reset in case of ACK failure for any reason._\n    \n _700 is multiple of 70, i.e. it can be a TRIGGER: therefore tuyaDEAMON dont auto-sends the ACK. But 700 is not a defined TRIGGER, so nobody sends the ACK._\n\n _tuyaDEAMON auto-sends an ACK at next message PUSHed from the device counter not multiple of 70, i.e. 700-30 = 670. If 670 is also missed for any reason, a second chance is at 700-60 = 640._\n\nexpected result:\n      [\"RX: 'tuya_bridge'/'trigger (reserved)' \", 700]  // echo \n  \n  after 30s: \n      [\"RX: 'tuya_bridge'/'trigger (reserved)' \", 670]  // counter PUSH \n      [\"RX: 'tuya_bridge'/'trigger (reserved)' \",0]     // echo auto-ACK\n\nTroubleshooting (more than one tuyaDAEMON instance):\n1)  If after:\n      [\"RX: 'tuya_bridge'/'trigger (reserved)' \", 670]\n  is missed:\n      [\"RX: 'tuya_bridge'/'trigger (reserved)' \",0]\n  Check trigger.global.is_master: one instance must be 'true'.\n  \n2) After:\n      [\"RX: 'tuya_bridge'/'trigger (reserved)' \", 670]\n  if you have two tuyaDAEMON instances, you can send two ACK:\n      [\"RX: 'tuya_bridge'/'trigger (reserved)' \",0]\n      [\"RX: 'tuya_bridge'/'trigger (reserved)' \",0]\n  Check trigger.global.is_master: only one instance must be 'true' (usually the one 24/7)\n"
+    },
+    {
+        "id": "7a071a53e4c423c1",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "69321d9a.30b7d4"
+        ],
+        "x": 1495,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "ea8e8908c3c8e503",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test:  SCHEMA",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"operation\":\"GET\",\"schema\":true}",
+        "payloadType": "json",
+        "x": 170,
+        "y": 940,
+        "wires": [
+            [
+                "3df8859ba0592faa"
+            ]
+        ],
+        "info": "test: tuya_bridge SCHEMA command\n\nprecondition:\n     tuya_bridge device connected.\n\nexpected result (device dependent):\n     on debugpad a RX message for every property with the actual value:\n     [\"RX: 'tuya_bridge'/'relay' \",\"OFF\"]\n     [\"RX: 'tuya_bridge'/'trigger (reserved)' \",0]\n     [\"RX: 'tuya_bridge'/'restart status' \",\"memory\"]\n     ... more\n"
+    },
+    {
+        "id": "3f2c0ee9393529c0",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "Test tuya LOW GUARD",
+        "props": [
+            {
+                "p": "payload.operation",
+                "v": "SET",
+                "vt": "str"
+            },
+            {
+                "p": "payload.dps",
+                "v": "$globalContext(\"COUNTDP\")",
+                "vt": "jsonata"
+            },
+            {
+                "p": "payload.set",
+                "v": "$number($globalContext(\"LOWGUARD\"))",
+                "vt": "jsonata"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 1240,
+        "y": 1060,
+        "wires": [
+            [
+                "7a071a53e4c423c1"
+            ]
+        ],
+        "info": "The reset comes from Tuya-cloud automation.\nnote: uses the global.LOWGUARD value (1050): see triggerMAP.\n\nIt requre (mandatory) the guard automation in tuya-cloud:\n     if tuya_bridge countdown 1 = 1050\n         then tuya_bridge countdown 1 <= 0\n\nexpected result:\n  on debugpad the message:\n      [ \"RX: 'tuya_bridge'/'trigger (re…\", 1050 ]\n and after that:         \n      [ \"RX: 'tuya_bridge'/'trigger (re…\", 0 ]\n"
+    },
+    {
+        "id": "45a8efb3f25b8820",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test: SET  counter 0",
+        "props": [
+            {
+                "p": "payload.operation",
+                "v": "SET",
+                "vt": "str"
+            },
+            {
+                "p": "payload.dps",
+                "v": "COUNTDP",
+                "vt": "global"
+            },
+            {
+                "p": "payload.set",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 1230,
+        "y": 860,
+        "wires": [
+            [
+                "7a071a53e4c423c1"
+            ]
+        ],
+        "info": "test: SET counter to 0\n\nprecondition:\n     tuya_bridge device connected.\n\nexpected result:\n      on debugpad the message:\n      [\"RX: 'tuya_bridge'/'relay' \",\"ON\"]"
+    },
+    {
+        "id": "e0da8796d94ce562",
+        "type": "function",
+        "z": "638c6657.ce65c8",
+        "name": "TRIGGER filter",
+        "func": "// input  checks tuya_bridge messages\n// output 1: the msg.tuyatrigger is the value from tuya-bridge, for more processing.\n// output 2: the low-level SET 0 (ACK) for tuya-bridge.\nvar xdp = global.get('COUNTDP');\n\nvar  xtime = 0;\n// it is a counter message?\nif (msg.payload.data && (msg.payload.data.dps[xdp]!= undefined))\n    xtime = msg.payload.data.dps[xdp];\nelse\n    return [];\n// special case for 'GUARD', to allow tests (pings)\n// ACH not required, done by tuya automation\nif (xtime == global.get('LOWGUARD')) return [null];\nif (xtime == global.get('MIRRORGUARD')) return [null];\n\n// set in msg the dedicated value tuyatrigger\nmsg.payload.tuyatrigger = xtime;\nmsg.payload.data = {};\n\n// it is a TRIGGER?\nif (xtime % flow.get('COUNTSTEP') == 0){\n       if (xtime < global.get('MIRRORGUARD'))  \n           return [null, msg, null];\n       return [msg, null, null];\n    }\n\n// not a TRIGGER, it is a PUSH: does only the ACK fallback)\n return [null,null, flow.get('is_master')? msg:null];\n\n",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "\n",
+        "libs": [],
+        "x": 980,
+        "y": 300,
+        "wires": [
+            [
+                "ef4b6faa6b35b6e0"
+            ],
+            [
+                "0ac232f239abc7a2"
+            ],
+            [
+                "647907ea71c0e5fb"
+            ]
+        ],
+        "inputLabels": [
+            "from device"
+        ],
+        "outputLabels": [
+            "TUYATRG events from mirror",
+            "TUYATRG custom events",
+            "to ACK"
+        ]
+    },
+    {
+        "id": "0ac232f239abc7a2",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "OUT custom events",
+        "mode": "link",
+        "links": [
+            "3246c6c8.f9ed9a",
+            "7724fe64.ce399",
+            "b855dd13.84c18",
+            "c23760b2.45d3a",
+            "d3e4089a.6570c8",
+            "73328b5647a58e1e"
+        ],
+        "x": 1260,
+        "y": 300,
+        "wires": [],
+        "l": true
+    },
+    {
+        "id": "9b9d104f3024a01f",
+        "type": "config",
+        "z": "638c6657.ce65c8",
+        "name": "Global TRIGGER config",
+        "properties": [
+            {
+                "p": "COUNTDP",
+                "pt": "global",
+                "to": "7",
+                "tot": "str"
+            },
+            {
+                "p": "COUNTSTEP",
+                "pt": "flow",
+                "to": "70",
+                "tot": "str"
+            },
+            {
+                "p": "is_master",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "p": "MIRRORGUARD",
+                "pt": "global",
+                "to": "29960",
+                "tot": "str"
+            },
+            {
+                "p": "LOWGUARD",
+                "pt": "global",
+                "to": "1050",
+                "tot": "str"
+            },
+            {
+                "p": "NPING",
+                "pt": "flow",
+                "to": "5",
+                "tot": "str"
+            },
+            {
+                "p": "TUYABRDG",
+                "pt": "global",
+                "to": "tuya_bridge",
+                "tot": "str"
+            }
+        ],
+        "active": true,
+        "x": 210,
+        "y": 160,
+        "wires": [],
+        "info": "## TRIGGER Configuration\n\nVALUES for TYWR 7-32 switch.\n------------------------\n\nCUSTOMIZATION: you can use a different device.\n\nUsing a different HW device:\n  * Identify the counter DP (for 'TYWR 7-32': dp = 7)\n  * Verify that `SET(counter,0)`  do not change the switch status ON/OFF\n  * Identify the `delta-count` (for 'TYWR 7-32': 30s)\n  * Define a custom `triggerMAP` for the device.\n    \nHardware used values:\n   device counter DP:   7                        ( in _COUNTDP_)\n   device delta-count: 30 s                (used in definitions)\n     i.e. dP 7 PUSH the actual counter every 30 s.\n \n -------------------   \n \n User defined CONSTANTs, see 'Tuya-bridge MAP' node:\n\n   _COUNTDP_ (7)\n      the dp for the conter in tuya_bridge\n\n   _COUNTSTEP_  (70)\n      time between TRIGGERs:\n         (__COUNTSTEP > 2 * delta-count_)\n      Example: delta-count = 30s => 2* 30 + 10 = 70 \n      i.e. 2 fallback chances before interference.\n      \n   _MIRRORGUARD_ (29960)\n       Tuya-cloud guard between 'mirror' devices and custom events. Must be COUNTSTEP multiple:\n          (_MIRRORGUARD = COUNTSTEP * n1_). \n       \n   _LOWGUARD_ (1050)\n       The Tuya-cloud guard low value.  Must be COUNTSTEP multiple:\n          (_LOWGUARD = COUNTSTEP * n2_).\n\n \n Configuration:\n \n _TUYABRDG_  ('tuya-bridge't)\n        The name of the used device, as in global.alldevices.\n        \n  _is-master_  true (default)| false\n        In case of multiple instances using the same device, only one is the 'master' that does the fallback (auto ACK).  \n\n        "
+    },
+    {
+        "id": "9dcccfbba0d8224d",
+        "type": "link in",
+        "z": "638c6657.ce65c8",
+        "name": "ACK IN",
+        "links": [
+            "647907ea71c0e5fb"
+        ],
+        "x": 210,
+        "y": 340,
+        "wires": [
+            [
+                "b00be40abafd89d5"
+            ]
+        ],
+        "l": true,
+        "info": "Sends a SET 0 counter to tuya_bridge.\nInput: any (acts as trigger)\n"
+    },
+    {
+        "id": "ef4b6faa6b35b6e0",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "OUT trigger events",
+        "mode": "link",
+        "links": [],
+        "x": 1260,
+        "y": 240,
+        "wires": [],
+        "l": true
+    },
+    {
+        "id": "56d123fd1f702271",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test: SET counter 20020",
+        "props": [
+            {
+                "p": "payload.operation",
+                "v": "SET",
+                "vt": "str"
+            },
+            {
+                "p": "payload.dps",
+                "v": "COUNTDP",
+                "vt": "global"
+            },
+            {
+                "p": "payload.set",
+                "v": "20020",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 1240,
+        "y": 920,
+        "wires": [
+            [
+                "7a071a53e4c423c1"
+            ]
+        ],
+        "info": "Test for REDTRG20020 (user command to Tuya-cloud) direct.\n\nprecondition:\n   tuya_bridge device connected.\n\n   It is required a Tuya-cloud test automation:\n     \n     if tuya_bridge counter 1 = 20020\n         then \n            tuya_bridge counter 1 <= 0          // the ACK\n         and\n            <do_anything> (e.g. notification)\n            \nexpected result:\n  on debugpad the message:\n      [ \"RX: 'tuya_bridge'/'trigger (re…\", 20020 ]   //echo from device\n  after that:      \n      [ \"RX: 'tuya_bridge'/'trigger (re…\", 0 ]       //echo from device \n and:         \n      <do_anything>  Tuya-cloud action.\n            "
+    },
+    {
+        "id": "0422fc50c2f47f8a",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "Test tuya MIRROR GUARD",
+        "props": [
+            {
+                "p": "payload.operation",
+                "v": "SET",
+                "vt": "str"
+            },
+            {
+                "p": "payload.dps",
+                "v": "$globalContext(\"COUNTDP\")",
+                "vt": "jsonata"
+            },
+            {
+                "p": "payload.set",
+                "v": "$number($globalContext(\"MIRRORGUARD\"))",
+                "vt": "jsonata"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 1260,
+        "y": 1100,
+        "wires": [
+            [
+                "7a071a53e4c423c1"
+            ]
+        ],
+        "info": "The reset comes from Tuya-cloud automation.\nnote: uses the global.MIRRORGUARD value (e.g. 29960) see 'triggerMAP' node.\n\nIt requre (mandatory) the guard automation in tuya-cloud:\n     if tuya_bridge countdown 1 = 29960     \n         then tuya_bridge countdown 1 <= 0\n\nexpected result:\n  on debugpad the message:\n      [ \"RX: 'tuya_bridge'/'trigger (re…\", 29960 ]  // echo from device\n and after that:         \n      [ \"RX: 'tuya_bridge'/'trigger (re…\", 0 ]      // echo from device\n"
+    },
+    {
+        "id": "743d303fa6d44ed6",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test: SET FIND 3s",
+        "props": [
+            {
+                "p": "payload.operation",
+                "v": "CONTROL",
+                "vt": "str"
+            },
+            {
+                "p": "payload.action",
+                "v": "SET_FIND_TIMEOUT",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "3000",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 750,
+        "y": 940,
+        "wires": [
+            [
+                "e42359cc711c63f0"
+            ]
+        ],
+        "info": "test: SET the FIND phase timeout (default in device node properties)\n\nprecondition:\n     tuya_bridge device connected.\n\nexpected result:\n     internal command: no visible result.\n     In case of bad connection: this is the wait time for a device response.\n\n     "
+    },
+    {
+        "id": "56226b4947481d63",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "RECONNECT tuya_bridge",
+        "props": [
+            {
+                "p": "payload.operation",
+                "v": "CONTROL",
+                "vt": "str"
+            },
+            {
+                "p": "payload.action",
+                "v": "RECONNECT",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 770,
+        "y": 900,
+        "wires": [
+            [
+                "e42359cc711c63f0"
+            ]
+        ],
+        "info": "test: RECONNECT tuya_bridge device\n\nprecondition:\n    1) if tuya_bridge device connected: disconnect then connect\n    1) if tuya_bridge device disconnected: connect\n\nexpected result:\n      tuya_bridge device connected and in debugpad some RX messages:\n      [ \"RX: 'tuya_bridge'/'_connected'…\", true ]\n      [ \"RX: 'HAL@home'/'_WiFinet' \", true ]\n      [ \"RX: 'HAL@home'/'_WiFiunconnect…\", array[0] ]\n      ... more (more status messages can be present)\n\n"
+    },
+    {
+        "id": "71f66dd0b4f7eb66",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "CONNECT tuya_bridge",
+        "props": [
+            {
+                "p": "payload.operation",
+                "v": "CONTROL",
+                "vt": "str"
+            },
+            {
+                "p": "payload.action",
+                "v": "CONNECT",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 760,
+        "y": 860,
+        "wires": [
+            [
+                "e42359cc711c63f0"
+            ]
+        ],
+        "info": "test: CONNECT tuya_bridge device\n\nprecondition:\n     tuya_bridge device disconnected.\n\nexpected result:\n      tuya_bridge device connected and in debugpad some RX messages:\n      [ \"RX: 'tuya_bridge'/'_connected'…\", true ]\n      [ \"RX: 'HAL@home'/'_WiFinet' \", true ]\n      [ \"RX: 'HAL@home'/'_WiFiunconnect…\", array[0] ]\n      ... more (more status messages can be present)\n\n"
+    },
+    {
+        "id": "85706bad7e8b0662",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "DISCONNECT tuya_bridge",
+        "props": [
+            {
+                "p": "payload.operation",
+                "v": "CONTROL",
+                "vt": "str"
+            },
+            {
+                "p": "payload.action",
+                "v": "DISCONNECT",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 770,
+        "y": 820,
+        "wires": [
+            [
+                "e42359cc711c63f0"
+            ]
+        ],
+        "info": "test: DISCONNECT tuya_bridge device\n\nprecondition:\n     tuya_bridge device connected.\n\nexpected result:\n      tuya_bridge device disconnected and in debugpad some RX messages:\n      [ \"RX: 'tuya_bridge'/'_connected'…\", false ]\n      [ \"RX: 'HAL@home'/'_WiFinet' \", false ]\n      [ \"RX: 'HAL@home'/'_WiFiunconnect…\", array[1] ]\n      ... more (more status messages can be present)"
+    },
+    {
+        "id": "e42359cc711c63f0",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "69321d9a.30b7d4"
+        ],
+        "x": 1015,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "7222efb40cf94847",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test: SET RETRY 5s",
+        "props": [
+            {
+                "p": "payload.operation",
+                "v": "CONTROL",
+                "vt": "str"
+            },
+            {
+                "p": "payload.action",
+                "v": "SET_RETRY_TIMEOUT",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "5000",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 750,
+        "y": 980,
+        "wires": [
+            [
+                "e42359cc711c63f0"
+            ]
+        ],
+        "info": "test: SET the RETRY phase timeout (default in device node properties)\n\nprecondition:\n     tuya_bridge device connected.\n\nexpected result:\n     internal command: no visible result.\n     In case of bad connection: next retry after this time.\n    \n"
+    },
+    {
+        "id": "c50c03c3dba7d60e",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "tuya_bridge Standby true",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "_standby",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "true",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 1260,
+        "wires": [
+            [
+                "d63884c8548d1deb"
+            ]
+        ],
+        "info": "standard tuyad_bridge standby mode on (disconnected). Don't use direct 'DISCONNECT' low level command."
+    },
+    {
+        "id": "d63884c8548d1deb",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 425,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "c479130dd23801ae",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "tuya_bridge Standby false",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "_standby",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "false",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 1300,
+        "wires": [
+            [
+                "d63884c8548d1deb"
+            ]
+        ],
+        "info": "standard tuya_bridge standby mode off (connected). Don't use direct 'CONNECT' low level command."
+    },
+    {
+        "id": "5bb12ffeec7431f0",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "tuya_bridge findTimeout  2s",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "_findTimeout",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "2000",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 1340,
+        "wires": [
+            [
+                "d63884c8548d1deb"
+            ]
+        ]
+    },
+    {
+        "id": "0a00185c50232d3a",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "tuya_bridge retryTimeout  5s",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "_findTimeout",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "5000",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 180,
+        "y": 1380,
+        "wires": [
+            [
+                "d63884c8548d1deb"
+            ]
+        ]
+    },
+    {
+        "id": "24aff198b96ec0ad",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to core.std_cmd",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 425,
+        "y": 1440,
+        "wires": []
+    },
+    {
+        "id": "b00be40abafd89d5",
+        "type": "subflow:66ca1554.e4c85c",
+        "z": "638c6657.ce65c8",
+        "name": "make ACK",
+        "env": [
+            {
+                "name": "TRGnumber",
+                "value": "0",
+                "type": "str"
+            }
+        ],
+        "x": 450,
+        "y": 340,
+        "wires": [
+            [
+                "c81edba3.cbcd58"
+            ]
+        ]
+    },
+    {
+        "id": "6b384f7b272aa858",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to triggers.tuya_bridge_IN",
+        "mode": "link",
+        "links": [
+            "69321d9a.30b7d4"
+        ],
+        "x": 1295,
+        "y": 540,
+        "wires": [],
+        "icon": "font-awesome/fa-expand"
+    },
+    {
+        "id": "fca3a57fc47a3e96",
+        "type": "function",
+        "z": "638c6657.ce65c8",
+        "name": "ACK  process",
+        "func": "var delta;\nvar xdp = global.get('COUNTDP');\n// in 'On Start' sets flow._tsstart to 0 (init)\n// it is a counter message?  is ACK ?\nif (! (msg.payload.data && (msg.payload.data.dps[xdp] == 0)))\n        return [];\n\n// output:  finish/more loops\n\n// is test on ?\nvar old = flow.get(\"_tsstart\");\nif (old === 0)   return [];  // not in ping test\n\n// close this ping    \nvar back = Date.now();\ndelta = back - old;\n// fallback in case of timeout: keep alive\nif ((delta > 5000) || (delta < 20)) { \n         flow.set(\"_tsstart\", 0);\n         return([null, msg]);\n         }\n\n// accept, updates stats\n  var stats = flow.get(\"_pingstat\") ; \n //flow.set(\"pingstat\",{\n //     test: 0,\n //     total:0,\n //     min: 100000000000,\n //     max:0\n // set data    \n stats.sum += delta;\n if( stats.min > delta)\n         stats.min = delta;\n if( stats.max < delta)\n         stats.max = delta;\n stats.test++;  \n stats.total--;   \n flow.set(\"_pingstat\", stats);\n flow.set(\"_tsstart\", 0);\n \n if (stats.total >0)  {       // more  tests  to do\n      return [null, msg];\n      }   \n\n// done, does statistics & response msg  \n var st = {\n    \"deviceId\":global.get('TUYABRDG'),\n    \"data\":{\n       \"dps\":{\n           \"_tstPing\":{\n               \"count\": stats.test,\n               \"avg\": Math.floor(stats.sum/stats.test),\n               \"max\": stats.max,\n               \"min\": stats.min\n           }\n       }\n    }};  \n   msg.payload = st;\n// sends results  \n   return([msg, null]);\n\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "// init for ping test\nflow.set(\"_tsstart\", 0);\n\n\n",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 460,
+        "wires": [
+            [
+                "15f6fb7d0b7757f5"
+            ],
+            [
+                "f1a395546834b108"
+            ]
+        ],
+        "outputLabels": [
+            "log result",
+            "reset0"
+        ]
+    },
+    {
+        "id": "f1a395546834b108",
+        "type": "delay",
+        "z": "638c6657.ce65c8",
+        "name": "test delay 2",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 730,
+        "y": 540,
+        "wires": [
+            [
+                "d049e48356df124a"
+            ]
+        ],
+        "info": "delay between ping tests"
+    },
+    {
+        "id": "3fedf2c3bf838184",
+        "type": "function",
+        "z": "638c6657.ce65c8",
+        "name": "tuya_bridge custom selector ",
+        "func": "// Select on dp and send to tuya-smart-device or handle new pseudo-DP commands.\n\nconst  TUYABRDG = global.get('TUYABRDG'); // the user device-name\n\n//base message to log\nvar newMsg = {\n     payload: {\n         deviceId : TUYABRDG,\n         data : {\n             dps : {}\n        }\n    }\n};\n\nfunction GetOld(){\n // stuff to get old value from tuyastatus\n      var o = context.global.alldevices.getODev(TUYABRDG);  // fixed name\n      var uname =  context.global.alldevices.getDpsName(o,\"_tstPing\");     // the dp user name\n      var old = global.get(\"tuyastatus\")[TUYABRDG][uname];\n      if (!(old)) old = \"none\";\n      newMsg.payload.data.dps[\"_tstPing\"] = old;\n      return( newMsg);     \n}\n\n\n// ------------- main\n// schema case\nif (msg.payload.schema){\n    // send GET _tstPing(old) + standard switch SCHEMA\n    return[msg, null, GetOld()]; \n}\n\nswitch(msg.payload.dps){\n case \"_tstPing\":   // is tstping;\n   if (msg.payload.operation == 'GET') {\n      return[null, null, GetOld()];     \n    } else { // SET = start\n      flow.set(\"_pingstat\",{\n        // Pings number: user defined in trigger.config node.\n        total:flow.get('NPING'),\n        test: 0,\n        sum:0,\n        min: 1000000,\n        max:0,\n        });\n    newMsg.payload.data.dps[\"_tstPing\"] = \"started\";\n    return[null, msg, newMsg];\n    }\n  break;\n // here future expansions\ndefault:\n// standard switch processing\n return[msg, null];\n}\n\n\n \n \n \n",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "// initialize rigth value\n",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 420,
+        "wires": [
+            [
+                "c81edba3.cbcd58"
+            ],
+            [
+                "f1a395546834b108"
+            ],
+            [
+                "279abe12072b1eab"
+            ]
+        ],
+        "outputLabels": [
+            "std",
+            "tstping",
+            ""
+        ],
+        "icon": "node-red/switch.svg",
+        "info": "Set the node name only to the ping number required for the test"
+    },
+    {
+        "id": "fd42722f643a6bc5",
+        "type": "subflow:66ca1554.e4c85c",
+        "z": "638c6657.ce65c8",
+        "name": "ping LOWGUARD",
+        "env": [
+            {
+                "name": "TRGnumber",
+                "value": "@global.get('LOWGUARD')",
+                "type": "str"
+            }
+        ],
+        "x": 1140,
+        "y": 540,
+        "wires": [
+            [
+                "6b384f7b272aa858"
+            ]
+        ]
+    },
+    {
+        "id": "d049e48356df124a",
+        "type": "function",
+        "z": "638c6657.ce65c8",
+        "name": "start time",
+        "func": "\nflow.set(\"_tsstart\", Date.now());\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 540,
+        "wires": [
+            [
+                "fd42722f643a6bc5"
+            ]
+        ]
+    },
+    {
+        "id": "ab4fee4199052d9a",
+        "type": "comment",
+        "z": "638c6657.ce65c8",
+        "name": "tstPing",
+        "info": "\n_tstPing 'fake' DP implementation",
+        "x": 970,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "15f6fb7d0b7757f5",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to core.logging",
+        "mode": "link",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 915,
+        "y": 460,
+        "wires": [],
+        "icon": "node-red/arrow-in.svg"
+    },
+    {
+        "id": "647907ea71c0e5fb",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "9dcccfbba0d8224d"
+        ],
+        "x": 1295,
+        "y": 360,
+        "wires": [],
+        "icon": "font-awesome/fa-expand"
+    },
+    {
+        "id": "9b60ea0e1fe5d751",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*test  SET:  trgPing",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "_tstPing",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "any",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 140,
+        "y": 1440,
+        "wires": [
+            [
+                "24aff198b96ec0ad"
+            ]
+        ],
+        "info": "Test custom function _tstping\n\nThis function does a test of the TRIGGER communication speed. A statistical valutation  of the total tuyaDAEMON -> tuya_bridge -> Tuya-cloud -> automation -> tuya_bridge -> tuyaDAEMON round trip time. \n\nThe timer start sending to tuya_bridge counter the SET(LOWGUARD) command, and stop at ACK (0) echo  from tuya_bridge device.\nThe test is done flow.NPING times (default 5, a good value) and result shows average, min. and max. values.\n\nImplementation\n    This test is implemented as a new custom tuya_bridge property (dp = 100), handled by the code in the core.trigger flow.\n    You MUST add this dp (and related friendly name, e.g. 'tstping') to tuya_bridge device in core.global.alldevices.\n    \nexpected result:\n   \n         [ \"TX SET: device 'tuya_bridge'/'…\", \"any\" ]            // command sended\n         [ \"RX: tuya_bridge/_tstPing\", \"started\" ]   // echo \n  \n  after 2s delay:\n         [ \"RX: 'tuya_bridge'/'trigger (re…\", 1050 ]             // echo tuyaDAEMON command\n  then     \n         [ \"RX: 'tuya_bridge'/'trigger (re…\", 0 ]                // echo ACK\n         \n  repeated NPING times, then:\n   \n         [ \"RX: 'tuya_bridge'/'tstping' \", object ]             // done: result\n         \n  if I open it (click the triangle) I get like:\n         array[2] \n           0: \"RX: 'tuya_bridge'/'tstping' \"\n           1: object\n             count: 5      \n             avg: 138    (times in ms)\n             max: 204\n             min: 112    \n  \n           \n             "
+    },
+    {
+        "id": "e05227c70482c862",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*test  GET last  trgPing",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "_tstPing",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 160,
+        "y": 1480,
+        "wires": [
+            [
+                "24aff198b96ec0ad"
+            ]
+        ],
+        "info": "Standar GET for tstping.\n\n"
+    },
+    {
+        "id": "279abe12072b1eab",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to core.logging",
+        "mode": "link",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 485,
+        "y": 500,
+        "wires": [],
+        "icon": "node-red/arrow-in.svg"
+    },
+    {
+        "id": "364660b6415cd5d1",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "statup only",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.4",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 415,
+        "y": 160,
+        "wires": [
+            [
+                "8694737b5bfd1247"
+            ]
+        ],
+        "icon": "node-red/trigger.svg",
+        "l": false
+    },
+    {
+        "id": "8694737b5bfd1247",
+        "type": "function",
+        "z": "638c6657.ce65c8",
+        "name": "trigger flow startup",
+        "func": "// Run as soon as possible after all 'On Start' and 'Global Config'.\n// note: the run order of all 'Global config' and all 'On Start' is undefined.\n// So, if some 'On Start' function  requires 'Global Config' data, palace it there.\n// --------------------------------------------------- standard\nconst asDEVICE = global.get(\"TUYABRDG\");     // singleton in alldevices\nconst asMODULE = \"modules.core_trigger\";\nconst VERSION  = \"2.2.0\";\n// --------------------------------------------------- standard\nif (!global.get(\"coresetup\")){\n    node.warn(\"STARTUP ERROR: adjust this startup delay.\");\n    return([null]);\n}\n// --------------------- init startup for the flow.\nglobal.set(asMODULE,VERSION);  // update modules\n// access stuff\n// --- see also different implementation in 'core.core flow setup' node.\nlet oDev = context.global.alldevices.getODev(asDEVICE, \"real\");\nif (oDev === undefined){\n   node.warn(\"[startup] ERROR: not found the device '\"+asDEVICE+\"' in global.alldevices.\");\n   return;\n}\nvar pmDevName = context.global.alldevices.getDevName(oDev);\n// ---------------- inizializes global tuyastatus\nlet tstatus = \"tuyastatus['\"+ pmDevName+\"']\";\n// init using only _connected (not in alldevices), so does cleanup\nglobal.set(tstatus, {_connected: true});\n// init all GETable dps with default value\noDev.dps.forEach(adp => {\n    if (['RW','WW','GW','RO','UNK','PUSH', undefined].includes(adp.capability)){\n        let dpname = \"['\" + (adp.name ? adp.name:adp.dp)+\"']\";\n        switch (adp.dp){     // some special init:   \n          default:\n             global.set(tstatus+dpname, \"none\");\n        }\n    }\n });\n// --------------------------------------------- standard processing ends\n// more flow init required now (and not in 'On Start') by some properties    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// nothing to do\n",
+        "finalize": "\nglobal.set(\"modules.core_trigger\", undefined);\n",
+        "libs": [],
+        "x": 540,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e0a005718e06e1f4",
+        "type": "comment",
+        "z": "638c6657.ce65c8",
+        "name": "test Tuya_bridge switch (free)",
+        "info": "\nTest some TRIGGER capabilities, NOT used by TRIGGER, so free for custom applications.\n\nRuquires core trigger  'Global TRIGGER config' node updated.\nFor the device \"switch-1CH\". (HW dependent)\n\n",
+        "x": 740,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "c0a1423c1de9ae44",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*test  SET: relay ON ",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "relay",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "ON",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 750,
+        "y": 1300,
+        "wires": [
+            [
+                "7e4ebbc98423b427"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nstandard set relay ON"
+    },
+    {
+        "id": "7e4ebbc98423b427",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to core.std_cmd",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1095,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "2e8612c478602059",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test GET relay status",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "relay",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 750,
+        "y": 1260,
+        "wires": [
+            [
+                "7e4ebbc98423b427"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nstandard read relay status"
+    },
+    {
+        "id": "a8e4ccb1fee676a4",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*test  SET: relay OFF",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "relay",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "OFF",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 750,
+        "y": 1340,
+        "wires": [
+            [
+                "7e4ebbc98423b427"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nStandard set relay OFF"
+    },
+    {
+        "id": "e8bdbd6cab245352",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "SET default restart (mem'ory)",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "restart status",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "memory",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 780,
+        "y": 1600,
+        "wires": [
+            [
+                "b9792acd4662495b"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nStandard SET reset mode to 'memory'"
+    },
+    {
+        "id": "b98c867a6e74e2f9",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*test  GET: restart ",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "restart status",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 740,
+        "y": 1560,
+        "wires": [
+            [
+                "b9792acd4662495b"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nStandard GET actual relay reset mode"
+    },
+    {
+        "id": "b9792acd4662495b",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to core.std_cmd",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1095,
+        "y": 1520,
+        "wires": []
+    },
+    {
+        "id": "1423725a8897dda4",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "SET light mode default (none)",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "light mode",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "none",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 780,
+        "y": 1740,
+        "wires": [
+            [
+                "ca2310c28ac77341"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nStandard SET light mode to 'none'"
+    },
+    {
+        "id": "37cf171f3398757d",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*test  GET:  light mode",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "light mode",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 760,
+        "y": 1700,
+        "wires": [
+            [
+                "ca2310c28ac77341"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nStandard GET actual light mode"
+    },
+    {
+        "id": "ca2310c28ac77341",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to core.std_cmd",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1095,
+        "y": 1660,
+        "wires": []
+    },
+    {
+        "id": "b79986d07fa58cea",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test SET default restart (ON)",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "restart status",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "ON",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 780,
+        "y": 1520,
+        "wires": [
+            [
+                "b9792acd4662495b"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nStandard SET reset mode to ON"
+    },
+    {
+        "id": "d3a277bff220d6b2",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*test  SET: light mode (pos)",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "light mode",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "pos",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 770,
+        "y": 1660,
+        "wires": [
+            [
+                "ca2310c28ac77341"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nStandard SET light mode "
+    },
+    {
+        "id": "19d1e2255c656fac",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*test  SET: backlight ON ",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "backlight",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "true",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 760,
+        "y": 1840,
+        "wires": [
+            [
+                "5523501e6118834f"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nstandard set backlight ON"
+    },
+    {
+        "id": "5523501e6118834f",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to core.std_cmd",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1095,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "4eab92a9baf4044a",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test GET backlight",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "backlight",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 750,
+        "y": 1800,
+        "wires": [
+            [
+                "5523501e6118834f"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nstandard read backlight status"
+    },
+    {
+        "id": "a88f279d1abb1094",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*test  SET: backlight OFF",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "backlight",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "false",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 770,
+        "y": 1880,
+        "wires": [
+            [
+                "5523501e6118834f"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nStandard set backlight OFF"
+    },
+    {
+        "id": "0d4b83507ed69e1d",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*test  GET circulate ",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "circulate ",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 750,
+        "y": 1980,
+        "wires": [
+            [
+                "fb6126134dca20a3"
+            ]
+        ],
+        "info": "standard set relay ON"
+    },
+    {
+        "id": "fb6126134dca20a3",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to core.std_cmd",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1095,
+        "y": 1940,
+        "wires": []
+    },
+    {
+        "id": "897f90572a3b5ffd",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test SET circulate 5m/7m 13-20 alldays",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "circulate ",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "[{\"active\":true,\"days\":\"SMTWTFS\",\"start\":\"13:00\",\"end\":\"20:00\",\"on\":\"00:05\",\"off\":\"00:07\"}]",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 810,
+        "y": 1940,
+        "wires": [
+            [
+                "fb6126134dca20a3"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\n\nCirculate standard SET recirculate"
+    },
+    {
+        "id": "6b7ed9c0aadcd12b",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*SET: circulate default (none)",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "circulate",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "[]",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 780,
+        "y": 2020,
+        "wires": [
+            [
+                "fb6126134dca20a3"
+            ]
+        ],
+        "info": "Standard set relay OFF"
+    },
+    {
+        "id": "db152bd314d5ab01",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*test  GET random",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "random",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 750,
+        "y": 2120,
+        "wires": [
+            [
+                "453e1c500837dc6a"
+            ]
+        ],
+        "info": "standard set relay ON"
+    },
+    {
+        "id": "453e1c500837dc6a",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to core.std_cmd",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1095,
+        "y": 2080,
+        "wires": []
+    },
+    {
+        "id": "c8f2cf563c1dec82",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test SET random 08/10 alldays",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "random",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "{\"active\":true,\"days\":\"SMTWTFS\",\"start\":\"08:00\",\"end\":\"10:00\"}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 790,
+        "y": 2080,
+        "wires": [
+            [
+                "453e1c500837dc6a"
+            ]
+        ],
+        "info": "standard read relay status"
+    },
+    {
+        "id": "a066686a2df345c8",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*SET: random default (none)",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "random",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "[]",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 780,
+        "y": 2160,
+        "wires": [
+            [
+                "453e1c500837dc6a"
+            ]
+        ],
+        "info": "Standard set relay OFF"
+    },
+    {
+        "id": "dc5b7dc1a0db018e",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test  GET inching",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "inching",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 740,
+        "y": 1420,
+        "wires": [
+            [
+                "ffaeb60fe0d1ac58"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nstandard GET inching,"
+    },
+    {
+        "id": "ffaeb60fe0d1ac58",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "to core.std_cmd",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1095,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "696c7af89488703d",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "test SET inching  20s",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "inching",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "{\"inching\":true,\"delay\":20}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 750,
+        "y": 1380,
+        "wires": [
+            [
+                "ffaeb60fe0d1ac58"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nstandard SET inching, i.e. auto shutoff time"
+    },
+    {
+        "id": "66433c220cd221d1",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "*SET: inching default (none)",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "TUYABRDG",
+                "vt": "global"
+            },
+            {
+                "p": "payload.property",
+                "v": "inching",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "[]",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 780,
+        "y": 1460,
+        "wires": [
+            [
+                "ffaeb60fe0d1ac58"
+            ]
+        ],
+        "info": "Only the counter is used by TRIGGERs, this feature is free and can be used in any project.\n\nReset inching to OFF"
+    },
+    {
+        "id": "7f47aaed3cc009f5",
+        "type": "subflow:66ca1554.e4c85c",
+        "z": "638c6657.ce65c8",
+        "name": "REDTRG20020",
+        "env": [
+            {
+                "name": "TRGnumber",
+                "value": "20020",
+                "type": "str"
+            }
+        ],
+        "x": 200,
+        "y": 1660,
+        "wires": [
+            [
+                "48835dfc5f2bbeaa"
+            ]
+        ],
+        "info": "Test for REDTRG20020 (user command to Tuya-daemon), implemented using REDTRG subflow.\n\nprecondition:\n   tuya_bridge device connected.\n\n   For this test it is required a Tuya-cloud test automation:\n     \n      if tuya_bridge counter 1 = 20020\n          then \n            tuya_bridge counter 1 <= 0\n          and\n            <do_anything> (e.g. notification)\n            \nexpected result:\n  on debugpad the message:\n      [ \"RX: 'tuya_bridge'/'trigger (re…\", 0 ]\n and:         \n      <do_anything>  Tuya-cloud action.\n            "
+    },
+    {
+        "id": "ca04cda226a332ba",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "go",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 75,
+        "y": 1660,
+        "wires": [
+            [
+                "7f47aaed3cc009f5"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "48835dfc5f2bbeaa",
+        "type": "link out",
+        "z": "638c6657.ce65c8",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "69321d9a.30b7d4"
+        ],
+        "x": 425,
+        "y": 1660,
+        "wires": []
+    },
+    {
+        "id": "b898aafe964b4c01",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "start TEST PING 24H",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "tuya_bridge",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_testPing24H",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value.count",
+                "v": "144",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 160,
+        "y": 1520,
+        "wires": [
+            [
+                "24aff198b96ec0ad"
+            ]
+        ],
+        "info": "\nhttps://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#user-interface\n\nnote:\nThis is an example of command repetiton, build in \nGlobal.AllDevice structure, using 'share' capabilities.\n\nsee  https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#user-interface\n"
+    },
+    {
+        "id": "156a2d7f49eb581c",
+        "type": "inject",
+        "z": "638c6657.ce65c8",
+        "name": "abort TEST PING 24H",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_timerOFF\",\"value\":\"_testPing24H\"}",
+        "payloadType": "json",
+        "x": 160,
+        "y": 1560,
+        "wires": [
+            [
+                "24aff198b96ec0ad"
+            ]
+        ],
+        "info": "_timerOFF\n   Abort timer 'test1', no _beep.\n   note: do it after 'timerON test1: delayed beep (20s)'\n   \n   see https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#timer-functions\n   "
+    }
+]
