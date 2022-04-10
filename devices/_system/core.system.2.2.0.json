@@ -1,0 +1,2953 @@
+[
+    {
+        "id": "81d3b584.14c888",
+        "type": "subflow",
+        "name": "do logging",
+        "info": "This subflow simulates data received from a _real tuya device_, i.e. it builds an 'event' to be sent to the `core.logging` input.\n\nGeneral purpose, used to build events in mirror and fake devices.\n\n### Parameters\n<dl class=\"message-properties\">\n    <dt>remote <span class=\"property-type\">string | @string | NULL</span> </dt>\n    <dd>   the tuyaDEAMON instance (as in _core.global.remotemap_) or NULL.\n        \n - Default: NULL => delete 'remote' (i.e. local)\n - uses [late binding](https://discourse.nodered.org/t/subflows-and-configuration-late-and-runtime-parameters-binding/60042) node (extended), and accepts:\n      - early binding:  a string, e.g. `ANDROID`\n      - late binding: a string starting with 'global.' | 'flow.' | 'msg.' e.g. `global.instance_name`\n      - evalued value: a string starting with '@', e.g. `@global.get('instance_name')`\n- runtime override: from `msg.logging.remote` value\n\n </dd>\n    <dt>deviceID <span class=\"property-type\">string | @string</span> </dt>\n    <dd>   the device user-name or `ID` or `CID` (as in _core.global.alldevices_).\n \n -  uses [late binding](https://discourse.nodered.org/t/subflows-and-configuration-late-and-runtime-parameters-binding/60042) node (extended), and accepts:\n     - early binding:  a string, e.g. `core`\n     - late binding: a string starting with 'global.' | 'flow.' | 'msg.' e.g. `global.TUYABRDG`\n     - evalued value: a string starting with '@', e.g. `@\"tuya\"+\"_bridge\"`\n - runtime override: from `msg.logging.deviceID` value\n\n</dd>\n   <dt>propertyDP <span class=\"property-type\">string | @string</span> </dt>\n   <dd>   the data point ID or user.name (string: \"3\" or \"_version\")\n        \n-  uses [late binding](https://discourse.nodered.org/t/subflows-and-configuration-late-and-runtime-parameters-binding/60042) node (extended), and accepts:\n     - early binding:  a string, e.g. `foo`\n     - late binding: a string starting with 'global.' | 'flow.' | 'msg.' e.g. `global.COUNTDP`\n     - evalued value: a string starting with '@', e.g. `@global.get()`\n- runtime override: from `msg.logging.propertyDP` value\n\n</dd>\n<dt>value<span class=\"property-type\">any | @string | NULL</span></dt>\n<dd>  the new value from the device.\n        \n- Default: NULL => \"\"\n- uses [late binding](https://discourse.nodered.org/t/subflows-and-configuration-late-and-runtime-parameters-binding/60042) node (extended), and accepts:\n     - early binding:  a string, e.g. `foo`\n     - late binding: a string starting with 'global.' | 'flow.' | 'msg.' e.g. `global.instance_name`\n     - evalued value: a string starting with '@', e.g. `@Date.now()`\n- runtime override: from `msg.logging.value` value\n\n</dd> </dl>\n\n### Input\n\n  Any, used only to provoke the output, but values like `msg.logging.remote` can override the parameters.\n\n\n### Output\n\n````` \n  object\n     {\n    \"payload\": {\n        \"remote_from\" : <remote>,       // optional  \n        \"deviceId\": <deviceId>,\n        \"data\": {\n            \"dps\": {\n                \"<propertyDP>\" = <value>\n            }}}\n`````\n### References\nFor event messages format see `logging` INPUT node in 'core' flow.<br>\nAbout mirror devices, see ['Smoke_Detector':-case-study](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study)\n\n",
+        "category": "",
+        "in": [
+            {
+                "x": 140,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "4276113107f56397"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 660,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "6d1b2b8f.c5e554",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "remote",
+                "type": "str",
+                "value": "NULL",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "deviceID",
+                "type": "str",
+                "value": "required",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "propertyDP",
+                "type": "str",
+                "value": "required",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "value",
+                "type": "str",
+                "value": "any value allowed",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str",
+                            "num",
+                            "bool",
+                            "json",
+                            "env"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#87A980",
+        "icon": "node-red/debug.svg"
+    },
+    {
+        "id": "6d1b2b8f.c5e554",
+        "type": "function",
+        "z": "81d3b584.14c888",
+        "name": "format logging msg",
+        "func": "    // builds a fake OUT message\n   var newMsg = {\n         \"payload\": {\n           \"remote_from\" : flow.get(\"remote\"),\n           \"deviceId\" : flow.get(\"deviceID\"),\n           \"data\":{\n                dps :{}\n                }\n            }\n        }\n  // late binding CUSTOM: special 'NULL' process for 'do Logging' subflow\n   if (newMsg.payload.remote_from === 'NULL')\n         delete(newMsg.payload.remote_from);\n  \n   newMsg.payload.data.dps[flow.get(\"propertyDP\").toString()] = ((flow.get(\"value\") === 'NULL')? \"\" : flow.get(\"value\"));\n\n   return (newMsg);\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 80,
+        "wires": [
+            []
+        ],
+        "info": "implements 'NULL' rules, format output object."
+    },
+    {
+        "id": "4276113107f56397",
+        "type": "function",
+        "z": "81d3b584.14c888",
+        "name": "late binding",
+        "func": "\nfunction _upadateParam(_pname){\n     var  _xvalue = env.get(_pname);\n     if (_xvalue){\n        temp = _xvalue.toString().trim();\n        if (temp.startsWith('global.'))\n           _xvalue = global.get(temp.substring(7));\n        else if(temp.startsWith('flow.'))\n// fom caller flow context        \n           _xvalue = flow.get(\"$parent.\"+ temp.substring(5));\n        else if(temp.startsWith('msg.'))\n           _xvalue = msg[temp.substring(4)];\n// extra eval           \n        else if(temp.startsWith('@'))\n           _xvalue = eval(temp.substring(1));\n      }\n// optional: to set the parameter dynamically with a message property\n      if((msg.logging)&&(msg.logging[_pname]))\n           _xvalue = msg.logging[_pname];\n\n// save actual value in the (sub)flow context  \n      flow.set(_pname, _xvalue);\n      }\n      \n _upadateParam(\"remote\");\n _upadateParam(\"deviceID\");\n _upadateParam(\"propertyDP\");\n _upadateParam(\"value\");\n\n // done\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 80,
+        "wires": [
+            [
+                "6d1b2b8f.c5e554"
+            ]
+        ],
+        "info": "See [Subflows and configuration: late and runtime parameters binding](https://discourse.nodered.org/t/subflows-and-configuration-late-and-runtime-parameters-binding/60042)\n\nModified:\n- added evalued binding: @&lt;expression>  => eval(&lt;expression>). e.g. `@Date.now()` \n- runtime override: uses `msg.logging.xxx`"
+    },
+    {
+        "id": "89f87d49.41b81",
+        "type": "tab",
+        "label": "core_SYSTEM",
+        "disabled": false,
+        "info": "\nSince ver. 2.0 '_sistem' is implemented as a 'fake SW device.\n\n### Features\n\n  - a 'proxy' command to manage communications between multiple instances of tuyaDEAMON on lan.\n  - a centralized information point about tuyaDAEMON and the status of the devices, especially useful in security applications.\n  - 'clean' access to tuyaDAEMON and host PC resources, for automation projects, like  messages, beep, voice, timer, exec, etc.\n  - &lowbart;system extends the capability to implement customized automation task using only 'share' structure (example: _beep_loop2 implementation).\n \n For more information see https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system\n\n### Installation\n\n  note: _system can be installed (and tested) even without having any real Tuya device.\n  \n - Download last version and import it in node-red, tuyaDAEMON, using a new flow.\n \n - see `Global SYSTEM config` node for updated installation details.\n  \n### Customization\n\n - Language  CUSTOMIZATION: to change the TTS _Voice/Language_, browser dependent, in `*Telemachus` node properties. On my Chrome the choice is: en/it/es/fr/de/hi/jp/id.\n \n - DataBase commands customization: changing the number or use of BDs, it may be necessary to update the `*_system custom selector (3)` node.<br>\n See the comment node `CUSTOMIZE: DBase servers (readme)`  in 'CORE'.\n\n### Details\n\n1. For users convenice, `system` also present some node LINK:\n - **start_DAEMON**  _fired after the initial delay_.\n - **AC ALARM**:     _sends a msg every change of AC power_.\n - **WIFI ALARM**:   _sends a msg every change of WiFi, if ACpower is true._\n - **LAN ALARM**:    _sends a msg every change of LAN status_.\n \nIn `global.tuyastatus` we can found, a `tuyastatus` object like this, that stores last event values:\n````\n    HAL@home: object\n       start: \"2021-01-08 09:32:08\"\n       _ACpower: true\n       _ACunconnected: array[2]\n           0: \"umidificatore\"\n           1: \"Smart IR 3\"\n       _LANnet: true\n       _WiFinet: true\n       ... more ...\n````    \nAnd for any device (example):           \n\n````\n    Smart IR 1: object\n      _connected: true\n      status:\"OFF\"\n      ... more ...\n````\n _system has functions to read/write any value from/to tuyastatus.\n\nnote:  `'_system'` is built as an addon: if your application doesn't need those resources, you can disable this flow. Connection events will no longer be processed."
+    },
+    {
+        "id": "5ff0742e.cec73c",
+        "type": "link in",
+        "z": "89f87d49.41b81",
+        "name": "conn_ev_IN",
+        "links": [
+            "edf84736.d76338"
+        ],
+        "x": 445,
+        "y": 280,
+        "wires": [
+            [
+                "dcb6b333.2b26a"
+            ]
+        ],
+        "icon": "node-red/arrow-in.svg"
+    },
+    {
+        "id": "9a64c33b.0742e",
+        "type": "function",
+        "z": "89f87d49.41b81",
+        "name": "WiFi check",
+        "func": "\n// ceck  devices  AC and  AC + battery ('UPS'): all unconnected => WiFi down\n// version 1.1 (use of _call_library)\n// ===================================== do not change\n//\nvar CONN = \"_connected\"; //  dps = CONN, same as name, see also sub-flow \"connected\" function\nvar PWIFI = \"_WiFinet\";\nvar PAC = \"_ACpower\";\nvar ULST = \"_WiFiunconnected\";\nvar tuyastatus;\nvar count = 0;\nvar tot = 0;\nvar arraybad = [];\n\nfunction _sendOUT(value, list) {\n    // builds an artificial OUT message\n    var newMsg = {\n        \"payload\": {\n            \"deviceId\": \"_system\",\n            \"data\": {\n                \"dps\": {\n                    [PWIFI]: value,\n                    [ULST]: list\n                }\n            }\n        }\n    };\n    return newMsg;\n}\n\nfunction _checkWIFI(o) {\n    if ((o.power === undefined) || (o.power === 'BAT'))\n        return;\n    var stAcc = (o.name ===  undefined? o.id: o.name);     // real, only name/id\n    if (tuyastatus[stAcc] === undefined) return;\n    var usrCONN = context.global.alldevices.getDpsName(o, CONN);\n    if (tuyastatus[stAcc][usrCONN] === undefined) return; //  _connected not updated\n// ok\n    tot++;\n    if (tuyastatus[stAcc][usrCONN]) {\n        count++;\n    } else {\n        arraybad.push(stAcc);\n    }\n}\n\n// ---------------- main\n// stuff to access data\ntuyastatus = global.get(\"tuyastatus\");\n// find object dp\nvar oDev =       context.global.alldevices.getODev( \"_system\", \"fake\");\nvar sysDevName = context.global.alldevices.getDevName( oDev);\nvar usrWIFI =    context.global.alldevices.getDpsName(oDev, PWIFI);\nvar usrAC =      context.global.alldevices.getDpsName(oDev, PAC);\n\nvar oldlist = flow.get(ULST);\nvar oldPWIFI = flow.get(PWIFI);\n\ncount = 0;\ntot = 0;\n\n// testing:\ncontext.global.alldevices.real.forEach(element => _checkWIFI(element));\n\n// function outputs:\nif (tot < 1) {\n    node.status({\n        fill: \"yellow\",\n        shape: \"dot\",\n        text: \"WiFi devices not found\"\n    });\n    return null;\n}\n\nflow.set(ULST, arraybad);\nflow.set(PWIFI, (count > 0));\n\nvar sendnew = (JSON.stringify(oldlist) !== JSON.stringify(arraybad));\nvar sendPWIFI =((count > 0) !== oldPWIFI);\n\nnode.status({\n    fill: (count == 0 ? \"red\" : \"green\"),\n    shape: \"ring\",\n    text: \"WiFi devices ON: \" + count + \"/\" + tot\n});\n\nvar nmsg = _sendOUT((count > 0), arraybad);\n\nif (!sendPWIFI) {\n    delete nmsg.payload.data.dps[PWIFI];\n}\n\n// return(update, alarm)\nif (sendnew && (tuyastatus[sysDevName] !== undefined) && (tuyastatus[sysDevName][usrWIFI] === (count == 0)))\n\tif (tuyastatus[sysDevName][usrAC])  // alarm only if AC OK\n        return [nmsg, nmsg];\nif (sendnew)\n    return [nmsg, null];\n    \nreturn [null, null];\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "/// Code added here will be run once\n// whenever the node is deployed.\n// ---------------- main\nvar PWIFI = \"_WiFinet\";\nvar ULST = \"_WiFiunconnected\";\n//\nnode.status({\n    fill: \"yellow\",\n    shape: \"dot\",\n    text: \"start\"\n});\nflow.set(ULST, [\"new\"]);\nflow.set(PWIFI, 'new');\n",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 340,
+        "wires": [
+            [
+                "cd81b742.e8a268"
+            ],
+            [
+                "12b49b65.6585c5"
+            ]
+        ]
+    },
+    {
+        "id": "142bb8a.ab9a247",
+        "type": "delay",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "400",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "outputs": 1,
+        "x": 720,
+        "y": 340,
+        "wires": [
+            [
+                "9a64c33b.0742e"
+            ]
+        ]
+    },
+    {
+        "id": "687b57e7.524a28",
+        "type": "http request",
+        "z": "89f87d49.41b81",
+        "name": "http",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://nodered.org",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 850,
+        "y": 400,
+        "wires": [
+            [
+                "4a1c4dc.2b969b4"
+            ]
+        ]
+    },
+    {
+        "id": "4a1c4dc.2b969b4",
+        "type": "function",
+        "z": "89f87d49.41b81",
+        "name": "*LAN check",
+        "func": "// checks WEB page\n// version 1.1 (use of _call_library)\n// CUSTOMIZATION: the home page of nttp://nodered.com can change in future. \n//   Update FINDSTRING\n// ===================================== do not change\nconst FINDSTRING =\"is a programming tool for wiring\";\nconst PLAN = \"_LANnet\";\n//\nfunction _sendOUT(key, value) {\n    // builds a fake OUT message\n    var newMsg = {\n        \"payload\": {\n            \"deviceId\": \"_system\",\n            \"data\": {\n                \"dps\": {\n                    [key]: value\n                }\n            }\n        }\n    };\n    return newMsg;\n}\n\nvar oldlan =flow.get(PLAN);\n// this test must be updated in case of node-red home page change\nvar newlan = (msg.payload.indexOf(FINDSTRING) !== -1);\nif  (oldlan === newlan) return null;\n//\nflow.set(PLAN, newlan);\n//\nif (newlan) {\n    node.status({\n        fill: \"green\",\n        shape: \"ring\",\n        text: \"LAN connected\"\n    });\n    return (_sendOUT(PLAN, true));\n} else {\n    node.status({\n        fill: \"red\",\n        shape: \"ring\",\n        text: \"LAN disconnected\"\n    });\n    return (_sendOUT(PLAN, false));\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is deployed.\n\nPLAN = \"_LANnet\";\n//\nnode.status({\n    fill: \"yellow\",\n    shape: \"dot\",\n    text: \"start\"\n});\nflow.set(PLAN, \"new\");\n\n",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 400,
+        "wires": [
+            [
+                "663d9857.7d8de8",
+                "cd81b742.e8a268"
+            ]
+        ],
+        "info": "CUSTOMIZATION: \n\nUses the home page of http://nodered.com. \nIf this page changes in future you must update the FINDSTRING code.\n"
+    },
+    {
+        "id": "cd81b742.e8a268",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.logging",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 1285,
+        "y": 220,
+        "wires": [],
+        "icon": "node-red/arrow-in.svg"
+    },
+    {
+        "id": "6d096148.e5e38",
+        "type": "function",
+        "z": "89f87d49.41b81",
+        "name": "ACpower check",
+        "func": "// devices AC powered + no batteries: all off => AC power down\n// version 1.1 (use of _call_library)\n// ===================================== do not change\nvar CONN = \"_connected\"; //  dps = CONN, see also sub-flow \"connected\" function\nvar PAC = \"_ACpower\"; // can have friendly name\nvar ULST = \"_ACunconnected\";\n//\nvar tuyastatus;\nvar count = 0;\nvar tot = 0;\nvar arraybad = [];\n// --------------- locals\n\n\nfunction _sendOUT(value, list) {\n    // builds an artificial SET MULTIPLE message\n    var newMsg = {\n        \"payload\": {\n            \"deviceId\": \"_system\",\n            \"data\": {\n                \"dps\": {\n                    [PAC]: value,\n                    [ULST]: list\n                }\n            }\n        }\n    };\n    return newMsg;\n}\n// called for any real device in alldevices\nfunction _checkAC(o) {\n    if ((o.power === undefined) || (o.power !== 'AC'))\n        return;\n    var usrDev = (o.name === undefined) ? o.id : o.name;\n    if (tuyastatus[usrDev] === undefined) return; // not found\n    var usrCONN = context.global.alldevices.getDpsName(o, CONN);\n    if (tuyastatus[usrDev][usrCONN] === undefined) return; //  _connected not updated\n    // ok, test\n    tot++;\n    if (tuyastatus[usrDev][usrCONN]) {\n        count++;\n    } else {\n        arraybad.push(usrDev);\n    }\n}\n\n// ---------------- main\n// stuff to access data\ntuyastatus = global.get(\"tuyastatus\");\n// find object dp\nvar oDev =       context.global.alldevices.getODev(\"_system\", \"fake\");\nvar sysDevName = context.global.alldevices.getDevName(oDev);\nvar usrPAC =     context.global.alldevices.getDpsName(oDev, PAC);\n\nvar oldlist = flow.get(ULST);\nvar oldPAC  = flow.get(PAC);\ncount = 0;\ntot = 0;\n// testing:\ncontext.global.alldevices.real.forEach(element => _checkAC(element));\nflow.set(ULST, arraybad);\nflow.set(PAC, (count > 0));\n\n// case: no devices - no send\nif (tot < 1) {\n    node.status({\n        fill: \"yellow\",\n        shape: \"dot\",\n        text: \"AC devices not found\"\n    });\n    return null;\n}\n// conditions to send\nvar sendnew =  (JSON.stringify(oldlist) !== JSON.stringify(arraybad));\nvar sendPAC =((count > 0) !== oldPAC);\n\n// set status & msg\nnode.status({\n    fill: (count == 0 ? \"red\" : \"green\"),\n    shape: \"ring\",\n    text: \"AC devices ON: \" + count + \"/\" + tot\n});\nvar nmsg = _sendOUT((count > 0), arraybad);\nif (!sendPAC) {\n    delete nmsg.payload.data.dps[PAC];\n}\n\n// return(update, alarm)\nif ((tuyastatus[sysDevName] != undefined) && sendnew && (tuyastatus[sysDevName][usrPAC] === (count == 0)))\n    return [nmsg, nmsg];\nif (sendnew)\n    return [nmsg, null];\n\nreturn [null, null];\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is deployed.\nvar PAC = \"_ACpower\"; \nvar ULST = \"_ACunconnected\";\n//\nnode.status({\n    fill: \"yellow\",\n    shape: \"dot\",\n    text: \"start\"\n});\n//\nflow.set(ULST, [\"new\"]);\nflow.set(PAC, \"new\");",
+        "finalize": "",
+        "libs": [],
+        "x": 1020,
+        "y": 280,
+        "wires": [
+            [
+                "cd81b742.e8a268"
+            ],
+            [
+                "5ff8c041.2a12a"
+            ]
+        ]
+    },
+    {
+        "id": "12b49b65.6585c5",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "WIFI_ALARM",
+        "links": [],
+        "x": 1330,
+        "y": 340,
+        "wires": [],
+        "l": true,
+        "info": "TRIGGER for custom flows.\n\nFired at any change."
+    },
+    {
+        "id": "5ff8c041.2a12a",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "AC_ALARM",
+        "links": [],
+        "x": 1340,
+        "y": 280,
+        "wires": [],
+        "l": true,
+        "info": "TRIGGER for custom flows.\n\nFired at any change."
+    },
+    {
+        "id": "663d9857.7d8de8",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "LAN_ALARM",
+        "links": [],
+        "x": 1340,
+        "y": 400,
+        "wires": [],
+        "l": true,
+        "info": "TRIGGER for custom flows.\n\nFired at any change."
+    },
+    {
+        "id": "580c2cc4.3ac424",
+        "type": "link in",
+        "z": "89f87d49.41b81",
+        "name": "from core.fake_cmds",
+        "links": [
+            "18817677.061b9a",
+            "0f65f9b74e2cb714",
+            "4fce3fe6e29d64a2",
+            "03e4d96733c00ee1"
+        ],
+        "x": 135,
+        "y": 220,
+        "wires": [
+            [
+                "bda34507.6839e8"
+            ]
+        ],
+        "icon": "node-red/arrow-in.svg"
+    },
+    {
+        "id": "bda34507.6839e8",
+        "type": "function",
+        "z": "89f87d49.41b81",
+        "name": "checks all fake cmds, _system cmd selector (1)",
+        "func": "// Implementation of GET/SET/SCHEMA  commands \n// for 'abstract' device \"_system\"\n// part 1: use of _getGlobalValue(mx), fast commands\n\n// ------------- check for ALL fake cmds, here for convenience\nif (typeof(msg.to) === 'undefined')\n         node.warn([\"ASSERT fail: in Fake-msg the msg.to (id) must exist.\",msg]) ;   \n\nif (msg.toDev)\n         node.warn([\"ASSERT fail: in Fake-msg the msg.toDev is NOT required.\",msg]) ;   \n         \nif (typeof(msg.infodp) !== \"string\")\n         node.warn([\"ASSERT fail: msg.infodp (string) must exist.\",msg]) ;   \n  \nif (msg.payload.dp)\n         node.warn([\"temporary ASSERT fail: msg.payload.dp (string) is obsolete.\",msg]) ;   \n\n// from 2.2.0\nif(typeof(msg.hide) !== \"string\")\n         node.warn([\"ASSERT fail: in msg the msg.hide (string) must exist.\" , msg]) ;   \n  \n// \nconst DEVIDSYS = \"_system\";\n// fast exit: not SYSTEM\nif (msg.to !== DEVIDSYS) return([null]);\n\n// --------------- generic stuff\n// test: idDev GET command?\nfunction _isGetCommand(msx) {\n    return ((msx.infodp !== undefined) && (msx.payload.value === undefined));\n}\n\n// test: idDev SET command?\nfunction _isSetCommand(msx) {\n    return ((msx.infodp !== undefined) && (msx.payload.value !== undefined));\n}\n\nfunction _getGlobalValue(mx){\nvar tuyastatus = global.get(\"tuyastatus\");\nif (tuyastatus[mx.payload.device] !== undefined) { // ok device field\n   if (mx.infodp === \"schema\") \n          return tuyastatus[mx.payload.device];\n   return tuyastatus[mx.payload.device][mx.payload.property];\n   }\nreturn undefined;\n}\n\nfunction _getHome() {\n    return (global.get(\"instance_name\"));\n}\n\n// base message to log\nvar newMsg = {\n        \"payload\": {\n            \"deviceId\": \"_system\",\n            \"data\": {\n                \"dps\": {}\n            }\n        }\n    };\n    \nif (_isGetCommand(msg)) {  // a GET, but some only \n   switch (msg.infodp){\n// implemented reading tuyastatus       \n      case \"_ACpower\":\n      case \"_WiFinet\":\n      case \"_LANnet\":\n      case \"_laststart\":\n      case \"_timerON\":\n      case \"_timerOFF\":\n      case \"_ACunconnected\":\n      case \"_WiFiunconnected\":\n      case \"_doSCHEMA\":\n      case \"_doUPDATE\":\n      case \"_doBenchmark\":\n//      case \"_benchmark_step\":  to 2\n//      case \"_benchmark_end\" :  to 2\n      case \"_proxy\":\n      case \"_name\":\n      case \"_doTrigger\":\n      case \"_exec\":\n            //all GETs implemented reading tuyastatus\n            newMsg.payload.data.dps[msg.infodp] = _getGlobalValue(msg);\n            return([null, newMsg]);\n            \n      case \"_doBenchmark\":\n             return([null]);\n      case \"schema\":\n            // implemented from tuyastatus.\n            // in schema case, _getGlobalValue   returns  all the dps: {dp:value,...}\n            // filter off pseudoDP in tuyastatus (_connected, _t...)\n             Object.entries(_getGlobalValue(msg)).forEach(([key, value]) =>{\n                if ( ! context.global.PSEUDODP.includes(key.toUpperCase())) {\n                     newMsg.payload.data.dps[key]=value;\n                    }\n            });\n            return([null, newMsg]);\n    }\n}// endif GET\n\n//\nif (_isSetCommand(msg)) {  // a SET, precess here only _proxy\n    switch (msg.infodp){\n      case \"_proxy\":\n          // set  the http REST request\n            let urls = global.get(\"remotemap\");\n            var out = {\n                   url: null,\n                   headers: null,\n                   payload : msg.payload.value, \n                   };\n // puts in payload.remote_from itself (e.g. DEVPC)                   \n               out.payload[\"remote_from\"] =  _getHome();     \n               let tor  = msg.payload.value.remote;\n               if (tor ===  _getHome()){\n                    out.url = urls.local[tor]+\"/tuyaDAEMON\";\n                } else {\n                    out.url = urls.remote[tor]+\"/tuyaDAEMON\";\n                }\n                if(out.url === \"undefined/tuyaDAEMON\"){\n                   node.warn([\"ERROR [_system]: server \"+tor+\" not found: \", urls]);\n                   newMsg.payload.data.dps[msg.infodp] = \"ERROR: server not found\";\n                   return ([null, newMsg]);\n            }\n// only value JSON            \n            let jv = JSON.stringify(out.payload.value);\n            out.payload.value = jv;\n            delete out.payload.remote;\n            newMsg.payload.data.dps[msg.infodp] = \"sent\";\n            return([out,newMsg]);\n   }\n} // endif SET\n// not found: no error.  goto next selectors 2, 3\nreturn([null, null, msg]);\n",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 220,
+        "wires": [
+            [
+                "94d30962.525188"
+            ],
+            [
+                "cd81b742.e8a268"
+            ],
+            [
+                "50ec6aac.a59194"
+            ]
+        ],
+        "outputLabels": [
+            "proxy",
+            "AC",
+            ""
+        ],
+        "info": "Fake device rules:\n\nGET: returns last value, in some cases from tuyastatus.device.property\n    do not use it as TRIGGER: GET is without side effect, can be repeated.\n    \nSET: set a value, returns the same value setted.\n\nSET as TRIGGER: the value CAN be discarted ('any').\n   Returns always immediatly a value, data or only info like \"done\", \"sent\", \"WARNING...\", ...\n   Can PUSH more results later.\n \nSCHEMA: returns like GETs of all readable DPs."
+    },
+    {
+        "id": "f8963a3a.79abc8",
+        "type": "trigger",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "op1": "",
+        "op2": "ok",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "2",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 710,
+        "y": 400,
+        "wires": [
+            [
+                "687b57e7.524a28"
+            ]
+        ]
+    },
+    {
+        "id": "dcb6b333.2b26a",
+        "type": "trigger",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "1500",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 730,
+        "y": 280,
+        "wires": [
+            [
+                "142bb8a.ab9a247",
+                "f8963a3a.79abc8",
+                "6d096148.e5e38"
+            ]
+        ]
+    },
+    {
+        "id": "94d30962.525188",
+        "type": "http request",
+        "z": "89f87d49.41b81",
+        "name": "call remote REST",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "query",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 750,
+        "y": 160,
+        "wires": [
+            [
+                "2d0192cb.9b177e",
+                "6586860d.481bb8"
+            ]
+        ]
+    },
+    {
+        "id": "2d0192cb.9b177e",
+        "type": "subflow:81d3b584.14c888",
+        "z": "89f87d49.41b81",
+        "name": "proxy log",
+        "env": [
+            {
+                "name": "deviceID",
+                "value": "_system",
+                "type": "str"
+            },
+            {
+                "name": "propertyDP",
+                "value": "_proxy",
+                "type": "str"
+            },
+            {
+                "name": "value",
+                "value": "@JSON.parse(msg.payload)",
+                "type": "str"
+            }
+        ],
+        "x": 1000,
+        "y": 180,
+        "wires": [
+            [
+                "cd81b742.e8a268"
+            ]
+        ]
+    },
+    {
+        "id": "50aa886b.a0fde8",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "auto",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "10",
+        "topic": "",
+        "payload": "{\"deviceId\":\"_system\",\"data\":{\"dps\":{}}}",
+        "payloadType": "json",
+        "x": 905,
+        "y": 460,
+        "wires": [
+            [
+                "a08faa08f32a190c"
+            ]
+        ],
+        "icon": "node-red/trigger.svg",
+        "l": false
+    },
+    {
+        "id": "5a8e972b.19e048",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.logging",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 1175,
+        "y": 500,
+        "wires": [],
+        "icon": "font-awesome/fa-expand"
+    },
+    {
+        "id": "37306de6.0a7f42",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "start_DEAMON",
+        "mode": "link",
+        "links": [
+            "1b76f6cb.66b489",
+            "23901296.83a0ae",
+            "676a993c.b2a4a8",
+            "7454f585.417bcc",
+            "99db9a3e.c2c4a8",
+            "e3071913.55fb98"
+        ],
+        "x": 1330,
+        "y": 460,
+        "wires": [],
+        "l": true
+    },
+    {
+        "id": "50ec6aac.a59194",
+        "type": "function",
+        "z": "89f87d49.41b81",
+        "name": "_system cmd selector (2)",
+        "func": "// selects&executes commands for _system: part 2\n// implkementation of more commands\n\n// --------------- locals\nconst DEVID = \"_system\";\n\n// test: _system GET command?\nfunction _isGetCommand(msx) {\n    return ((msx.infodp !== undefined) && (msx.payload.value === undefined));\n}\n\n// test: _system SET command?\nfunction _isSetCommand(msx) {\n    return ((msx.infodp !== undefined) && (msx.payload.value !== undefined));\n}\n       \n// get a device ID array from alldevices.    (alldevices, limit = 'real', 'virtual', 'fake',  null (all))  \nfunction getIdArray(limit = null){\n    var arr =[];\n    if ((limit === null) || (limit === 'real'))\n       context.global.alldevices.real.forEach(dev =>    arr.push(dev.name||dev.cid||dev.id));\n    if ((limit === null) || (limit === 'virtual'))\n       context.global.alldevices.virtual.forEach(dev => arr.push(dev.name||dev.cid||dev.id));\n    if ((limit === null) || (limit === 'fake'))\n       context.global.alldevices.fake.forEach(dev =>    arr.push(dev.name||dev.cid||dev.id));\n    return arr;\n}\n        \n\n//base message to log\nvar newMsg = {\n     payload: {\n         deviceId : \"_system\",\n         data : {\n             dps : {}\n        }\n    }\n};\n\n\n// ============================  fast output processing\nvar req = {\n    to: null,\n    payload: {}\n}\n\n// ------------- main\nif (_isGetCommand(msg)) { //  GETs with runtime implementation\n    switch (msg.infodp) {\n    case \"_timerList\":\n        return ([null, null, null, {topic: \"list\"}]);\n    case \"_tuyastatus\":\n        return ([null, null, null, null, null, null, null, null, null, null, { payload: msg.payload.value}]);\n    case \"_benchmark\":\n        newMsg.payload.data.dps[msg.infodp] = flow.get(\"benchmark\");\n        return ([null, newMsg]);\n    case \"_zeroLog\":\n    case \"_zeroTask\":               // doing nothing\n        newMsg.payload.data.dps[msg.infodp] = \"nothing\";\n        return ([null, newMsg]);\n    case \"_benchmark_step\":               // doing nothing\n    case \"_benchmark_end\":               // doing nothing\n          return ([null]);\n    }\n} // end GET\n\nif (_isSetCommand(msg)) { // a SET\n switch (msg.infodp) {\n // timer\n    case \"_timerON\":\n        if (msg.payload.value.id === undefined)\n            msg.payload.value[\"id\"] = msg._msgid;\n        return ([null, null, null, { topic: \"set\", payload: msg.payload.value } ]);\n    case \"_timerOFF\":\n        newMsg.payload.data.dps[msg.infodp] = \"sent\";\n        return ([null, newMsg, null, { topic: \"clear\", payload: { id: msg.payload.value } } ]);\n// direct access\n    case \"_doTrigger\":\n        if(! global.get(\"modules.core_trigger\")){\n           newMsg.payload.data.dps[msg.infodp] = \"WARNING: this property requires the TRIGGER module.\";\n           return ([null, newMsg]);\n        }\n        triggerDP = global.get(\"COUNTDP\");  // tuya-bridge countdown\n        nt = (typeof msg.payload.value === 'string')?parseInt(msg.payload.value):msg.payload.value ;\n        msg = { \"payload\": {  \"dps\": triggerDP, \"set\": nt } };  // this destroy msg.infodp\n        newMsg.payload.data.dps[\"_doTrigger\"] = nt.toString();\n        return ([msg, newMsg]); // _to tuya_bridge:output 1\n    case \"_toLowIN\":\n        newMsg.payload.data.dps[msg.infodp] = msg.payload.value;\n        return ([null, newMsg, null, null, msg.payload.value]);\n    case \"_toFastIN\":\n        newMsg.payload.data.dps[msg.infodp] = msg.payload.value;\n         return ([null, newMsg, null, null, null, { payload: msg.payload.value }]);\n    case \"_toStdCmd\":\n        newMsg.payload.data.dps[msg.infodp] = msg.payload.value;\n        return ([null, newMsg, null, null, null, null, { payload: msg.payload.value }]);\n    case \"_toShare\":\n        newMsg.payload.data.dps[msg.infodp] = msg.payload.value;\n        return ([null, newMsg, null, null, null, null, null, msg.payload.value]);\n    case \"_toLogging\":\n        newMsg.payload.data.dps[msg.infodp] = \"sent\";\n        return ([null, newMsg, null, null, null, null, null, null, { payload: msg.payload.value } ]);\n    case \"_toWarn\":\n       node.warn(msg.payload.value);\n       newMsg.payload.data.dps[msg.infodp] = \"sent\";\n       return ([null, newMsg]);\n    case \"_toDebug\":\n       newMsg.payload.data.dps[msg.infodp] = \"sent\";\n       return ([null, newMsg, null, null, null, null, null, null, null, { payload: msg.payload.value } ]);\n    case \"_beep\":\n        newMsg.payload.data.dps[msg.infodp] =\"done\";\n        return ([null, newMsg, null, null, null, null, null, null, null, null, null, { payload: flow.get(\"beep64\") }]);\n    case \"_play\" :\n        newMsg.payload.data.dps[msg.infodp] = \"sent\";\n        return ([null, newMsg, null, null, null, null, null, null, null, null, null, null, { payload: msg.payload.value }]);\n        \n// global.tuyastus\n    case \"_doSCHEMA\":\n        // 2.2  returns always a LIST[] \n     // becase is used 'fast_cmds', the controls must be done here\n      let o1 = context.global.alldevices.getODev(msg.payload.value);\n      let devName = context.global.alldevices.getDevName(o1);\n      if ((o1 === undefined)||(o1.dps === undefined)||(o1.dps.count <1) || (o1.capability && o1.capability.includes('NONE'))) {\n               newMsg.payload.data.dps[msg.infodp] =  \"WARNING: \"+ devName + \" does not exist or is inaccessible.\"\n               return ([null, newMsg]);\n               }\n       // uses only multiple GETs\n       let list1 = [];\n       o1.dps.forEach(function(property) {                               // uses GETs\n           let dpname = property.name || property.dp.toString();\n           if ((property.capability === undefined) || ([\"RW\",\"RO\",\"GW\",\"WW\"].includes(property.capability)) ) {\n                 gmsg ={  payload:{'device': devName,'property': dpname }} ;  // local GET\n                 node.send([null, null, null, null, null, gmsg]);\n                 list1.push(dpname);\n                 }\n          });\n         if (list1.length == 0){\n                 newMsg.payload.data.dps[msg.infodp] = \"WARNING: \"+ devName + \" without READ DPs.\";\n                 return ([null, newMsg]);\n                 }\n      newMsg.payload.data.dps[msg.infodp] = {device: devName, dps_get: list1};\n      return ([null, newMsg]);\n      \n    case \"_doUPDATE\":\n        let tuyastatus = global.get(\"tuyastatus\");\n        let allList    = getIdArray(msg.payload.value);\n        let list = [];\n        // becase is used 'fast_cmds', the controls must be done here\n        if ((allList === undefined)||(allList.count <1)) {\n               newMsg.payload.data.dps[msg.infodp] = \"WARNING: Not found \" +msg.payload.value+\" devices\";\n               return ([null, newMsg]);\n               }\n        allList.forEach(function(device) {\n            let devO = context.global.alldevices.getODev(device);\n            var cnx  = context.global.alldevices.getConnectName(devO);\n            let devconnected = ((tuyastatus[cnx]) && tuyastatus[cnx]._connected);\n            if (devconnected) {\n                gmsg ={  payload:{'device': '_system','property': '_doSCHEMA', 'value': device }} ;\n                node.send([null, null, null, null, null,gmsg]);\n                list.push(device + '; ok');\n                } else {\n                    if (tuyastatus[device])\n                       list.push(device + '; NOT connected');\n                    else\n                       list.push(device + '; *** NOT FOUND in tuyastatus');\n                }\n            });\n        newMsg.payload.data.dps[msg.infodp] = {[(msg.payload.value ? msg.payload.value + \"_devices\":\"devices\")]:list};\n        return ([null, newMsg]);\n\n    case \"_tuyastatus\":\n        return ([null, null, null, null, null, null, null, null, null, null, {\n                    payload: msg.payload.value,\n                    sysname: msg.payload.device,\n                    propname: msg.payload.property } ]);  // to use the usr-names on answer\n// benchmark\n    case \"_zeroTask\":        //  a return msg is required to process 'share'\n        newMsg.payload.data.dps[msg.infodp] = \"done SET \" + msg.infodp;\n        return ([null, newMsg]);\n    case \"_zeroLog\":         //  analyzes the given 'value' for tests   \n       newMsg.payload.data.dps[msg.infodp] = [\"Normalized SET value: \" + typeof(msg.payload.value), msg.payload.value];\n       return ([null, newMsg]); \n    case \"_benchmark\":\n        flow.set(\"benchmark\", msg.payload.value);\n        newMsg.payload.data.dps[msg.infodp] = msg.payload.value;\n        return ([null, newMsg]);\n    case \"_doBenchmark\":\n        benchmark = flow.get(\"benchmark\");\n         //\n        flow.set(\"benchmark_count\", 1);\n        flow.set(\"bnch_status\", \"run\")\n        //  timer for end benckmark\n        var timex = {\n            \"device\": \"_system\",\n            \"property\": \"_timerON\",\n            \"value\": {\n                \"id\": \"bench\",\n                \"timeout\": benchmark.timeout || 10000,\n                \"alarmPayload\":{\n                    \"share\": [{\n                            \"action\": [{\n                                    \"device\": \"_system\",\n                                    \"property\": \"_benchmark_end\",\n                                    \"value\":\"any\"\n                            }] }]\n                }\n            }\n        }\n        newMsg.payload.data.dps[msg.infodp] = \"started\";\n         return([null, newMsg, null, null, null, {payload:benchmark}, {payload: timex}]);\n     case \"_benchmark_step\":\n        let bnch_status = flow.get(\"bnch_status\");\n        let c = flow.get(\"benchmark_count\");\n// security exit\n        if (c > 50000){\n              flow.set(\"bnch_status\", \"done\");\n              bnch_status = \"done\";\n         }\n        let benchx = flow.get(\"benchmark\");\n        switch (bnch_status){\n            case(\"run\"):\n               flow.set(\"benchmark_count\", c +1);\n               return ([null, null, null, null, null, {payload: benchx}]);        \n            case(\"done\"):\n                flow.set(\"bnch_status\", \"wait\")\n                newMsg.payload.data.dps[\"_doBenchmark\"] = {\n                    \"count\": c > 50000 ? \"owerflow\":c,\n                    \"timeout\":  benchx.timeout,\n                    \"device\":   benchx.device,\n                    \"property\": benchx.property };\n                return ([null, newMsg]);\n        }\n        return ([null]);\n     case \"_benchmark_end\":\n       flow.set(\"bnch_status\", \"done\");\n       return([null]);\n    case \"_exec\":\n       newMsg.payload.data.dps[msg.infodp] = \"started\";\n       return ([null, newMsg, null, null, null, null, null, null, null, null, null, null, null, { payload: msg.payload.value } ]);\n    } // end case\n} // endif SET\n// not found: no error.  goto next selector\nreturn ([null, null, null, null, null, null, null, null, null, null, null, null, null, null, msg]);\n",
+        "outputs": 15,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 700,
+        "wires": [
+            [
+                "808817eb.3be488"
+            ],
+            [
+                "83ac5d1.6b830a"
+            ],
+            [
+                "808817eb.3be488"
+            ],
+            [
+                "886cdd12.7efdd"
+            ],
+            [
+                "3a1df4f8.435cec"
+            ],
+            [
+                "e8f89f67.1aa7f"
+            ],
+            [
+                "a838f77b.9166c8"
+            ],
+            [
+                "e6e5a7b3.a53aa8"
+            ],
+            [
+                "aa6116ba.7b69c8"
+            ],
+            [
+                "eff3642f.49bd28"
+            ],
+            [
+                "cbbbacd7.70e4"
+            ],
+            [
+                "7e672c85.ba1aa4"
+            ],
+            [
+                "92a1f6ed.d388f8"
+            ],
+            [
+                "52445b44.003e34"
+            ],
+            [
+                "1ac1311.8bdaecf"
+            ]
+        ],
+        "outputLabels": [
+            "to tuya_bridge",
+            "to logging",
+            "do trg_ping",
+            "do Timer",
+            "to low_IN",
+            "to fast_IN",
+            "to std_IN",
+            "to share_IN",
+            "to logging_IN",
+            "do debug",
+            "do tuyastatus",
+            "do beep64",
+            "do play",
+            "to_next",
+            ""
+        ],
+        "info": "Select GET/SET/SCHEMA/MULTIPLE  commands \nfor 'fake' device\n\nImplementation:\n\n\"_system\":\"_trgPing\" accepts only GET: fires a data refresh.\n             \nThe stadard GET tuyaDAEMON request\n````\n    msg.payload:{\n        \"device\":\"_system\", \n        \"property\":\"_trgPing\"  \n        } \n````        \nfires a flow that implements the command.\n"
+    },
+    {
+        "id": "83ac5d1.6b830a",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.logging",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 625,
+        "y": 520,
+        "wires": [],
+        "icon": "node-red/arrow-in.svg"
+    },
+    {
+        "id": "808817eb.3be488",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to trigger.tuya_bridge_IN",
+        "links": [
+            "69321d9a.30b7d4"
+        ],
+        "x": 625,
+        "y": 560,
+        "wires": [],
+        "icon": "node-red/arrow-in.svg"
+    },
+    {
+        "id": "8f549c9f.95925",
+        "type": "comment",
+        "z": "89f87d49.41b81",
+        "name": "_system (fake device) 2.2.0",
+        "info": "",
+        "x": 220,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "2e16e8b1.73e438",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "GET _name",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_name\"}",
+        "payloadType": "json",
+        "x": 710,
+        "y": 1260,
+        "wires": [
+            [
+                "b628aa72daf235de"
+            ]
+        ],
+        "info": "simple GET command\n\nname from 'Global CORE configuration'.\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#_proxy"
+    },
+    {
+        "id": "886cdd12.7efdd",
+        "type": "jsontimer",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "locale": "it-IT",
+        "localeOptions": "{\"weekday\":\"long\",\"month\":\"2-digit\",\"day\":\"2-digit\"}",
+        "x": 670,
+        "y": 600,
+        "wires": [
+            [
+                "f1b6a20b.e720e"
+            ],
+            [
+                "284250cf.ebbeb"
+            ]
+        ]
+    },
+    {
+        "id": "f1b6a20b.e720e",
+        "type": "switch",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "list",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "settimer",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "error",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "clearedtimer",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "alarm",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 1010,
+        "y": 580,
+        "wires": [
+            [
+                "47c43848.b113c8"
+            ],
+            [
+                "71166e6c.2329f"
+            ],
+            [
+                "152e082b.157508"
+            ],
+            [
+                "e36be163.d8173"
+            ],
+            [
+                "e2bc34c5ea187eb7"
+            ]
+        ]
+    },
+    {
+        "id": "818feefe.ab666",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.share IN",
+        "links": [
+            "3d54171f.a9e138"
+        ],
+        "x": 1055,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "152e082b.157508",
+        "type": "subflow:81d3b584.14c888",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "env": [
+            {
+                "name": "deviceID",
+                "value": "_system",
+                "type": "str"
+            },
+            {
+                "name": "propertyDP",
+                "value": "_timerON",
+                "type": "str"
+            },
+            {
+                "name": "value",
+                "value": "@\"ERROR \"+msg.error",
+                "type": "str"
+            }
+        ],
+        "x": 1240,
+        "y": 640,
+        "wires": [
+            [
+                "be8e7d4f.d6577"
+            ]
+        ]
+    },
+    {
+        "id": "71166e6c.2329f",
+        "type": "subflow:81d3b584.14c888",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "env": [
+            {
+                "name": "deviceID",
+                "value": "_system",
+                "type": "str"
+            },
+            {
+                "name": "propertyDP",
+                "value": "_timerON",
+                "type": "str"
+            },
+            {
+                "name": "value",
+                "value": "msg.datetime",
+                "type": "str"
+            }
+        ],
+        "x": 1240,
+        "y": 600,
+        "wires": [
+            [
+                "be8e7d4f.d6577"
+            ]
+        ]
+    },
+    {
+        "id": "47c43848.b113c8",
+        "type": "subflow:81d3b584.14c888",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "env": [
+            {
+                "name": "deviceID",
+                "value": "_system",
+                "type": "str"
+            },
+            {
+                "name": "propertyDP",
+                "value": "_timerList",
+                "type": "str"
+            },
+            {
+                "name": "value",
+                "value": "msg.timers",
+                "type": "str"
+            }
+        ],
+        "x": 1240,
+        "y": 560,
+        "wires": [
+            [
+                "be8e7d4f.d6577"
+            ]
+        ]
+    },
+    {
+        "id": "be8e7d4f.d6577",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.logging",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 1395,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "2d69ff50.f4e4c",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "timerON test1: delayed beep (20s)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_timerON\",\"value\":{\"id\":\"test1\",\"timeout\":20000,\"alarmPayload\":{\"device\":\"_system\",\"property\":\"_beep\",\"value\":\"any\"}}}",
+        "payloadType": "json",
+        "x": 1280,
+        "y": 1500,
+        "wires": [
+            [
+                "7c949bb.9267764"
+            ]
+        ],
+        "info": "NOTE:\nIt's okay if it sends a _beep command 20 s later.\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#timer-functions\n\n"
+    },
+    {
+        "id": "7c949bb.9267764",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1515,
+        "y": 1500,
+        "wires": []
+    },
+    {
+        "id": "8abf0fbe.23b36",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "timerOFF test1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_timerOFF\",\"value\":\"test1\"}",
+        "payloadType": "json",
+        "x": 1220,
+        "y": 1580,
+        "wires": [
+            [
+                "7c949bb.9267764"
+            ]
+        ],
+        "info": "_timerOFF\n   Abort timer 'test1', no _beep.\n   note: do it after 'timerON test1: delayed beep (20s)'\n   \n   see https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#timer-functions\n   "
+    },
+    {
+        "id": "85655caa.46b94",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "timer  GET list",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_timerList\"}",
+        "payloadType": "json",
+        "x": 1210,
+        "y": 1620,
+        "wires": [
+            [
+                "7c949bb.9267764"
+            ]
+        ],
+        "info": "_timerList:\n   Get a list of running  timers.\n      note: do it after 'timerON test1: delayed beep (20s)' and/or 'imerON test2: 30s (share)'\n   \nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#timer-functions"
+    },
+    {
+        "id": "e36be163.d8173",
+        "type": "subflow:81d3b584.14c888",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "env": [
+            {
+                "name": "deviceID",
+                "value": "_system",
+                "type": "str"
+            },
+            {
+                "name": "propertyDP",
+                "value": "_timerOFF",
+                "type": "str"
+            },
+            {
+                "name": "value",
+                "value": "@\"Cleared timer id: \"+ msg.id",
+                "type": "str"
+            }
+        ],
+        "x": 1240,
+        "y": 680,
+        "wires": [
+            [
+                "be8e7d4f.d6577"
+            ]
+        ]
+    },
+    {
+        "id": "fbc04e05.ea7f6",
+        "type": "comment",
+        "z": "89f87d49.41b81",
+        "name": "Test cases for  core + system",
+        "info": "see:\nhttps://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system",
+        "x": 200,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "6f547848.10d178",
+        "type": "comment",
+        "z": "89f87d49.41b81",
+        "name": "timer",
+        "info": "Timer for user commands.\nSee system,  `_timerON`, `_timerOFF`, `_timerList`  DPs.",
+        "x": 830,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "21cde6b9.c6121a",
+        "type": "comment",
+        "z": "89f87d49.41b81",
+        "name": "proxy",
+        "info": "used to do REST between tuyaDAEMON instances",
+        "x": 870,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "50c7d930.c7b2a8",
+        "type": "comment",
+        "z": "89f87d49.41b81",
+        "name": "Alarms (readme)",
+        "info": "SYSTEM Alarms:\n\nSee system, `_ACpower`, `_ACunconnected`,  `_LANnet`, `_WIFInet`, `_WIFIunconnected`, `_laststart` DPs.\n\nChecked at any devices status change:\n\n- **AC_ALARM**:      some real devices are 'AC' powered AND  all are unconnected\n\n- **WIFI_ALARM**:    some real devices are not 'BAT' powered AND not AC_ALARM AND all are unconnected\n\n- **LAN_ALARM**:     can not cannect a web site (default: nodered.com).\n\nOnly at start:\n\n- **start_DEAMON**:  signals tuyaDAEMON start, after the initial connection activity.\n                     User defined delay (defaut 10 s). Example: can be used to do initial UI refresh.",
+        "x": 760,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "3a1df4f8.435cec",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.low_level_IN",
+        "links": [
+            "b25c688d.705df8"
+        ],
+        "x": 625,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "e6e5a7b3.a53aa8",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.share IN",
+        "links": [
+            "3d54171f.a9e138"
+        ],
+        "x": 625,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "a838f77b.9166c8",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 625,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "e8f89f67.1aa7f",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.fast_cmds",
+        "links": [
+            "c084a743.290b28"
+        ],
+        "x": 625,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "cbbbacd7.70e4",
+        "type": "function",
+        "z": "89f87d49.41b81",
+        "name": "tuyastatus",
+        "func": "//  GET, SCHEMA: solved from tuyastaus, returns data \n//  SET, MULTIPLE: added to tuyastatus\n// input: payload:{device:<name>,property:<name>,value} note: names, not id/dp\n\n\nvar tuyastatus = global.get(\"tuyastatus\");\nif (tuyastatus === undefined) return null;\n\n// builds a message for log\nvar newMsg = {\n        \"payload\": {\n            \"deviceId\": \"_system\",\n            \"data\": {\n                \"dps\": {}\n            }\n        }\n    };\n// ----------- is LIST\nif ((msg.payload === undefined) || (msg.payload.device === undefined)){  \n         msg[\"payload\"] = {list: Object.keys(tuyastatus)};\n         newMsg.payload.data.dps[\"_tuyastatus\"] = msg.payload;\n         return (newMsg);\n       }\n\n// -----------------------  device normalization\nvar devObj = context.global.alldevices.getODev(msg.payload.device);\nif (devObj === undefined) {\n    node.warn([\"ERROR _system.tuyastatus: not found in alldevices the device '\" + msg.payload.device + \"'\", msg]);\n    return [null];\n}\nmsg.payload.device =context.global.alldevices.getDevName(devObj);\nmsg[\"to\"] = (devObj.cid !== undefined)? devObj.cid: devObj.id;\n// ------------------------ property normalization\nmsg[\"infodp\"] = \"schema\";\nif (msg.payload.property !== undefined)  { \n       dpObj =context.global.alldevices.getODps(devObj, msg.payload.property);\n       if (dpObj !== undefined) {\n            msg[\"infodp\"] =  dpObj.dp.toString();\n            msg.payload.property = (dpObj.name === undefined) ? dpObj.dp : dpObj.name; \n        } else {\n           msg[\"infodp\"] = msg.payload.property.toString(); \n        }\n}\n//  end normalization\n\n// clear old response, if any\nif (tuyastatus[msg.sysname][msg.propname] !== undefined)\n  delete tuyastatus[msg.sysname][msg.propname];\n // bad, abort (unused ?)\nif ( tuyastatus[msg.payload.device] === undefined) {\n             node.warn([\"Not found in tuyastatus \"+ msg.payload.device], tuyastatus, msg);\n             return null;\n         }\n \n// ------------ is SCHEMA\nif (msg[\"infodp\"] === \"schema\")  { \n         msg.payload['value'] =  {schema: tuyastatus[msg.payload.device]};\n         newMsg.payload.data.dps[\"_tuyastatus\"] = msg.payload;\n         return (newMsg);\n}\n// ------------ is GET\nif (msg.payload.value === undefined) { \n        if ( tuyastatus[msg.payload.device][msg.payload.property] === undefined) {\n             node.warn([\"Not found in tuyastatus \"+ msg.payload.device + \".\"+msg.payload.property], tuyastatus, msg);\n             return null;\n         }\n         msg.payload['value'] = tuyastatus[msg.payload.device][msg.payload.property];\n         newMsg.payload.data.dps[\"_tuyastatus\"] = msg.payload;\n         return (newMsg);\n      }\n// ------------ is SET\n     tuyastatus[msg.payload.device][msg.payload.property] = msg.payload.value;\n     newMsg.payload.data.dps[\"_tuyastatus\"] = msg.payload;\n     global.set(\"tuyastatus\", tuyastatus);\n     return (newMsg);\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 880,
+        "wires": [
+            [
+                "d6125a353ea185cf"
+            ]
+        ]
+    },
+    {
+        "id": "11023367.4cf45d",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.logging",
+        "mode": "link",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 485,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "aa6116ba.7b69c8",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.logging",
+        "mode": "link",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 625,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "eff3642f.49bd28",
+        "type": "debug",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 625,
+        "y": 840,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "6db5220c.6c9b0c",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.fast_cmds",
+        "links": [
+            "c084a743.290b28"
+        ],
+        "x": 535,
+        "y": 1680,
+        "wires": []
+    },
+    {
+        "id": "bdf69c76.41d49",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test GET last benckmark",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_benchmark\"}",
+        "payloadType": "json",
+        "x": 750,
+        "y": 1820,
+        "wires": [
+            [
+                "063ac16c1ab07a21"
+            ]
+        ],
+        "info": "GET: returns benchmark settings.\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#benchmark"
+    },
+    {
+        "id": "fbffd457.7c0468",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test zeroTASK",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_zeroTask\"}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 1680,
+        "wires": [
+            [
+                "6db5220c.6c9b0c"
+            ]
+        ],
+        "info": "\nZeroTask is the simplest and fastest task of tuyaDAEMON: it does nothing.\nWithout any logs, it is used for stress tests and benchmarks.\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#benchmark"
+    },
+    {
+        "id": "3ba15d04.5eb9c2",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test zeroLOG",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_zeroLog\",\"value\":\"any\"}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 1720,
+        "wires": [
+            [
+                "6db5220c.6c9b0c"
+            ]
+        ],
+        "info": "ZeroLog does nothing, but it does logs. Also used for stress tests and benchmarks.\n\nIN SET case, it returns the actal value.\n\nnote: this feature can be used to test an ENCODE function, or, in general, to ceck the user values processing, changing temporally the alldevices definition for _zeroLOG (\"type\" or \"typefield\") and putting a test value in \"value\".\n\nhttps://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#benchmark"
+    },
+    {
+        "id": "d35496cf.5460c8",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "START doBenckmark (SET)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_doBenchmark\",\"value\":\"start\"}",
+        "payloadType": "json",
+        "x": 760,
+        "y": 1740,
+        "wires": [
+            [
+                "063ac16c1ab07a21"
+            ]
+        ],
+        "info": "This start a benchmark, prepared by '_benchmark' property.\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#benchmark\n\nExpected result:\n \n     [ \"TX: SET fake HAL@home/_doBench…\", \"start\" ]\n     [ \"RX: HAL@home/_doBenchmark\", \"started\" ]\n\n     [ \"TX: SET fake HAL@home/_timerON\", object ]\n     [ \"RX: HAL@home/_timerON\", \"Sat Apr 02 2022 13:14:21 GMT+0…\" ]\n\n Now run the test task (in this case zeroTASK, so no messages )\n\n     [ \"RX: HAL@home/_timerON\", \"Done id: bench\" ]\n     \n     [ \"RX: HAL@home/_doBenchmark\", object ]\n     \nnote: in `node-red` the order of debug pad messages is not guaranteed.     "
+    },
+    {
+        "id": "15c0e9da.da8da6",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "choose benckmark:  zeroTask  (5s)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_benchmark\",\"value\":{\"device\":\"_system\",\"property\":\"_zeroTask\",\"timeout\":5000}}",
+        "payloadType": "json",
+        "x": 250,
+        "y": 1760,
+        "wires": [
+            [
+                "6db5220c.6c9b0c"
+            ]
+        ],
+        "info": "This prepare a benchmak using _zeroTask for 10 s.\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#benchmark"
+    },
+    {
+        "id": "ffba941b.5b7c78",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "choose benckmark:  zeroLog (10s)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_benchmark\",\"value\":{\"device\":\"_system\",\"property\":\"_zeroLog\",\"timeout\":10000}}",
+        "payloadType": "json",
+        "x": 260,
+        "y": 1800,
+        "wires": [
+            [
+                "6db5220c.6c9b0c"
+            ]
+        ],
+        "info": "This prepare a benchmak using _zeroLog for 20 s.\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#benchmark"
+    },
+    {
+        "id": "aa9acc61.81b7d",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test  GET doBenckmark",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_doBenchmark\"}",
+        "payloadType": "json",
+        "x": 740,
+        "y": 1780,
+        "wires": [
+            [
+                "063ac16c1ab07a21"
+            ]
+        ],
+        "info": "\nGET: it returns last result or 'none'."
+    },
+    {
+        "id": "87a7bcc7.bedfa",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.sql_DB",
+        "links": [
+            "9538139a.19ca1"
+        ],
+        "x": 485,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "1ac1311.8bdaecf",
+        "type": "function",
+        "z": "89f87d49.41b81",
+        "name": "*_system custom selector (3)",
+        "func": "// selects&executes commands for _system: part 3\n// CUSTOMIZATION for used DB, error messages\n//\n// --------------- locals\nconst DEVID = \"_system\";\n\nfunction _getGlobalValue(mx){\nvar tuyastatus = global.get(\"tuyastatus\");\nif ((tuyastatus !== undefined) && (tuyastatus[mx.payload.device] !== undefined)) { // ok device field\n   if (mx.infodp === \"schema\") \n          return tuyastatus[mx.payload.device];\n   return tuyastatus[mx.payload.device][mx.payload.property];\n   }\nreturn undefined;\n}\n\n// test: _system GET command?\nfunction _isGetCommand(msx) {\n    return ((msx.infodp !== undefined) && (msx.payload.value === undefined));\n}\n\n// test: _system SET command?\nfunction _isSetCommand(msx) {\n    return ((msx.infodp !== undefined) && (msx.payload.value !== undefined));\n}\n\n//base message to log\nvar newMsg = {\n     payload: {\n         deviceId : DEVID,\n         data : {\n             dps : {}\n        }\n    }\n};\n// TO COSTOMIZE for more DataBase used: set  one 'dp' for DB!\n// To NOT use some/all DBs: disable nodes and configuration\n// --------------------------  main\nif (_isGetCommand(msg)) { // a GET\n    switch (msg.infodp) {\n      case \"_sqlDBlocal\":     \n      case \"_sqlDBremote\":            // default uses 2 DBs\n// GET implemented reading tuyastatus\n            newMsg.payload.data.dps[msg.infodp] = _getGlobalValue(msg);\n            return([newMsg]);\n    }\n// ----------------\n// last selector: warning if not processed\n  node.warn([\"WARNING [\"+DEVID+\"] The GET of dp '\"+msg.infodp+\"' is NOT allowed.\", msg])\n  newMsg.payload.data.dps[msg.infodp] = \"WARNING: GET not allowed\";\n return ([newMsg]);\n}\n\nif (_isSetCommand(msg)) { // a SET\n    switch (msg.infodp) {\n      case \"_sqlDBlocal\":\n      case \"_sqlDBremote\":              // one 'dp' for DB: HERE CUSTOM\n//\n// test: are DBs ok? reading tuyastatus._system. _BBase (for all DBs, true|false)\n// ---- get user name\n    var devObj = context.global.alldevices.getODev(\"_core\", \"fake\");\n    var dpObj  =context.global.alldevices.getODps( devObj, \"_DBase\");\n    var devName= devObj.name? devObj.name:\"_core\";\n    var dpName = dpObj.name? dpObj.name: \"_DBase\";\n// test\n   let dbase = global.get(\"tuyastatus.\"+devName+\".\"+dpName);\n   if (dbase && (dbase !== \"none\")) {\n// since 2.2.0: added hide, \"_dbase\"       \n        return ( [null,  {topic: msg.payload.value,\n                         to: \"_dbase\",\n                         hide: msg.hide,\n                         infodp: msg.infodp }]);  \n   }\n   newMsg.payload.data.dps[msg.infodp] = \"WARNING: DataBase disconnected\";\n   return ([newMsg]);\n     }\n// ------------------------     \n// last selector: warning if not processed\n node.warn([\"WARNING [\"+DEVID+\"] The SET of dp '\"+msg.infodp+\"' is NOT allowed.\", msg])\n newMsg.payload.data.dps[msg.infodp] = \"WARNING: SET not allowed\";\n return ([newMsg]);\n}\n\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 1000,
+        "wires": [
+            [
+                "11023367.4cf45d"
+            ],
+            [
+                "87a7bcc7.bedfa"
+            ]
+        ],
+        "info": "CUSTOMIZATION\n\nAdding/deleting DB: here is the case of 2 DB \n\nTo add/modify DB\n  \n - set 2 nodes for every DB (log, no-log)\n - update '*all DB status' node\n  \n - define a `_system` property for every DB (like `_sqlDBlocal`, `_sqlDBremote`) \n \n - add properties to alldevices (using `tuyadaemotoolkit` if you like)\n \n - edit this function: one 'dp' for DB\n  \n"
+    },
+    {
+        "id": "92a1f6ed.d388f8",
+        "type": "play audio",
+        "z": "89f87d49.41b81",
+        "name": "Telemachus",
+        "voice": "9",
+        "x": 700,
+        "y": 980,
+        "wires": [],
+        "info": "Set language and voice in the node interface (system dependent)."
+    },
+    {
+        "id": "7e672c85.ba1aa4",
+        "type": "base64",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "action": "",
+        "property": "payload",
+        "x": 670,
+        "y": 920,
+        "wires": [
+            [
+                "92a1f6ed.d388f8"
+            ]
+        ]
+    },
+    {
+        "id": "c64a50dd.083f1",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test  BEEP",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_beep",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "any",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 180,
+        "y": 1320,
+        "wires": [
+            [
+                "f302b04b.6478b"
+            ]
+        ],
+        "info": "Acustic signal.\nnote: \n  This sound is stored as string in Global.beep64\n  \nsee  https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#user-interface\n"
+    },
+    {
+        "id": "dd28534e.b1b93",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test  Hello Word",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_play",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "Hello word, I'm HAL@home, your tuyadaemon System device.",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 200,
+        "y": 1260,
+        "wires": [
+            [
+                "f302b04b.6478b"
+            ]
+        ],
+        "info": "Set the language and the voice in the node interface (system dependent).\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#user-interface"
+    },
+    {
+        "id": "f302b04b.6478b",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 545,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "dea078d9.039b68",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test  BEEP LOOP",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_beep_loop",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "{\"count\":3, \"timeout\":1000}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 200,
+        "y": 1360,
+        "wires": [
+            [
+                "f302b04b.6478b"
+            ]
+        ],
+        "info": "\nhttps://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#user-interface\n\nnote:\nThis is an example of command repetiton, build in \nGlobal.AllDevice structure, using 'share' capabilities.\n\nsee  https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#user-interface\n\nsee\n"
+    },
+    {
+        "id": "52445b44.003e34",
+        "type": "exec",
+        "z": "89f87d49.41b81",
+        "command": "",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 670,
+        "y": 1040,
+        "wires": [
+            [
+                "32a4c277.338ace"
+            ],
+            [
+                "32a4c277.338ace"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "32a4c277.338ace",
+        "type": "subflow:81d3b584.14c888",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "env": [
+            {
+                "name": "deviceID",
+                "value": "_system",
+                "type": "str"
+            },
+            {
+                "name": "propertyDP",
+                "value": "_exec",
+                "type": "str"
+            },
+            {
+                "name": "value",
+                "value": "@msg.payload||\"done\"",
+                "type": "str"
+            }
+        ],
+        "x": 870,
+        "y": 1040,
+        "wires": [
+            [
+                "6fc53253d2a01ae8"
+            ]
+        ]
+    },
+    {
+        "id": "6586860d.481bb8",
+        "type": "function",
+        "z": "89f87d49.41b81",
+        "name": "remote log",
+        "func": "\n\nvar newMsg = { \n    \"payload\":{\n        \"deviceId\": null, \n        \"data\": {\n            \"t\": Math.floor( Date.now() / 1000 ),    // timestamp (sec), optional, \n            \"dps\":{\n            }}}};\n\n\n// ------  main\n    let paydata = JSON.parse(msg.payload);\n    \n//---------------------- some assert\n    if (!( paydata.remote_from )) {\n        node.warn([\"ASSERT [proxy] fail: msg.payload.remote_from  must exist\", msg]);\n        return [null];\n        }\n    \n    var o = context.global.alldevices.getODev (paydata.device || \"_system\");\n    \n    if (o === undefined){\n        node.warn([\"ERROR [proxy]: not found remote device \"+ paydata.device, msg]);\n        return [null];\n     }\n     //    newMsg.from = o.id;\n    newMsg.payload.deviceId =o.id;\n    newMsg.payload[\"remote_from\"] =  paydata.remote_from;\n\n        \n    if (paydata.list !== undefined){  // is list\n        newMsg.payload.data.dps[\"list\"]= paydata.list.sort();\n        return newMsg;\n    }\n    \n    if (paydata.schema !== undefined){     // is schema: record for any dp - pseudoDP\n       Object.entries(paydata.schema).forEach(([key, value]) =>{\n          if ( ! context.global.PSEUDODP.includes(key.toUpperCase())) {\n              newMsg.payload.data.dps[key]=  value;\n              }\n          });\n    return newMsg;\n    }\n//    node.warn([\"IN REST \", paydata])\n    if(paydata.status)  // is SET\n        return null;\n//       newMsg.payload.data.dps[ paydata.property]=  paydata.status;   // extra value 'sent'\n//    else                // is GET\n      newMsg.payload.data.dps[ paydata.property]=  paydata.value; \n //   node.warn([\" OUT msg remote \", newMsg]);\n    return newMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 140,
+        "wires": [
+            [
+                "cd81b742.e8a268"
+            ]
+        ]
+    },
+    {
+        "id": "2ed08207.23ffae",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.fast_cmds",
+        "links": [
+            "c084a743.290b28"
+        ],
+        "x": 1055,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "284250cf.ebbeb",
+        "type": "function",
+        "z": "89f87d49.41b81",
+        "name": "command/share select",
+        "func": "if (msg.share)           // is share\n   return([null, msg]);\nnewMsg = {payload:msg};  // is command\nreturn ([newMsg, null]);",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 700,
+        "wires": [
+            [
+                "2ed08207.23ffae"
+            ],
+            [
+                "818feefe.ab666"
+            ]
+        ],
+        "outputLabels": [
+            "to core.fst_cmds",
+            "to core.share_IN"
+        ]
+    },
+    {
+        "id": "49fdb229b19670e7",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "GET _laststart  property",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_laststart",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 740,
+        "y": 1660,
+        "wires": [
+            [
+                "71ce8f74737eb46f"
+            ]
+        ],
+        "info": "\nreturs this run value:\n          [\"RX: HAL@home/_laststart\",\"2022-03-27 08:56:24\"]\n          \nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#_laststart"
+    },
+    {
+        "id": "e59aa8c315e74462",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1025,
+        "y": 2020,
+        "wires": []
+    },
+    {
+        "id": "b8dd0ff5fd32758b",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "SET _tuyastatus ()",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_tuyastatus",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 210,
+        "y": 1480,
+        "wires": [
+            [
+                "02f14df9c251c497"
+            ]
+        ],
+        "info": "This is a SET (it as a value) but really it is a trigger for an action: to 'get tuyastatus data'.\n \n  If payload.value.device does NOT exist,\n         returns a 'list' of all devices in tuyastatus, using usernames (if defined).\n         \n  Example:\n   \n              list: array[3]\n                 0: \"tuya_bridge\"\n                 1: \"core\"\n                 2: \"HAL@home\"\n   \n   see https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#tuyastatus"
+    },
+    {
+        "id": "02f14df9c251c497",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 545,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "25a150e5f220e495",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "SET tuyastatus ( _system. _laststart )  to a fake value",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_tuyastatus",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value.property",
+                "v": "_laststart",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value.value",
+                "v": "2000-01-02 03:04:05",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 310,
+        "y": 1600,
+        "wires": [
+            [
+                "02f14df9c251c497"
+            ]
+        ],
+        "info": "This command is a SET (because it contains a value) but is actually a trigger for an action: to 'set tuyastatus data'.\n\n     If payload.value.device exists,\n     AND there is payload.value.property,\n     AND there is payload.value.value:\n         this SET the value to 'tuyastatus.device.property'.       \n       \n  ATTENTION: no checks are made on device, property and value, so it is possible to do anything (good) but it is dangerous, very dangerous: all the logic of tuyaDAMON can be broken (bad) !\n  \n    Example:\n       this example sets a 'fake' value for 'system.laststart'. Check the result with the 'GET _laststart property' test\n       \nsee  https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#tuyastatus       "
+    },
+    {
+        "id": "d504a781e8e55c73",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "SET _tuyastatus ( _core )",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_tuyastatus",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value.device",
+                "v": "_core",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 230,
+        "y": 1520,
+        "wires": [
+            [
+                "02f14df9c251c497"
+            ]
+        ],
+        "info": "This command is a SET (it as a value) but really it is a trigger for an action: to 'get tuyastatus data'.\n\n\n     If payload.value.device exists,\n     and there is NO payload.value.property:   \n       it returns a object: a tuyastatus fragment\n \n   Example:\n       1: object\n          device: \"core\"\n          value: object\n             schema: object\n                _connected: true\n                _DBase: true\n                _heartbeat: \"21:38:51\"\n                version: \"none\"\n                _t: 1648327133\n\nnote: the 'schema' is 'as is' from 'tuyastatus', i.e. also with some internal data, NOT dps, like '_connected'.\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#tuyastatus\n"
+    },
+    {
+        "id": "816d3e51e8d0285f",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "SET _tuyastatus ( _system . _laststart )",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_tuyastatus",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value.property",
+                "v": "_laststart",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 270,
+        "y": 1560,
+        "wires": [
+            [
+                "02f14df9c251c497"
+            ]
+        ],
+        "info": "This command is a SET (because it contains a value) but is actually a trigger for an action: to 'get tuyastatus data'.\n\n     If payload.value.device exists,\n     AND there is payload.value.property,\n     AND there is NO payload.value.value:\n       it returns a message (GET) with the value of the tuyastatus.device.property\n \n   Example:\n       \n           device: \"HAL@home\"\n           property: \"_laststart\"\n           \n           you get a value like: \"2022-03-27 08:58:22\"\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#tuyastatus"
+    },
+    {
+        "id": "232a653cd74a05ae",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "Test  SCHEMA  HAL@home",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 750,
+        "y": 1440,
+        "wires": [
+            [
+                "0263e3a5d46d04db"
+            ]
+        ],
+        "info": "Sends a SCHEMA request to the device,\n   if SCHEMA is allowed, returns DP values\n     else ERROR.\n\nFor_system, SCHEMA is implemented:\n\n  A message for every GETtable DP, getting last data from 'tuyastatus' (faster)\n\nsee  https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#tuyastatus"
+    },
+    {
+        "id": "85335530918380f6",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1015,
+        "y": 1560,
+        "wires": []
+    },
+    {
+        "id": "ee0494e1234b66ed",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "Test _exec ( notepad.exe )",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_exec",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "notepad.exe",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 750,
+        "y": 1380,
+        "wires": [
+            [
+                "c7992347510c57a8"
+            ]
+        ],
+        "info": "\nSystem exec (System dependece)\n Used for test 'notepad.exe'.\n \n This task ends when the application is closed.\n \n see https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#_exec\n \n expected result:\n \n    [\"TX: SET fake HAL@home/_exec\", \"notepad.exe\" ]\n    [ \"RX: HAL@home/_exec\", \"started\" ]\n   \n  notepad pops up.\n  After closed notepad:\n\n   [ \"RX: HAL@home/_exec\", \"done\" ]\n"
+    },
+    {
+        "id": "05617d8ccc733d68",
+        "type": "comment",
+        "z": "89f87d49.41b81",
+        "name": "Test case for  _system + local DBase",
+        "info": "Test for _system properties DataBase related.\n\nsee:\nhttps://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system",
+        "x": 220,
+        "y": 1920,
+        "wires": []
+    },
+    {
+        "id": "f9fc02dcb91f2235",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "doUPDATE  virtual only",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_doUPDATE",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "virtual",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 740,
+        "y": 2200,
+        "wires": [
+            [
+                "e59aa8c315e74462"
+            ]
+        ],
+        "info": "The _system doUPDATE property is implemented:\n  \n  for ALL connected devices found in real|virtual|fake|NULL(all) alldevices list:\n     a doSCHEMA request is sent.\n \n see https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#tuyastatus"
+    },
+    {
+        "id": "3e6370b9117275a0",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "doUPDATE  fake only",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_doUPDATE",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "fake",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 740,
+        "y": 1560,
+        "wires": [
+            [
+                "85335530918380f6"
+            ]
+        ],
+        "info": "The _system doUPDATE property is implemented:\n  \n  for ALL connected devices found in real|virtual|fake|NULL(all) alldevices list:\n     a doSCHEMA request is sent.\n \n see https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#tuyastatus"
+    },
+    {
+        "id": "74c8bbc1be097a51",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "doUPDATE   ALL",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_doUPDATE",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "NULL",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 720,
+        "y": 1600,
+        "wires": [
+            [
+                "85335530918380f6"
+            ]
+        ],
+        "info": "The _system doUPDATE property is implemented:\n  \n  for ALL connected devices found in real|virtual|fake|NULL(all) global.alldevices list:\n     a doSCHEMA request is sent.\n     \n     see https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#tuyastatus\n "
+    },
+    {
+        "id": "c7992347510c57a8",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1015,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "b628aa72daf235de",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1015,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "a6d0af18808af1ed",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test DB local: COUNT(*)",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_sqlDBlocal",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "SELECT COUNT(*) FROM messages",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 230,
+        "y": 1980,
+        "wires": [
+            [
+                "fbec3d25562e3e2a"
+            ]
+        ],
+        "info": "\nSET: executes a simple SQL on DBlocal\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#db-functions "
+    },
+    {
+        "id": "c931ee4eaeeba2eb",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test DBlocal: GET last result",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_sqlDBlocal",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 240,
+        "y": 2020,
+        "wires": [
+            [
+                "fbec3d25562e3e2a"
+            ]
+        ],
+        "info": "\nGET: returns las SQL result.\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#db-functions"
+    },
+    {
+        "id": "fbec3d25562e3e2a",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 515,
+        "y": 1980,
+        "wires": []
+    },
+    {
+        "id": "2242ab7160483a30",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test DB local: COUNT records in last 3H",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_sqlDBlocal",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "set @lastdate = DATE_SUB(NOW(), INTERVAL 3 HOUR); SELECT COUNT(*)  FROM `messages` WHERE `timestamp` >  @lastdate",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 270,
+        "y": 2100,
+        "wires": [
+            [
+                "fbec3d25562e3e2a"
+            ]
+        ],
+        "info": "SET: execute a useful SQL on DBlocal\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#db-functions"
+    },
+    {
+        "id": "201bbbcd7adb733f",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test DB local: DELETE '_connected'",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_sqlDBlocal",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "DELETE FROM `messages` WHERE `dps` = '_connected'  LIMIT 100000",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 260,
+        "y": 2060,
+        "wires": [
+            [
+                "fbec3d25562e3e2a"
+            ]
+        ],
+        "info": "SET : execute a SQL on DBlocal\n\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#db-functions"
+    },
+    {
+        "id": "e4bd5c0222e56849",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "timerON test2: 30s (share)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "payload.value.timeout",
+                "v": "30000",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_timerON\",\"value\":{\"id\":\"test2\",\"alarmPayload\":{\"comment\":\"share to get Debug AND vocal output\",\"share\":[{\"action\":[{\"device\":\"_system\",\"property\":\"_play\",\"value\":\"Timer done\"},{\"device\":\"_system\",\"property\":\"_toDebug\",\"value\":\"Timer done\"}]}]}}}",
+        "payloadType": "json",
+        "x": 1250,
+        "y": 1540,
+        "wires": [
+            [
+                "7c949bb.9267764"
+            ]
+        ],
+        "info": "NOTE:\nIt is OK if it executes,  30 s later, a 'shate':\n   - write in debug 'timer done'\n   - say: 'timer done'\n   \n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#timer-functions\n"
+    },
+    {
+        "id": "8256e72710d1531c",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "GET _ACpower",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_ACpower\"}",
+        "payloadType": "json",
+        "x": 720,
+        "y": 2020,
+        "wires": [
+            [
+                "e59aa8c315e74462"
+            ]
+        ],
+        "info": "ALARM is true if all AC powered devices are disconnected.\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#security-and-recovery"
+    },
+    {
+        "id": "0c66e264189552f0",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "GET _WiFiunconnected",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_WiFiunconnected\"}",
+        "payloadType": "json",
+        "x": 740,
+        "y": 2100,
+        "wires": [
+            [
+                "e59aa8c315e74462"
+            ]
+        ],
+        "info": "GET the list of unconnected devices\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#security-and-recovery\n"
+    },
+    {
+        "id": "71ce8f74737eb46f",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1015,
+        "y": 1660,
+        "wires": []
+    },
+    {
+        "id": "3a794642cc79fc19",
+        "type": "comment",
+        "z": "89f87d49.41b81",
+        "name": "Test case for  _system + some devices",
+        "info": "system properties requiring devices.\n\n- Because the tests are based on WiFi and devices status, some devices (UPS, BAT, AC) are reqired to get valid results.\n\n- doUPDATE: forces a GET for all DPs of all connected devices: as effect, tuyastatus is updated to last values.\n\nsee:\nhttps://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system",
+        "x": 750,
+        "y": 1960,
+        "wires": []
+    },
+    {
+        "id": "78acf584b8028046",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "GET _WiFinet",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_WiFinet\"}",
+        "payloadType": "json",
+        "x": 710,
+        "y": 2060,
+        "wires": [
+            [
+                "e59aa8c315e74462"
+            ]
+        ],
+        "info": "ALARM is true when WiFi looks down.\n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#security-and-recovery"
+    },
+    {
+        "id": "483be36d56c03d70",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "_toStdCmd system.beep",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_toStdCmd",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "{\"device\":\"_system\",\"property\":\"_beep\",\"value\":\"any\"}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 1250,
+        "y": 1260,
+        "wires": [
+            [
+                "4c3dd357f773ca66"
+            ]
+        ],
+        "info": "_toStdCmd:\n   Send a command to std_cmds input. \n   \nsee  https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#helper-functions"
+    },
+    {
+        "id": "938aa0ac0a151a6b",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "_toFastIN system.beep",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_toFastIN",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "{\"device\":\"_system\",\"property\":\"_beep\",\"value\":\"any\"}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 1240,
+        "y": 1300,
+        "wires": [
+            [
+                "4c3dd357f773ca66"
+            ]
+        ],
+        "info": "_toFastIN:\n   Send a command to fast_cmds input. \n   \nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#helper-functions   "
+    },
+    {
+        "id": "cbeab70d9ac1566c",
+        "type": "comment",
+        "z": "89f87d49.41b81",
+        "name": "sound+voice",
+        "info": "sound and voice features:\nSee system, `_beep`, `_beep_loop`, `_play` DPs\n\nSet language and voice in the `Telemachus` node interface (system dependent).",
+        "x": 870,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "4c3dd357f773ca66",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1525,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "e8408a79b818140e",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "_toWarn  \"user message\"",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_toWarn",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "User defined warning",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 1250,
+        "y": 1340,
+        "wires": [
+            [
+                "4c3dd357f773ca66"
+            ]
+        ],
+        "info": "_toWarn:\n   Send a warning message to debug pad, uses node.warn().\n   Useful to signal problems and to send warning to remote\n   \nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#user-interface"
+    },
+    {
+        "id": "7b6510e4a0068c1f",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "_toDebug  \"user message\"",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_toDebug",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "User debug message",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 1250,
+        "y": 1380,
+        "wires": [
+            [
+                "4c3dd357f773ca66"
+            ]
+        ],
+        "info": "_toDebug:\n   Send a message to debug pad,\n   Useful to send messages to remote\n   \n   see https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#user-interface"
+    },
+    {
+        "id": "35b4244f48c7ec76",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "_toLogging \"system._toWarn.Done\"",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_toLogging\",\"value\":{\"deviceId\":\"_system\",\"data\":{\"dps\":{\"_toWarn\":\"Done\"}}}}",
+        "payloadType": "json",
+        "x": 1280,
+        "y": 1420,
+        "wires": [
+            [
+                "4c3dd357f773ca66"
+            ]
+        ],
+        "info": "_toLogging:\n    Send a message to core.logging node, as a devices response message.\n    Note:  device/property MUST exist in global.alldevices.\n    \n    \n    see  https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#helper-functions"
+    },
+    {
+        "id": "063ac16c1ab07a21",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1015,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "06497ae44ec39620",
+        "type": "comment",
+        "z": "89f87d49.41b81",
+        "name": "Test REST;  http://localhost:1984/tuyaDAEMON?device=_system&property=_beep&value=ok",
+        "info": "",
+        "x": 400,
+        "y": 2360,
+        "wires": []
+    },
+    {
+        "id": "56781d0b65273832",
+        "type": "comment",
+        "z": "89f87d49.41b81",
+        "name": "Test Debug REST: http://localhost:1984/tuyaDAEMONdebug?device=_system&property=_beep&value=debug",
+        "info": "",
+        "x": 450,
+        "y": 2400,
+        "wires": []
+    },
+    {
+        "id": "0cb18d8c83e94312",
+        "type": "config",
+        "z": "89f87d49.41b81",
+        "name": "Global SYSTEM config ",
+        "properties": [
+            {
+                "p": "beep64",
+                "pt": "flow",
+                "to": "UklGRrguAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YZQuAAABAP8PAyD8LwNA/k8BVAFE/TMDJP4TAQQA9P/jAdT/wwG0/6cBuADI/9cB6P/3AQgBGP0nBDj8RwNY/0sAPAAsABwADAD8AOwA3ADM/7sDrPyvA8D+zwLh/vACAf0QBCH8MARB/FADU/5CATMBI/0SBAP88gPj/tICw/6yAqn+uAHJANkA6QD5AQn+GAIp/jgCSf9YAEsBO/8qABsACwD7Aev+2gLL/roBqwGx/sEB0gDi//ECAv8RACIAMgBCAFIAUgFC/jECIv8R/wEC8v7hAtL+wQKy/akEuvzJA9r+6QH6AAoAGv8pATr/SQJa/kkBOv8pAhr+CQL6/ekD2v/JALn/qAGz/8IC0/7iAfP+AgMT/SIDM/5CAFMBUQBB/jAEIfsQBQH88ALhANH/wAKx/aoCuwDL/9oC6/76AQsAG/8qATsASwBZ/0gCOf0oAxn+CAH5/+gC2P3HBLj8pwK0/8MB1ADk//MABAAUAST/MwFE/lMCUP8/ATAAIP8PAQD/7wHgANAAwACwAKwAvADMANwB7P77Agz+GwIs/jsCTP5XAkj9NwMo/hcCCP72Aef/1gHHALf/pgG1AMX+1APl/fQCBQAV/yQBNf9EAVX/TgI//S4DH/0OA//97gPf/M4Ev/6uAK0Bvf7MAt3/7AH9/gwCHf8sAD0BTf5WAkf+NgIm/xUABgD2AOYA1gHG/rUCpv+1AMYB1v7lAvb+BQIW/yX/NQJG/VUETv09AS4AHv8NA/787QTe/c0BvgGu/q0Cvv/NAN4A7gD+AA4AHgAuAT7+TQJW/kQBNQEl/hQCBf70AeUA1QHF/rQCp/62Asf/1gHn/vYCB/4WAyf9NgJH/lYCTf88AS3+HAIN/vwC7f/cAM0AvQCt/64Cv/7OAt/+7gH/AA//HgIv/j8BUP9TAkT9MwQk/RMABAL0/eMD1P/D/7MCqP63AcgA2P/nAfgACAAY/ycCOP1HA1j+SwE8/ysCHP0LBPz86wPc/ssBvAGs/q8CwP7PAuD/7wAAABAAIQEx/0D/UAJT/kIDM/0iAhP9AgTz/OIE0/3CAbMAqf+4Asn+2ALp/vgACQIZ/igCOf9I/lgES/w6BCv8GgQL/foB6wHb/soCu/6qAbEAwQDRAeH98AMC/hEBIgEy/UEEUvtRBUL8MQMi/hEAAgHy/+EC0v3BA7L9qQO6/ckD2v3pA/r9CQMa/SkDOv1JA1r9SQM6/SkDGv4JAfr/6QHa/8kCuv2pA7L9wQPT/eID8/0CAhP/IgAzAUP/UgBRAEEAMQAhABEAAf/wAuH+0ALB/bADq/66AcsB2/3qBPv8CgMb/yr/OgJL/lgBSQA5ACkAGf8IAvn+6AHZAMn/uAKp/bMDxP7TAeQA9P8DABQCJPwzBUT8UwNQ/T8BMAEg/g8EAPrvBuD7zwPAALD+qwK8/8v/2wPs/fsDDP0bAiz/OwBMAlj9RwM4/ScDGP0HA/j95wPY/sYAtwKn/bQDxf7UAeX/9AEFABX/JAI1/UQDVf1OAz/+LgEfAA/+/gPv/d4Dz/6+AK8Brf+8Ac3/3ADtAP0BDf8cAS3+PAJN/1YBR/82ACcBF/8GAvf95QLW/8UBtgCm/7UBxv7VA+b99QMG/RUDJv01A0b+VQFOAD7/LQIe/g0B/gDu/90Bzv+9Aa7/rQG+/80A3gDuAv79DQMe/S0BPgJO/VUCRv81ACYBFgAF/vQC5f7UA8X9tASn+rYFx/7WAOcC9/wGBBf9JgM3/kYBV/9MAD0BLf8cAQ3//ADtAN0AzQC9AK0ArwC/AM8A3wDvAP8ADwAfAC8APwBPAFX/RAI0/iMCFP4DAvT94wTU+8MFtP2nAbgAyP7XA+j+9wEI/xcBKP83AUj/VwBMATz/KwAcAQz/+wHs/9sBzP+7Aaz/rwHAAND/3wHw//8AEAEg/y8AQAFQ/1IAQwAzASP+EgMD/fIC4/7SA8P9sgOp/bgByQHZ/+gB+f8IARn/KAA5AEkBWf9KATv+KgEbAQv/+gDrANv/ygK7/6oAsQDBANH/4ALx/gABEQAh/zABQv9RAVL/QQEy/yEBEv8BAfIA4v/RAcL/sQGqALr/yQHa/+kB+v8JARr/KQE6AEr+WQNK/jkAKgEa/wkA+gLq/dkDyv65AKoCsv3BA9L94QLy/wEAEwEj/jIBQwBT/1ADQfwwAyH/EP8AAvH+4ALR/sACsf2qA7v/yv/aAuv9+gILARv9KgM7/koBWQBJ/zgBKf8YAgn++ADpAtn9yAO5/qgAswLD/tIB4wD0/wMBFP8jAjT9QwNU/U8CQP8vACABEP7/A/D93wHQAMD/rwOs/bsCzP7bAewB/P8LABwBLP47Akz/VwBIATj+JwEYAAgA+ADoANj/xwG4AKgAtP/EAdX/5AH1AAX/FAElADX/RAFVAE//PgMv/B4ED/3+Au//3gDPAb8Ar/+sAb3/zAHd/+wB/f8MAR3/LAE9/0wBV/9GATf/JgEX/wYB9//mAdf/xgC3Aab/tQHG/9UB5v71Awb8FQQm/TUCRv9VAE4BPv4tAx79DQP+/e0D3v3NA77+rQCuAb7/zQDeAu78/QUO+x0FLvs9BE7+VQBGATb/JQEW/wUA9gHm/9UCxf20Aqf/tgHH/9YC5/z2BQf8FgInADf+RgNX/UwDPf0sAh3/DAH9/+wB3f7MAr3/rAGv/74Bz/7eA+/8/gQP/R4DL/0+Ak//VABFATX+JAIV/wQB9P7jAtT/wwC0Aaj+twLI/9cB6P73Agj/FwAoATj/RwBYAUz/OwAsARz/CwH8/+sB3P7LA7z+qwCwAcD/zwHgAPD+/wMQ/h8BMABA/08BVP9DATQAJP8SAQP/8gHj/9IBw/+yAakAuf/IAdn/6AH5/wgBGf4oAzn8SARZ/UoBOwEr/hoCC/76Auv/2gDLALsAq/+wA8H80ATh/PADAf8Q/yACMf5AAVEAU/9BAjL+IQES/wEA8gLi/tEBwv+xAKoBuv/JAdr/6QD6AAoBGv4pAzr8SQNa/0kAOgAqABr/CQL6/ukC2v7JAboAqgCyAMIA0gDiAPIAAgAS/yECMv5BA1P8UANB/jABIQER/gAC8f7gAtH+wAKx/6oAuwHL/doE6/36Agv/GgArATv+SgJZ/kgCOf8oARn/CAD5AOkA2QDJArn9qAKz/8IA0wHj//IAAwET/iICNP9DAFQAUP8/AjD+HwIQ/v8C8P7fAtD9vwSw/asCvP7LAdwA7AH8/gsDHPwrAzwATP5XA0j8NwMo/xcACAD4AOgA2ADIALj/pwO0/cMC1P7jAvT+BAMV/SQCNf5EAlX+TgM//S4CH/8OAP8A7wHf/s4Dv/yuA63/vADNAd3+7AH9AQ3+HAMt/TwCTf5WAkf+NgMn/BYEB/32Auf+1gLH/rYCp/60AsX+1ALm/vUBBgAWACYANv9FAlb+TQI+/i0BHgAOAP4A7gDeAM4AvgCuAK4AvgHO/t0C7v/9AA4BHv4tAj7/TQBWAUb/NQAmARb+BQP2/eUD1v3FA7b+pQG2/8YB1//mAvf9BgMX/SYDN/1GAlf/TAE9AC3/HAANAf3/7AHdAM3/vAKt/q4AvwLP/t4C7//+AA//HgIv/j4DT/1UAUUANQAlARX/BAD1AeX+1ALFALT+pwO4/McE2P3nA/j9BwMY/CcEOP1HAlgATP47Aiz/G/8LA/z86wXc+ssGvPurBLD9vwLQ/98A8AEA/g8CIAAw/j8CUP5TAUQBNP4jAhT+AwH0AOQA0wDDAbP9qAW5+sgG2fvoBPn8CAMZ/igBOQBJ/1gASwI7/CoGG/kKBfv+6gDbAcv/ugGr/7AAwQHR/uAD8f0AAhEAIf4wA0H9UAJTAEP/MgEj/xIAAgLy/OEF0vvBBLL+qQC6AMoB2v/pAfr/CQAaASr/OQFK/lkDSvw5BCr+GQAKAfr/6f/ZA8r9uQOq/bEDwv3RA+L+8QECABIAIgAy/0ECUv1RBEL8MQIhABH+AAPx/uAB0f/AAbH/qgG7AMv/2gHrAPv/CgEb/yoBOwBLAFn/SAE5/ygCGf4IAfkA6f/YAsn+uAGpALMAwwDTAOP/8gID/hICI/4yAUMAUwBRAEAAMAAgABAAAADwAeD+zwLA/q8CrP67Asz+2wHsAfz9CwQc/CsDPP5LAlj+RwI4/icBGAEI/vcC6P/XAMgAuACoAbT/wwHU/uMC9P4DBBT7IwQ0/UQCVQBP/z4ALwEf/w4B///uAN8Bz/++Aa//rAG9/8wA3QLt/fwDDf0cAi3/PAFN/1YARwI3/SYCFwAH/vYE5/zWAscAtwCn/7QDxfrUCOX59AYF/BQBJgE2/0UAVgFO/j0DLv0dAQ4A/gDuAN4Bzv69Aa4Brv69As7/3QDuAf7/DQAeAS7/PQBOAlb9RQQ2/CUCFgAG//UC5v7VAcYAtv+lArb9xQTW/OUD9/8G/xYCJ/42AUcBV/5MAj3+LAId/gwD/f3sAt3/zAC9Aq39rgO//c4D3/3uA//9DgIfAC/+PgNP/FQDRQA1/iQDFf0EAvX/5AHV/8QBtf+mAbcAxwDY/+cB+AAIABj/JwE4/0cCWP1LAzz9KwMc/gsA/AHsANz/ywG8/6sAsAHA/88A4ADwAQD/DwAgADAAQABQAlT8QwM0/yP/EwIE/vMB5ADU/8MBtP+nArn9yALZAOn/+AEJABn+KAM5/kgAWQJL/ToDK/4aAQv/+gHrANv/ygK7/KoEsf7AAdEA4f7wAwH9EAMh/jAAQQFR/1ICQ/0yAiP+EgID//IB4//SAMIAsgCqAbr+yQLa/ukC+v8JABoAKv85Akr+WQJK/jkCKv4ZAgr++QLq/tkCyv65Aqr+sQLC/tEC4v/xAAIBEv8hADIAQgFS/1ECQv0xAiL/EQEC//EC4f3QA8H9sAKr/7oBy//aAOsB+/4KAhv/KgE7/0oBWf5IAzn9KAMZ/QgC+f/oANkAyQG5/qgCs/7CAdMB4/3yBAP9EgEjADMAQ/9SA1H8QAQx/CAEEfz/BPD93wLQ/7//rwKs/rsCzP7bAewA/P8LAhz+KwI8/ksBWP9HAjj/JwAY/wcB+P/nAtj9xwO4/acCtP/DAdT+4wP0/AMEFP4jADQBRP5TA1D9PwMv/R4CDwD//+4B3//OAb8Ar/+sAb3/zAHdAO3//AIN/hwALQI9/UwDV/9G/zYCJ/4WAQf/9gLn/tYCx/62Aaf/tALF/dQD5f30AwX9FAIl/zQARQFV/k0CPv4tAx78DQT+/e0C3v/NAL4Brv+tAb7+zQLe/+0B/v8NAB4ALgA+AE4AVgBGADYAJv8VAgb99QTm/NUDxv+1/6UCtv7FAtb+5QL2/gUCFv4lATcARwBXAE3/PAEtAB0ADQD9/+wC3f7MAb0ArQCv/74Dz/zeBO/8/gMP/x4ALwE//k4CVf9EADUAJQEV/gQC9f/kANUBxf60Aqf/tgDHANcA5wD3AAcAGAAoADgASP9XAkz+OwIs/RsDDP37A+z92wPM/bsCrP+vAMAB0P/fAPABAP8PASD/LwBAAVD/UwFE/zMBJP8TAQT/8wDkAdT/wwG0/6cAuAHI/tcD6P74AQkAGf8oATn/SAJZ/koBO/8qARv/CgH7/+oB2//KArv9qgOx/sAB0QDh//ACAf4QASEAMf9AAlH+UgJD/TIEI/wSBAP98gHjAdP+wgKz/6j/uALK/tkC6v75AQr/GQAqAToASv5ZA0r9OQIqABr+CQT6/OkD2v7JAboAqgCyAMIA0gDiAPL/AQIS/SEEMv1BAlL+UQFCADIAIgES/wH/8QLi/tEBwgGy/aoDu/3KAtsA6/76Awv9GgIrADv+SgJZAEn/OAEp/xgACQH5/+gB2f/IAbn/qACzAsP90gPj/fICAwATACP/MgFD/1IBUQBBADH/IAER/wAC8f3gA9D9vwOw/qsBvP/LAdz/6wL8/gsBHP8rATz/SwJY/UcDOP4nABgBCP/3Aej/1wHI/rcDqP6zAcT+0wPk/fMDBP4TACQBNP9DAVT/TwBAATD+HwQQ+/8E7/3eAs8Av/6uA638vATN/tz/7AP9/AwEHf4s/zwDTfxWBEf+Nv8mAxf8BgP3AOf91gTH/LYDp/+0/8QC1f3kBPX8BAMV/iQANQJF/VQDT/4+AS8AH/8NAv7+7QHeAM4Avv+tAa4Avv/NAt797QL+AA7+HQMu/T0DTv1VA0b9NQImABb/BQL2/eUD1v7FArb+pQG2AMYA1gDmAPYABgAWACb/NQJG/lUCTv88AC0AHQANAP0B7f/cAc3/vACtAK8Bv//OAd//7gD/AQ//HgEv/z4BT/9UAkX9NAMl/hQBBQD1/+QC1f7EArX+pgG3AMf/1gHn//YBB/8WASf+NgJH/1cBTP87ACwBHP8LAfz/6wHc/8sBvP6rA7D9vwTQ+98E8P3/AxD+HwEw/z8BUP9TAkT9MwMk/RMDBP7zAeT/0wHEALQAqP+3AcgA2ADoAPj/BwEYACkAOf9IAln9SgM7/ioBGwAL//oB6//aAcv/ugGr/7ACwf7QAOEC8f0ABBH9IAExAEH/UAJT/UIDM/4iARMAA//yAeMA0wDD/7IBqf+4Asn+2ALp/vgACgIa/SkEOvxJA1r+SQE6ACoAGgAKAPr/6QLa/skCuv6pArL+wQLS/uEB8gEC/hECIv4xAkL+UQJS/kECMv4hAhL+AQLy/uEC0v7BArL+qQK6/8kA2gDrAPsBC/8aACsBO/5KA1n8SAQ5/SgCGf8I//gC6f/YAMkBuf6oArP/wgDTAeP+8gID/xIAIwEz/kICU/9QAUH/MAAhARH/AAHxAOH+0APB/bACqwC8/8sB3P/rAfz/CwEc/ysBPABM/1cBSP83ASj/FwII/vcB6ADY/8cDuP2nAbQAxP/TAuT/8wAE/xMBJP8zAUQAVP9PAUAAMP8fARAAAADw/98B0ADAAK8ArQC9/8wC3f7sAf0BDf4cAi3/PP9MA1f9RgI3/yYAFwEH/vYC5/7WAsf+tgKn/rQBxQDV/+QC9f4EARX/JAE1/0QCVf1OBD/8LgIfAA///gPv/d4BzgC+AK4Brv+9AM4A3gHuAP7/DQEe/y0BPv9NAVYARv81ASb/FQEG//UA5gLW/MUFtvulBLb+xQDWAOYB9gAG/xUAJgE2/0UCVv1NAz79LQMe/Q0D/f3sAt3/zAC9AK0Br/6+As//3v/uA//9DgIf/y4APwBPAVX/RAE1/yQAFQAFAPUB5f/UAcX+tAKn/7YBx/7WAuf+9gIH/xYAJwA3AEcAVwBNAD0ALQEc/gsC/P7rAdwBzP67Aqz+rwLA/88A4ADwAAABEP8fATD+PwNQ/lMBRP8zASQAFP8DAvT94wPU/sMBtP+nAbj/xwHYAOj/9wEI/xcBKAA4/0cCWP1KBDv7KgUb+woG+/nqBtv7ygW7+6oEsfzAA9H/4ADxAAEAEf8gAjH+QAFRAFP/QgIz/iIBEwADAPMA4//SAsP/sgCpALkAyQDZAOkA+QAJARn/KP84A0r7WQZK+zkDKv8Z/wkB+v/pAtr+yQG6AKr/sQLC/tEB4gDy/wEDEvshBTL8QQJSAFIAQv8xASL/EQECAPIA4v/RAsL9sQOq/rkCyv7ZAur9+QQK/RkBKwA7/0oCWf5IATn/KAIZ/ggB+QDp/tgEyfy4A6n+sgHD/9IB4//yAQMAE/8iATP/QgFT/1ABQf8wACEBEf4AA/H94ALR/8AAsQGr/roDy/3aA+v9+wIM/xsBLP87AUz/VwBIATj/JwEY/gcC+P7nAtj/x/+3A6j8swTE/dMB5AH0/wMAFAEk/jMCRABU/k8DQP0vAiAAEP7/A/D93wPQ/r8AsAGs/rsEzPzcA+39/AMN/hwBLQA9AE0AVwBHADf/JgIX/gYC9/7mAdcAxwC3AKcAtf/EAdUA5QD1AAUAFf8kAjX+RAJV/k4CP/4uAh//DgD/AO8A3wDPAL8ArwCuAL4AzgDeAO4A/gAOAB4ALgA+AE4BVv5FAzb7JQYW+wUE9v3lAdYBxv61A6b8tQXG+9UE5v31Agb/FQAmADYARgFW/k0DPvwtBB78DQT+/O0F3vvNA73/rP+uA7/9zgLf/+4A/wIP/R4DL/0+Ak//VABFATX/JAEV/gQC9f7kA9X+xAC1AKcAtwHH/9YB5//2AAcAFwEn/jYDR/5WAE0BPf4sAh0ADf/8Ae3/2wDMAbz/qwCwAsD8zwTg/e8BAAEQ/h8CMP4/AlD9UwRE/TMBJAEU/QMD9P/j/9MCxP6zAagAuP/HAtj95wP4/QcEGPsnBTj7RwVY/UsBPAAs/xsCC/76Auv/2gDL/7oBqwCxAMEA0f/gAPECAf0QAyH+MAFBAFH/UgFDADMAIwAT/wIC8/3iBdP5wgez+6gDuf/I/9gC6f74Agn+GAEpATn9SARZ/EoDO/4pARr/CQL6/ekD2v3JA7r9qQOy/cEC0v/hAfL/AQIS/CEFMvtBBlL6UQVC/DEDIv8R/wEC8v7hAtL/wQCyAKoAugDKANoA6gD6AAoAGgAq/zkCSv9ZAEkAOQApARn/CAH5/ugC2f/IALkAqQCzAMMA0wDj//IBA/8SAiP+MgFDAFP+UARB/DADIf4QAQH/8ALh/dAEwfywAqsAu//KAtv+6gH7/woCG/4qAjz+SwJY/kcCOP8nABgBCP/3Aej+1wPI/LcFqPuzBMT90wLk//MABAEU/yMBNP5DAlT+TwJAADD+HwMQ/P8D8P/fANABwP6vAqz+uwHMANz/6wL8/gsBHf8sAj39TARX+0YFN/wmAhcAB//2Aef/1gDHAbf/pgG1/8QB1f/kAfX/BAEV/yQBNQBF/1QBT/8+AS8AH/8OAv/+7gLf/s4BvwCvAK0AvQDNAN0A7gD+AA7/HQIu/z0ATgBWAEb/NQIm/hUBBgD2/+UC1v3FBLb8pQO2/sUB1gDmAPYABv8VAib9NQNG/lUATgI+/S0EHvsNBf777QTe/s0BvgCu/60Bvv/OAd//7gL//Q4DH/4uAT8ATwBVAEX/NAIl/hQCBf/0/+QC1f7EArX+pgK3/sYC1//m//YCB/4WAScAN/9GAVf/TAA9AS3+HAIN//wA7QHd/swCvf+sALABwP7PA+D97wIA/w8AIAEw/z8BUP9TAUT/MwEk/xMBBP/zAeT/0wHE/7MBqP+3Acj/1wLo/fcECPsXBSj8NwNI/lcCTP47ASz/GwEMAfz+6wLc/coDu/6qArH+wAHRAOH/8AEB/xABIf8wAUH/UABTAUP/MgAjAhP9AgLz/+IA0wHDALP/qAC5Acn/2AHp//gACQEZ/igDOfxIBFn8SgM7/ioCG/4KAvv+6QLa/skCuv+pALIAwgDSAOIA8gACABL/IQIy/kECUv5RAkL+MQMi/RECAv/xAeL/0QHC/rEDqv25A8r82QTq/fkCCv8ZASr+OQNK/FkESv05Air/GAAJAPkA6QDZAMkAuf+oArP+wgLT/eID8/4CARMAI/8yAUMAUwBR/0ACMf4gAREAAf/wAuH+0AHBALH/qgK7/coD2/3qA/v9CgMb/SoCOwBL/lgDSf03Ayj9FwMI/vcB6ADY/8cBuACo/7MCxP7TAeQA9P8DART/IwE0AET/UwFQ/j8DMP0fAxD+/wDwAuD+zwHAALAArP+7Asz/2wDsAfz+CwIc/isCPP9LAFcBR/42AScAFwAHAff+5gHXAMcAtwCnAbX+xALV/uQB9QAFARX/JAE1/kQCVf9OAD8CL/0eAw/9/gLv/t4Ez/y+A6/9rAK9/8wB3f/sAP0CDf0cAi7/PQBOAlb9RQI2ACb/FQIG/fUC5gDW/8UBtgCm/rUExvzVAuYA9v4FAxb+JQE2/0UBVv9NAT7/LQEe/w0B/gDu/90Bzv+9Aa7/rQG+AM7+3QPu/v0ADwIf/i4APwJP/VQERf00AiX+FAEFAfX+5APV/MQEtf2mArf/xgDXAOcB9/8GARf+JgM3/kYBV/9MAD0BLQAd/wwB/f/sAd0Azf+8Aq39rgO//s4B3wHw/f8DEP4fATAAQABQ/1MBRAA0/yMCFP0DAvQA5P/TAsT+swGoALgAyADYAOgA+AAIABgBKP43Akj+VwJM/jsCLP8bAAwB/P7rAtz/ywC8AKwBsP/AAdH+4ALx/wABEf8gADEBQf9QAVP/QgAzAiP9EgID//IB4wDTAMP+sgOp/bgDyf7YAOkB+f8IARn/KAE5/0gBWf9KATv/KgEbAAv++gPr/NoFy/u6Bar7sQTC/tEA4gHy/wEBEgAi/zEBQgBSAFIAQgAy/yEBEgEC/fEE4vvRBcL8sQOq/rkBygDaAOoA+gAK/xkCKv05A0r+WQBKAjr8KQUa+wkE+v7pANkByf+4AakAs//CANMB4//yAgP9EgIj/zIBQwBT/1ABQf8wASEAEQAB//AC4f7QAsH+sAGrALsAywHb/uoC+/4KARsAKwE7/koCWf5IATkAKQAZ/wgC+P7nAtj9xwO4/qcCtP7DAtT94wX0+wMEFP0jATQBRP9TAVD/P/8vAiD+DwIA/u8C4P3PBMD8rwOs/rsBzAHc/usC/P4LAhz+KwI8/ksDWP1HAjj/JwAXAQf/9gDnAdf/xgC3Aaf/tADFAdX+5AP1/gQAFQEl/jQDRf1UA0/9PgIv/x4ADwH//u4C3//OAb//rgGt/bwEzf7cAe3//AANAB0BLf88AE0AVwFG/zUAJgEW/gUD9v3lAtYAxv61A6b9tQPG/dUD5v31Agb/FQEm/zUARgFW/k0DPv0tAh7/DQD+Ae7+3QLO/r0Crv6tAb4Azv/dA+77/QUO/B0DLv89/04CVf1EBDX8JAMV/QQD9f7kAtX+xAG1/6YCt/7GAtf+5gL3/gYCF/4mAjf+RgJX/kwCPf4sAh3+DAL9/uwC3f7MAr3+rAGvAL8AzwDfAO8A/wAPASD+LwJA/08BVP9DATT+IwMU/QMC9P/jANQAxAC0AKgAuADI/9cD6Pz3BAj9FwEoAjj9RwNY/UsDPP0rAxz9CwP8/esD3P7LALwBrP+vAMAC0PzfBfD7AAUR+yAEMf5AAVEAU/9CATP/IgIT/gIB8wDj/9ICw/6yAakAuQDJ/9gC6f34BAn7GAUp/DgDSf5YAUsAOwAr/xoCC/76Auv/2v/KArv/qgCxAMEA0QDiAfL/AQASACIBMv9BAVL+UQJC/zEAIgES/QEE8vzhA9L/wQCy/6kBuv/JAtr+6QH6AAr/GQEq/zkBSgBa/0kBOv8pARr/CQD6Aer/2QDKAbr+qQOz/cIC0//iAPMBA/8SACMAMwBDAVP+UANB/DADIf8QAAEB8f7gAtH+wAOx/aoCu//KAdv+6gP7/QoCGwAr/joDS/1YAkkAOf4oAxn9CAL5AOn+2ALJ/7cAqAC0AMQA1ADkAPQABAAUACQANABEAFQBUP4/AjD+HwEQAQD+7wLg/88AwACwAKwAvAHM/9sB7P77Agz+GwIs/jsCTP5XAkj+NwEo/xcCCP33BOf81gLHALf+pgO1/sQB1f/kAfX+BAQV/CQDNf5EAVUATwA//y4CH/4OAv/+7gHfAM8Av/+uAq3+vAHNAd387Ab9+gwFHf0sAD0CTf5WAkf+NgEnABcABgH2/uUB1gDGALYApgC2AMYA1gHm/fUFBvoVBib7NQRG/VUCTv49Ai7/HQEO/v0C7v/dAM4Cvv2tA679vQLOAN7/7QH+AA7+HQMu/T0DTv5VAEYANgEl/xQCBfz0BOX91APF/rQApwC3Acf/1gLn/PYEB/0WAif/NgBHAFcBTf88AC0BHf4MAv3/7ADdAM0Bvf6sAa8Bv/3OBN/87gT//A4EH/wuAz//Tv9TAUQBNP0jAxT+AwH0AOQA1P/DArT+pwK4/scB2ADo//cCCP0XAyj9NwJI/1cBTP47Ayz9GwMM/fsD7P3bA8z+uwCsAbD/vwDQAOAA8AEA/w8AIP8vAUEBUf9SAEMAM/8iAhP/Av/yAuP90gPD/rICqf64Acn/2AHpAPkACQAZ/ygCOf5IAVkBS/06BCv8GgML//r/6gLb/soCu/6qArH+wAPR/OAE8fwAAxH/If8xA0L8UQNS/0H/MQIi/xEAAgHy/uEB0gHC/rECqv+5/8kC2v7pAvr/CQEa/ikCOv9JAFoCSvw5BCr9GQIKAPr/6QDaAcr/uQGq/7EBwv/RAeL/8gADABMBI/4yA0P9UgFRAUH+MAIh/xAAAQDxAeH/0ADBAbH+qgO7/coD2/3qAvsAC/4aAyv8OgVL+1gESf04AikAGf4IA/n96APZ/cgDuf2oA7P9wgLU/+MB9P8DABQAJAE0/0MBVP5PA0D9LwIgABD+/wPw/d8D0P2/ArD/qwC8Acz/2wHs/vsDDPwbBSz7OwRM/lcBSP83ACgAGAEI//cA6ADYAMgAuACn/7QCxf7UAeUB9f4EAhX+JAE1AUX/VABPAT/+LgMf/g4A/wHv/94Bz/++Aa//rAG9/8wB3f/sAf3/DAId/SwCPf9MAFcCR/42ASf/FgEH//YC5/3WA8b+tQGm/7UBxv/VAeb/9QEG/xUBJv81AUb/VQJO/T0DLv4dAg7+/QLu/t0Czv69A678rQO+/83/3QPu/f0BDgAeAS7+PQNO/FUERv01Ayb9FQIG//UA5QHV/8QAtQCnALcBx/7WAuf+9gIH/xYBJ/42A0f9VgNN/TwDLf0cAw3+/ADtAd3/zAG9AK3+rgO//c4C3wDv//4ADwEf/i4CPwBP/lQCRf80/yQDFP0DAvT+4wLU/sMDtPynBLj9xwHYAOj/9wMI/RcBKP83Akj+VwNM+zsFLP0bAgz++wHsANwAzAG8/qsCsP6/AtD/3wDwAAAAEAAgATD/P/9PAlT/QwAzAiP8EgQD/vIB4wDT/sIEs/yoBLn8yAPZ/egF+foIBRn9KAA5Akn+WAFLADv/KgIb/goC+/7rAtz+ywO8/asDsv3BAtL/4QDyAgD9DwMg/S8CQP9QAVEAQf8wASH+EAMB/fID4/7SAMMBs/+qAbv/ygHb/+oC+/0IAxn9KAM5/kgBWf9IATn+KAMZ/QgC+//q/9oDy/26Aqv/sv/CA9P94gLz/gACEf8gATL/QQBSAVD/PwEwACAAEAAA//EC4v7RAsL/sf+rArz+ywHcAez++wIK/hkCKv45Akr/VwBIADgAKAAYAAgA+gDqANoAygC6Aar+swPE/NME5P3zAgL/EgAjATP+QgFTAE8APwAvAB//DgEAAfH94APR/cADsf6sAr39zAPd/ewD/f4KARv/KgE7/0oBV/9GATf/JgEX/wYB+f/oAdn+yAO5/qgBtf/EANUB5v/1AQT/EwEk/zMBRP5TAk4APv8tAB4ADgAAAPAC4PzPBMD8rwSu/b0Czv/dAO4B/v8LABwALAE8/0sBVv9FADYAJgAWAQb+9wPo/NcDyP+3AKgAtgHH/tYD5/z2BAX8FAUl/DQBRQFV/kwDPf0sAh3/DAH//+4A3wHP/r4Dr/2uA7/9zgPf/e4D//0MAx39LAQ9/EwCVQBF/jQDJf4UAQX/9gDnAdf/xgG3/6f/twPI/dcC6P/3/wUDFv0lAzb9RQFWAUz+OwMs/RsCDP79Au7+3QLO/r0Crv6vAcAA0P/fAvD+/wEO/x0CLv49AU7/UwBEAjT9IwMU/AME9v7lANUBxf+0AKkBuQDJ/tgE6fr4Bgf8FgEnATf9RgRX/EoEO/sqBRv8CgP9/+z/3AHN/7wCrf2wA8H90ALh//ABAP8OAR//LgA/AU8AU/5CAzP9IgMT/gIB9P7jAtQAxP+zAar/uQHK/9kC6v35Awj+FwEoADj/RwJY/UkDOv0pAxr9CQP8/esC3P/LAbz+qwOy/MEE0v3hAvL+/wIQ/h8BMAFA/k8CUv9BADIBIf4QAgH/8gHj/9IBw/+yAKsBu//KANsB6/76Awn9GAMp/TgBSQFZ/0gBOQAp/hgDCf36AusA2/7KA7v9qgKz/8IB0/7iA/P9AAIRACH+MARB+1AEUf4/ATAAIAAQ/v8E8vvhBtL6wQWy/KsCvADM/9sB7AD8/gkDGv4pATr/SQFY/0cBOP8nARj/BwL6/ukA2gLK/bkEqv2zAMQC1P3jA/T+AQASASL/MQFC/1IBT/4+Ay/9HgMP/f8C8QDh/9ABwQCx/qwDvf7MAN0C7f38AgsAG/4qAjsAS/5WA0f+NgEn/xYBB//4AekA2f/IAbkAqf+0AcUA1f/kAvX9AgMT/iMBNP9DAlT8TQQ+/S0CHgAO/v8D8PzfBND9vwKwAK7+vQLO/t0C7v/9AQz+GwIs/jsCTP9VAEYANgAmABYABgD4AOgA2P/HArj+pwK2/sUA1gLm//X/BAEV/yQBNQBFAFX+TAM9/iwAHQEN//4A7wLf/c4Dv/2uA6/9vgPP/t4B7wD/AA3/HAEt/zwBTQBV/0QBNf8kARX/BAH3/+YB1//GAbf/pgC3Acf/1wHo/vcCBv8VASb/NQFG/1UBTP87ASwAHP8LAv797QPe/s0AvgKu/a8DwP7PAOAB8P7/Aw7+HQEuAD7+TQNU/kMBNAAk/xMCBP71AOYC1v3FA7b+pwC5Acn/2AHpAPn+BgMX/SYDN/5GAFcBS/86ASsAG/4KA/397APd/swBvf+sArH9wAPR/uAB8QAA/w4BH/8uAj/+TgFTAEP/MgIj/hIBAwH1/uQC1f/EALQBqv+5AMoB2v/pAfr/BwEY/icEOPpHB1j5SQY6/CkCGv8JAPwB7P7bA8z9uwKs/7EAwgHS/+EB8v//ARD/HwEw/z8BUABS/0EBMv8hABICAv3zA+P90gLD/7IBq/+6AMsB2//qAfv/CAAZAin9OAJJ/1gASQI5/SgDGf0IAvv/6gHb/8oCu/2qA7P+wgDTAuP98gQB/BAEIfwwA0H+UAFRAEEAMQAhABEAAP/xAeIA0gDCALIArP+7Asz+2wHsAPz/CQIa/ikBOgBK/1cCSP43ASgAGP8HAfoA6v/ZAsr9uQSq/LMDxP7TAeQB9P4BARIAIv8xA0L7UQVQ/D8DMP8e/w4CAP7wAeEA0f/AAbEArf+8As393ALtAP3/CgIb/SoDO/5KAlf9RgQ3+yYFF/wGAvkA6f/YAcn+uAKp/7QAxQDVAOUA9QADABMAIwAzAEMBU/5NAz78LQMe/w0AAAHw/t8C0P6/ArD+rQK+/80A3gHu//0ADAIc/CsFPPtLBVb8RQI2/yUBFv8FAfj+5wPY/scCuP2nArb/xQHWAOb/9QAEART/IwE0/0QAVQFNAD3+LAMd/QwD//7uAN8Bz/++Aq/+rgG//84C3/7uAv/+DAEdAC0APQBNAFUARf80AiX9FAQF/PYD5/7WAMcCt/2mBLf8xgLX/+YB9/8EARb/JQA2AUb/VQBMADwBLP8bAgz8/QTu/d0Dzv69AK4BsP+/AdAA4P/vAQD/DQAeAi79PQNO/VMCRP8zAST/EwEE//UB5v/VAsb+tQGoALj/xwLY/ucC+f4GAhf+JgE3AUf+VgJL/zoAKwAbAQv+/ALt/9wAzQG9/6wAsQDBANEB4f7wAgD+DgIf/i4CP/1OBFP9QgIz/iIBEwADAPUB5v7WAsj+uAKv/70Bzf/cAez++QMH/RQDI/0wAT4BS/4+AjH/Iv8VAgj9+wTw/eIC1//K/74CxP/QAN0B6v71AgD/CwAXASL/LP82Azj8LAQh/RYBDAABAPgA7gDlANsA0gDNAdf/4AHr//MB/QAF/w0BFv8dASYALv8kAh38EwUM+wMF/vz1A+/+5wHhANsA3wDm/+wC9P76AwD8BQIMABL/FgId/hsBFgAQ/woCBf7/Avz+9wLz/u4C6/7pAu/+8gL3/fsE//wBBAX8BwML/g0BEAEM/QgDBv4CAgH9/wP9/fsD+v74APcC+f36Av3//QAAAgD9/wIB/wAAAQEB/wAAAA==",
+                "tot": "str"
+            }
+        ],
+        "active": true,
+        "x": 240,
+        "y": 120,
+        "wires": [],
+        "info": "**core_SISTEM** flow Configuration\n\n_beep64_\n    The audio WAV data used by the `_beep` command is a string coded code64.<br>\n    see 'Telemachus' node.\n    \n### more CUSTOMIZATIONS    \n- To test the LAN connection, `_system` reads the home page of `http://nodered.com`, and checks for some text: this can change in future, update the 'LAN check' node, const FINDSTRING.\n- Set language on  `Telemachus` node parameters.\n\n "
+    },
+    {
+        "id": "649f8995981f0b11",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "Test _doSCHEMA (HAL@home)",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_doSCHEMA",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "HAL@home",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 770,
+        "y": 1480,
+        "wires": [
+            [
+                "0263e3a5d46d04db"
+            ]
+        ],
+        "info": "The _system doSCHEMA property is implemented:\n  \n  for the device in Value:\n     a GET request is done for every GETtable DP (slow)\n     side effect: tuyastatus is updated.\n     \n   returns: a list of DPs.\n   \n   Example:\n         device: \"HAL@home\"\n         dps_get: array[21]\n            [0 … 9]\n                0: \"_doSCHEMA\"\n                1: \"_doUPDATE\"\n                2: \"_ACpower\"\n                ... more ...\n   \n   Plus all GETs:\n\n                [ \"RX: HAL@home/_doSCHEMA\", object ]\n                [ \"RX: HAL@home/_doUPDATE\", \"none\" ]\n                [ \"RX: HAL@home/_ACpower\", \"none\" ]\n                ... more ...\n     \nnot: doSCHEMA can be used with ANY device, also if device.SCHEMA is not available.     \n\nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#tuyastatus"
+    },
+    {
+        "id": "0263e3a5d46d04db",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 1015,
+        "y": 1440,
+        "wires": []
+    },
+    {
+        "id": "80df3a95de51970b",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "SET (zeroLog 3s) + START benchmark ",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_system\",\"property\":\"_toShare\",\"value\":{\"share\":[{\"action\":[{\"device\":\"_system\",\"property\":\"_benchmark\",\"value\":{\"device\":\"_system\",\"property\":\"_zeroLog\",\"timeout\":3000}},{\"device\":\"_system\",\"property\":\"_doBenchmark\",\"value\":\"start\"}]}]}}",
+        "payloadType": "json",
+        "x": 790,
+        "y": 1880,
+        "wires": [
+            [
+                "063ac16c1ab07a21"
+            ]
+        ],
+        "info": "\nThis test uses system.doShare to do 2 tasks in sequence:\n    1) system._benchmark (to prepare a benchmark using zeroLog for 15 s).\n    2) system._doBenchmark (to execute the benchmark)\n    \n    \nsee https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#benchmark    "
+    },
+    {
+        "id": "d6125a353ea185cf",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.logging",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 835,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "8f3f5ff72df8c391",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "statup only",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.4",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 425,
+        "y": 120,
+        "wires": [
+            [
+                "d85aa6085868ceda"
+            ]
+        ],
+        "icon": "node-red/trigger.svg",
+        "l": false
+    },
+    {
+        "id": "d85aa6085868ceda",
+        "type": "function",
+        "z": "89f87d49.41b81",
+        "name": "system flow startup",
+        "func": "// Run as soon as possible after all 'On Start' and 'Global Config'.\n// So, if some 'On Start' function  requires 'Global Config' data, palace it there.\n// --------------- locals\nconst asDEVICE = \"_system\";           // singleton in alldevices\nconst asMODULE = \"modules.core_system\";\nconst VERSION  = \"2.2.0\";\n// --------------------------------------------------- standard\nif (!global.get(\"coresetup\")){\n    node.warn(\"STARTUP ERROR: adjust startup delays.\");\n    return([null]);\n}\n// --------------------- global handled by this flow:\nglobal.set( asMODULE, VERSION);\n// stuff to access data\nvar oDev = context.global.alldevices.getODev(asDEVICE, \"fake\");\nif (oDev === undefined){\n   node.warn(\"[startup]ERROR [normalize]: not found the device '\"+asDEVICE+\"' in global.alldevices.\");\n   return;\n}\nvar pmDevName = context.global.alldevices.getDevName(oDev);\n// ---------------- inizializes global tuyastatus\n\nlet tstatus = \"tuyastatus['\"+pmDevName+\"']\";\n// init using only _connected (not in alldevices), so does cleanup\nglobal.set(tstatus, {_connected: true});\n// init all GETable dps with default value\noDev.dps.forEach(adp => {\n   if (['RW','WW','GW','RO','UNK','PUSH', undefined].includes(adp.capability)){\n      // this required to handle spaces un usr-names\n      let dpname = \"['\"+ (adp.name ? adp.name:adp.dp) + \"']\";\n      switch (adp.dp){     // some special init:   \n        case \"_ACunconnected\":        // array required\n        case \"_WiFiunconnected\":\n            global.set(tstatus+dpname, [\"none\"]);\n            break;\n        case \"_benchmark\":\n             global.set(tstatus+dpname, flow.get(\"benchmark\"));  // from 'On Start'\n            break;\n       default:\n            global.set(tstatus+dpname, \"none\");\n        }\n    }});\n// --------------------------------------------- standard processing ends\n// more flow init required now (and not in 'On Start') by some properties    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// more flow init for _system properties    \nvar zerobnch = {\n    \"device\":\"_system\",\n    \"property\":\"_zeroTask\",\n    \"timeout\" : 10000\n     }\n// default benchmark command\nflow.set(\"benchmark\", zerobnch);\nflow.set(\"bnch_status\", \"wait\")\n\n",
+        "finalize": "global.set(\"modules.core_system\",  undefined);\n",
+        "libs": [],
+        "x": 550,
+        "y": 120,
+        "wires": [
+            []
+        ],
+        "info": "CUSTOMIZATION\n\nIf you add new proprties to _system (e.g. new DB commands) update this to do all required initializations."
+    },
+    {
+        "id": "a08faa08f32a190c",
+        "type": "function",
+        "z": "89f87d49.41b81",
+        "name": "core start",
+        "func": "d = new Date();\nmsg.payload.data.dps._laststart = d.toLocaleString(\"sv-SE\");  // format yyyy-mm-DD, sortable\n//\n    node.status({\n        fill: \"green\",\n        shape: \"ring\",\n        text: \"core running\"\n    });\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n   node.status({\n        fill: \"yellow\",\n        shape: \"ring\",\n        text: \"core startup\"\n    });\n\n",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 460,
+        "wires": [
+            [
+                "5a8e972b.19e048",
+                "37306de6.0a7f42"
+            ]
+        ]
+    },
+    {
+        "id": "8b9f4007953dc621",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "doUPDATE   real only",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_doUPDATE",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "real",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 730,
+        "y": 2160,
+        "wires": [
+            [
+                "e59aa8c315e74462"
+            ]
+        ],
+        "info": "The _system doUPDATE property is implemented:\n  \n  for ALL connected devices found in real|virtual|fake|NULL(all) alldevices list:\n     a doSCHEMA request is sent.\n \n see https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#tuyastatus"
+    },
+    {
+        "id": "c807416828617ae1",
+        "type": "comment",
+        "z": "89f87d49.41b81",
+        "name": "Test case for  _system + TRIGGER module",
+        "info": "Test for _system properties tuya_bridge related.\n\n",
+        "x": 240,
+        "y": 2200,
+        "wires": []
+    },
+    {
+        "id": "03ab6cc8b6c4c765",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test  SET _doTrigger (1050)",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_doTrigger",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "1050",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 230,
+        "y": 2260,
+        "wires": [
+            [
+                "17074ca7131094fa"
+            ]
+        ]
+    },
+    {
+        "id": "17074ca7131094fa",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.std_cmd",
+        "mode": "link",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 505,
+        "y": 2260,
+        "wires": []
+    },
+    {
+        "id": "e2bc34c5ea187eb7",
+        "type": "subflow:81d3b584.14c888",
+        "z": "89f87d49.41b81",
+        "name": "",
+        "env": [
+            {
+                "name": "deviceID",
+                "value": "_system",
+                "type": "str"
+            },
+            {
+                "name": "propertyDP",
+                "value": "_timerON",
+                "type": "str"
+            },
+            {
+                "name": "value",
+                "value": "@\"Done id: \"+ msg.id",
+                "type": "str"
+            }
+        ],
+        "x": 1240,
+        "y": 720,
+        "wires": [
+            [
+                "be8e7d4f.d6577"
+            ]
+        ]
+    },
+    {
+        "id": "9a9ad303b7160f58",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "test  BEEP LOOP2 (alternative implementation)",
+        "props": [
+            {
+                "p": "payload.device",
+                "v": "_system",
+                "vt": "str"
+            },
+            {
+                "p": "payload.property",
+                "v": "_beep_loop2",
+                "vt": "str"
+            },
+            {
+                "p": "payload.value",
+                "v": "{\"count\":3, \"timeout\":1000}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 300,
+        "y": 1400,
+        "wires": [
+            [
+                "f302b04b.6478b"
+            ]
+        ],
+        "info": "\nhttps://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#user-interface\n\nnote:\nThis is an example of command repetiton, (altrnative implementation) build in \nGlobal.AllDevice structure, using 'share' capabilities.\n\nsee  https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system#user-interface\n"
+    },
+    {
+        "id": "6fc53253d2a01ae8",
+        "type": "link out",
+        "z": "89f87d49.41b81",
+        "name": "to core.logging",
+        "mode": "link",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 1005,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "15873b024696ca01",
+        "type": "inject",
+        "z": "89f87d49.41b81",
+        "name": "GET local LIST",
+        "props": [
+            {
+                "p": "payload.remote",
+                "v": "instance_name",
+                "vt": "global"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 720,
+        "y": 1320,
+        "wires": [
+            [
+                "b628aa72daf235de"
+            ]
+        ]
+    }
+]
