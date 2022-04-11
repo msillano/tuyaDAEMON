@@ -60,7 +60,6 @@
         "keyname": "",
         "dburl": "",
         "usetls": false,
-        "credentials": {},
         "x": 540,
         "y": 220,
         "wires": [
