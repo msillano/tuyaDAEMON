@@ -17,6 +17,12 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 3. If you are interest to detailed **info about a device**:
    - consult this documentation sheets.
 --------------------------------------------   
+
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico__system.jpg) [_core (SW custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_core/device__core.pdf) 
+
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico__system.jpg) [_system (SW custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_system/device__system.pdf) 
+
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico__system.jpg) [_trigger (SW custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_trigger/device__trigger.pdf) 
    
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_ACmeter.jpg) [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device_ACmeter.pdf) 
 
@@ -43,8 +49,6 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_switch-1CH.jpg) [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_switch-4CH.jpg) [switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf) 
-
-- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico__system.jpg) [_system (SW custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_system/device__system.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Temperature_Humidity_Sensor.jpg) [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf) 
 
