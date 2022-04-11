@@ -199,9 +199,8 @@ To have a flexible but robust framework it is always necessary:
 
 **versions**
 _tuyaDAEMON version 2.2.0_ 
-  - goals: better user experience, installation, customization.
-  - standardization of options in 'Global MODULE config' nodes.
-  - Flows startup on three steps, general and robust
+  - Maintenance release: better user experience, installation, customization.
+  - standardization of startup and options in 'Global MODULE config' nodes.
   - Refactoring 'json_library', now implemented as a global singleton.
   - separate node for encoding/decoding functions library.
   - added "hide" field to global.alldevices for user visibility control.
