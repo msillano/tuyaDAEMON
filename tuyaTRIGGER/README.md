@@ -16,6 +16,9 @@ This [**TRIGGER** mechanism](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRI
  - _tuya scene_ can control _node-red flows_, so a node-red user can employ _smartlife_ as remote control (from anywhere).
  - _tuya automations_ can fire flows in _node-red_, implementing this way any control strategy not allowed by Tuya.
  - user can fire _node-red flows_ with vocal control (`Googlehome`)
+ 
+ > A _'minimal standalone implementation'_ can be used to add remote control to any node-red flow: see [node-red voice and remote control](https://flows.nodered.org/flow/1d03176c75458f2665c780cb56265bf3).
+
 
 ### implementation
 
@@ -50,6 +53,7 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
  - for fallback, MUST exist a Tuya Automation fired when the countdown is less than any trigger value (e.g. 1050), to reset the countdown to 0 without ACK: so the countdown never interferes with the logic of the switch (this automation is also deployed by `_trgPing` implementation). Required automation:  `if "tuya_bridge"countdown = 1050, then "tuya_bridge"countdown:0` 
  
 - Actual implementation does not verify the ACKs presence and timing, and not uses any handshake strategy, so it is theoretically possible to have some interferences.
+
 --------------------
 ### MQTT tuya_bridge tests
 
