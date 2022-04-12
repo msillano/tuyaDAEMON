@@ -83,6 +83,9 @@ _notes_
 --------------------
 **Versions**
 
+_tuyaTRIGGER version 2.2.0_ (10/04/2022)
+  - tuyaDAEMON ver 2.2.0
+  
 _tuyaTRIGGER version 2.0_ (13/05/2021)
   - included in tuyaDAEMON ver 2.0 (tuyaDAEMOM-full.2.0.json)
   
