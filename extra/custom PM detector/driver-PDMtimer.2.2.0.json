@@ -1,0 +1,378 @@
+[
+    {
+        "id": "3332031a.de38fc",
+        "type": "subflow",
+        "name": "driver_PDMtimer001",
+        "info": "Driver for MQTT timerPDM-1 (Sonoff)\n\nThis is a direct replacement for tuya-smart-device node.\n\nSo the device `_sonoff001`, in `global.alldevices`,  is among the `real` devices.\n\n### Installation\n\nI used a 'dynamic rety' node, because the device is often disconnected from the mains. \n\nNo configuration is required, apart from the MQTT nodes that must connect with the broker present on the switch.\n\nnote: This subflow implements `_refresh`  and `_refreshCycle` pseudoDP, so the `REFRESH` node is not required.",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 320,
+                "wires": [
+                    {
+                        "id": "f50b75361e48e28d"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1060,
+                "y": 300,
+                "wires": [
+                    {
+                        "id": "80d3499e.df2d58",
+                        "port": 0
+                    },
+                    {
+                        "id": "7a13d179.a10ed",
+                        "port": 0
+                    },
+                    {
+                        "id": "938228d2.f21868",
+                        "port": 0
+                    },
+                    {
+                        "id": "9ae04f2.4bac6b",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 1060,
+                "y": 520,
+                "wires": [
+                    {
+                        "id": "8329893d.2679a8",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "deviceID",
+                "type": "str",
+                "value": "sonoff001"
+            },
+            {
+                "name": "Max_time",
+                "type": "str",
+                "value": "global.MAXREFRESH"
+            }
+        ],
+        "meta": {},
+        "color": "#C7E9C0",
+        "status": {
+            "x": 1060,
+            "y": 580,
+            "wires": [
+                {
+                    "id": "8329893d.2679a8",
+                    "port": 1
+                }
+            ]
+        }
+    },
+    {
+        "id": "808a0753.c4e598",
+        "type": "mqtt in",
+        "z": "3332031a.de38fc",
+        "name": "",
+        "topic": "/ozone/timerpdm/1/status/info",
+        "qos": "0",
+        "datatype": "utf8",
+        "broker": "2e55898d.e8af66",
+        "inputs": 0,
+        "x": 580,
+        "y": 480,
+        "wires": [
+            [
+                "80d3499e.df2d58"
+            ]
+        ]
+    },
+    {
+        "id": "c1b5bd9e.0aff1",
+        "type": "mqtt out",
+        "z": "3332031a.de38fc",
+        "name": "MQTT send",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2e55898d.e8af66",
+        "x": 650,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "505b5823.792928",
+        "type": "mqtt in",
+        "z": "3332031a.de38fc",
+        "name": "",
+        "topic": "/ozone/timerpdm/1/status/config",
+        "qos": "0",
+        "datatype": "utf8",
+        "broker": "2e55898d.e8af66",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 590,
+        "y": 400,
+        "wires": [
+            [
+                "7a13d179.a10ed"
+            ]
+        ]
+    },
+    {
+        "id": "215fc962.4168a6",
+        "type": "mqtt in",
+        "z": "3332031a.de38fc",
+        "name": "",
+        "topic": "/ozone/timerpdm/1/status/output",
+        "qos": "2",
+        "datatype": "utf8",
+        "broker": "2e55898d.e8af66",
+        "inputs": 0,
+        "x": 590,
+        "y": 440,
+        "wires": [
+            [
+                "938228d2.f21868"
+            ]
+        ]
+    },
+    {
+        "id": "9ae04f2.4bac6b",
+        "type": "function",
+        "z": "3332031a.de38fc",
+        "name": "handle GET operations",
+        "func": "// GET: response from tuyastatus.\n\nfunction _getGlobalValue(Dn, Pn){\nvar tuyastatus = global.get(\"tuyastatus\");\nif ((tuyastatus !== undefined) && (tuyastatus[Dn] !== undefined)) { // ok device field\n   if (Pn === \"schema\") \n          return tuyastatus[Dn];\n   return tuyastatus[Dn][Pn];\n   }\nreturn undefined;\n}\n\n// ===========================  main\n\nlet command = msg.payload.operation || 'SET';\n// node.warn([\"in command\", command, msg]);\nconst PREFIX = \"/ozone/timerpdm/1/\";\n\nif (command === 'GET'){\n      // value from tuyastatus, format as device response\n      let oD    = context.global.alldevices.getODev(msg.to);\n      var dName = context.global.alldevices.getDevName(oD);\n      var pName = context.global.alldevices.getDpsName(oD, msg.infodp);\n      var value = _getGlobalValue(dName, pName);\n      if (value !== undefined){\n            var newMsg = { \n               \"payload\":{\n                  \"deviceId\": msg.to,\n                  \"deviceName\": dName,\n                  \"data\": {\n                      \"dps\":{\n                          [msg.payload.dps]: value  \n                  }}}};\n          return newMsg;\n          }\nreturn null;          \n}  \n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "464d6ade.3318f4",
+        "type": "status",
+        "z": "3332031a.de38fc",
+        "name": "MQTT status",
+        "scope": [
+            "808a0753.c4e598",
+            "c1b5bd9e.0aff1",
+            "505b5823.792928",
+            "215fc962.4168a6"
+        ],
+        "x": 530,
+        "y": 540,
+        "wires": [
+            [
+                "8329893d.2679a8"
+            ]
+        ]
+    },
+    {
+        "id": "80d3499e.df2d58",
+        "type": "function",
+        "z": "3332031a.de38fc",
+        "name": "refresh + JSON split ",
+        "func": "// based on info msg every 1s\n// rules:\n// - always when 'led' change.\n// - default (tstart == 0): only when 'led' change.\n// else every refreshCicle secons, until flow.Max > 0 \nlet tcount = flow.get(\"tcount\");\nlet cycle = flow.get(\"tstart\");\nlet max = flow.get(\"Max\");\nif (cycle > 0){\n  tcount = ( ++tcount) % cycle;\n  flow.set(\"tcount\",tcount);\n  }\nlet skip = ((cycle === 0) || (tcount !== 0)) ;\n//  timeout\nif (max <= 0)\n    skip = true;\nelse \n    flow.set(\"Max\",--max);\n//  \nlet next = flow.get(\"next\");\nif (next){\n    skip = false;\n    flow.set(\"next\", false);\n    }\n// node.warn({\"tcount\":tcount,\"cycle\":cycle,\"max\":max,\"next\": next});\n//\nvar newMsg = { \n    \"payload\":{\n        \"deviceId\": \"_sonoff001\",\n        \"data\": {\n             \"dps\":{\n            }}}};\n//\nlet odata = JSON.parse(msg.payload);\nif (odata[1] === flow.get(\"lastled\")) {\n   if (skip) return null;\n}\nflow.set(\"lastled\", odata[1]);\nnewMsg.payload.data.dps[\"_info\"] = odata[0];\nswitch(odata[1]){\n  case 0:\n     newMsg.payload.data.dps[\"_led\"] = \"gray\";\n     break;\n  case 1:\n     newMsg.payload.data.dps[\"_led\"] = \"green\";\n     break;\n  case 2:\n     newMsg.payload.data.dps[\"_led\"] = \"red\";\n     break;\n}\nreturn newMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7a13d179.a10ed",
+        "type": "function",
+        "z": "3332031a.de38fc",
+        "name": "JSON split",
+        "func": "\nvar newMsg = { \n    \"payload\":{\n        \"deviceId\": \"_sonoff001\",\n        \"data\": {\n             \"dps\":{\n            }}}};\nlet odata = JSON.parse(msg.payload);\nnewMsg.payload.data.dps[\"_mode\"] = odata[\"mode\"] ==0?\"OFF\":odata[\"mode\"] ==1?\"AUTO\":\"LOOP\";\nnewMsg.payload.data.dps[\"_ONtime\"] = odata[\"ONtime\"];\nnewMsg.payload.data.dps[\"_OFFtime\"] = odata[\"OFFtime\"];\nnewMsg.payload.data.dps[\"_PDM\"] = odata[\"PDM\"];\nnewMsg.payload.data.dps[\"_timezone\"] = odata[\"timezone\"];\n// change\nnewMsg.payload.data.dps[\"_startTime\"] = odata[\"Ttime\"];\nreturn newMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "938228d2.f21868",
+        "type": "function",
+        "z": "3332031a.de38fc",
+        "name": "JSON split",
+        "func": "var newMsg = { \n    \"payload\":{\n        \"deviceId\": \"_sonoff001\",\n        \"data\": {\n             \"dps\":{\n            }}}};\nlet odata = JSON.parse(msg.payload);\nnewMsg.payload.data.dps[\"_mode\"] = odata[\"mode\"] ==0?\"OFF\":odata[\"mode\"] ==1?\"AUTO\":\"LOOP\";\nnewMsg.payload.data.dps[\"_PDM\"] = odata[\"PDM\"];\nnewMsg.payload.data.dps[\"_count\"] = odata[\"count\"];\n// name change\nnewMsg.payload.data.dps[\"_clock\"] = odata[\"Time\"];\nnewMsg.payload.data.dps[\"_switch\"] = odata[\"output\"];  //  converted by BOOLEANONOFF\nnewMsg.payload.data.dps[\"_countdown\"] = odata[\"toggle\"];\nreturn newMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node \n",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c8e74e64.7eafe",
+        "type": "function",
+        "z": "3332031a.de38fc",
+        "name": "SET to MQTT",
+        "func": "// SET: format change, and some name/values changes\n\nfunction isNone(value){   // same as in 'REFRESH'\n    if(value){\n        if(typeof(value) === \"string\"){\n            if(value.toUpperCase() === 'OFF') return true;\n            if(value.toUpperCase() === 'NO') return true;\n            if(value.toUpperCase() === 'NONE') return true;\n        }\n    return false;\n    }\nreturn true;\n}\n\nlet command = msg.payload.operation || 'SET';\nconst PREFIX = \"/ozone/timerpdm/1/\";\n\nif (command == 'SET'){\n       switch(msg.payload.dps) {\n           case '_go':    // MQTT commands\n           case '_off':\n           case '_end':\n           case '_send':\n               msg.topic=PREFIX + \"command\";\n               msg.payload = msg.payload.dps.substring(1);\n               flow.set(\"next\", true);\n               return msg;\n           case '_refresh': // name change\n //              msg.payload =\"send\";\n //              msg.topic=PREFIX + \"command\";\n //              node.warn(\"in refresh\");\n               flow.set(\"next\", true);\n  //             return msg;\n               return null;\n           case '_refreshCycle':  // implementation in node 'refresh + JSON split'\n               if (isNone(msg.payload.set))\n                  flow.set(\"tstart\", 0);\n               else {\n                  flow.set(\"tstart\", msg.payload.set);\n                  flow.set(\"Max\", flow.get(\"Max_time\"));\n               }\n               break;\n           case \"_mode\":     // value conversion\n                if (msg.payload.set === 'OFF')  msg.payload.set = 0;\n                if (msg.payload.set === 'AUTO') msg.payload.set = 1;\n                if (msg.payload.set === 'LOOP') msg.payload.set = 2;\n                msg.payload =\"{\\\"data\\\":\\\"\"+msg.payload.dps.substring(1)+\"\\\",\\\"value\\\":\\\"\"+msg.payload.set +\"\\\"}\";\n                msg.topic=PREFIX + \"set\";\n                return msg;\n             case \"_startTime\":  // name change\n                 msg.payload.dps = \"+Ttime\";\n                 msg.payload =\"{\\\"data\\\":\\\"\"+msg.payload.dps.substring(1)+\"\\\",\\\"value\\\":\\\"\"+msg.payload.set +\"\\\"}\";\n                 msg.topic=PREFIX + \"set\";\n                 return msg;\n             case \"_clock\":  // name change\n                 msg.payload.dps = \"+nowtime\";\n                 msg.payload =\"{\\\"data\\\":\\\"\"+msg.payload.dps.substring(1)+\"\\\",\\\"value\\\":\\\"\"+msg.payload.set +\"\\\"}\";\n                 msg.topic=PREFIX + \"set\";\n                 return msg;\n           default:      // MQTT set, not name change, not value conversions\n                 msg.payload =\"{\\\"data\\\":\\\"\"+msg.payload.dps.substring(1)+\"\\\",\\\"value\\\":\\\"\"+msg.payload.set +\"\\\"}\";\n                 msg.topic=PREFIX + \"set\";\n                 return msg;\n           }\n}\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 340,
+        "wires": [
+            [
+                "c1b5bd9e.0aff1"
+            ]
+        ]
+    },
+    {
+        "id": "8329893d.2679a8",
+        "type": "function",
+        "z": "3332031a.de38fc",
+        "name": "set state",
+        "func": "\n\nreturn [{payload:{state : msg.status.fill === \"green\"?\"CONNECTED\":\"DISCONNECTED\"}},\n        msg];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 540,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "d6db7fef6e584d21",
+        "type": "comment",
+        "z": "3332031a.de38fc",
+        "name": "device_PDMtimer-1",
+        "info": "",
+        "x": 170,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "05bb35727f647a7b",
+        "type": "inject",
+        "z": "3332031a.de38fc",
+        "name": "statup only",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 75,
+        "y": 200,
+        "wires": [
+            [
+                "841d332b0f486198"
+            ]
+        ],
+        "icon": "node-red/trigger.svg",
+        "l": false
+    },
+    {
+        "id": "841d332b0f486198",
+        "type": "function",
+        "z": "3332031a.de38fc",
+        "name": "PDMtimer flow startup",
+        "func": "// Run as soon as possible after all 'On Start' and 'Global Config'.\n// note: the run order of all 'Global config' and all 'On Start' is undefined.\n// So, if some 'On Start' function  requires 'Global Config' data, palace it there.\n// --------------------------------------------------- standard\nconst asDEVICE =[\"_sonoff001\"];            // in alldevices, it can have friendly name\nconst asMODULE = \"modules.driver_PDMtimer001\";\nconst VERSION = \"2.2.0\";\n// --------------------------------------------------- standard\nif (!global.get(\"coresetup\")){\n    node.warn(\"CORE STARTUP ERROR: adjust startup delays.\");\n    return([null]);\n}\n// --------------------- init startup for the flow.\nglobal.set(asMODULE,  VERSION);  // update modules\n\n// access stuff\n// --- see also different implementation in 'core.core flow setup' node.\nlet oDev = context.global.alldevices.getODev(asDEVICE, \"real\");\nif (oDev === undefined){\n   node.warn(\"[startup] ERROR: not found the device '\"+asDEVICE+\"' in global.alldevices.\");\n   return;\n}\nvar pmDevName = context.global.alldevices.getDevName(oDev);\n// ---------------- inizializes global tuyastatus\nlet tstatus = \"tuyastatus['\"+ pmDevName+\"']\";\n// init using only _connected (not in alldevices), so does cleanup\nglobal.set(tstatus, {_connected: true});\n// init all GETable dps with default value\noDev.dps.forEach(adp => {\n    if (['RW','WW','GW','RO','UNK','PUSH', undefined].includes(adp.capability)){\n        let dpname = \"['\" + (adp.name ? adp.name:adp.dp)+\"']\";\n        switch (adp.dp){     // some special init:   \n          default:\n             global.set(tstatus+dpname, \"none\");\n        }\n    }\n });\n\n// --------------------------------------------- standard processing ends\n// more flow init required now (and not in 'On Start') by some properties    \n// see: 'On Start'.\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node \nflow.set(\"tstart\", 5);\nflow.set(\"tcount\", 0);\nflow.set(\"Max\", 0);\nflow.set(\"next\", true);\n",
+        "finalize": "global.set(\"modules.driver_PDMtimer\", undefined);\n",
+        "libs": [],
+        "x": 210,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f50b75361e48e28d",
+        "type": "function",
+        "z": "3332031a.de38fc",
+        "name": "late binding",
+        "func": "\nfunction _upadateParam(_pname){\n     var  _xvalue = env.get(_pname);\n     if (_xvalue){\n        let temp = _xvalue.toString().trim();\n        if (temp.startsWith('global.'))\n           _xvalue = global.get(temp.substring(7));\n        else if(temp.startsWith('flow.'))\n           _xvalue = flow.get(\"$parent.\"+ temp.substring(5));\n        else if(temp.startsWith('msg.'))\n           _xvalue = msg[temp.substring(4)];\n           // extra eval           \n        else if(temp.startsWith('@'))\n           _xvalue = eval(temp.substring(1));\n      }\n      \n// optional: to set the parameter dynamically with a message property, same name\n//      if((msg.command)&&(msg.command[_pname]))\n//        _xvalue = msg.command[_pname];\n           \n// save actual value in the (sub)flow context           \n      flow.set(_pname, _xvalue);\n      }\n      \n// CUSTOMIZE HERE\n// get actual values\n _upadateParam(\"Max_time\");\n // done\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 320,
+        "wires": [
+            [
+                "c8e74e64.7eafe",
+                "9ae04f2.4bac6b"
+            ]
+        ],
+        "info": "See [Subflows and configuration: late and runtime parameters binding](https://discourse.nodered.org/t/subflows-and-configuration-late-and-runtime-parameters-binding/60042)\n\nModified:\n- added evalued binding: @&lt;expression>  => eval(&lt;expression>). e.g. `@Date.now()` \n"
+    },
+    {
+        "id": "2e55898d.e8af66",
+        "type": "mqtt-broker",
+        "name": "PDM Ozone timer#1",
+        "broker": "192.168.1.12",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    }
+]
