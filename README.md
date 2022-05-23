@@ -30,9 +30,12 @@ The TRIGGERs do not connect to individual devices, but create a direct and bidir
 
 Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external devices, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON** processor, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_. 
 
-**Custom channels** are implemented additively with specialized flows, to implement 'fake' devices. In many cases the required interface is a simple protocol adapter, like in case of [MQTT devices](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Ozone_PDMtimer/device_Ozone_PDMtimer.pdf) or in case of [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), that integrates a device that uses USB-COM interface.
+**Custom channels** are implemented additively with specialized flows, to implement 'fake' devices. 
 
-In the case of the '433 MHZ sensor gateway' the module includes a specialized adapter for each device: for example the [weather station](https(https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station) device includes 3 sensors (temperature, wind, rain)
+In many cases the required interface is a simple protocol adapter, like in case of [MQTT devices](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Ozone_PDMtimer/device_Ozone_PDMtimer.pdf) or in case of [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a device that uses USB-COM interface.
+
+In the case of the '433 MHZ sensor gateway', the module includes a specialized adapter for each device, such as the
+[weather station](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station) which uses 3 sensors (temperature, wind, rain).
 
 Since the version 2.0 the generalized [OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#oo-devices), in a [distributed environement](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#networking-tuyadaemon), adds more power to tuyaDAEMON. It is easy to finalize the tuyaDAEMON resources in integrated projects, OO-oriented, with UI and many base devices: see as example the device [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study), a terrace watering timer with UI, fuzzy control from wheater, build using using 3 tuya devices.
 
