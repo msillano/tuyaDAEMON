@@ -195,7 +195,7 @@ IMPORTANT: Sending commands that are not implemented or not allowed or sending w
 - the gateway hangup.
 
 To have a flexible but robust framework it is always necessary:
-1. study each new device in detail ([tuyDAEMONtoolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can helps you in this task).
+1. study each new device in detail ([tuyaDAEMONtoolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can helps you in this task).
 2. use a data structure that verifies the commands sent to each device (like [global.alldevices](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices) object in tyuaDAEMON CORE).
  
 --------------------
