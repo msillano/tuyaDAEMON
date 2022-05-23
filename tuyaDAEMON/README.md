@@ -140,8 +140,8 @@ Usually it is very dangerous to do generalizations based on few cases._
 
 **Device Capabilities:**
 
-**response**
-All tuya devices react to external or internal commands by sending messages, which we find in output from the *tuya-smart-device* nodes. All responses have the same format: one or more pairs _(dp: value)_, regardless of whether they are caused by PUSH, REFRESH, GET, SET, SCHEMA, MULTIPLE commands (see core.logging node).
+**response:**
+All tuya devices react to external or internal commands by sending messages, which we find in output from the *tuya-smart-device* nodes. All responses have the same format: one or more pairs _(dp: value)_, regardless of whether they are caused by PUSH, REFRESH, GET, SET, SCHEMA, MULTIPLE commands (see CORE.logging node _Description_ for details).
 
 **MULTIPLE:** implemented in a few devices, it acts like many SETs. It can return:
 
@@ -194,8 +194,8 @@ IMPORTANT: Sending commands that are not implemented or not allowed or sending w
 - the gateway hangup.
 
 To have a flexible but robust framework it is always necessary:
-1. study each new device in detail
-2. use a data structure that verifies the commands sent to each device ('global.alldevices' for tyuaDAEMON).
+1. study each new device in detail ([tuyDAEMONtoolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can helps you in this task).
+2. use a data structure that verifies the commands sent to each device (like [global.alldevices](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices) object in tyuaDAEMON CORE).
  
 --------------------
 
