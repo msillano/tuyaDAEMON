@@ -133,7 +133,7 @@ _For Android deployement see the [wiki](https://github.com/msillano/tuyaDAEMON/w
 -------------------
  ### Tuya devices capabilities, _as currently known_ ###
  
-_Any tuya device, any DP can have its own behavior: tuya devices use a poll of [common definitions](https://developer.tuya.com/en/docs/iot/terms?id=K914joq6tegj4) and code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in the Tuya environment, etc...).
+_Any tuya device, any DP can have its own behavior: tuya devices use a poll of [common HW, definitions](https://developer.tuya.com/en/docs/iot/terms?id=K914joq6tegj4) and code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in the Tuya environment, etc...).
 Usually it is very dangerous to do generalizations based on few cases._
 
 
