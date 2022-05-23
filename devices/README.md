@@ -56,7 +56,10 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Water_leak_sensor.jpg) [Water_leak_sensor](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Water_leak_sensor/device_Water_leak_sensor.pdf) 
 
-- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_watering_sys.jpg) [watering_sys (custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/watering_sys/device_watering_sys.pdf) 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_watering_sys.jpg) [watering_sys (custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/watering_sys/device_watering_sys.pdf)
+
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Auriol_IAN_114435.jpg) [Weather Station](https://github.com/msillano/tuyaDAEMON/blob/main/devices/433%20gateway/device_Auriol_IAN_114435.pdf) 
+
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_WiFi_IP_Camera.jpg) [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf) 
 
