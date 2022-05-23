@@ -1,0 +1,386 @@
+[
+    {
+        "id": "f2bb4b234e94093b",
+        "type": "subflow",
+        "name": "RT/AVG filter",
+        "info": "This subflow filter for **tuyaDAEMON** allows the processing of individual messages in _real time_, or the creation of an _averaged sampling_, regardless of the device of origin.\n\nFor devices in `'RT' mode`, all messages go directly to the output (no filter).\n\nFor devices in `'AVG' mode`, all messages are stored. A special \"trigger\" message in input triggers the output for a specific device.\n\n### Parameters\n<dl class=\"message-properties\">\n    <dt>decimal digits<span class=\"property-type\">integer</span> </dt>\n    <dd>  the number of digit used in average calculations, if the .\n </dd>\n\n### Input device msg\n\n  Any message from any device (real, virtual, custom). For details see CORE.logging link node.\n\n### Input trigger msg\n\nStructure:\n````\n    message\n        topic    = 'average'            (mandatory)\n        device   = <deviceId>           (mandatory)\n        dp_max   = [<dp1>, <dp2>, ...]  (optional)\n        dp_min   = [<dp1>, <dp2>, ...]  (optional)\n        dp_round = [<dp1>, <dp2>, ...]  (optional)\n    \n````\nThe simplest way to generate trigger messages at fixed time intervals is to use of a standard 'input' node, setting `interval` to the required value. As example see the '433 gateway flow'.\n\n\n### Details\n\nThis subflow can handle messages from one or more devices, with a user-defined strategy for each device, and it is designed to allow for a simple upgrade for any existing **tuyaDAEMON** module or device.\n\n**Condition to enable the `AVG` mode for a device**:\n\nIn the flow containg this subflow instance must be defined:\n````\n    flow.<deviceid>_AVERAGE = true     (mandatory)\n````\n\nThe simplest and user-convenient way to set this value is to add it in the `Global module config`.\n\n\n**Processing `dps` rules in `AVG mode`**:\n - The `dps` full list is keep, for any device, from the `global.alldevices` object (see the CORE.Global CORE config node).\n - In output are present only the `dps` with at least one value in inputs.\n - If the `dp` value '`isNaN()`' (i.e. not numeric) automatically in output is used last value.\n - If the `dp` value is `numeric`, in output we get the `average` of all input values stored (default).\n - The `average` is rounded to an integer if 'dp' is in `dp_round` trigger list,  else it is with user defined `decimal digits`.\n - If a 'dp' is in `dp_max` or `dp_min` trigger list, we ge the `maximum` or the `minimum` value in place of the `average`.\n - Warning: in AVG mode do not mix 'local' and 'remote' messages for the same device.\n\nFor more info see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station#6-notes-about-rtavg-filter-subflow).\n\n\n",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "f506ab8ce63f951b"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 400,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "f506ab8ce63f951b",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "decimal digits",
+                "type": "num",
+                "value": "2",
+                "ui": {
+                    "type": "spinner"
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "f506ab8ce63f951b",
+        "type": "function",
+        "z": "f2bb4b234e94093b",
+        "name": "msgfilter RT/AVG",
+        "func": "\nconst DDIGITS = env.get(\"decimal digits\");  // decimal digits on averages (truncate)\n\n// ------------- devices logging msg process\nif ((msg.payload) && (msg.payload.data)) { \n  let inObj = null;\n// get the device id:\n  if (msg.payload.data.cid) {\n    // is virtual    \n      inObj = context.global.alldevices.getODev(msg.payload.data.cid, \"virtual\");\n   } else {\n      inObj =  context.global.alldevices.getODev(msg.payload.deviceId);  \n   }\n// store ? \n  if ((inObj) && (flow.get(\"$parent.\"+ inObj.id + \"_AVERAGE\"))){\n      let array = flow.get(inObj.id) || [];\n      array.push(msg);\n      flow.set(inObj.id, array);\n      return null;\n   }\n // default to output\n  return (msg);\n}         \n\n// ------------- trigger average msg process\nif ((msg.topic) && (msg.device) && (msg.topic == 'average')) {\n  const array = flow.get(msg.device) || [];\n  if (array.length == 0) return null;\n// \n  let newMsg = RED.util.cloneMessage(array[0]);  \n  delete newMsg.payload.data.dps;\n  newMsg.payload.data.dps = {};     \n  let dsum   = {};\n  let dcount = {};\n  // structures initialize      \n  const devObj = context.global.alldevices.getODev(msg.device);\n  devObj.dps.forEach(function(property) {                       \n      const dpname = property.dp.toString();\n      dsum[dpname] = null;\n      dcount[dpname] = 0;\n      if ((typeof(msg.dp_min) == \"object\") && msg.dp_min.includes(dpname))\n         dcount[dpname] = \"min\";\n      if ((typeof(msg.dp_max) == \"object\") && msg.dp_max.includes(dpname))\n         dcount[dpname] = \"max\";\n //     node.warn([\"in step \",devObj,dpname, dsum, dcount]);\n         });\n//   node.warn([\"init \",devObj,newMsg,dsum,dcount]);\n  // data collect  \n   array.forEach(function(smsg){\n        Object.keys(smsg.payload.data.dps).forEach(function(key,index) {\n        if ((smsg.payload.data.dps[key])||(smsg.payload.data.dps[key] === 0)){\n        if (isNaN(smsg.payload.data.dps[key])){\n              dsum[key] = smsg.payload.data.dps[key];\n              dcount[key]= -1;\n          } else if ((dcount[key] == \"min\") && ( (dsum[key]  == null) || (dsum[key] > smsg.payload.data.dps[key]))) {\n              dsum[key] = smsg.payload.data.dps[key];\n          } else if ((dcount[key] == \"max\") && ( (dsum[key]  == null) || (dsum[key] < smsg.payload.data.dps[key]))) {\n              dsum[key] = smsg.payload.data.dps[key];\n          } else if (dcount[key] === 0) {\n              dsum[key] = smsg.payload.data.dps[key];\n              dcount[key] = 1;\n          } else if  ((! isNaN(dcount[key])) && (dcount[key] > 0)) {\n              dsum[key] += smsg.payload.data.dps[key];\n              dcount[key]++;\n          }\n        }\n        });\n   });\n // output process\n //  node.warn([\"process \",newMsg,dsum,dcount]);\n    Object.entries(dcount).forEach(function([key, value]){\n       if ((value === -1) || (value === \"min\") || (value === \"max\")){\n          if (dsum[key] !== null)\n               newMsg.payload.data.dps[key] = dsum[key];\n       }  else if ((! isNaN(value)) && (value> 0)){\n           if ((typeof(msg.dp_round) == \"object\") && msg.dp_round.includes(key))\n               newMsg.payload.data.dps[key] = Math.round(dsum[key]/value);\n           else\n               newMsg.payload.data.dps[key] = Number((dsum[key]/value).toFixed(DDIGITS));\n           }\n     });\n       \n   node.warn([\"done \"+ newMsg.payload.deviceId ,newMsg,dsum,dcount]);\n  flow.set(msg.device, []);\nreturn newMsg;\n}\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 230,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "714e915c1e308c90",
+        "type": "tab",
+        "label": "custom.433 gateway.avg",
+        "disabled": false,
+        "info": " The flow is be a general purpose **433 gateway**, which manages (for now) two devices:\r\n - `_Auriol_IAN_114435` for the meteo data \r\n - `_extra_temperature` for other temperature probes\r\n \r\nRequires only CORE module.\r\nFor more info see [wiki](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station#3-weather-station-device).",
+        "env": []
+    },
+    {
+        "id": "28554e27041d51e0",
+        "type": "rtl_433",
+        "z": "714e915c1e308c90",
+        "name": "",
+        "device": "",
+        "frequency": "433920000",
+        "protocols": "",
+        "flexgetter": "",
+        "expert": "",
+        "supressChirp": true,
+        "x": 150,
+        "y": 300,
+        "wires": [
+            [
+                "b2e2fd06d91945ba",
+                "213541ed574e0e14"
+            ]
+        ]
+    },
+    {
+        "id": "b2e2fd06d91945ba",
+        "type": "function",
+        "z": "714e915c1e308c90",
+        "name": "RX data selector",
+        "func": "// This  node processes data from 'know' 433 MHz probes.\n// input: RX objects from rtl_433 node (probe data).\n// output: one for every device\n// Actual devices implemented:\n//        _Auriol_IAN_114435  3 probes\n//        _extra_temperature  2 probes\n\n// ---- for all 433 probes:\n// Any probe RX message is identified by: a) protocol, b) random ID.\n// With each battery change, the random probe ID also changes.\n// In this case, an \"Extra RLT-433 message:\" (debug message) is displayed.\n// 1. Get the new id from the message payload\n// 2. Update the \"RND_XXXX\" constants in the global configuration.\n\n// ---  device #1  Auriol_IAN_114435  probes (note WIND and TEMPERATURE uses same RANDOM)\nif ((msg.payload.model == \"AlectoV1-Rain\") && ( msg.payload.id == flow.get(\"RND_RAIN\"))){\n     return [msg, null];\n}\n\nif ((msg.payload.model == \"AlectoV1-Wind\") && ( msg.payload.id == flow.get(\"RND_WIND\"))){\n    return [msg, null];\n}\n\nif ((msg.payload.model == \"AlectoV1-Temperature\") && ( msg.payload.id == flow.get(\"RND_WIND\"))){\n    return [msg, null];\n}\n\n// ---  device #1  _extra_temperature  probes\nif ((msg.payload.model == \"Nexus-T\") && ( msg.payload.id == flow.get(\"RND_TPOINT01\"))){\n    return [null, msg];\n}\n\nif ((msg.payload.model == \"Nexus-T\") && ( msg.payload.id == flow.get(\"RND_TPOINT02\"))){\n    return [null, msg];\n}\n\n// else new ID or new devices: extra signal warning (not processed).\nnode.warn([\"Extra RLT-433 message:\", msg.payload]);\nreturn [null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 300,
+        "wires": [
+            [
+                "9ae2b462130eae53"
+            ],
+            [
+                "f4d9cee1aac456a5"
+            ]
+        ],
+        "inputLabels": [
+            "RX data"
+        ],
+        "icon": "node-red/batch.svg"
+    },
+    {
+        "id": "b23e3d0ebefa4c1d",
+        "type": "link out",
+        "z": "714e915c1e308c90",
+        "name": "to logging",
+        "mode": "link",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 1040,
+        "y": 300,
+        "wires": [],
+        "l": true
+    },
+    {
+        "id": "9699315d2607f25c",
+        "type": "config",
+        "z": "714e915c1e308c90",
+        "name": "Global 433 gateway config",
+        "properties": [
+            {
+                "p": "_Auriol_IAN_114435_AVERAGE",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "p": "RND_WIND",
+                "pt": "flow",
+                "to": "109",
+                "tot": "str"
+            },
+            {
+                "p": "RND_RAIN",
+                "pt": "flow",
+                "to": "134",
+                "tot": "str"
+            },
+            {
+                "p": "WIND_NORTH",
+                "pt": "flow",
+                "to": "135",
+                "tot": "str"
+            },
+            {
+                "p": "_extra_temperature_AVERAGE",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "p": "RND_TPOINT01",
+                "pt": "flow",
+                "to": "129",
+                "tot": "str"
+            },
+            {
+                "p": "RND_TPOINT02",
+                "pt": "flow",
+                "to": "111",
+                "tot": "str"
+            },
+            {
+                "p": "DAYSTART",
+                "pt": "global",
+                "to": "9:00:00",
+                "tot": "str"
+            }
+        ],
+        "active": true,
+        "x": 240,
+        "y": 100,
+        "wires": [],
+        "info": "User setup and tarature:\n\n1. General values\n     - DAYSTART: \"09:00:00\"  (optional, default \"09:00:00\")\n\n2. Device specific, for  Auriol_IAN_114435\n    - _Auriol_IAN_114435_AVERAGE: true | false\n    - RND_WIND:   109  (random id, after batteriers change)\n    - RND_RAIN:   134  (random id, after batteriers change)\n    - WIND_NORT:  135  (0..359, offset tarature, after batteriers change)\n\n3. Device specific, for extra_temperature5\n    - _extra_temperature_AVERAGE: true | false\n    - RND_TPOINT01: 129 (random id, after batteriers change)\n    - RND_TPOINT02: 111 (random id, after batteriers change)\n\n### RND_sensor random ID  (after battery change)\n\nThe random ID is used to recognize data in 'RX data selector' node.\n\n   1. Changing ID, an \"Extra RLT-433 message:\" (debug message) is displayed.\n   2. Get the new ID from the message payload\n   3. Update the \"RND_XXXX\" constants in the global configuration.\n\n### WIND NORTH direction calibration (after battery change)\n\n   1. Set \"WIND_NORTH\" to 0 in the global configuration.\n   2. With a ribbon, secure the flag in the NORTH direction.\n   3. Get the value of the weather station / _wind_dir_deg (constant: 0..315)\n   4. Set this value in the global \"WIND_NORTH\" configuration.\n   5. Remove the ribbon for free the flag.\n"
+    },
+    {
+        "id": "38014371b50699b2",
+        "type": "inject",
+        "z": "714e915c1e308c90",
+        "name": "statup only",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.3",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 135,
+        "y": 160,
+        "wires": [
+            [
+                "2fd8cc608ac4e1db"
+            ]
+        ],
+        "icon": "node-red/trigger.svg",
+        "l": false
+    },
+    {
+        "id": "2fd8cc608ac4e1db",
+        "type": "function",
+        "z": "714e915c1e308c90",
+        "name": "433 gateway startup",
+        "func": "// Run as soon as possible after all 'On Start' and 'Global Config'.\n// note: the run order of all 'Global config' and all 'On Start' is undefined.\n// So, if some 'On Start' function  requires 'Global Config' data, palace it there.\n//  ------------------ not standard because it handles many devices\nconst asMODULE = \"modules.433_gateway\";\nconst VERSION  = \"2.2.0\";\nconst rfDEVICES = [\n      \"_Auriol_IAN_114435\",\n      \"_extra_temperature\" ];\n// --------------------------------------------------- standard\nif (!global.get(\"coresetup\")){\n    node.warn(\"CORE STARTUP ERROR: adjust startup delays.\");\n    return([null]);\n}\n// --------------------- init startup for the flow.\nglobal.set(asMODULE,  VERSION);  // update modules\n\n// for each fake device:\nfunction initDevice(aDevice){\n  var oDev = context.global.alldevices.getODev(aDevice, \"fake\");\n  if (oDev === undefined){\n     node.warn(\"[startup] ERROR: not found the device '\"+aDevice+\"' in global.alldevices.\");\n     return;\n     }\n  var pmDevName =context.global.alldevices.getDevName(oDev);\n  // ---------------- inizializes global tuyastatus\n  tuyastatus = global.get(\"tuyastatus\");\n  tuyastatus[pmDevName] = {};                  // cleanup, just in case...\n  tuyastatus[pmDevName][\"_connected\"] = true;  // init _connected (not in alldevices, required)\n  oDev.dps.forEach(adp => {\n      if (['RW','WW','GW','RO','UNK','PUSH', undefined].includes(adp.capability))\n             tuyastatus[pmDevName][adp.name ? adp.name:adp.dp] = \"none\"; });\n  global.set(\"tuyastatus\", tuyastatus);\n  }\n//------- for all devices in the list:\nrfDEVICES.forEach(device => {initDevice(device)});\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is deployed.\nflow.set(\"lastemp\",\"none\");\nflow.set(\"lastheat\",\"none\");\n\n// functions for meteo day: to handle DST \nDate.prototype.stdTimezoneOffset = function () {\n    var jan = new Date(this.getFullYear(), 0, 1);\n    var jul = new Date(this.getFullYear(), 6, 1);\n    return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());\n}\n\nDate.prototype.dstCorrection = function () {\n    return this.stdTimezoneOffset() -  this.getTimezoneOffset();\n}\n\n// the object meteoUtils is a global singleton with many meteorological functions.\n// node-red singleton start\nglobal.set(\"meteoUtils\", {});\ncontext.global.meteoUtils   = global.get(\"meteoUtils\");\n\n// adding required methods \n// =====================   DST and meteo day handling\n\n// returns aDate as meteo day-of-year, starting at DAYSTART time  (solar: DST compensed). \n// Days Starting from 1, but 0 is possible in the morning of January 1st.\n// Uses flow.DAYSTART as user defined meteo day start time (default 09:00:00)\n// param aDate: a Date instance (to allow calls with past moments)|null. Default = null = now.\ncontext.global.meteoUtils.getDOY = function(aDate = null){\n  function toSolarTime(utime){\n     const DTSmin = new Date().dstCorrection();  // in min\n     const user   = String(utime).split(\":\");\n     return new Date(0, 0, 0, user[0], user[1] + DTSmin, 0).toLocaleTimeString();\n    }\n    \nconst now = (aDate == null)? new Date(): aDate;\nconst start = new Date(now.getFullYear(), 0, 0);\nconst diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);\nconst nowDay = Math.ceil(diff / (1000 * 60 * 60 * 24));\nconst daystart = flow.get('DAYSTART') || \"09:00:00\";\nconst startTime = toSolarTime(daystart); \n// node.warn([\"getDOY()  \", nowDay, startTime, now.toLocaleTimeString()]);\nif (now.toLocaleTimeString() >= startTime) return (nowDay);\nreturn (nowDay -1);   \n}\n\n// to trigger operations at day change\n// param  nowDay:  string, name of the reference flow.'nowDay', one for process.\ncontext.global.meteoUtils.isDayChanged = function(nowDay){\n    let today = this.getDOY();\n    if (isNaN(flow.get(nowDay))) {\n     //  first time \n         flow.set(nowDay, today);\n         return true;\n         }\n    if (flow.get(nowDay) === today) return false;\n    if (today === 0)  return false;   //  morning of January 1st, still 365 or 366\n    // changed\n    flow.set(nowDay, today);\n    return true;\n}\n\n// ===============  unit conversions\n// conversion Celsius to Fahrenheit\ncontext.global.meteoUtils.toFahrenheit = function(tc){\n   return (tc * 9.0/5.0 + 32.0);\n}\n\n// conversion Fahrenheit to Celsius \ncontext.global.meteoUtils.toCelsius = function(tf){\n   return ((tf -32) * 5.0 / 9.0);\n}\n     \n//  conversion  m/s to Km/h  \ncontext.global.meteoUtils.toKmHr = function(v) {\n   return (v* 3.6); \n}\n\n// more meteo derived values\n\n// -------------- NOAA Heat Index\n// see https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml\n// see https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3801457/\n// tested using https://www.wpc.ncep.noaa.gov/html/heatindex.shtml\ncontext.global.meteoUtils.evalHeatIndex = function(tc, RH){\nT = this.toFahrenheit(tc);\nif (T < 40) return (tc);\n// ha =  0.5 * (T + 61.0 + ((T-68.0)*1.2) + (RH*0.094));\nhb = -10.3 +1.1*T + 0.047 *RH;\n node.warn ([\"evalHeatIndex simple (\"+tc+\", \"+ RH+\") \", hb +\" °F\", this.toCelsius(hb) ]);\nif (hb < 79) \n   return Number(this.toCelsius(hb).toFixed(1));\n\nhf = -42.379 + 2.04901523*T + 10.14333127*RH - \n        0.22475541*T*RH - 0.00683783*T*T - 0.05481717*RH*RH +\n        0.00122874*T*T*RH + 0.00085282*T*RH*RH - 0.00000199*T*T*RH*RH;\n// corrections:\nif ((RH < 13) && (T >= 80) && (T <= 112)) \n     hf -= ((13.0-RH)/4)*Math.sqrt((17.0- Math.abs(T-95.0))/17);\nif ((RH > 85) && (T >= 80) && (T <= 87)) \n     hf += ((RH-85)/10.0) * ((87-T)/5.0);\n// node.warn ([\"evalHeatIndex full ( \"+tc+\" °C, \"+ RH+\" %) \", hf +\" °F\", this.toCelsius(hf) +\" °C\"]);\nreturn Number(this.toCelsius(hf).toFixed(1));\n}\n\n// --- dew point\n// see https://en.wikipedia.org/wiki/Dew_point\ncontext.global.meteoUtils.evalDewPoint = function (tc, RH){\n  z = Math.log(RH/100)+ 18.678*tc/(257.14 + tc);\n  dpt= 257.14*z/(18.678 -z);\n// node.warn ([\"evalDewPoint( \"+tc+\" °C, \"+ RH+\" %) \", dpt  +\" °C\"]);\nreturn Number(dpt.toFixed(1)); \n}\n\n// ---  wind chill\n// see https://en.wikipedia.org/wiki/Wind_chill, \ncontext.global.meteoUtils.evalWindChill = function (tc, v, hi){\n let vkh = this.toKmHr(v);\n//  replaced by heat index if T > 10° or   msg.payload.wind_max_m_s < 1.3  \n vc = hi;\n if ((tc <= 10.0) && ( v  > 1.3))\n   vc = 13.12 + (0.6215*tc) - (11.37* Math.pow(vkh, 0.16)) + (0.3965*tc* Math.pow(vkh, 0.16));\n   node.warn ([\"evalWindChill( \"+tc+\" °C, \"+ v +\" m/s, \"+ hi+\" °C) \", vc +\" °C\"]);\n  return (Number(vc.toFixed(1)));\n }\n\n\n\n",
+        "finalize": "global.set(\"modules.fake_watering_sys\", undefined);\n",
+        "libs": [],
+        "x": 340,
+        "y": 160,
+        "wires": [
+            []
+        ],
+        "info": "This node:\n In the 'On Start' builds 'MeteoUtils' global singleton.\n In the 'on Message' does the usual device setup for all devices handled by this flow."
+    },
+    {
+        "id": "d674066320cb885c",
+        "type": "inject",
+        "z": "714e915c1e308c90",
+        "name": "AVG weather station",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "device",
+                "v": "_Auriol_IAN_114435",
+                "vt": "str"
+            },
+            {
+                "p": "dp_max",
+                "v": "[\"_wind_max_m_s\"]",
+                "vt": "json"
+            },
+            {
+                "p": "dp_min",
+                "v": "[\"_day\"]",
+                "vt": "json"
+            },
+            {
+                "p": "dp_round",
+                "v": "[\"_wind_dir_deg\"]",
+                "vt": "json"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "200",
+        "topic": "average",
+        "x": 580,
+        "y": 380,
+        "wires": [
+            [
+                "94fa0a458448c51b"
+            ]
+        ]
+    },
+    {
+        "id": "646ca24c4a024493",
+        "type": "inject",
+        "z": "714e915c1e308c90",
+        "name": "AVG extra temperature",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "device",
+                "v": "_extra_temperature",
+                "vt": "str"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "120",
+        "topic": "average",
+        "x": 590,
+        "y": 420,
+        "wires": [
+            [
+                "94fa0a458448c51b"
+            ]
+        ]
+    },
+    {
+        "id": "94fa0a458448c51b",
+        "type": "subflow:f2bb4b234e94093b",
+        "z": "714e915c1e308c90",
+        "name": "",
+        "x": 870,
+        "y": 300,
+        "wires": [
+            [
+                "b23e3d0ebefa4c1d"
+            ]
+        ]
+    },
+    {
+        "id": "f4d9cee1aac456a5",
+        "type": "function",
+        "z": "714e915c1e308c90",
+        "name": "extra temperature process",
+        "func": "//=====================    extra_temperature device\n// groups some extra external temperature probes\nvar newMsg_b = {\n      \"payload\": {\n          \"deviceId\" : \"_extra_temperature\",  // IAN-64089, IAN-279818\n          \"data\":{\n               \"dps\" :{}\n                 } }};           \n\nif ( msg.payload.id == flow.get(\"RND_TPOINT01\")){\n        if(msg.payload.battery_ok == 0)\n           newMsg_b.payload.data.dps['_battery_low'] = \"TPOINT01\";\n        newMsg_b.payload.data.dps['_day'] = context.global.meteoUtils.getDOY();  \n        newMsg_b.payload.data.dps['_tpoint01'] = msg.payload.temperature_C;\n        return(newMsg_b);\n}\n\nif  ( msg.payload.id == flow.get(\"RND_TPOINT02\")){\n        if(msg.payload.battery_ok == 0)\n           newMsg_b.payload.data.dps['_battery_low'] = \"TPOINT02\";\n        newMsg_b.payload.data.dps['_day'] = context.global.meteoUtils.getDOY();  \n        newMsg_b.payload.data.dps['_tpoint02'] = msg.payload.temperature_C;\n        return(newMsg_b);\n}\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 320,
+        "wires": [
+            [
+                "94fa0a458448c51b"
+            ]
+        ]
+    },
+    {
+        "id": "9ae2b462130eae53",
+        "type": "function",
+        "z": "714e915c1e308c90",
+        "name": "weather station process",
+        "func": "\n// ==================  Auriol_IAN_114435 Weather Station Device\n// Processes probes data to get standard tuyaDAEMON device msg.\n// Adds some useful meteo derived properties (_day, _rain_day_mm, _wind_daymax_m_s, _wind_chill, _heat_index, _dew_point)\n// ----------------------------------------------------------\n// WIND direction calibration (after battery change)\n// 1. Set \"WIND_NORTH\" to 0 in the global configuration.\n// 2. With a ribbon, secure the flag in the NORTH direction.\n// 3. Get the value of the weather station / _wind_dir_deg (constant: 0..315)\n// 4. Set this value in the global \"WIND_NORTH\" configuration.\n// 5. Remove the ribbon for a free flag.\n\n// ----------- local stuff\nconst WINDDAY  = \"winddayflag\";\nconst RAINDAY  = \"raindayflag\";\nconst WIND_OFF = 360 - (flow.get(\"WIND_NORTH\") || 0);\n\n// output scheletron\n var newMsg_a = {\n         \"payload\": {\n           \"deviceId\" : \"_Auriol_IAN_114435\",  // as in global.alldevices\n           \"data\":{\n                dps :{}\n                }\n            }\n        }\n        \n// --------  main:  Auriol_IAN_114435: 3  probes\n// only one station, so to separate probes here is used the 'model' only.\n\nif  (msg.payload.model == \"AlectoV1-Rain\"){\n//  updates  flow.RAIN_SUM to get _rain_day_mm\n        if (context.global.meteoUtils.isDayChanged(RAINDAY)){\n            flow.set(\"RAIN_SUM\", msg.payload.rain_mm);\n        }\n// set properties             \n       newMsg_a.payload.data.dps['_day'] = flow.get(RAINDAY);       \n       if(msg.payload.battery_ok == 0)\n           newMsg_a.payload.data.dps['_battery_low'] = \"RAIN\";\n// rain_day with correction\n        newMsg_a.payload.data.dps['_rain_day_mm'] = msg.payload.rain_mm - (flow.get(\"RAIN_SUM\")|| 0);\n        newMsg_a.payload.data.dps['_rain_tot_mm'] = msg.payload.rain_mm;\n        return(newMsg_a);\n}\n\n \nif (msg.payload.model == \"AlectoV1-Wind\"){\n// set max day wind gust, usimg flow.maxdaywind ( _wind_daymax_m_s)\n        if (context.global.meteoUtils.isDayChanged(WINDDAY)){\n            flow.set(\"maxdaywind\", msg.payload.wind_max_m_s);\n            }\n        else if( msg.payload.wind_max_m_s > flow.get(\"maxdaywind\"))\n            flow.set(\"maxdaywind\", msg.payload.wind_max_m_s);\n// set properties             \n        newMsg_a.payload.data.dps['_day'] = flow.get(WINDDAY);       \n        if(msg.payload.battery_ok == 0)\n           newMsg_a.payload.data.dps['_battery_low'] = \"WIND\";\n        newMsg_a.payload.data.dps['_wind_avg_m_s'] = msg.payload.wind_avg_m_s;\n        newMsg_a.payload.data.dps['_wind_daymax_m_s'] = flow.get(\"maxdaywind\");\n        newMsg_a.payload.data.dps['_wind_max_m_s'] = msg.payload.wind_max_m_s;\n// wind direction with correction\n        newMsg_a.payload.data.dps['_wind_dir_deg'] = ((msg.payload.wind_dir_deg + WIND_OFF)%360);\n// calculates wind chill, if data ready  \n        if( ( !isNaN(flow.get(\"lastemp\")))&&( !isNaN(flow.get(\"lastheat\")) ) )\n             newMsg_a.payload.data.dps['_wind_chill'] = context.global.meteoUtils.evalWindChill(flow.get(\"lastemp\"), msg.payload.wind_max_m_s, flow.get(\"lastheat\"));\n        return(newMsg_a);\n}\n\n\nif (msg.payload.model == \"AlectoV1-Temperature\"){\n // set properties             \n // wind and temperature probes uses same TX and batteries, so next line is safe:    \n       newMsg_a.payload.data.dps['_day'] = flow.get(WINDDAY);     \n       if(msg.payload.battery_ok == 0)\n           newMsg_a.payload.data.dps['_battery_low'] = \"TEMPERATURE\";\n        newMsg_a.payload.data.dps['_humidity'] = msg.payload.humidity;\n// calculates dew point    \n        newMsg_a.payload.data.dps['_dew_point'] = context.global.meteoUtils.evalDewPoint(msg.payload.temperature_C, msg.payload.humidity);\n// stored values        \n          flow.set(\"lastemp\", msg.payload.temperature_C); \n          flow.set(\"lastheat\", context.global.meteoUtils.evalHeatIndex(msg.payload.temperature_C, msg.payload.humidity)); \n\n        newMsg_a.payload.data.dps['_temperature'] = flow.get(\"lastemp\");\n        newMsg_a.payload.data.dps['_heat_index'] = flow.get(\"lastheat\");\n        return(newMsg_a);\n}\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "\n",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 280,
+        "wires": [
+            [
+                "94fa0a458448c51b"
+            ]
+        ]
+    },
+    {
+        "id": "213541ed574e0e14",
+        "type": "debug",
+        "z": "714e915c1e308c90",
+        "name": "433 gateway",
+        "active": true,
+        "tosidebar": false,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "3d6b197a3f8b19ab",
+        "type": "comment",
+        "z": "714e915c1e308c90",
+        "name": "433 devices",
+        "info": "",
+        "x": 550,
+        "y": 220,
+        "wires": []
+    }
+]
