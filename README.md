@@ -105,6 +105,8 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
  
  ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/dbtuyathome03.png)
  
+ <hr>
+ 
 ### Devices interfaces
  - Tuya device low level, via 'tuyapi' driver: see [CORE](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)
  - Tuya device hi level, via 'TRIGGER': see [smoke_alarm](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study).
@@ -112,6 +114,8 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
  - MQTT devices, using custom driver nodes: see [PDMtimer](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study)
  - USB-serial devices, using custom adapter: see [PM_detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study)
  - 433 MHz sensors, using custom 433 gateway: see [Weather station](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station)
+
+<hr>
  
 ### Version 2.0
  
