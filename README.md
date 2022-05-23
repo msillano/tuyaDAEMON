@@ -98,14 +98,20 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
  
  Really minimal.
   
-
-  
 ### DataBase interface
 
  **TuyaDEAMON** automatically logs user select messages and measurements on one or more DB tables (`'messages'`), a useful option for control, analysis, and statistics.
   _Since ver. 2.0:_
  
  ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/dbtuyathome03.png)
+ 
+### Devices interfaces
+ - Tuya device low level, via 'tuyapi' driver: see [CORE](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)
+ - Tuya device hi level, via 'TRIGGER': see [smoke_alarm](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study).
+ - Custom 'SW only' device, i.e. feature modules: see [system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system)
+ - MQTT devices, using custom driver nodes: see [PDMtimer](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study)
+ - USB-serial devices, using custom adapter: see [PM_detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study)
+ - 433 MHz sensors, using custom 433 gateway: see [Weather station](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station)
  
 ### Version 2.0
  
