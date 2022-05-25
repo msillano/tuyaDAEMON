@@ -110,9 +110,10 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
  
  <hr>
  
+- _For more documentation see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki)._
+ 
 - _If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](https://github.com/msillano/tuyaDAEMON/wiki/why-tuyaDAEMON-%3F) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
 
-- _For more documentation see also the [wiki](https://github.com/msillano/tuyaDAEMON/wiki)._
 
 <hr>
  
