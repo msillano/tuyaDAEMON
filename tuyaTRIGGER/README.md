@@ -53,6 +53,11 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
  - for fallback, MUST exist a Tuya Automation fired when the countdown is less than any trigger value (e.g. 1050), to reset the countdown to 0 without ACK: so the countdown never interferes with the logic of the switch (this automation is also deployed by `_trgPing` implementation). Required automation:  `if "tuya_bridge"countdown = 1050, then "tuya_bridge"countdown:0` 
  
 - Actual implementation does not verify the ACKs presence and timing, and not uses any handshake strategy, so it is theoretically possible to have some interferences.
+--------------------
+### minimal implementation for node-red ###
+
+This [tuyaTrigger downsizing](https://flows.nodered.org/flow/1d03176c75458f2665c780cb56265bf3) enables all node-red user (not only passionate IOT users, who use tuyaDEAMON) to add remote control and voice control to their projects in a simple way. only a flow with 3 nodes !.
+It can be [download here](https://github.com/msillano/tuyaDAEMON/tree/main/extra/tuyaTRIGGER%20for%20node-red%20users).
 
 --------------------
 ### MQTT tuya_bridge tests
