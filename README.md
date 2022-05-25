@@ -110,6 +110,12 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
  
  <hr>
  
+- _If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](https://github.com/msillano/tuyaDAEMON/wiki/why-tuyaDAEMON-%3F) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
+
+- _For more documentation see also the [wiki](https://github.com/msillano/tuyaDAEMON/wiki)._
+
+<hr>
+ 
 ### Devices interfaces
  - Tuya device low level, via 'tuyapi' driver: see [CORE](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)
  - Tuya device hi level, via 'TRIGGER': see [smoke_alarm](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study).
@@ -128,8 +134,4 @@ _With the version 2.0 tuyaDAEMON reaches 2 milestones: the ability to use and cr
  ### Last [version 2.2.1](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)
  
  
-
-- _If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](https://github.com/msillano/tuyaDAEMON/wiki/why-tuyaDAEMON-%3F) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
-
-- For more documentation see also the [wiki](https://github.com/msillano/tuyaDAEMON/wiki).
 
