@@ -28,6 +28,8 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Alarm_siren.jpg) [Alarm_siren](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Alarm_siren/device_Alarm_siren.pdf) 
 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_BrekerDIN.jpg) [BrekerDIN](https://github.com/msillano/tuyaDAEMON/blob/main/devices/BrekerDIN/device_BrekerDIN.pdf) 
+
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Door_Sensor.jpg) [Door_Sensor](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Door_Sensor/device_Door_Sensor.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_LED_700ml_Humidifier.jpg) [LED_700ml_Humidifier](https://github.com/msillano/tuyaDAEMON/blob/main/devices/LED_700ml_Humidifier/device_LED_700ml_Humidifier.pdf) 
