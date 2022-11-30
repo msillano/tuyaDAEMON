@@ -96,7 +96,7 @@ But with version 2.1 I added to  **tuyaDAEMON** a _MQTT broker_ and a _MQTT inte
 As an example see [here](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study) the `node-red` and `IOT MQTT panel` implementations of the same interface, side by side.
 
 The MQTT topics structure is simple:
-> tuyaDAEMON/<remote_name>/<device_name>|' '/event|command[/<property_name>]  
+> tuyaDAEMON/<remote_name>/<device_name>|'<space>'/event|command[/<property_name>]  
 
 Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#commands).
 
