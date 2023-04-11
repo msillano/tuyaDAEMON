@@ -1,0 +1,1421 @@
+[
+    {
+        "id": "ee953c15.ada29",
+        "type": "subflow",
+        "name": "static retry",
+        "info": "Transform the `status` msg from a _tuya-smart-device_ node into an _event_ message.\r\n\r\nRequired adding  a new Tuya device (alternative: `dynamic rety` subflow)\r\n\r\n### Parameters\r\n\r\n   <dl class=\"message-properties\">\r\n        <dt>deviceId\r\n            <span class=\"property-type\">string</span>\r\n        </dt>\r\n        <dd>   The ID of the wired Tuya device (same as in `core.global.alldevices`).\r\n        </dd>\r\n   </dl>\r\n\r\n### Inputs\r\n\r\n From _tuya-smart-device_ `client satus` output.\r\n\r\n### Outputs\r\n\r\n A new event message:\r\n ````\r\n  object\r\n   { \"payload\":{\r\n      \"deviceId\": <deviceID>,\r\n      \"data\": {\r\n          \"dps\":{\r\n            \"_connected\": true|false\r\n          }}}}\r\n ````\r\n \r\n It can ben routed to _logging_ input node of `core` flow.\r\n\r\n### Details\r\n\r\nProcess the `status` output from a tuya-smart-device node. If the connection status changes, it creates an event for standard logging, filtering unecessary messages.\r\n\r\nUse it with Tuya devices always ON. \r\n\r\n\r\nIf the device is disconnected, the reconnect interval, function(findTimeout, retryTimeout), is fixed. It is set in the _tuya-smart-device_ node (default) and modified with the pseudo-dp: \r\n  - SET  `_findTimeout`   Integer [ms]\r\n  - SET  `_retryTimeout`  Integer [ms]\r\n\r\n### References\r\n\r\nSee also `dynamic retry` subflow.<br>\r\nFor the event formats see `core.logging` INPUT node.",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "6160136.f5f99ec"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 510,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "6160136.f5f99ec",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "deviceId",
+                "type": "str",
+                "value": " ID (see global.alldevices)",
+                "ui": {
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99",
+        "inputLabels": [
+            "in staus"
+        ],
+        "outputLabels": [
+            "to log"
+        ],
+        "icon": "font-awesome/fa-rss-square"
+    },
+    {
+        "id": "6160136.f5f99ec",
+        "type": "function",
+        "z": "ee953c15.ada29",
+        "name": "connected message - static",
+        "func": "// to set global.tuyasyatus.xxxx._connected \n// creates a response for the dp \"_connected\"\n// store value and filter events\n\nvar CONN = \"_connected\";  //  tuyadaemon internal define\n// see also tuyaDAEMON.\"connection check\" function\n// local function\nfunction _sendReal(idevice, value) {\n   // builds a fake OUT message \n   var newMsg = {\n      \"payload\": {\n         \"deviceId\": idevice,\n         \"data\": {\n            \"dps\": {\n               [CONN]: value\n            }\n         }\n      }\n   };\n   return newMsg;\n}\n\n// user set parameter device id (simple)\nvar deviceId = env.get(\"deviceId\");\n\nvar nowconnected;\nif ((msg.payload !== undefined) && (msg.payload.state !== undefined)) {\n   nowconnected = (msg.payload.state == \"CONNECTED\" || msg.payload.state == \"node-red:common.status.connected\");        // can change\n}\nif ((msg.status !== undefined) && (msg.status.text !== undefined)) {\n   nowconnected = (msg.status.text == \"CONNECTED\" || msg.status.text == \"node-red:common.status.connected\");        // can change\n}\nif (nowconnected == undefined) return null;\n// filering \nlet old = context.get(deviceId + \"_con\");\n// node.warn([\"STATUS \",msg, nowconnected, old]);\n\nif (old === nowconnected) return null;\ncontext.set(deviceId + \"_con\", nowconnected);\n\nreturn (_sendReal(deviceId, nowconnected));\n\n\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// set the default status _connected to 'none' in tuyastatus\nvar deviceId = env.get(\"deviceId\");\ncontext.set(deviceId+\"_con\",\"none\");",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 80,
+        "wires": [
+            []
+        ],
+        "info": "Makes  the _event_ message."
+    },
+    {
+        "id": "ee008879.f5adc8",
+        "type": "tab",
+        "label": "custom.PM detector",
+        "disabled": false,
+        "info": "**custom device PM detector\n\nFlow to use a USB-serial PM detector with tuyaDAEMON. \n\nsee: https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study"
+    },
+    {
+        "id": "e37f5692.37de78",
+        "type": "serial in",
+        "z": "ee008879.f5adc8",
+        "d": true,
+        "name": "*COM18",
+        "serial": "45a4b402.6f7e4c",
+        "x": 620,
+        "y": 600,
+        "wires": [
+            [
+                "170c898c.35c906",
+                "3787ab01.6ee494"
+            ]
+        ]
+    },
+    {
+        "id": "28f4d04b.ed1b7",
+        "type": "serial out",
+        "z": "ee008879.f5adc8",
+        "d": true,
+        "name": "*COM18",
+        "serial": "45a4b402.6f7e4c",
+        "x": 1180,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "fa5e5a63.b11488",
+        "type": "function",
+        "z": "ee008879.f5adc8",
+        "name": "pick and execute",
+        "func": "// converts the msg (dp/set) to serial format required by PM2.5USB\nfunction formatI(n) { // local function\n    return (n > 99 ? \"\" + n : (n > 9 ? \"0\" + n : \"00\" + n));\n}\n\n// returns now(), formatted for mySQL, never fails\nfunction _mySQLdatetime() {\n    //datetime format for mySQL: '2020-12-18 20:45:02'\n    // using 'sv' for date format (but local timezone)\n    return (new Date().toLocaleString('sv'));\n}\n\nfunction isNone(value) { // for resetCycle\n    if (value) {\n        if (typeof(value) === \"string\") {\n            if (value.toUpperCase() === 'OFF')\n                return true;\n            if (value.toUpperCase() === 'NO')\n                return true;\n            if (value.toUpperCase() === 'NONE')\n                return true;\n        }\n        return false;\n    }\n    return true;\n}\n\n// test: idDev SET command?\nfunction _isSetCommand(msx) {\n    return ((msx.payload.property !== undefined) && (msx.payload.value !== undefined));\n}\n\n// test: idDev GET command?\nfunction _isGetCommand(msx) {\n    return ((msx.payload.property !== undefined) && (msx.payload.value === undefined));\n}\n\nconst FASTDP   = \"_refreshCycle\"; // set: 'off'| time [s]\nconst REFDP    = \"_refresh\";      // set: any (trigger)\nconst DEVIDPM1 = \"_PM1_USB\";\n\n//base message to log\nvar newMsg = {\n    payload: {\n        deviceId: DEVIDPM1,\n        data: {\n            dps: {}\n        }\n    }\n};\n\n// ---------------  main\n// fast exit\nif (msg.to !== DEVIDPM1)\n    return ([null]);\n// from property/value to serial for PM detector\nif (_isSetCommand(msg)) { // test: is SET\n    // node.warn([\"INPUT cmd\", msg ]);\n    var data = \"\";\n    switch (msg.infodp) {\n    case REFDP:\n        data = {\n            fun: \"05\",\n            flag: flow.set(\"pm_1\")\n        }\n        msg.payload.value = \"done\";\n        break;\n    case \"1\":\n        flow.set(\"pm_\" + msg.infodp, msg.payload.value);\n        data = {\n            fun: \"01\",\n            sendtime: formatI(msg.payload.value)\n        }\n        break;\n    case FASTDP:\n        if (isNone(msg.payload.value)) {\n            data = {\n                fun: \"05\",\n                flag: \"0\"\n            };\n            flow.set(\"pm_5\", \"0\");\n            msg.payload.value = \"stop\";\n            break;\n        }\n        flow.set(\"pm_1\", msg.payload.value);\n        data = {\n            fun: \"01\",\n            sendtime: formatI(msg.payload.value)\n        };\n        msg.payload = JSON.stringify(data);\n        node.send([msg]);\n        flow.set(\"pm_5\", \"1\");\n        data = {\n                fun: \"05\",\n                flag: \"1\"\n            };\n        break;\n    case \"2\":\n        flow.set(\"pm_\" + msg.payload.dp, msg.payload.value);\n        data = {\n            fun: \"02\",\n            storetime: formatI(msg.payload.value)\n        }\n        break;\n    case \"3\":\n        if ((msg.payload.value === undefined) || (msg.payload.value == false))\n            msg.payload.value = _mySQLdatetime().substring(2);\n        data = {\n            fun: \"03\",\n            clock: msg.payload.value\n        }\n        break;\n    case \"4\":\n        data = {\n            fun: \"04\"\n        }\n        msg.payload.value = \"done\"; // is trigger\n        break;\n    case \"5\":\n //       msg.payload.value = msg.payload.value ? \"1\" : \"0\";\n        flow.set(\"pm_\" + msg.infodp, msg.payload.value);\n        data = {\n            fun: \"05\",\n            flag: (msg.payload.value)\n        }\n        break;\n    case \"6\":\n        data = {\n            fun: \"06\"\n        }\n        msg.payload.value = \"done\"; // is trigger\n        break;\n    default:\n        node.warn(\"The SET command '\" + msg.payload.property + \"'(\" + msg.infodp + \") => '\" + msg.payload.value + \"' is not allowed for PM detector device '\");\n        return;\n    }\n    newMsg.payload.data.dps[msg.infodp] = msg.payload.value;\n    msg.payload = JSON.stringify(data);\n    return [msg, newMsg];\n}\n\nif (_isGetCommand(msg)) { // test: is GET\n    switch (msg.infodp) {\n    case \"1\":\n    case \"2\":\n    case \"3\":\n    case \"5\":\n        newMsg.payload.data.dps[msg.infodp] = flow.get(\"pm_\" + msg.infodp);\n        return [null, newMsg];\n    case \"80\":\n        msg.payload = '{\"fun\":\"80\"}';\n        return [msg];\n    case FASTDP:\n        newMsg.payload.data.dps[msg.infodp] = flow.get(\"pm_1\");\n        return [null, newMsg];\n\n    }\n    node.warn(\"The GET command '\" + msg.payload.property + \"'(\" + msg.infodp + \") is not allowed for PM detector device '\");\n    return;\n}\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is deployed.\n\n",
+        "finalize": "",
+        "libs": [],
+        "x": 210,
+        "y": 340,
+        "wires": [
+            [
+                "8ce5e629.3c5ef8"
+            ],
+            [
+                "e914f703.e257b8"
+            ]
+        ]
+    },
+    {
+        "id": "170c898c.35c906",
+        "type": "function",
+        "z": "ee008879.f5adc8",
+        "name": "RT data processing",
+        "func": "// convert serial data from PM2.5 to usual format\n// payload: object\n//     deviceId: \"123455aa196ae5******\"\n//     data: object\n//        t: 1609234903\n//        dps: object\n//           102: 1020\n//\nvar answ = {\n    deviceId: \"_PM1_USB\",\n    data : {\n          t : Math.floor(Date.now() / 1000),\n          dps : {\n              \n          }\n       }\n    }\n\nvar data = JSON.parse(msg.payload.replace(\",}\",\"}\")); \n\nswitch (data.res) {\n        case \"1\":\n        case \"2\":\n        case \"5\":\n              answ.data.dps[data.res] = flow.get(\"pm_\"+data.res);\n              break;\n        case \"3\":\n              answ.data.dps[data.res] =  \" done \";\n              break;\n        case \"4\":\n              if (flow.get(\"skipdata\")) return;\n              if (Number(data[\"cpm1.0\"]) == 0) return;  // bad data\n              answ.data.dps = {\n                 200: Number(data[\"cpm1.0\"]),\n                 201: Number(data[\"cpm2.5\"]),\n                 202: Number(data[\"cpm10\"]),\n                 203: Number(data[\"apm1.0\"]),\n                 204: Number(data[\"apm2.5\"]),\n                 205: Number(data[\"apm10\"]),\n                 206: Number(data[\"aqi\"]),\n                 207: data[\"t\"],\n                 208: Number(data[\"r\"])\n              }\n              break;\n        case \"6\":\n              answ.data.dps[data.res] = \"done \";\n              break;\n        case \"10\":       // start historical data\n              flow.set(\"skipdata\", true);\n              return;\n        case \"80\":\n              answ.data.dps = {\n                 1 : Number(data[\"SendInteralTime\"]),\n                 2 : Number(data[\"StoreInteralTime\"]),\n                 80: Number(data[\"WritePoint\"]),\n                 81: Number(data[\"ReadPoint\"]),\n                 82: Number(data[\"SendInteralFlag\"])\n              }\n              break;\n\n   }\nmsg.payload = answ;    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 600,
+        "wires": [
+            [
+                "c72cf7d0.7ff3c8"
+            ]
+        ]
+    },
+    {
+        "id": "bf4e83f7.f5f21",
+        "type": "link in",
+        "z": "ee008879.f5adc8",
+        "name": "from core.fake_cmds",
+        "links": [
+            "18817677.061b9a",
+            "96b99b98.5c7788",
+            "0f65f9b74e2cb714",
+            "4fce3fe6e29d64a2",
+            "03e4d96733c00ee1"
+        ],
+        "x": 75,
+        "y": 340,
+        "wires": [
+            [
+                "fa5e5a63.b11488"
+            ]
+        ]
+    },
+    {
+        "id": "c72cf7d0.7ff3c8",
+        "type": "link out",
+        "z": "ee008879.f5adc8",
+        "name": "to core.logging",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 1195,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "7a6b37c.31c36c8",
+        "type": "timerswitch",
+        "z": "ee008879.f5adc8",
+        "name": "every hour",
+        "ontopic": "",
+        "offtopic": "",
+        "onpayload": "{\"fun\":\"05\",\"flag\":\"0\"}",
+        "offpayload": "null",
+        "disabled": false,
+        "schedules": [
+            {
+                "on_h": "00",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "00",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "01",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "01",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "04",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "04",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "05",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "05",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "06",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "06",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "07",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "07",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "08",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "08",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "09",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "09",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "10",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "10",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "11",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "11",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "12",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "12",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "13",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "13",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "14",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "14",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "15",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "15",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "16",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "16",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "17",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "17",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "18",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "18",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "19",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "19",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "20",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "20",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "21",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "21",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "22",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "22",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            },
+            {
+                "on_h": "23",
+                "on_m": "58",
+                "on_s": "00",
+                "off_h": "23",
+                "off_m": "59",
+                "off_s": "00",
+                "valid": true
+            }
+        ],
+        "x": 345,
+        "y": 280,
+        "wires": [
+            [
+                "bb7ed790.b50db8",
+                "8ce5e629.3c5ef8"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "bb7ed790.b50db8",
+        "type": "delay",
+        "z": "ee008879.f5adc8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "200",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "outputs": 1,
+        "x": 610,
+        "y": 220,
+        "wires": [
+            [
+                "5a5d640b.67b15c"
+            ]
+        ]
+    },
+    {
+        "id": "5a5d640b.67b15c",
+        "type": "function",
+        "z": "ee008879.f5adc8",
+        "name": "start dump",
+        "func": "var sum = {\n    \"cpm1.0\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n    \"cpm2.5\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n    \"cpm10\" :[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n    \"apm1.0\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n    \"apm2.5\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n    \"apm10\" :[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n    \"aqi\"   :[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n    \"t\"     :[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n    \"r\"     :[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\n}\nvar count =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];\n\nflow.set(\"sum\",sum);\nflow.set(\"count\",count);\nmsg.payload ={\"fun\":\"04\"};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 220,
+        "wires": [
+            [
+                "8ce5e629.3c5ef8"
+            ]
+        ]
+    },
+    {
+        "id": "3787ab01.6ee494",
+        "type": "function",
+        "z": "ee008879.f5adc8",
+        "name": "Historical data processing",
+        "func": "\nif(flow.get(\"skipdata\") === false) return;\n\n// out: cmd/histo\nvar data = JSON.parse(msg.payload);\n\nvar answ = {\n    deviceId: \"_PM1_USB\",\n    data: {\n        t: Math.floor(Date.now() / 1000),\n        dps: {}\n    }\n}\n\nvar cmd = {\n    payload: {\n        \"fun\":\"05\" \n    }\n}\n\nswitch (data.res) {\n\ncase \"0\":   // end historical data\n    sum = flow.get(\"sum\");\n    count = flow.get(\"count\");\n    for (i = 0; i < 24; i++) {\n        if (count[i] > 0) {\n            sum[\"cpm1.0\"][i] = Math.round(sum[\"cpm1.0\"][i] / count[i]);\n            sum[\"cpm2.5\"][i] = Math.round(sum[\"cpm2.5\"][i] / count[i]);\n            sum[\"cpm10\"][i]  = Math.round(sum[\"cpm10\"][i] / count[i]);\n            sum[\"apm1.0\"][i] = Math.round(sum[\"apm1.0\"][i] / count[i]);\n            sum[\"apm2.5\"][i] = Math.round(sum[\"apm2.5\"][i] / count[i]);\n            sum[\"apm10\"][i]  = Math.round(sum[\"apm10\"][i] / count[i]);\n            sum[\"aqi\"][i]    = Math.round(sum[\"aqi\"][i] / count[i]);\n            sum[\"t\"][i]      = (sum[\"t\"][i] / count[i]).toFixed(1);\n            sum[\"r\"][i]      = (sum[\"r\"][i] / count[i]).toFixed(1);\n        }\n    }\n    answ.data.dps[300] = \"[\"+sum[\"cpm1.0\"].toString() + \"]\";\n    answ.data.dps[301] = \"[\"+sum[\"cpm2.5\"].toString() + \"]\";\n    answ.data.dps[302] = \"[\"+sum[\"cpm10\"].toString() + \"]\";\n    answ.data.dps[303] = \"[\"+sum[\"apm1.0\"].toString() + \"]\";\n    answ.data.dps[304] = \"[\"+sum[\"apm2.5\"].toString() + \"]\";\n    answ.data.dps[305] = \"[\"+sum[\"apm10\"].toString() + \"]\";\n    answ.data.dps[306] = \"[\"+sum[\"aqi\"].toString() + \"]\";\n    answ.data.dps[307] = \"[\"+sum[\"t\"].toString() + \"]\";\n    answ.data.dps[308] = \"[\"+sum[\"r\"].toString() + \"]\";\n    msg.payload = answ;\n    flow.set(\"skipdata\", false);\n    cmd.payload.flag= flow.get(\"pm_5\");\n    return [cmd, msg];\n\ncase \"4\":\n    sum = flow.get(\"sum\");\n    count = flow.get(\"count\");\n    count[Number(data[\"h\"])]++;\n    sum[\"cpm1.0\"][Number(data[\"h\"])] += Number(data[\"cpm1.0\"]);\n    sum[\"cpm2.5\"][Number(data[\"h\"])] += Number(data[\"cpm2.5\"]);\n    sum[\"cpm10\"][Number(data[\"h\"])]  += Number(data[\"cpm10\"]);\n    sum[\"apm1.0\"][Number(data[\"h\"])] += Number(data[\"apm1.0\"]);\n    sum[\"apm2.5\"][Number(data[\"h\"])] += Number(data[\"apm2.5\"]);\n    sum[\"apm10\"][Number(data[\"h\"])]  += Number(data[\"apm10\"]);\n    sum[\"aqi\"][Number(data[\"h\"])]    += Number(data[\"aqi\"]);\n    sum[\"t\"][Number(data[\"h\"])]      += Number(data[\"t\"]);\n    sum[\"r\"][Number(data[\"h\"])]      += Number(data[\"r\"]);\n\n    flow.set(\"sum\", sum);\n    flow.set(\"count\", count);\n    return;\n\ncase \"10\":\n    return;\n}\nreturn;\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 540,
+        "wires": [
+            [
+                "8ce5e629.3c5ef8"
+            ],
+            [
+                "c72cf7d0.7ff3c8"
+            ]
+        ]
+    },
+    {
+        "id": "260f2555.1d5ffa",
+        "type": "status",
+        "z": "ee008879.f5adc8",
+        "name": "spy status",
+        "scope": [
+            "e37f5692.37de78",
+            "28f4d04b.ed1b7"
+        ],
+        "x": 760,
+        "y": 700,
+        "wires": [
+            [
+                "bcf0461e.c12788"
+            ]
+        ]
+    },
+    {
+        "id": "bcf0461e.c12788",
+        "type": "subflow:ee953c15.ada29",
+        "z": "ee008879.f5adc8",
+        "name": "",
+        "env": [
+            {
+                "name": "deviceId",
+                "value": "_PM1_USB",
+                "type": "str"
+            },
+            {
+                "name": "deviceID",
+                "value": "bfb073b1b789b5994cro7p",
+                "type": "str"
+            }
+        ],
+        "x": 950,
+        "y": 700,
+        "wires": [
+            [
+                "4fb32195.592ef"
+            ]
+        ]
+    },
+    {
+        "id": "4fb32195.592ef",
+        "type": "link out",
+        "z": "ee008879.f5adc8",
+        "name": "to core.more_devices_in",
+        "links": [
+            "c90b7eb2.07595"
+        ],
+        "x": 1195,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "21a669e.61ac096",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "CLEAR MEMORY",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "01 00 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"fun\":\"06\"}",
+        "payloadType": "json",
+        "x": 345,
+        "y": 420,
+        "wires": [
+            [
+                "8ce5e629.3c5ef8"
+            ]
+        ],
+        "icon": "font-awesome/fa-ban",
+        "l": false
+    },
+    {
+        "id": "ce13d88d.13bf18",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "TEST Historical",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"fun\":\"05\",\"flag\":\"0\"}",
+        "payloadType": "json",
+        "x": 200,
+        "y": 220,
+        "wires": [
+            [
+                "bb7ed790.b50db8",
+                "8ce5e629.3c5ef8"
+            ]
+        ]
+    },
+    {
+        "id": "608b2442.af601c",
+        "type": "comment",
+        "z": "ee008879.f5adc8",
+        "name": "custom 'PM detector ' 2.2.2",
+        "info": "Flow to control the 'PM detector' via USB-serial\n\nsee: https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study\n\nVersion\n2.2.2  Android enabled:\n       - added in 'Global PM_detector config' the value\n         'platform' = 'android'|<any>\n       - added TCP in/out nodes\n\nSetup (not Android)\n    - On Windows is required a driver for CH340.\n    - Config the serial *COM nodes.\n     - set 'platform' = 'windows' in  '*Global PM_detector config'.\n    \nSetup (if the PM device is on Android server USB)\n    - On Android server is required the 'USB telnet server'.\n    - This flow can be in any server: set *TCP nodes to port 2323 of the Android server.\n    - set 'platform' = 'android' in  '*Global PM_detector config'.\n    - optional: COM nodes can be disabled, to avoid error messages.\n ",
+        "x": 170,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "1282a87d.494a98",
+        "type": "change",
+        "z": "ee008879.f5adc8",
+        "name": "init sendtime",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"device\":\"PM detector\",\"property\":\"1\"}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "payload.value",
+                "pt": "msg",
+                "to": "pm_1",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "to",
+                "pt": "msg",
+                "to": "_PM1_USB",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "infodp",
+                "pt": "msg",
+                "to": "1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1090,
+        "y": 140,
+        "wires": [
+            [
+                "96b99b98.5c7788",
+                "271a5b46.b66224"
+            ]
+        ]
+    },
+    {
+        "id": "271a5b46.b66224",
+        "type": "change",
+        "z": "ee008879.f5adc8",
+        "name": "Init storetime",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"device\":\"PM detector\",\"property\":\"2\"}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "payload.value",
+                "pt": "msg",
+                "to": "pm_2",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "to",
+                "pt": "msg",
+                "to": "_PM1_USB",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "infodp",
+                "pt": "msg",
+                "to": "2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1090,
+        "y": 180,
+        "wires": [
+            [
+                "96b99b98.5c7788",
+                "b9e8d491.2f8e58"
+            ]
+        ]
+    },
+    {
+        "id": "136ad89e.c0d117",
+        "type": "change",
+        "z": "ee008879.f5adc8",
+        "name": "Init RT",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"device\":\"PM detector\",\"property\":\"5\"}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "payload.value",
+                "pt": "msg",
+                "to": "pm_5",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "to",
+                "pt": "msg",
+                "to": "_PM1_USB",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "infodp",
+                "pt": "msg",
+                "to": "5",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1070,
+        "y": 260,
+        "wires": [
+            [
+                "96b99b98.5c7788"
+            ]
+        ]
+    },
+    {
+        "id": "2ebe64d5.26754c",
+        "type": "link out",
+        "z": "ee008879.f5adc8",
+        "name": "to core.std_cmd",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 335,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "eefb4a7d.922138",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "STOP RT",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_PM1_USB\",\"property\":\"5\",\"value\":\"OFF\"}",
+        "payloadType": "json",
+        "x": 140,
+        "y": 680,
+        "wires": [
+            [
+                "2ebe64d5.26754c"
+            ]
+        ]
+    },
+    {
+        "id": "db6536d1.c90638",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "START RT",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_PM1_USB\",\"property\":\"5\",\"value\":\"ON\"}",
+        "payloadType": "json",
+        "x": 140,
+        "y": 720,
+        "wires": [
+            [
+                "2ebe64d5.26754c"
+            ]
+        ]
+    },
+    {
+        "id": "b9e8d491.2f8e58",
+        "type": "change",
+        "z": "ee008879.f5adc8",
+        "name": "Init clock",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"device\":\"PM detector\",\"property\":\"3\",\"value\":\"\"}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "to",
+                "pt": "msg",
+                "to": "_PM1_USB",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "infodp",
+                "pt": "msg",
+                "to": "3",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1080,
+        "y": 220,
+        "wires": [
+            [
+                "96b99b98.5c7788",
+                "136ad89e.c0d117"
+            ]
+        ]
+    },
+    {
+        "id": "96b99b98.5c7788",
+        "type": "link out",
+        "z": "ee008879.f5adc8",
+        "name": "to in cmd",
+        "links": [
+            "bf4e83f7.f5f21"
+        ],
+        "x": 1305,
+        "y": 140,
+        "wires": [],
+        "icon": "font-awesome/fa-expand"
+    },
+    {
+        "id": "a4c72b18.762b68",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "FAST RT",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_PM1_USB\",\"property\":\"1\",\"value\":20}",
+        "payloadType": "json",
+        "x": 140,
+        "y": 760,
+        "wires": [
+            [
+                "2ebe64d5.26754c"
+            ]
+        ]
+    },
+    {
+        "id": "43e311a3.08147",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "SLOW RT",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"_PM1_USB\",\"property\":\"1\",\"value\":143}",
+        "payloadType": "json",
+        "x": 140,
+        "y": 800,
+        "wires": [
+            [
+                "2ebe64d5.26754c"
+            ]
+        ]
+    },
+    {
+        "id": "e914f703.e257b8",
+        "type": "link out",
+        "z": "ee008879.f5adc8",
+        "name": "to core.logging",
+        "links": [
+            "9fe80f7e.f3f7e"
+        ],
+        "x": 345,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "b163f8df.fd9278",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "PM detector SET REFRESH",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"PM detector\",\"property\":\"_refresh\",\"value\":\"now\"}",
+        "payloadType": "json",
+        "x": 200,
+        "y": 860,
+        "wires": [
+            [
+                "78b729bf.554958"
+            ]
+        ]
+    },
+    {
+        "id": "78b729bf.554958",
+        "type": "link out",
+        "z": "ee008879.f5adc8",
+        "name": "to core.std_cmd",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 415,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "87fd0e9c.cb79",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "PM detector GET REFRESH",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"PM detector\",\"property\":\"_refresh\"}",
+        "payloadType": "json",
+        "x": 200,
+        "y": 900,
+        "wires": [
+            [
+                "78b729bf.554958"
+            ]
+        ]
+    },
+    {
+        "id": "8bf3f614.b791d8",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "PM detector SET _refreshCycle 10s",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"PM detector\",\"property\":\"_refreshCycle\",\"value\":10}",
+        "payloadType": "json",
+        "x": 660,
+        "y": 900,
+        "wires": [
+            [
+                "270607f1.95ddd8"
+            ]
+        ]
+    },
+    {
+        "id": "270607f1.95ddd8",
+        "type": "link out",
+        "z": "ee008879.f5adc8",
+        "name": "to core.std_cmd",
+        "links": [
+            "8a1da02d.424ae"
+        ],
+        "x": 915,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "68d77188.dcd4c",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "PM detector SET _refreshCycle 120s",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"PM detector\",\"property\":\"_refreshCycle\",\"value\":120}",
+        "payloadType": "json",
+        "x": 670,
+        "y": 860,
+        "wires": [
+            [
+                "270607f1.95ddd8"
+            ]
+        ]
+    },
+    {
+        "id": "1107bea7.312231",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "PM detector GET _refreshCycle",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"PM detector\",\"property\":\"_refreshCycle\"}",
+        "payloadType": "json",
+        "x": 650,
+        "y": 1000,
+        "wires": [
+            [
+                "270607f1.95ddd8"
+            ]
+        ]
+    },
+    {
+        "id": "ab2b3522.0fae28",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "PM detector SET _refreshCycle STOP",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"PM detector\",\"property\":\"_refreshCycle\",\"value\":\"off\"}",
+        "payloadType": "json",
+        "x": 670,
+        "y": 960,
+        "wires": [
+            [
+                "270607f1.95ddd8"
+            ]
+        ]
+    },
+    {
+        "id": "8ce5e629.3c5ef8",
+        "type": "delay",
+        "z": "ee008879.f5adc8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "20",
+        "nbRateUnits": "10",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "outputs": 1,
+        "x": 620,
+        "y": 320,
+        "wires": [
+            [
+                "b936fd60f0619c6d"
+            ]
+        ]
+    },
+    {
+        "id": "42829377.f058dc",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "PM detector GET RUN",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"device\":\"PM detector\",\"property\":\"startRT\"}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 960,
+        "wires": [
+            [
+                "78b729bf.554958"
+            ]
+        ]
+    },
+    {
+        "id": "85605f5.2779ca",
+        "type": "catch",
+        "z": "ee008879.f5adc8",
+        "name": "*catch device and LAN errors",
+        "scope": [
+            "e37f5692.37de78",
+            "28f4d04b.ed1b7",
+            "3915223847a046f8",
+            "1b3ccd6a397c6185"
+        ],
+        "uncaught": false,
+        "x": 820,
+        "y": 760,
+        "wires": [
+            []
+        ],
+        "info": "CUSTOMIZATION:\n\n- Adding a new device\n    Select the new tuya-smart-device node."
+    },
+    {
+        "id": "acd7cfd5420ad636",
+        "type": "config",
+        "z": "ee008879.f5adc8",
+        "name": "Global PM_detector config ",
+        "properties": [
+            {
+                "p": "pm_1",
+                "pt": "flow",
+                "to": "120",
+                "tot": "str"
+            },
+            {
+                "p": "pm_2",
+                "pt": "flow",
+                "to": "700",
+                "tot": "str"
+            },
+            {
+                "p": "pm_5",
+                "pt": "flow",
+                "to": "1",
+                "tot": "num"
+            },
+            {
+                "p": "platform",
+                "pt": "flow",
+                "to": "android",
+                "tot": "str"
+            }
+        ],
+        "active": true,
+        "x": 220,
+        "y": 140,
+        "wires": [],
+        "info": "**PM detector** flow Configuration\n\n***pm_1: sendtime***\nReal Time data PUSH period (default 120s)\n\n***pm_2: storetime***\nHistorical data STORE period (default 700s)***pm_2: \n\n***pm_5: startRT***\nReal Time PUSH 1/0 (ON/OFF)\n\n***platform***\nvalues: 'android'|<any> to set Android special process"
+    },
+    {
+        "id": "21e8a99db7036495",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "statup only",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.4",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 425,
+        "y": 140,
+        "wires": [
+            [
+                "768eaec6a365065b"
+            ]
+        ],
+        "icon": "node-red/trigger.svg",
+        "l": false
+    },
+    {
+        "id": "768eaec6a365065b",
+        "type": "function",
+        "z": "ee008879.f5adc8",
+        "name": "system flow startup",
+        "func": "// Run as soon as possible after all 'On Start' and 'Global Config'.\n// So, if some 'On Start' function  requires 'Global Config' data, palace it there.\n// --------------- locals\nconst asDEVICE = \"_PM1_USB\";           // singleton in alldevices\nconst asMODULE = \"modules.fake_PM_detector\";\nconst VERSION  = \"2.2.0\";\n// --------------------------------------------------- standard\nif (!global.get(\"coresetup\")){\n    node.warn(\"STARTUP ERROR: adjust startup delays.\");\n    return([null]);\n}\n// --------------------- global handled by this flow:\nglobal.set( asMODULE, VERSION);\n// stuff to access data\nvar oDev = context.global.alldevices.getODev(asDEVICE, \"fake\");\nif (oDev === undefined){\n   node.warn(\"[startup]ERROR [normalize]: not found the device '\"+asDEVICE+\"' in global.alldevices.\");\n   return;\n}\nvar pmDevName = context.global.alldevices.getDevName(oDev);\n// ---------------- inizializes global tuyastatus\n\nlet tstatus = \"tuyastatus['\"+pmDevName+\"']\";\n// init using only _connected (not in alldevices), so does cleanup\nglobal.set(tstatus, {_connected: true});\n// init all GETable dps with default value\noDev.dps.forEach(adp => {\n   if (['RW','WW','GW','RO','UNK','PUSH', undefined].includes(adp.capability)){\n      // this required to handle spaces un usr-names\n      let dpname = \"['\"+ (adp.name ? adp.name:adp.dp) + \"']\";\n      switch (adp.dp){     // some special init:   \n \n //       case \"_WiFiunconnected\":\n //           global.set(tstatus+dpname, [\"none\"]);\n //            break;\n        default:\n            global.set(tstatus+dpname, \"none\");\n        }\n    }});\n// --------------------------------------------- standard processing ends\n// more flow init required now (and not in 'On Start') by some properties    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// init some vars:\n// same values as in nodes \nflow.set(\"skipdata\", false);\n\n\n",
+        "finalize": "global.set(\"modules.core_system\",  undefined);\n",
+        "libs": [],
+        "x": 610,
+        "y": 140,
+        "wires": [
+            []
+        ],
+        "info": "CUSTOMIZATION\n\nIf you add new proprties to _system (e.g. new DB commands) update this to do all required initializations."
+    },
+    {
+        "id": "3915223847a046f8",
+        "type": "tcp in",
+        "z": "ee008879.f5adc8",
+        "name": "*TCP proxy out",
+        "server": "client",
+        "host": "192.168.1.21",
+        "port": "2323",
+        "datamode": "stream",
+        "datatype": "utf8",
+        "newline": "",
+        "topic": "",
+        "trim": false,
+        "base64": false,
+        "tls": "",
+        "x": 640,
+        "y": 540,
+        "wires": [
+            [
+                "3787ab01.6ee494",
+                "170c898c.35c906"
+            ]
+        ]
+    },
+    {
+        "id": "1b3ccd6a397c6185",
+        "type": "tcp out",
+        "z": "ee008879.f5adc8",
+        "name": "*TCP proxy in",
+        "host": "192.168.1.21",
+        "port": "2323",
+        "beserver": "client",
+        "base64": false,
+        "end": false,
+        "tls": "",
+        "x": 1200,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "b936fd60f0619c6d",
+        "type": "switch",
+        "z": "ee008879.f5adc8",
+        "name": "",
+        "property": "platforn",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "android",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "android",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 810,
+        "y": 360,
+        "wires": [
+            [
+                "2d125a1b.dd8d8e"
+            ],
+            [
+                "28f4d04b.ed1b7"
+            ]
+        ]
+    },
+    {
+        "id": "2d125a1b.dd8d8e",
+        "type": "function",
+        "z": "ee008879.f5adc8",
+        "name": "Newline",
+        "func": "msg.payload = msg.payload + '\\n';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 320,
+        "wires": [
+            [
+                "1b3ccd6a397c6185"
+            ]
+        ]
+    },
+    {
+        "id": "341abbc3abe443e5",
+        "type": "inject",
+        "z": "ee008879.f5adc8",
+        "name": "init HW",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "3",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 795,
+        "y": 140,
+        "wires": [
+            [
+                "1282a87d.494a98"
+            ]
+        ],
+        "icon": "node-red/trigger.svg",
+        "l": false
+    },
+    {
+        "id": "45a4b402.6f7e4c",
+        "type": "serial-port",
+        "serialport": "COM18",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "{",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "}",
+        "bin": "false",
+        "out": "char",
+        "addchar": "\\n",
+        "responsetimeout": "10000"
+    }
+]
