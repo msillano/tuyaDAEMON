@@ -33,7 +33,7 @@ TuyaDAEMON isolates your home automation **custom application** from all details
  _To enable HI-LEVEL communications with Tuya-cloud you must use the [tuyaTRIGGER module](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) which uses an alternative communication mechanism with the devices._
 _This allows [fast and reliable](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info) two-way communication of commands and events even with all devices not reachable via MQTT from the `tuyapi` library (WiFi sensors, IR controls, etc.)._
 
-_**The use of tuyaDAEMON + tuyaTRIGGER guarantees the user that in any case all Tuya devices can be integrated.**_
+_**The use of tuyaDAEMON CORE + tuyaTRIGGER guarantees the user that in any case all Tuya devices can be integrated.**_
   
 ### applications
 _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor) with a rich framework for IoT, offering to the power user many ways to implement their own projects:_
