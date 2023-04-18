@@ -84,10 +84,10 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
      
 1) Since 2.2.0, all configuration data are in a ´Global MODULE config´ node, with a friendly user interface (one in every module) to make simple the configuration task. Only some special node-red configuration nodes requires the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
      
-2)  _CORE_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on `real/virtual/fake` devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
+2)  _CORE_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on all devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
     - you can edit it directly using the 'global CORE config' node.
     - you can export it to the file `alldevices.json` for backup or to edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
-    - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron starting from a _DB of tuya device definitions_.
+    - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron starting from a [_DB of known tuya device definitions_](https://github.com/msillano/tuyaDAEMON/tree/main/devices).
       
 2) To reduce the workload in the production environment:
       - `filters xxx` node reduce the info and the DB writing charge (you can also disable/delete the DB nodes if you don't need it). 
@@ -122,8 +122,10 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
  - [node-red-node-base64](https://flows.nodered.org/node/node-red-node-base64)
  - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
  - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
+ 
+ Alternative: install TuyaDAEMON flows, the add the missing nodes as required by node-red messages.
         
-2. If you like, you can update the node-red-contrib-tuya-smart-device v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83).
+2. If you like, you can update the node-red-contrib-tuya-smart-device v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or node-red-contrib-tuya-smart-device v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113),
 3. Now you can import the [required tuyaDEAMON modules](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaDEAMON.full.2.2.0.zip) (json file) in node-red. 
 4. For any added module, read the flow description and see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions. 
 5. In each module, you will find some standalone tests (see also each test node documentation), to verify your installation: after you can delete them.
