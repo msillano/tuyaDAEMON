@@ -17,8 +17,7 @@ TuyaDAEMON isolates your home automation **custom application** from all details
 
  To interact low-level with _Tuya devices_ I chose [`node-red-contrib-tuya-smart-device`](https://github.com/vinodsr/node-red-contrib-tuya-smart-device), which uses [tuyapi](https://github.com/codetheweb/tuyapi), the most interesting software on **tuya<=>node-red** integration that I have found.
  They do their job well, but there are some limitations:
- 
-  
+   
   1) The capabilities of the Tuya communication are very variable for different devices: e.g. I have found very few devices that respond to `schema` request, and found cases where the data exchanges are not MQTT (e.g. infrared universal control).
 
   2) Some devices are unreachables: **TuyAPI** does not support some sensors due to the fact that they only connect to the network when their state changes. They are usually battery powered WiFi devices ([see note](https://github.com/codetheweb/tuyapi#-notes)).
@@ -39,10 +38,10 @@ _**The use of tuyaDAEMON + tuyaTRIGGER guarantees the user that in any case all 
 ### applications
 _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor) with a rich framework for IoT, offering to the power user many ways to implement their own projects:_
 
-1. users can add new functionalities, i.e. new tasks, building more js SW only devices, to cover the sector of interest (see [_system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system))
+1. users can add new functionalities, i.e. new tasks, building more js SW only devices, to cover the sector of interest (see [_system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system), it adds, among other things, text-to-speech capabilities to tuyaDAEMON). 
 2. users can add any not-Tuya hardware device, with a simple node-red interface flow (see [PM_detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), [433 MHz gateway](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station))
-3. users can design and build new devices from existing ones, in OO style (see [OO devices](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#oo-devices) and [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study))
-4. users can build inside tuyaDAEMON ['chains' (meta-programming)](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#share-and-command-chains) using existing tasks to get the required event-driven behavior: test, delay, sequences, repetions and fork of tasks  are simple to implement (example: [system.beep_loop](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#iteration)).
+3. users can design and build new devices derived from existing ones, in OO style (see [OO devices](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#oo-devices) and [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study))
+4. users can build inside tuyaDAEMON ['chains' (meta-programming)](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#share-and-command-chains) using existing tasks to get the required event-driven behavior: tests, delays, sequences, repetions and fork of tasks  are simple to implement in JSON  + js (example: [system.beep_loop](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#iteration)).
 5. the entire tuyaDAEMON engine can be integrated into any larger user project using the favorite interface: node-red or MQTT or HTTP REST or database.
  
  _Any effort is made to make it modular, small, easy to modify, and [fully documented](https://github.com/msillano/tuyaDAEMON/wiki)._
@@ -158,7 +157,7 @@ Usually it is very dangerous to do generalizations based on few cases._
 **Device Capabilities:**
 
 **response:**
-All tuya devices react to external or internal commands by sending messages, which we find in output from the *tuya-smart-device* nodes. All responses have the same format: one or more pairs _(dp: value)_, regardless of whether they are caused by PUSH, REFRESH, GET, SET, SCHEMA, MULTIPLE commands (see CORE.logging node _Description_ for details).
+All tuya devices react to external or internal commands by sending messages, which we find in output from the *tuya-smart-device* nodes. All responses have the same format: one or more pairs _(dp: value)_, regardless of whether they are caused by PUSH, REFRESH, GET, SET, SCHEMA, MULTIPLE commands (see `CORE.logging node _info_ for details).
 
 **MULTIPLE:** implemented in a few devices, it acts like many SETs. It can return:
 
@@ -211,14 +210,30 @@ IMPORTANT: Sending commands that are not implemented or not allowed or sending w
 - the device hangup, you must restart.
 - the gateway hangup.
 
-To have a flexible but robust framework it is always necessary:
+To design applications using devices is always necessary:
 1. study each new device in detail ([tuyaDAEMONtoolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can helps you in this task).
-2. use a data structure that verifies the commands sent to each device (like [global.alldevices](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices) object in tyuaDAEMON CORE).
+2. If you use few devices, you can design an ad-hoc node-red flow, tuned on your devices.
+3. As general solution, to have a flexible but robust framework, better to use a data structure that verifies the commands sent to each device (like [global.alldevices](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices) object in tyuaDAEMON CORE).
  
 --------------------
 
 **versions**
+_tuyaDAEMON version 2.2.2_ 
+  - node-red-contrib-tuya-smart-device 5.0.1, modified as in [ISSUE#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113).
+  - tuyapi ver. 7.3.0
+  - Maintenance release.
+  - Refactoring device intallation nodes
+  - bug fixes and minor code updates
+
+_tuyaDAEMON version 2.2.1_ 
+  - Maintenance release.
+  - use of credentials for device ID and key
+  - bug fixes and minor code updates
+ 
+
 _tuyaDAEMON version 2.2.0_ 
+  - node-red-contrib-tuya-smart-device 4.1.1, modified as in [ISSUE#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83).
+  - tuyapi ver. 7.2.0
   - Maintenance release: better user experience, installation, customization.
   - standardization of startup and options in 'Global MODULE config' nodes.
   - Refactoring 'json_library', now implemented as a global singleton.
@@ -227,49 +242,42 @@ _tuyaDAEMON version 2.2.0_
   - bug fixes and minor code updates
   - added properties to 'core' and 'trigger' (new 'fake' devices).
   - added tests to any module
-  - node-red-contrib-tuya-smart-device 4.1.1, modified as in [ISSUE#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83).
-  - tuyapi ver. 7.2.0
+
     
 _tuyaDAEMON version 2.1_ (13/06/2021)
 - node-red-contrib-tuya-smart-device 4.1.1
 - tuyapi ver. 7.2.0
-
-   Added tuyaDAEMON MQTT interface
-   minor bug corrections
+- Added tuyaDAEMON MQTT interface
+- minor bug corrections
 
 _tuyaDAEMON version 2.0_ (13/05/2021)
 - node-red-contrib-tuya-smart-device 4.0.2, modified as in [ISSUE#57](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/57#issue-863780858).
 - tuyapi ver. 7.1.0
-
-   General revision: core added OO and remote extensions,  added 'share'.
-  Refactoring '_system'.,  Updated wiki
-  - more custom devices (water_sys, PM_detector)
+- General revision: core added OO and remote extensions,  added 'share'.
+- Refactoring '_system'.,  Updated wiki
+- more custom devices (water_sys, PM_detector)
 
    note: Don't use the **node-red-contrib-tuya-smart-device 4.0.1** because it presents [some problems](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/54).
 
 _tuyaDAEMON version 1.3_ (01/03/2021)
 - node-red-contrib-tuya-smart-device 3.0.2
-- tuyapi ver. 3.1.1
-- 
-  Tuya_bridge uses the TYWR 7-32 relay. Trigger flows refactoring to separe custom flows.
+- tuyapi ver. 6.1.1
+- Tuya_bridge uses the TYWR 7-32 relay. Trigger flows refactoring to separe custom flows.
   
 _tuyaDAEMON version 1.2_ (12/02/2021)
 - node-red-contrib-tuya-smart-device 2.0.0
 - tuyapi ver. 6.1.1
-
-  Added REST interface.
-  new tuyaDAEMON.toolkit 1.0.
-  Updated wiki documentation, added known devices.
+- Added REST interface.
+- new tuyaDAEMON.toolkit 1.0.
+- Updated wiki documentation, added known devices.
 
 _tuyaDAEMON version 1.1_ (19/01/2021)
 - node-red-contrib-tuya-smart-device 2.0.0
 - tuyapi ver. 6.1.1
-
-  Code refactoring: added getter methods JSON library.
-  Added DB ALARM, START ALARM.
+- Code refactoring: added getter methods JSON library.
+- Added DB ALARM, START ALARM.
 
 _tuyaDAEMON version 1.0_ (15/01/2021)
 - node-red-contrib-tuya-smart-device 2.0.0
 - tuyapi ver. 6.1.1
-
-  Initial version     
+- Initial version     
