@@ -137,7 +137,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
  - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
  - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
  
- Alternative: install TuyaDAEMON flows, the add the missing nodes as required by node-red messages.
+ Alternative: install TuyaDAEMON flows, then add the missing nodes as required by node-red messages.
         
 2. If you like, you can update the `node-red-contrib-tuya-smart-device` v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or `node-red-contrib-tuya-smart-device` v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113).
 3. Now you can import the [all tuyaDEAMON modules, 2.2.1](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaDEAMON.full.2.2.1.zip) (JSON file) in node-red. As an alternative, you can get the last version for single modules (e.g. [tuyadaemon.core.2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)).
