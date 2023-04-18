@@ -122,22 +122,25 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 
 1. Install in node-red the required nodes (I use 'manage pallette') here actual full list: 
    
-   ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/palette.png?raw=true)
+  a) indispensable, required by CORE
    
- - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
- - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
- - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
- - [node-red-contrib-jsontimer](https://flows.nodered.org/node/node-red-contrib-jsontimer)
- - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
- - [node-red-contrib-play-audio](https://flows.nodered.org/node/node-red-contrib-play-audio)
- - [node-red-contrib-timerswitch](https://flows.nodered.org/node/node-red-contrib-timerswitch)
- - [node-red-contrib-ui-led](https://flows.nodered.org/node/node-red-contrib-ui-led)
- - [node-red-dashboard](https://flows.nodered.org/node/node-red-dashboard)
- - [node-red-node-base64](https://flows.nodered.org/node/node-red-node-base64)
- - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
- - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
+    - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
+    - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
+    - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
+    - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
  
- Alternative: install TuyaDAEMON flows, then add the missing nodes as required by node-red messages.
+  b) optional, required by other modules
+
+   - [node-red-contrib-jsontimer](https://flows.nodered.org/node/node-red-contrib-jsontimer)
+   - [node-red-contrib-play-audio](https://flows.nodered.org/node/node-red-contrib-play-audio)
+   - [node-red-contrib-timerswitch](https://flows.nodered.org/node/node-red-contrib-timerswitch)
+   - [node-red-contrib-ui-led](https://flows.nodered.org/node/node-red-contrib-ui-led)
+   - [node-red-dashboard](https://flows.nodered.org/node/node-red-dashboard)
+   - [node-red-node-base64](https://flows.nodered.org/node/node-red-node-base64)
+   - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
+   - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
+ 
+ Alternative: install a TuyaDAEMON flow, then add the missing nodes as required by node-red messages.
         
 2. If you like, you can update the `node-red-contrib-tuya-smart-device` v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or `node-red-contrib-tuya-smart-device` v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113).
 3. Now you can import the [all tuyaDEAMON modules, 2.2.1](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaDEAMON.full.2.2.1.zip) (JSON file) in node-red. As an alternative, you can get the last version for single modules (e.g. [tuyadaemon.core.2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)).
