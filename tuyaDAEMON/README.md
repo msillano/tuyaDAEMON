@@ -104,7 +104,8 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
   
  - Precondition: a _mySQL_ server is optional, but required for a serious use.
          - Create a DB 'tuyathome' (as start: user 'root' and no password)
-         - Import the  `DB-core.2.2.0.sql.zip`  to create the required tables. 
+         - Import the  `DB-core.x.x.x.sql.zip`  to create the required tables. 
+         - more tables can be required by some modules: see for 'DB-modulex.x.x.x.sql.zip'.
 
 1. Install in node-red the required nodes (I use 'manage pallette'): 
    
