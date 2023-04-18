@@ -62,7 +62,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
    - The management RT of `'mirror' devices` for _all devices not caught at low-level by **tuyapi**_.
   
    
-  - [**System module:**](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) In form of `'fake' device` **_system** offerts some useful properties: _Alarms_ in case of WiFi, Lan or AC power down, access to remote tuyaDEAMON servers, etc. See also the [reference documentation](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_system/device__system.pdf).
+  - [**System module:**](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) offerts some useful properties: _Alarms_ in case of WiFi, Lan or AC power down, access to remote tuyaDEAMON servers, text-to-etc. See also the [reference documentation](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_system/device__system.pdf).
  
  ------------------------------
   - **tuyaDEAMON MQTT:** a broker that offers acces to tuyaDAEMON via MQTT and allows the use of [simple UI](https://raw.githubusercontent.com/msillano/tuyaDAEMON/main/pics/ScreenShot_20210612210400.png).
@@ -83,15 +83,16 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 
 In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and your `tuya-smart-device` nodes:
      
-1) Since 2.2.0, all configuration data are in a ´Global MODULE config´ node, with a friendly user interface (one in every module) to make simple the configuration task. Only some special node-red configuration nodes requires the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
+1) Since 2.2.0, all configuration data are in a ´Global MODULE config´ node, with a friendly user interface, mandatory in any module, to make simple the configuration task. Refer to the node's info for up-to-date module configuration instructions.
+  - Only few node-red configuration nodes requires the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
      
-2)  _CORE_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on all devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
-    - you can edit it directly using the 'global CORE config' node.
+2)  _Global CORE config_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on all devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
+    - you can edit it directly using the `global CORE config` node.
     - you can export it to the file `alldevices.json` for backup or to edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
     - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron starting from a [_DB of known tuya device definitions_](https://github.com/msillano/tuyaDAEMON/tree/main/devices).
       
-2) To reduce the workload in the production environment:
-      - `filters xxx` node reduce the info and the DB writing charge (you can also disable/delete the DB nodes if you don't need it). 
+3) To reduce the workload in the production environment:
+      - `filters xxx` node reduce the info and the DB writing charge (you can also disable the DB nodes if you don't need it). 
       - sice 2.2.0: added a general _filtering_ feature, on device/dp basis, user defined in _alldevices_ (see [alldevices wiki](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices#output-control))
    
 4) All nodes requiring or allowing some user update are named with an asterisk (e.g. '*device selector') and in the  'node description' you can found specific instructions.
