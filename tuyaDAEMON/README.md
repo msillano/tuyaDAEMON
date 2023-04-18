@@ -65,6 +65,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
    
   - [**System module:**](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) In form of `'fake' device` **_system** offerts some useful properties: _Alarms_ in case of WiFi, Lan or AC power down, access to remote tuyaDEAMON servers, etc. See also the [reference documentation](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_system/device__system.pdf).
  
+ ------------------------------
   - **tuyaDEAMON MQTT:** a broker that offers acces to tuyaDAEMON via MQTT and allows the use of [simple UI](https://raw.githubusercontent.com/msillano/tuyaDAEMON/main/pics/ScreenShot_20210612210400.png).
   
   - **433 MHz gateway module:** a module to receive data from device using 433.92 MHz, 868 MHz, 315 MHz, 345 MHz and 915 MHz ISM bands. [Two devices](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station) implemented: 'Weather station' and 'extra temperature' probes.
@@ -98,17 +99,25 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
 
  
  ### installation
- - Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as framework for any IOT purpose. Since ver.2.2.0: you can test any module capabilities and the user can add later the devices. 
+ - Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as framework for any IOT purpose. You can also never use Tuya devices, but only custom devices (USB, MQTT, tasmotized, etc...).
+ - Since ver.2.2.0: you can test any module capabilities and the user can add later the devices. 
    
- - Precondition: clean node-red installed and working.<br>
-      See also [multiple instances](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#multiple-instances-of-tuyadaemon-in-the-same-server) before install tuyaDEAMON.
+ - Precondition: clean `node-red` installed and working.
+     - see [multiple instances](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#multiple-instances-of-tuyadaemon-in-the-same-server) before install tuyaDEAMON.
+     - see also: [node-red](https://nodered.org/docs/getting-started/)
+     - see also: [Android](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server).
   
  - Precondition: a _mySQL_ server is optional, but required for a serious use.
-         - Create a DB 'tuyathome' (as start: user 'root' and no password)
-         - Import the  `DB-core.x.x.x.sql.zip`  to create the required tables. 
-         - more tables can be required by some modules: see for 'DB-modulex.x.x.x.sql.zip'.
+     - Import, using phpMyAdmin, the  `DB-core.x.x.x.sql.zip`  to create the required DB and tables. 
+     - More DB tables can be required by some modules: see for 'DB-modulex.x.x.x.sql.zip'.
 
-1. Install in node-red the required nodes (I use 'manage pallette'): 
+ - Precondition: when you want to add _Tuya devices_
+     - A robust WiFi router (best with UPS).
+     - The [SmartLife](https://apkpure.com/en/smart-life-smart-living/com.tuya.smartlife) APP running on a smartphone.
+     - New Tuya devices must first be added to SmartLife and work properly.
+ 
+
+1. Install in node-red the required nodes (I use 'manage pallette') here actual full list: 
    
    ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/palette.png?raw=true)
    
@@ -128,9 +137,10 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
  Alternative: install TuyaDAEMON flows, the add the missing nodes as required by node-red messages.
         
 2. If you like, you can update the node-red-contrib-tuya-smart-device v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or node-red-contrib-tuya-smart-device v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113),
-3. Now you can import the [required tuyaDEAMON modules](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaDEAMON.full.2.2.0.zip) (json file) in node-red. 
-4. For any added module, read the flow description and see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions. 
-5. In each module, you will find some standalone tests (see also each test node documentation), to verify your installation: after you can delete them.
+3. Now you can import the [all tuyaDEAMON modules, 2.2.1](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaDEAMON.full.2.2.1.zip) (json file) in node-red. 
+4. As alternative you can get the last version for single modules (e.g. [tuyadaemon.core.2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON))
+5. For any added module, read the flow description and see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions. 
+6. In each module, you will find some standalone tests (see also each test node documentation), to verify your installation: after you can delete them.
 
 _For Android deployement see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
 
