@@ -108,6 +108,9 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
      - see also: [Android](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server).
   
  - Precondition: a _mySQL_ server is optional, but required for a serious use.
+     -  The default is local MySQL ('node-red-node-mysql' is used) and, for a simple installation, you can
+		  use a distribution as WAMP (or XAMP, LAMP, etc.): phpMyAdmin and Apache server are included.
+          _You can also use a DB accessible on the net; it is not mandatory that the DB is on the same server as node-red_.
      - Import, using phpMyAdmin, the  `DB-core.x.x.x.sql.zip`  to create the required DB and tables. 
      - More DB tables can be required by some modules: see for 'DB-modulex.x.x.x.sql.zip'.
 
@@ -136,11 +139,11 @@ In addition to usual configuration requirements for the `mySQL`, ´MQTT´ and yo
  
  Alternative: install TuyaDAEMON flows, the add the missing nodes as required by node-red messages.
         
-2. If you like, you can update the node-red-contrib-tuya-smart-device v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or node-red-contrib-tuya-smart-device v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113),
-3. Now you can import the [all tuyaDEAMON modules, 2.2.1](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaDEAMON.full.2.2.1.zip) (json file) in node-red. 
-4. As alternative you can get the last version for single modules (e.g. [tuyadaemon.core.2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON))
-5. For any added module, read the flow description and see the documentation of the ´global MODULE config´ node: it contains all the updated configuration instructions. 
-6. In each module, you will find some standalone tests (see also each test node documentation), to verify your installation: after you can delete them.
+2. If you like, you can update the `node-red-contrib-tuya-smart-device` v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or `node-red-contrib-tuya-smart-device` v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113).
+3. Now you can import the [all tuyaDEAMON modules, 2.2.1](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaDEAMON.full.2.2.1.zip) (json file) in node-red. As alternative you can get the last version for single modules (e.g. [tuyadaemon.core.2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)).
+5.  For any added module, read the flow description and see the info of the ´global MODULE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
+6.  In each module, you will find some standalone tests (see also each test node info), to verify your installation: after you can delete them.
+
 
 _For Android deployement see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
 
