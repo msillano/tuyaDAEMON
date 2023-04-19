@@ -124,10 +124,10 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
    
   a) indispensable, required by CORE
    
-    - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
-    - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
-    - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
-    - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
+   - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
+   - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
+   - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
+   - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
  
   b) optional, required by other modules
 
