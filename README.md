@@ -137,8 +137,7 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
  
 _With the version 2.0 tuyaDAEMON reaches 2 milestones: the ability to use and create custom devices in a [hierarchical OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#oo-devices), and the ability to create distributed [TuyaDAEMON network](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#networking-tuyadaemon)._
  
- --------------
- ### Last [version 2.2.1](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)
+  _Last [version 2.2.1](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)_
  
  ---------------
  ### Acknowledgment
