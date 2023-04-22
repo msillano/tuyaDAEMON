@@ -140,5 +140,9 @@ _With the version 2.0 tuyaDAEMON reaches 2 milestones: the ability to use and cr
  --------------
  ### Last [version 2.2.1](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)
  
+ ---------------
+ ### Acknowledgment
+ _A heartfelt thanks to all the people who contributed with observations and advice._
  
+ English is not my first language. I apologize for any mistakes.
 
