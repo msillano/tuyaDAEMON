@@ -82,8 +82,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 - **tuiaDAEMON.toolkit** is an [external application](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) in PHP that uses a MySQL database to store all information about the devices and creates some useful artifacts. Using this app, you can test the capabilities of any new device, sending commands (GET/SET/MULTIPLE/SCHEMA/REFRESH) to all DPs. A growing collection of [known devices](https://github.com/msillano/tuyaDAEMON/tree/main/devices) is ready, but it is easy to extend it to your new devices.
 
 ### configuration
-
-     
+   
 1) Since 2.2.0, all configuration data are in a ´Global MODULE config´ node, with a friendly user interface, mandatory in any module, to make simple the configuration task. Refer to this node info for up-to-date configuration instructions for each module.
   - Only a few node-red configuration nodes still require the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
      
@@ -93,26 +92,27 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
     - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron starting from a [_DB of known tuya device definitions_](https://github.com/msillano/tuyaDAEMON/tree/main/devices).
       
 3) To reduce the workload in the production environment:
-      - `filters xxx` node reduce the info and the DB writing charge (you can also disable the DB nodes if you don't need them). 
-      - since 2.2.0: added a general _filtering_ feature, on device/dp basis, user-defined in _alldevices_ (see [alldevices wiki](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices#output-control))
+      - `filters xxx` node reduce the info and the DB writing charge. 
+      - since 2.2.0: added a general _filtering_ feature, 'hide', on device/dp basis, user-defined in _alldevices_ (see [alldevices wiki](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices#output-control))
    
 4) All nodes requiring or allowing some user update are named with an asterisk (e.g. '*device selector') and in the  'node description' you can find specific instructions.
  
  ### installation
  - Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as the framework for any IOT purpose. You can also never use Tuya devices, but only custom devices (USB, MQTT, tasmotized, etc...).
- - Since ver.2.2.0: you can test any module capabilities and the user can add later the devices. 
+ - Since ver.2.2.0: you can test any module capabilities and add later the devices. 
    
  - Precondition: clean `node-red` installed and working.
      - see [multiple instances](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#multiple-instances-of-tuyadaemon-in-the-same-server) before install tuyaDEAMON.
      - see also: [node-red](https://nodered.org/docs/getting-started/)
-     - see also: [Android](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server).
-  
+     - _For Android top-box deployment see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
+   
  - Precondition: a _mySQL_ server is optional, but required for a serious use.
      -  The default is local MySQL ('node-red-node-mysql' is used) and, for a simple installation, you can
 		  use distribution as WAMP (or XAMP, LAMP, etc.): phpMyAdmin and Apache server are included.
           _You can also use a DB accessible on the net; the DB doesn't need to be on the same server as node-red_.
      - Import, using phpMyAdmin, the  `DB-core.x.x.x.sql.zip`  to create the required DB and tables. 
      - More DB tables can be required by some modules: see for 'DB-modulex.x.x.x.sql.zip'.
+     - you can install MySQL later: install TuyaDAEMON and disable the three mysql nodes in CORE.
 
  - Precondition: when you want to add _Tuya devices_
      - A robust WiFi router (best with UPS).
@@ -145,10 +145,10 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 2. If you like, you can update the `node-red-contrib-tuya-smart-device` v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or `node-red-contrib-tuya-smart-device` v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113).
 3. Now you can import the [all tuyaDEAMON modules, 2.2.1](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaDEAMON.full.2.2.1.zip) (JSON file) in node-red. As an alternative, you can get the last version for single modules (e.g. [tuyadaemon.core.2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)).
 5.  For any added module, read the flow description and see the info of the ´global MODULE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
-6.  In each module, you will find some standalone tests (see also each test node info), to verify your installation: after you can delete them.
+6.  In each module, you will find some standalone tests (see also each test node info), to verify your installation: after you can disable/delete them.
 
 
-_For Android deployment see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
+
 
 -------------------
  ### Tuya devices capabilities, _as currently known_ ###
