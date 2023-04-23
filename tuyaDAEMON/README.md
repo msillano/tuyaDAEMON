@@ -90,7 +90,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
     - you can edit it directly using the `global CORE config` node, using the node JSON edit facility.
     - you can export it to the file `alldevices.json` for backup or edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
-    - For _known tuya devices_ a JSON fragment for `'alldevices'` is [here](https://github.com/msillano/tuyaDAEMON/tree/main/devices).   
+    - For _known tuya devices_ a JSON fragment for `'alldevices'` is in standard device documentation [flie zip](https://github.com/msillano/tuyaDAEMON/tree/main/devices#use).   
     - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron for new devices.
       
 3) All nodes requiring or allowing some user update are named with an asterisk (e.g. '*device selector') and in the  'node description' you can find specific instructions.
