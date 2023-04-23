@@ -84,7 +84,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 ### configuration
    
 1) Since 2.2.0, all configuration data are in a ´Global MODULE config´ node, with a friendly user interface, mandatory in any module, to make simple the configuration task. Refer to this node info for up-to-date configuration instructions for each module.
-  - Only a few node-red configuration nodes still require the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
+    - Only a few node-red configuration nodes still require the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
      
 2)  _Global CORE config_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on all devices, that control the _CORE_ behavior on a device/dps basis. <br>
 Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
