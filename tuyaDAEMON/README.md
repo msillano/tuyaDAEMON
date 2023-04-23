@@ -117,18 +117,16 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
      - The [SmartLife](https://apkpure.com/en/smart-life-smart-living/com.tuya.smartlife) APP running on a smartphone.
      - New Tuya devices must first be added to SmartLife and work properly.
  
+ 1. Install in node-red the nodes (I use 'manage pallette') : 
+   - indispensable, required by CORE  
+     - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
+     - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
+     - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
+     - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
+       - You can update the `node-red-contrib-tuya-smart-device` v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or `node-red-contrib-tuya-smart-device` v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113), replacing the file
+`...\node_modules\node-red-contrib-tuya-smart-device\src\tuya-smart-device.js`.
 
-1. Install in node-red the nodes (I use 'manage pallette') : 
-   
-  a) indispensable, required by CORE
-   
-   - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
-   - [node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql)
-   - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
-   - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
- 
-  b) optional, required by other modules
-
+ - optional, required by other modules
    - [node-red-contrib-jsontimer](https://flows.nodered.org/node/node-red-contrib-jsontimer)
    - [node-red-contrib-play-audio](https://flows.nodered.org/node/node-red-contrib-play-audio)
    - [node-red-contrib-timerswitch](https://flows.nodered.org/node/node-red-contrib-timerswitch)
@@ -138,13 +136,11 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
    - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
    - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
  
- Alternative: install a TuyaDAEMON module, then add the missing nodes as required by node-red messages.
+     Alternative: install a TuyaDAEMON module, then add the missing nodes as required by node-red messages.
         
-2. You can update the `node-red-contrib-tuya-smart-device` v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or `node-red-contrib-tuya-smart-device` v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113), replacing the file
-`...\node_modules\node-red-contrib-tuya-smart-device\src\tuya-smart-device.js`.
-4. The best way is to get the last version for single modules, starting from  [tuyaDAEMON.CORE-install-2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)).
-5.  For any added module, read the flow description and see the info of the ´global MODULE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
-6.  In each module, you will find some standalone tests (see also each test node info), to verify your installation: after you can disable/delete them.
+2. The best way is to get the last version for single modules, starting from  [tuyaDAEMON.CORE-install-2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON).
+3.  For any added TuyaDEAMON module, read the flow description and see the info of the ´global MODULE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
+4.  In each module, you will find some standalone tests (see also each test node info), to verify your installation: after you can disable/delete them.
 
 ### CORE tips and tricks
 
