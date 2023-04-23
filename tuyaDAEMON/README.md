@@ -86,11 +86,12 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 1) Since 2.2.0, all configuration data are in a ´Global MODULE config´ node, with a friendly user interface, mandatory in any module, to make simple the configuration task. Refer to this node info for up-to-date configuration instructions for each module.
   - Only a few node-red configuration nodes still require the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
      
-2)  _Global CORE config_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on all devices, that control the _CORE_ behavior on a device/dps basis. Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
-    - you can edit it directly using the `global CORE config` node.
+2)  _Global CORE config_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on all devices, that control the _CORE_ behavior on a device/dps basis. <br>
+Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
+    - you can edit it directly using the `global CORE config` node, using the node JSON edit facility.
     - you can export it to the file `alldevices.json` for backup or edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
-    - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron starting from a [_DB of known tuya device definitions_](https://github.com/msillano/tuyaDAEMON/tree/main/devices).
-      
+    - For _known tuya devices_ a JSON fragment for `'alldevices'` is in 'zip' files, see [here](https://github.com/msillano/tuyaDAEMON/tree/main/devices).   
+    - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron for new devices.
 3) To reduce the workload in the production environment:
       - `filters xxx` node reduce the info and the DB writing charge. 
       - since 2.2.0: added a general _filtering_ feature, 'hide', on device/dp basis, user-defined in _alldevices_ (see [alldevices wiki](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices#output-control))
@@ -192,13 +193,13 @@ Any DP as is own behavior:
     - the last **PUSHED** value (e.g. [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf).'countdown ')
     - all DPs (such as **SCHEMA**), ignoring the DP in the request (e.g. [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
  
-- **SET(DP, value)** If the value is not null, updates the DP value and returns the new value:
+- **SET(DP, value)** If the value is **_not null_**, updates the DP value and returns the new value:
     - can be used as a **trigger**, i.e. with side effects, in this case the value may be useless and 'any' (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
 
-- **SET(DP, null)** returns the last DP value:
+- **SET(DP, null)** If the value is **_null_**, returns the last DP value:
     - if it works, can be used instead of **GET(DP)**. It is useful when GET(DP) is not standard or not available (e.g. [Power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
     - can be the only capability available: no other SETs, no GETs. (e.g. [device_WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf).'SD status')
-    - can be not allowed: all SET(dp, value) are ok, but not SET(DP, null).
+    - can be not allowed: all SET(DP, value) are ok, but not SET(DP, null).
 
 IMPORTANT: Sending commands that are not implemented or not allowed or sending wrong data type or wrong value to a DP can have many bad effects:
 
