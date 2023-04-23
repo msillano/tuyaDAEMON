@@ -81,10 +81,10 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
  
 - **tuiaDAEMON.toolkit** is an [external application](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) in PHP that uses a MySQL database to store all information about the devices and creates some useful artifacts. Using this app, you can test the capabilities of any new device, sending commands (GET/SET/MULTIPLE/SCHEMA/REFRESH) to all DPs. A growing collection of [known devices](https://github.com/msillano/tuyaDAEMON/tree/main/devices) is ready, but it is easy to extend it to your new devices.
 
-### configuration
+### configuration (all modules)
    
-1) Since 2.2.0, all configuration data are in a `Global MODULE config´ node, with a friendly user interface, mandatory in any module, to make simple the configuration task. Refer to this _node info_ for up-to-date configuration instructions for each module.
-    - Only a few node-red configuration nodes still require the user direct setup: mySQL, MQTT, tuya-smart-device (new devices).     
+1) Since 2.2.0, all configuration data are in a `Global MODULE config´ node, with a friendly user interface, mandatory in any module, to make simple the configuration task. **_Refer to this _node info_ for up-to-date configuration instructions for each module._**
+    - Only a few node-red configuration nodes still require the user direct setup: _mySQL, MQTT, tuya-smart-device_ (new devices).     
      
 2)  _Global CORE config_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on all devices, that control the _CORE_ behavior on a device/dps basis. <br>
 Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
@@ -92,13 +92,10 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
     - you can export it to the file `alldevices.json` for backup or edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
     - For _known tuya devices_ a JSON fragment for `'alldevices'` is [here](https://github.com/msillano/tuyaDAEMON/tree/main/devices).   
     - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron for new devices.
-3) To reduce the workload in the production environment:
-      - `filters xxx` node reduce the info and the DB writing charge. 
-      - since 2.2.0: added a general _filtering_ feature, 'hide', on device/dp basis, user-defined in _alldevices_ (see [alldevices wiki](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices#output-control))
-   
-4) All nodes requiring or allowing some user update are named with an asterisk (e.g. '*device selector') and in the  'node description' you can find specific instructions.
+      
+3) All nodes requiring or allowing some user update are named with an asterisk (e.g. '*device selector') and in the  'node description' you can find specific instructions.
  
- ### installation
+ ### First time installation (CORE)
  - Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as the framework for any IOT purpose. You can also never use Tuya devices, but only custom devices (USB, MQTT, tasmotized, etc...).
     - Since ver.2.2.0: you can test any module capabilities and add later the devices. 
    
@@ -121,7 +118,7 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
      - New Tuya devices must first be added to SmartLife and work properly.
  
 
-1. Install in node-red the required nodes (I use 'manage pallette') here the actual full list: 
+1. Install in node-red the nodes (I use 'manage pallette') : 
    
   a) indispensable, required by CORE
    
@@ -141,12 +138,39 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
    - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
    - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
  
- Alternative: install a TuyaDAEMON flow, then add the missing nodes as required by node-red messages.
+ Alternative: install a TuyaDAEMON module, then add the missing nodes as required by node-red messages.
         
 2. If you like, you can update the `node-red-contrib-tuya-smart-device` v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or `node-red-contrib-tuya-smart-device` v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113).
-3. Now you can import the [all tuyaDEAMON modules, 2.2.1](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaDEAMON.full.2.2.1.zip) (JSON file) in node-red. As an alternative, you can get the last version for single modules (e.g. [tuyadaemon.core.2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)).
-5.  For any added module, read the flow description and see the info of the ´global MODULE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
-6.  In each module, you will find some standalone tests (see also each test node info), to verify your installation: after you can disable/delete them.
+3. The best way is to get the last version for single modules (start from  [tuyaDAEMON.CORE-install-2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)).
+4.  For any added module, read the flow description and see the info of the ´global MODULE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
+5.  In each module, you will find some standalone tests (see also each test node info), to verify your installation: after you can disable/delete them.
+
+### CORE user estensions
+
+**Simple cron**<br>
+It is possible to use the `core/_heartbeat` as simple _cron_, adding one or more `'share'` in `global.alldevices`. Template:
+````
+             "share": [ {
+                            "test": [                   // every day at 6:00 +1..30 s
+                                "(msg.info.value > '06:00:00' && msg.info.value < '06:00:31')"
+                            ],
+                            "action": [
+                                 {			// here the required task + value
+				 "device": ...,
+				 "property": ...,
+				 "value": ...
+                                 } 
+			    ]  
+                      } ]
+````
+  - Test to limit the days of the week (0=sun):  `" ... && (new Date().getDay() in [0,1,   6])"`,
+  - Test to limit mounth (0=jan):  `" ... && (new Date().getMonth() in [0,1,  11])"`,
+   
+   _I use some like this to start a 'stored procedure' in MySQL server, 'do_purge', that deletes records older than 10 days from the DB 'message table'._
+	
+
+
+
 
 -------------------
  ### Tuya devices capabilities, _as currently known_ ###
