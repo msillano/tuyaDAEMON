@@ -99,7 +99,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
  
  ### installation
  - Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as the framework for any IOT purpose. You can also never use Tuya devices, but only custom devices (USB, MQTT, tasmotized, etc...).
- - Since ver.2.2.0: you can test any module capabilities and add later the devices. 
+    - Since ver.2.2.0: you can test any module capabilities and add later the devices. 
    
  - Precondition: clean `node-red` installed and working.
      - see [multiple instances](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#multiple-instances-of-tuyadaemon-in-the-same-server) before install tuyaDEAMON.
@@ -120,7 +120,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
      - New Tuya devices must first be added to SmartLife and work properly.
  
 
-1. Install in node-red the required nodes (I use 'manage pallette') here actual full list: 
+1. Install in node-red the required nodes (I use 'manage pallette') here the actual full list: 
    
   a) indispensable, required by CORE
    
@@ -146,9 +146,6 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 3. Now you can import the [all tuyaDEAMON modules, 2.2.1](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaDEAMON.full.2.2.1.zip) (JSON file) in node-red. As an alternative, you can get the last version for single modules (e.g. [tuyadaemon.core.2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)).
 5.  For any added module, read the flow description and see the info of the ´global MODULE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
 6.  In each module, you will find some standalone tests (see also each test node info), to verify your installation: after you can disable/delete them.
-
-
-
 
 -------------------
  ### Tuya devices capabilities, _as currently known_ ###
