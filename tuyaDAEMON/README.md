@@ -142,33 +142,6 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
 3.  For any added TuyaDEAMON module, read the flow description and see the info of the ´global MODULE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
 4.  In each module, you will find some standalone tests (see also each test node info), to verify your installation: after you can disable/delete them.
 
-### CORE tips and tricks
-
-**Simple cron**<br>
-It is possible to use the `core/_heartbeat` as simple _cron_, adding one or more `'share'` in `global.alldevices`. Template:
-````
-             "share": [ {
-                            "test": [                   // every day at 6:00 +1..30 s
-                                "(msg.info.value > '06:00:00' && msg.info.value < '06:00:31')"
-                            ],
-                            "action": [
-                                 {			// here the required task + value
-				 "device": ...,
-				 "property": ...,
-				 "value": ...
-                                 } 
-			    ]  
-                      } ]
-````
-  - Test to limit the days of the week (0=sun):  `" ... && (new Date().getDay() in [0,1,   6])"`,
-  - Test to limit mounth (0=jan):  `" ... && (new Date().getMonth() in [0,1,  11])"`,
-   
-   _I use some like this to start a 'stored procedure' in MySQL server, 'do_purge', that deletes records older than 10 days from the DB 'message table'._
-	
-
-
-
-
 -------------------
  ### Tuya devices capabilities, _as currently known_ ###
  
