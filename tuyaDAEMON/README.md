@@ -139,15 +139,26 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
      Alternative: install a TuyaDAEMON module, then add the missing nodes as required by node-red messages.
         
 2. The best way is to get the last version for single modules, starting from  [tuyaDAEMON.CORE-install-2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON).
-3.  For any added TuyaDEAMON module, read the flow description and see the info of the ´global MODULE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
-4.  In each module, you will find some standalone tests (see also each test node info), to verify your installation: after you can disable/delete them.
+3.  See the info of the ´global CORE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
+
+### module installation (addons) ###
+
+TuyaDAEMON is modular: all extensions are implemented as node-red flows (modules), that the user can add to CORE.
+- _CORE extensions_, to add features to TuyaDEAMON CORE: TRIGGER, SYSTEM, MQTT ...
+- _custom devices_, to do required protocol conversions: USB/COM, RF 433 MHz, etc...
+- _subflows_, to replace *tuya-smart-device* nodes: MQTT...
+
+1.  For any added TuyaDEAMON module, read the flow description and see the info of the ´global MODULE config´ node it contains all the updated configuration instructions (select the node the click the `[i]` button). 
+2.  In each module, you will find some standalone tests (see also each test node info) to verify your installation: after you can disable/delete them.
+3.  Caveat: after a module 'Import' + 'Deploy' always _verify all external links_: sometimes (not clear why) the `external 'link' nodes` are not correctly updated.
+
+
 
 -------------------
  ### Tuya devices capabilities, _as currently known_ ###
  
 _Any tuya device, any DP can have its own behavior: tuya devices use a poll of [common HW, definitions](https://developer.tuya.com/en/docs/iot/terms?id=K914joq6tegj4) and code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in the Tuya environment, etc...).
 Usually it is very dangerous to do generalizations based on few cases._
-
 
 
 **Device Capabilities:**
