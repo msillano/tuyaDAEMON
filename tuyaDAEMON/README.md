@@ -123,7 +123,7 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
      - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
      - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
      - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
-       - You can update the `node-red-contrib-tuya-smart-device` v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or `node-red-contrib-tuya-smart-device` v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113), replacing the file `...\node_modules\node-red-contrib-tuya-smart-device\src\tuya-smart-device.js`.
+       - _You can update the `node-red-contrib-tuya-smart-device` v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or `node-red-contrib-tuya-smart-device` v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113), replacing the file `...\node_modules\node-red-contrib-tuya-smart-device\src\tuya-smart-device.js`_.
 
    - required by other modules: SYSTEM
      - [node-red-contrib-jsontimer](https://flows.nodered.org/node/node-red-contrib-jsontimer)
