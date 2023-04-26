@@ -144,13 +144,20 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
 ### module installation (addons) ###
 
 TuyaDAEMON is modular: all extensions are implemented as node-red flows (modules), that the user can add to CORE.
-- _CORE extensions_, to add features to TuyaDEAMON CORE: TRIGGER, SYSTEM, MQTT ...
+- _CORE extensions_, to add features to TuyaDEAMON CORE: TRIGGER, SYSTEM, MQTT ..., implemented as 'devices'.
 - _custom devices_, to do required protocol conversions: USB/COM, RF 433 MHz, etc...
 - _subflows_, to replace *tuya-smart-device* nodes: MQTT...
 
-1.  For any added TuyaDEAMON module, read the flow description and see the info of the ´global MODULE config´ node it contains all the updated configuration instructions (select the node the click the `[i]` button). 
-2.  In each module, you will find some standalone tests (see also each test node info) to verify your installation: after you can disable/delete them.
-3.  Caveat: after a module 'Import' + 'Deploy' always _verify all external links_: sometimes (not clear why) the `external 'link' nodes` are not correctly updated.
+1. Adding a new device (or module) you must:
+    - Import the <module_nodered>.json file in node-red, then do 'Deploy'
+    - For devices, you must update the 'Global.alldevices" structure in  `*Global CORE config` node. The data are in:
+         - the `device_xxxx.json` file in the installation package
+	 - for [known devices](https://github.com/msillano/tuyaDAEMON/tree/main/devices) are public
+	 - built by [tuyadaemon-toolkit](), for new devices
+	 - user built step-by-step following [instructions for new devices]()
+2.  For any added TuyaDEAMON module, read the flow description and see the info of the ´global MODULE config´ node it contains all the updated configuration instructions (select the node the click the `[i]` button). 
+3.  In each module, you will find some standalone tests (see also each test node info) to verify your installation: after you can disable/delete them.
+4.  Caveat: after a module 'Import' + 'Deploy' always _verify all external links_: sometimes (not clear why) the `external 'link' nodes` are not correctly updated.
 
 
 
