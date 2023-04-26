@@ -9,8 +9,8 @@ TuyaDAEMON isolates your IOT **custom application** from all details of _device 
 - manages all codifications and checks before sending your _commands to devices_
 - tuyaDAEMON is 'open' by design:
     - updates the `global.tuyastatus` structure (_device:property:value_) with all status messages from all controlled devices.
-    - logs all commands and events in the mySQL` 'tuyathome:messages'` table
-    - offers complete MQTT and HTTP REST interfaces 
+    - logs all commands and events in the mySQL `'tuyathome:messages'` table
+    - offers complete HTTP REST interfaces (MQTT with `core_MQTT` module)
 - uses _friendly names_ for all devices and properties, in any language
 
 ### IMPLEMENTATION
@@ -40,7 +40,7 @@ _"fake" devices_ can be implemented with specialized flows, to handle custom (no
 ### applications
 _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor) with a rich framework for IoT, offering to the power user many ways to implement their own projects:_
 
-1. users can add new functionalities, i.e. new tasks, building more js SW only devices, to cover the sector of interest (see [_system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system), it adds, among other things, text-to-speech capabilities to tuyaDAEMON). 
+1. users can add new functionalities, i.e. new tasks, building more js SW only devices, to cover the sector of interest (see [_system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system), it adds, among other things, benchmarks, text-to-speech, etc. capabilities to tuyaDAEMON). 
 2. users can add any not-Tuya hardware device, with a simple node-red interface flow (see [433 MHz gateway](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station)).
 3. users can design and build new devices derived from existing ones, in OO style (see [OO devices](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#oo-devices) and [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study))
 4. users can build inside tuyaDAEMON ['chains' (meta-programming)](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#share-and-command-chains) using existing tasks to get the required event-driven behavior: tests, delays, sequences, repetions and fork of tasks  are simple to implement in JSON  + js (example: [system.beep_loop](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#iteration)).
@@ -88,10 +88,10 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
      
 2)  _Global CORE config_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on all devices, that control the _CORE_ behavior on a device/dps basis. <br>
 Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
-    - you can edit it directly using the `global CORE config` node, using the node JSON edit facility.
+    - you can edit it directly using the `global CORE config` node, using the JSON edit facility.
     - you can export it to the file `alldevices.json` for backup or edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
     - For _known tuya devices_ a JSON fragment for `'alldevices'` is in standard device documentation [flie zip](https://github.com/msillano/tuyaDAEMON/tree/main/devices#use).   
-    - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` scheletron for new devices.
+    - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` fragment for a new device.
       
 3) All nodes requiring or allowing some user update are named with an asterisk (e.g. '*device selector') and in the  'node description' you can find specific instructions.
  
@@ -123,18 +123,23 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
      - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
      - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
      - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
-       - You can update the `node-red-contrib-tuya-smart-device` v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or `node-red-contrib-tuya-smart-device` v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113), replacing the file
-`...\node_modules\node-red-contrib-tuya-smart-device\src\tuya-smart-device.js`.
+       - You can update the `node-red-contrib-tuya-smart-device` v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or `node-red-contrib-tuya-smart-device` v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113), replacing the file `...\node_modules\node-red-contrib-tuya-smart-device\src\tuya-smart-device.js`.
 
- - optional, required by other modules
-   - [node-red-contrib-jsontimer](https://flows.nodered.org/node/node-red-contrib-jsontimer)
-   - [node-red-contrib-play-audio](https://flows.nodered.org/node/node-red-contrib-play-audio)
-   - [node-red-contrib-timerswitch](https://flows.nodered.org/node/node-red-contrib-timerswitch)
-   - [node-red-contrib-ui-led](https://flows.nodered.org/node/node-red-contrib-ui-led)
-   - [node-red-dashboard](https://flows.nodered.org/node/node-red-dashboard)
-   - [node-red-node-base64](https://flows.nodered.org/node/node-red-node-base64)
-   - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport)
-   - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
+   - required by other modules: SYSTEM
+     - [node-red-contrib-jsontimer](https://flows.nodered.org/node/node-red-contrib-jsontimer)
+     - [node-red-contrib-play-audio](https://flows.nodered.org/node/node-red-contrib-play-audio)
+     - [node-red-node-base64](https://flows.nodered.org/node/node-red-node-base64)
+   
+   - required by other modules: MQTT
+   
+     - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
+
+  - optional, required by some custom devices:
+    - [node-red-contrib-timerswitch](https://flows.nodered.org/node/node-red-contrib-timerswitch) (PM-detector, watering_sys)
+    - [node-red-contrib-ui-led](https://flows.nodered.org/node/node-red-contrib-ui-led) (watering_sys)
+    - [node-red-dashboard](https://flows.nodered.org/node/node-red-dashboard) (watering_sys)
+    - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport) (PM_detector)
+    - [node-red-contrib-rtl_433](https://flows.nodered.org/node/node-red-contrib-rtl_433) (433_gateway)
  
      Alternative: install a TuyaDAEMON module, then add the missing nodes as required by node-red messages.
         
@@ -151,15 +156,14 @@ TuyaDAEMON is modular: all extensions are implemented as node-red flows (modules
 1. Adding a new device (or module) you must:
     - Import the <module_nodered>.json file in node-red, then do 'Deploy'
     - For devices, you must update the 'Global.alldevices" structure in  `*Global CORE config` node. The data are in:
-         - the `device_xxxx.json` file in the installation package
-	 - for [known devices](https://github.com/msillano/tuyaDAEMON/tree/main/devices) are public
-	 - built by [tuyadaemon-toolkit](), for new devices
-	 - user built step-by-step following [instructions for new devices]()
+    
+       - the `device_xxxx.json` file in the installation package
+       - for [known devices](https://github.com/msillano/tuyaDAEMON/tree/main/devices) are public
+       - built by [tuyadaemon-toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit), for a new device
+       - user built step-by-step following [instructions for new devices](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON)
 2.  For any added TuyaDEAMON module, read the flow description and see the info of the ´global MODULE config´ node it contains all the updated configuration instructions (select the node the click the `[i]` button). 
 3.  In each module, you will find some standalone tests (see also each test node info) to verify your installation: after you can disable/delete them.
 4.  Caveat: after a module 'Import' + 'Deploy' always _verify all external links_: sometimes (not clear why) the `external 'link' nodes` are not correctly updated.
-
-
 
 -------------------
  ### Tuya devices capabilities, _as currently known_ ###
@@ -233,9 +237,9 @@ To design node_red applications using Tuya devices is always necessary:
 
 **versions**
 _tuyaDAEMON version 2.2.2_ 
+  - Maintenance release.
   - node-red-contrib-tuya-smart-device 5.0.1, modified as in [ISSUE#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113).
   - tuyapi ver. 7.3.0
-  - Maintenance release.
   - Refactoring device intallation nodes
   - bug fixes and minor code updates
 
