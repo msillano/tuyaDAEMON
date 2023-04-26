@@ -140,8 +140,10 @@ _With the version 2.0 tuyaDAEMON reaches 2 milestones: the ability to use and cr
   _Last [version 2.2.1](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)_
  
  ---------------
+This project is a work-in-progress: it is provided "as is", without warranties of any kind, implicit or explicit.<br>
+English is not my first language. I apologize for any mistakes.
+
  ### Acknowledgment
  _A heartfelt thanks to all the people who contributed with observations and advice._
  
- English is not my first language. I apologize for any mistakes.
-
+ 
