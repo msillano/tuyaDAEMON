@@ -13,7 +13,8 @@ _**TuyaDAEMON's goal is not to control some Tuya devices but to integrate the en
 4. [Meta-tools](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) for device test, definition and maintenance activities.
 
 <hr>
-_All the details of the communication are resolved by **tuyaDAEMON**, using 3 bidirectional communication channels transparently to the user:_
+
+ _All the details of the communication are resolved by **tuyaDAEMON**, using 3 bidirectional communication channels transparently to the user:_
 
 ### LOW LEVEL MQTT (see tuya [DEAMON core](./tuyaDAEMON/README.md))
 
