@@ -99,14 +99,15 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
  - Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as the framework for any IOT purpose. You can also never use Tuya devices, but only custom devices (USB, MQTT, tasmotized, etc...).
     - Since ver.2.2.0: you can test any module capabilities and add later the devices. 
    
- - Precondition: clean `node-red` installed and working.
+ - Precondition: a clean `node-red` installed and working.
      - see [multiple instances](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#multiple-instances-of-tuyadaemon-in-the-same-server) before install tuyaDEAMON.
      - see also: [node-red](https://nodered.org/docs/getting-started/)
-     - _For Android top-box deployment see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)_
+     - _For Android top-box deployment see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)._
+     - _May 2023: Installed in an older iMac 2008: OS 'El Capitain' 10.11.0, node v. 14.21.3, node-red v 3.0.3 + MAMP + MQTT explorer._
    
  - Precondition: a _mySQL_ server is optional, but required for a serious use.
      -  The default is local MySQL ('node-red-node-mysql' is used) and, for a simple installation, you can
-		  use distribution as WAMP (or XAMP, LAMP, etc.): phpMyAdmin and Apache server are included.
+		  use distribution as WAMP (or XAMP, LAMP, MAMP etc.): phpMyAdmin and Apache server are included.
           _You can also use a DB accessible on the net; the DB doesn't need to be on the same server as node-red_.
      - Import, using phpMyAdmin, the  `DB-core.x.x.x.sql`  to create the required DB and tables. 
      - More DB tables can be required by some modules: see for 'DB-modulex.x.x.x.sql.zip'.
