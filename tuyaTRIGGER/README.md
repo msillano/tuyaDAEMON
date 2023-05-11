@@ -4,10 +4,10 @@ _A real device WiFI, having  a big unused numerical parameter, say a 'counter', 
 
 The 'counter' is used as a dual port register: a sender (_tuya-cloud/node-red_) set the counter to some XX value, the receiver gets the XX value, acts accordingly, and resets the counter to 0 (ACK action): the _node-red_ read/write actions are performed by **tuyaTRIGGER** flow, the _Tuya-cloud_ actions are performed by ad hoc automations, one for TRIGGER.
 
- - _node-red => tuya_: **node-red** write a predefined value in the 'counter' (say 1010) and that fires a specific **Tuya** automation: first the automation must reset the 'counter' to 0, then it can do anything.
+ - _node-red => tuya_ (**REDTRG**): **node-red** write a predefined value in the 'counter' (say 1010) and that fires a specific **Tuya** automation: first the automation must reset the 'counter' to 0, then it can do anything.
  Tuya automation, named `trigger1010`:   _If "counter:1010" do "counter:0" and "any-action..."_ 
 
- - _tuya => node-red_: A tuya **scene** (user action) or **automation** (event) sets  a predefined value on the 'counter' (e.g. 2030), and when node-red knows that, it must first reset  the "counter' to 0, then it can do anything.
+ - _tuya => node-red_ (**TUYATRG**): A tuya **scene** (user action) or **automation** (event) sets  a predefined value on the 'counter' (e.g. 2030), and when node-red knows that, it must first reset  the "counter' to 0, then it can do anything.
  Tuya automation,  say `trigger2030`: _If "any-event" do "counter:2030"_ 
 
 This [**TRIGGER** mechanism](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info), implemented in **tuyaTRIGGER**, allow a better _tuya <=> node-red_ integration in **tuyaDAEMON**:
@@ -46,13 +46,15 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
  
  - analog values can't be sent from tuya this way, because tuya does not allow the use of calculated values. But comparations are allowed: e.g. send trigger if `'temperature < 16'`. (Available: `<`; `=`; `>`). We can 'mirror' `BOOLEAN` dp (2 automations) `ENUM` dp: [0|1|2]  (3 automations) or also `INT`, but converted to ENUM when required: `{<15|16-20|21-25|26-30|31-35|36-40|>40}` but many automations are required (7 for this example).
 
- - using a countdown as a trigger, as _all switches_ does, requires REDTRG with numbers greater (e.g. 5000+) than TUYATRG (e.g. 1010..4999]): so, if _node-red_ is down, a Tuya TRIGGER not caught can't trigger a fake REDTRG.
+ - using a countdown as a trigger, as _all switches_ does, requires REDTRG with numbers greater (e.g. 5000+) than TUYATRG (e.g. 1100..4999]): so, if _node-red_ is down, a Tuya TRIGGER not caught can't trigger a fake REDTRG.
  
  - If the used counter is a time counter (countdown in case of this switches) you must choose trigger values at least separated enough space, to allow the ACK action. 
   
- - for fallback, MUST exist a Tuya Automation fired when the countdown is less than any trigger value (e.g. 1050), to reset the countdown to 0 without ACK: so the countdown never interferes with the logic of the switch (this automation is also deployed by `_trgPing` implementation). Required automation:  `if "tuya_bridge"countdown = 1050, then "tuya_bridge"countdown:0` 
+ - for fallback, MUST exist a Tuya Automation fired when the countdown is less than any trigger value (e.g. 1050), to reset the countdown to 0 without ACK: so the countdown never interferes with the logic of the switch. Required automation:  `if "tuya_bridge"countdown = 1050, then "tuya_bridge"countdown:0` 
  
-- Actual implementation does not verify the ACKs presence and timing, and not uses any handshake strategy, so it is theoretically possible to have some interferences.
+- The actual implementation does not verify the ACKs presence and timing, and not uses any handshake strategy, so it is theoretically possible to have some interferences.
+
+- For deatails on the implementation see 'core_TRIGGER."triggerMAP (readme)"' node.
 --------------------
 ### minimal implementation for node-red ###
 
