@@ -15,7 +15,7 @@ This [**TRIGGER** mechanism](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRI
  - _node-red_ can fire automation on _tuya-cloud_ 
  - _tuya scene_ can control _node-red flows_, so a node-red user can employ _smartlife_ as remote control (from anywhere).
  - _tuya automations_ can fire flows in _node-red_, implementing this way any control strategy not allowed by Tuya.
- - user can fire _node-red flows_ with vocal control (`Googlehome`)
+ - user can fire _node-red flows_ with vocal control (e.g. `Googlehome`)
  
  > A _'minimal standalone implementation'_ can be used to add remote control to any node-red flow: see [node-red voice and remote control](https://flows.nodered.org/flow/1d03176c75458f2665c780cb56265bf3).
 
