@@ -4,8 +4,8 @@ _A real device WiFI, having  a big unused numerical parameter, say a 'counter', 
 
 The 'counter' is used as a dual port register: a sender (_tuya-cloud/node-red_) set the counter to some XX value, the receiver gets the XX value, acts accordingly, and resets the counter to 0 (ACK action): the _node-red_ read/write actions are performed by **tuyaTRIGGER** flow, the _Tuya-cloud_ actions are performed by ad hoc automations, one for TRIGGER.
 
- - _node-red => tuya_: **node-red** write a predefined value in the 'counter' and that fires a specific **Tuya** automation: first the automation must reset the 'counter' to 0, then it can do anything.
- Tuya automation, say `trigger1010`:   _If "counter:1010" do "counter:0" and "any-action..."_ 
+ - _node-red => tuya_: **node-red** write a predefined value in the 'counter' (say 1010) and that fires a specific **Tuya** automation: first the automation must reset the 'counter' to 0, then it can do anything.
+ Tuya automation, named `trigger1010`:   _If "counter:1010" do "counter:0" and "any-action..."_ 
 
  - _tuya => node-red_: A tuya **scene** (user action) or **automation** (event) sets  a predefined value on the 'counter' (e.g. 2030), and when node-red knows that, it must first reset  the "counter' to 0, then it can do anything.
  Tuya automation,  say `trigger2030`: _If "any-event" do "counter:2030"_ 
