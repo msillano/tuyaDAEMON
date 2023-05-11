@@ -39,7 +39,7 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
 
 4)  'TuyaTrigger' value is placed in ad-hoc `msg.payload.tuyatrigger`.  
 
-5)  CUSTOMIZATION: you can use other devices to implement 'tuya-bridge. Updated information on 'Global TRIGGER config' node (since 2.2.0).
+5)  CUSTOMIZATION: you can use other devices to implement 'tuya-bridge. Updated information on 'Global TRIGGER config' node and 'triggerMAP (readme)' node (since 2.2.0).
 
 
 **note**
