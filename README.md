@@ -131,6 +131,8 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
  - MQTT devices, using custom driver nodes: see [PDMtimer](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study)
  - USB-serial devices, using custom adapter: see [PM_detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study)
  - 433 MHz sensors, using custom 433 gateway: see [Weather station](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station)
+ 
+### Applications 
  - YAWT (Yet Another Watering Timer), 8 zones watering, using REST and a WEB map interface, see [here](https://www.instructables.com/YAWT-Yet-Another-Watering-Timer/).
 
 <hr>
