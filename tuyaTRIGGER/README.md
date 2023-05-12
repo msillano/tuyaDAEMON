@@ -85,13 +85,16 @@ _notes_
 3) TRIGGER SET using `'system'.\_doTrigger`: the TRIGGER is sent to _tuya-cloud_, where it fires an existing  automation 'If "tuya_bridge"Countdown 1 : equals 5000 (or 5020)...'
 4) TRIGGER SET using `'system'.\_toFastIN` (no checks): the TRIGGER is sent to _tuya-cloud_, where it fires an existing automation 'If "tuya_bridge"Countdown 1 : equals 5000 (or 5020)...'
 5) The standard _SCHEMA_ is usable only on devices that implement it. the system.doSCHEMA(device)_ uses the result of GETs from all readable dps of the device, so it is always usable.
-6) The _SCHEMA (tuyastatus)_ reads data from `global.tuyastatus`, so get also PUSH only dps, or pseudoDP (like '_connected') and can be used with any device.
+6) The _SCHEMA (tuyastatus)_ reads data from `global.tuyastatus`, so it gets also PUSH only dps, or pseudoDP (like '_connected') and can be used with any device.
 --------------------
 **Versions**
 
-_tuyaTRIGGER version 2.2.0_ (10/04/2022)
+_tuyaTRIGGER version 2.2.2_ (10/05/2023)
+  - Maintenance release (in download).
+ 
+ _tuyaTRIGGER version 2.2.0_ (10/04/2022)
   - tuyaDAEMON ver 2.2.0
-  
+
 _tuyaTRIGGER version 2.0_ (13/05/2021)
   - included in tuyaDAEMON ver 2.0 (tuyaDAEMOM-full.2.0.json)
   
