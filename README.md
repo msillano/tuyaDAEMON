@@ -102,9 +102,9 @@ The MQTT topics structure is simple:
 Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#commands).
 
   So: 
-  - `tuyaDAEMON/DEVPC/tuya_bridge/command/relay`   + 'ON'   is a local SET
-  - `tuyaDAEMON/ANDROID/tuya_bridge/command`       + ''     is a remote GET SCHEMA
-  - `tuyaDAEMON/ANDROID/ /command`                 + ''     is a remote LIST (a space is required as undefined device)
+  - `tuyaDAEMON/DEVPC/tuya_bridge/commands/relay`   + 'ON'   is a local SET
+  - `tuyaDAEMON/ANDROID/tuya_bridge/commands`       + ''     is a remote GET SCHEMA
+  - `tuyaDAEMON/ANDROID/ /commands`                 + ''     is a remote LIST (a space is required as undefined device)
  
  Really minimal.
   
