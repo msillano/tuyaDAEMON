@@ -2,7 +2,7 @@
 
 _A real device WiFI, having  a big unused numerical parameter, say a 'counter', accessible via MQTT by both **Tuya** and **node-red**, is all the required hardware to implement a robust bilateral event communication (**TRIGGER**)._
 
-The 'counter' is used as a dual port HW register: a sender (_tuya-cloud/node-red_) set the counter to some XX value, the receiver gets the XX value, acts accordingly, and resets the counter to 0 (ACK action): the _node-red_ read/write actions are performed by **tuyaTRIGGER** flow, the _Tuya-cloud_ actions are performed by ad hoc automations, one for TRIGGER.
+This 'counter' is used as a dual port HW register: a sender (_tuya-cloud/node-red_) set the counter to some XX value, the receiver gets the XX value, acts accordingly, and resets the counter to 0 (ACK action): _node-red_ read/write actions are performed by the **tuyaTRIGGER** flow, _Tuya-cloud_ actions are performed by ad hoc automations, one for TRIGGER.
 
  - _node-red => tuya_ (**REDTRG**): **node-red** write a predefined value in the 'counter' (say 1010) and that fires a specific **Tuya** automation: first the automation must reset the 'counter' to 0, then it can do anything.
  Tuya automation, named `trigger1010`:   _If "counter:1010" do "counter:0" and "any-action..."_ 
@@ -14,12 +14,9 @@ This [**TRIGGER** mechanism](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRI
  - _node-red_ can set/get status for _all devices and data point_ not found by `node-red-contrib-tuya-smart-device`.
  - _node-red_ can fire automation on _tuya-cloud_ 
  - _tuya scene_ can control _node-red flows_, so a node-red user can employ _smartlife_ as remote control (from anywhere).
- - _tuya automations_ can fire flows in _node-red_, implementing this way any control strategy not allowed by Tuya.
+ - _tuya automations_ can fire flows in _node-red_, implementing this way any advanced strategy not allowed by Tuya.
  - user can fire _node-red flows_ with vocal control (e.g. `Googlehome`)
  
- > A _'minimal standalone implementation'_ can be used to add remote control to any node-red flow: see [node-red voice and remote control](https://flows.nodered.org/flow/1d03176c75458f2665c780cb56265bf3).
-
-
 ### implementation
 
 _This technique can be used with any device, named in the flow and in `alldevices` "tuya_bridge"._
@@ -37,18 +34,19 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
    
    I changed `tuya_bridge` to TYWR 7-32 at ver. 2.0: I put it in a box and connected it to the Android server USB, because this server is with a UPS power supply.
 
-4)  CUSTOMIZATION: you can use other devices to implement 'tuya-bridge'. Updated information on 'Global TRIGGER config' node and 'triggerMAP (readme)' node (since 2.2.0).
+4)  CUSTOMIZATION: you can use other devices to implement 'tuya-bridge'. See updated information on 'Global TRIGGER config' node and 'triggerMAP (readme)' node (since 2.2.0).
 
 
 **note**
+ - **TuyaTRIGGER** is based on simple automations in _tuya-cloud_, more stable over time and reliable than the protocols used with the devices, which can change with each new version.
  
- - analog values can't be sent from tuya this way, because tuya does not allow the use of calculated values. But comparations are allowed: e.g. send trigger if `'temperature < 16'`. (Available: `<`; `=`; `>`). We can 'mirror' `BOOLEAN` dp (2 automations) `ENUM` dp: [0|1|2]  (3 automations) or also `INT`, but converted to ENUM when required: `{<16|16-20|21-25|26-30|31-35|36-40|>40}` but many automations are required (7 for this example).
+ - analog values can't be sent from Tuya this way, because tuya-cloud does not allow the use of calculated values. But comparations are allowed: e.g. send trigger if `'temperature < 16'`. (Available: `<`; `=`; `>`). We can 'mirror' `BOOLEAN` dp (2 automations) `ENUM` dp: [0|1|2]  (3 automations) or also `INT`, but converted to ENUM when required: `{<16|16-20|21-25|26-30|31-35|36-40|>40}` but many automations are required (7 for this example).
 
- - using a countdown as a trigger, as _all switches_ does, requires REDTRG with numbers greater (e.g. 5000+) than TUYATRG (e.g. 1100..4999]): so, if _node-red_ is down, a Tuya TRIGGER not caught can't trigger a fake REDTRG.
+ - using a countdown as a trigger, as _all switches_ does, requires REDTRG with numbers greater (e.g. 5000+) than TUYATRG (e.g. 1100..4999]): so, if _node-red_ is down, a Tuya TRIGGER action not caught can't trigger a REDTRG command.
  
- - If the counter used is a time counter (countdown in the case of this switches) it is necessary to choose trigger values at least separated by enough space, to allow the ACK action. 
+ - If the counter used is a time counter (countdown in the case of switches) it is necessary to choose trigger values at least separated by enough time, to allow the ACK action. 
   
- - for fallback, MUST exist a Tuya Automation fired when the countdown is less than any trigger value (e.g. 1050), to reset the countdown to 0 without ACK: so the countdown never interferes with the logic of the switch. Required automation:  `if "tuya_bridge".countdown = 1050, then "tuya_bridge".countdown:0` 
+ - for fallback, MUST exist a Tuya Automation fired when the countdown is less than any trigger value (e.g. 1050), to reset the countdown to 0 without ACK: so the countdown never interferes with the logic of the switch. Required Tuya automation:  `if "tuya_bridge".countdown = 1050, then "tuya_bridge".countdown:0` 
  
 - The actual implementation does not verify the ACKs presence and timing, and not uses any handshake strategy, so it is theoretically possible to have some interferences. For deatails on the implementation see 'core_TRIGGER."triggerMAP (readme)"' node.
 - 
