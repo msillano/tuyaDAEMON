@@ -49,7 +49,7 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
  - for fallback, MUST exist a Tuya Automation fired when the countdown is less than any trigger value (e.g. 1050), to reset the countdown to 0 without ACK: so the countdown never interferes with the logic of the switch. Required Tuya automation:  `if "tuya_bridge".countdown = 1050, then "tuya_bridge".countdown:0` 
  
 - The actual implementation does not verify the ACKs presence and timing, and not uses any handshake strategy, so it is theoretically possible to have some interferences. For deatails on the implementation see 'core_TRIGGER."triggerMAP (readme)"' node.
-- 
+
 --------------------
 ### minimal implementation for node-red users ###
 
