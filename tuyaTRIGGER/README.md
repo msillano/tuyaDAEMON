@@ -10,7 +10,7 @@ This 'counter' is used as a dual port HW register: a sender (_tuya-cloud/node-re
  - _tuya => node-red_ (**TUYATRG**): A tuya **scene** (user action) or **automation** (event) sets  a predefined value on the 'counter' (e.g. 2030), and when node-red knows that, it must first reset  the "counter' to 0, then it can do anything.
  Tuya automation,  say `trigger2030`: _If "any-event" do "counter:2030"_ 
 
-This [**TRIGGER** mechanism](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info), implemented in **tuyaTRIGGER**, allow a better _tuya <=> node-red_ integration:
+This [**TRIGGER** mechanism](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info), implemented in **core_TRIGGER**, allow a better _tuya <=> node-red_ integration:
  - _node-red_ can set/get status for _all devices and data point_ not found by `node-red-contrib-tuya-smart-device`.
  - _node-red_ can fire automation on _tuya-cloud_ 
  - _tuya scene_ can control _node-red flows_, so a node-red user can employ _smartlife_ as remote control (from anywhere).
@@ -19,7 +19,10 @@ This [**TRIGGER** mechanism](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRI
  
 ### implementation
 
-_This technique can be used with any device, named in the flow and in `alldevices` "tuya_bridge"._
+_This technique can be used with any device, named in the flow and in `alldevices` "tuya_bridge", that meet some conditions:_
+  - A large numerical dp e.g. countdown present in some switch devices.
+  - Idipendence: setting the countdown to 0 does not toggle the switch.
+  - In case of countdown, the value must be PUSHed with a fixed frequence.
 
 [![](./../pics/tuyadaemon04.jpg)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smart_switch01/device_Smart_Switch01.pdf) [![](./../pics/tuyadaemon05.jpg)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf) ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/tuya-bridge02.jpg)
 
@@ -28,7 +31,7 @@ _This technique can be used with any device, named in the flow and in `alldevice
    The unique problem with this switch is the lack of a battery backup.
 
 2) _I also tested another device, a Tuya wifi switch_ [TYWR 7-32](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf) (USD 10) _with a micro USB input, so it can be used with a power bank to get a UPS power supply._
-It has all required features:  countdown (`dp` = 7) with a large range [0-86400s, i.e. 24H], independence (setting the countdown to 0 does not toggle the relay), so it is better than Switch MS-104.
+It has all required features:  countdown (`dp` = 7) with a large range [0-86400s, i.e. 24H], independence, 30s PUSH period, so it is better than Switch MS-104.
 
    As against it is bigger and without case, and needs an external UPS power supply.
    
@@ -38,7 +41,7 @@ It has all required features:  countdown (`dp` = 7) with a large range [0-86400s
 
 
 **note**
- - **TuyaTRIGGER** is based on simple automations in _tuya-cloud_, more stable over time and reliable than the protocols used with the devices, which can change with each new version.
+ - **TuyaTRIGGER** is based on simple automations in _tuya-cloud_, more stable over the time and reliable than the protocols used with the devices, which can change with each new version.
  
  - analog values can't be sent from Tuya this way, because tuya-cloud does not allow the use of calculated values. But comparations are allowed: e.g. send trigger if `'temperature < 16'`. (Available: `<`; `=`; `>`). We can 'mirror' `BOOLEAN` dp (2 automations) `ENUM` dp: [0|1|2]  (3 automations) or also `INT`, but converted to ENUM when required: `{<16|16-20|21-25|26-30|31-35|36-40|>40}` but many automations are required (7 for this example).
 
