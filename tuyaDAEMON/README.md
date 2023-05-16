@@ -241,16 +241,18 @@ To design node_red applications using Tuya devices is always necessary:
 
 **versions**
 _tuyaDAEMON version 2.2.2_ 
+  - node-red-contrib-tuya-smart-device 5.1.0
+  - TuyAPI 7.5.1
   - Maintenance release.
-  - node-red-contrib-tuya-smart-device 5.0.1, modified as in [ISSUE#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113).
-  - tuyapi ver. 7.3.0
   - Refactoring device intallation nodes
   - bug fixes and minor code updates
 
 _tuyaDAEMON version 2.2.1_ 
+  - tuyapi ver. 7.3.0
   - Maintenance release.
   - use of credentials for device ID and key
   - bug fixes and minor code updates
+
  
 
 _tuyaDAEMON version 2.2.0_ 
