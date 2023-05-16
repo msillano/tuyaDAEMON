@@ -146,6 +146,7 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
         
 2. The best way is to get the last version for single modules, starting from  [tuyaDAEMON.CORE-install-2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON).
 3.  See the info of the ´global CORE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
+4.  Using 'full' files is faster than installing individual modules, but the configuration must always be done module by module. Advisable in case of updates, the first time is better one module at a time.
 
 ### module installation (addons) ###
 
