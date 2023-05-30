@@ -36,6 +36,8 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_LED_700ml_Humidifier.jpg) [LED_700ml_Humidifier](https://github.com/msillano/tuyaDAEMON/blob/main/devices/LED_700ml_Humidifier/device_LED_700ml_Humidifier.pdf) 
 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_micro_inverter.jpg) [micro_inverter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/micro_inverter/device_micro_inverter.pdf) 
+
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Ozone_PDMtimer.jpg) [MQTT Ozone_PDMtimer (custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Ozone_PDMtimer/device_Ozone_PDMtimer.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_PIR_MOTION.jpg) [PIR_motion](https://github.com/msillano/tuyaDAEMON/blob/main/devices/PIR_motion/device_PIR_motion.pdf) 
