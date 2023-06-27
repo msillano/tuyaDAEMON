@@ -15,6 +15,11 @@ _Database: 'tuyathome', tables_:
  -    'specialthing' : defines a single thing's quirks as a delta from the device's capabilities.
  -    'sharewthing'  : describes a single thing's actions using the 'share' tuyaDAEMON feature.
 
+_New Constraints, syntax update_ :
+1. in 'alldevices' the 'device' field is mandatory (references thing's device).
+2. In the absence of the 'id', not required by TuyaDAEMON (virtual devices), it is replaced by the name or by Tuya ID from the wizard.
+
+
 ***Goals:***
 
   - Populate and update the 'tuyathome' DB from resources in a simple and iterable way.
