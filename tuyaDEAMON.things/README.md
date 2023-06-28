@@ -16,9 +16,8 @@ _Database: 'tuyathome', tables_:
  -    'sharewthing'  : describes a single thing's actions using the 'share' tuyaDAEMON feature.
 
 _New Constraints, syntax update_ :
-1. in 'alldevices' the 'device' field is mandatory (references thing's device).
-2. In the absence of the 'id', not required by TuyaDAEMON (virtual devices), it is replaced by the name or by Tuya ID from the wizard.
-
+1. in 'alldevices' the 'device' field is required (references the thing's device). If missed, all dPs go to 'specialthings'.
+2. In the absence of the 'id', when not required by TuyaDAEMON (e.g. virtual devices), it is replaced by the name or TuyaID by the wizard.
 
 ***Goals:***
 
