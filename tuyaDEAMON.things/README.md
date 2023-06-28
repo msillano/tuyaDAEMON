@@ -5,7 +5,7 @@
   - *device*: an IOT _class_ of tuya or custom gadgets, defined via DPs and capabilities using tuyadaemon-toolkit.
   - *thing*: a single device instance, with its own ID, KEY, quirks, extra properties (attributes), and share (methods)
 
-_Used data resources, all in the 'BASEPATH' dir (<path>/tuyadaemontoolkit/devicedata)_:
+_Used data resources, all in the 'BASEPATH' dir (&lt;path>/tuyadaemontoolkit/devicedata)_:
 1. the 'device_xxxxx.json' files with device definitions, from tuyadaemon-toolkit.
 1. the 'alldevices.server.json' file, exported from node-red tuyaDAEMON servers
 1. the 'wizard.out.txt' file, from tuya-cli wizard console output.
