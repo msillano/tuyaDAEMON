@@ -3,7 +3,7 @@
  An application for managing Tuya and custom things used in one or more tuyaDAEMON servers. <br>
  Definitions:
   - *device*: an IOT _class_ of tuya or custom gadgets, defined via DPs and capabilities using tuyadaemon-toolkit.
-  - *thing*: a single device instance, with its own ID, KEY, quirks, extra properties (attributes), and share (methods)
+  - *thing*: a single device instance, with its own ID, KEY, quirks, extra properties (dp or attributes), and share (methods)
 
 _Used data resources, all in the 'BASEPATH' dir (&lt;path>/tuyadaemontoolkit/devicedata)_:
 1. the 'device_xxxxx.json' files with device definitions, from tuyadaemon-toolkit.
