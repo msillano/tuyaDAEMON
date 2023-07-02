@@ -17,7 +17,7 @@ _Used data resources, all in the 'BASEPATH' dir (&lt;path>/tuyadaemontoolkit/dev
 _Database: 'tuyathome', tables_:
  -    'allthings'    : defines a thing: name, type, device, etc...
  -    'specialthing' : defines a single thing's quirks or extra dP as a delta from the device's capabilities.
- -    'sharewthing'  : describes a single thing's actions using the 'share' tuyaDAEMON feature.
+ -    'sharething'  : describes a single thing's actions using the 'share' tuyaDAEMON feature.
 
 _New Constraints, syntax update_ :
 1. in 'alldevices' the 'device' field is required (references the thing's device). If missed, all dPs go to 'specialthings'.
