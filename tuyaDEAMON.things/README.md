@@ -2,7 +2,7 @@
  
 An application for managing Tuya and custom things used in one or more tuyaDAEMON servers. <br>
 
-_When the tuyaDAEMON system grows, the management of 'alldevices' becomes complicated: the differences between the standard definition of the devices and the data actually present increase, due to 'hide', 'share' etc. After the test phase, in which variations and tests are frequent, the management operation, such as updating the keys, reviewing comments, etc. is awkward in a large JSON structure and easily leads to errors._
+_When the tuyaDAEMON system grows, the management of 'alldevices' becomes complicated: the differences between the standard definition of the devices and the data actually present increase, due to 'hide', 'share' etc. After the initial phase, in which variations and tests are frequent, the management operation, such as updating the keys, reviewing comments, etc. is awkward in a large JSON structure and easily leads to errors._
 
    ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/deamonthings.png?raw=true)
 
