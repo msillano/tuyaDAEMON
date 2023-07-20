@@ -181,7 +181,7 @@ All tuya devices react to external or internal commands by sending messages, whi
 ````
 msg.payload:{     
         "deviceId":    gatewayID|deviceid,       // from subdevices => "deviceId": gatewayId
-        "deviceName":  name,                     // from tuya-smart-device node,
+        "deviceName":  name,                     // from tuya-smart node,
         "data": {
             "t": Math.floor( Date.now() / 1000 );       // timestamp (sec), by tuya-smart node
             "cid": deviceid;                            // only from subdevices, mandatory
