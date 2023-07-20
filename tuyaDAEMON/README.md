@@ -178,6 +178,19 @@ Usually it is very dangerous to do generalizations based on few cases._
 
 **response:**
 All tuya devices react to external or internal commands by sending messages, which we find in output from the *tuya-smart-device* nodes. All responses have the same format: one or more pairs _(dp: value)_, regardless of whether they are caused by PUSH, REFRESH, GET, SET, SCHEMA, MULTIPLE commands (see `CORE.logging node _info_ for details).
+````
+msg.payload:{     
+        "deviceId":    gatewayID|deviceid,       // from subdevices => "deviceId": gatewayId
+        "deviceName":  name,                     // from tuya-smart-device node,
+        "data": {
+            "t": Math.floor( Date.now() / 1000 );       // timestamp (sec), by tuya-smart node
+            "cid": deviceid;                            // only from subdevices, mandatory
+            "dps":{
+                [dp]: value                             //  atomic or string or encoded, 
+               ...                                      //  more than one dp in some cases
+            }}}}
+````
+
 
 note 05/2023: _I found an exception, a new response format (see [ISSUE#117](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/117)) by a gateway._
 
