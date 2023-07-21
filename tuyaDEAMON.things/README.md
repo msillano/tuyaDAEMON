@@ -8,11 +8,11 @@ _When the tuyaDAEMON system grows, the management of 'alldevices' becomes more c
 
  Definitions:
   - *device*: an IOT _class_ of tuya or custom gadgets, defined via DPs and capabilities using [tuyadaemon-toolkit](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit).
-  - *thing*: a single device instance, with its own ID, KEY, quirks, extra properties (dp or attributes), and share (methods)
+  - *thing*: a single device instance, with its own ID, KEY, quirks, extra properties (dp or attributes), shares (methods), and comments.
 
 _Used data resources, all in the 'BASEPATH' dir (&lt;path>/tuyadaemontoolkit/devicedata)_:
+1. the 'alldevices.server.json' file, exported from node-red tuyaDAEMON servers: the main definition file.
 1. the 'device_xxxxx.json' files with device definitions, from tuyadaemon-toolkit, step 3: "JSON creation".
-1. the 'alldevices.server.json' file, exported from node-red tuyaDAEMON servers
 1. the 'tuyawizard.txt' file, from 'tuya-cli wizard' console output.
  
 _Database: 'tuyathome', tables_:
@@ -33,3 +33,23 @@ _New Constraints, syntax update_ :
   - Bulk operation directly on DB (e.g. using 'phpMyAdmin').
   - Creating the 'alldevices.server.json' structure for one or more tuyaDAEMON servers.
   - Documentation production.
+
+***Use:***
+
+1. as a tool to edit 'alldevices' file (one tuyaDEAMON):
+   1. Clear the database.
+   2. import the 'alldevices' file.
+   3. Merge the last 'wizard'.
+   4. Edit things as required, possibly also using PHPMyAdmin
+   5. Save alldevices updated.
+
+2. as a general 'things' archive (many tuyaDEAMON)
+   1. Update the 'lookupserver' table to your needs ('ALL' and 'NEW' are required)
+   1. Import all 'alldevices' files (repeatable)
+   1. Merge the last 'wizard' (repeatable)
+   2. Merge also 'new' things  (repeatable)
+   4. Edit things as required, possibly also using PHPMyAdmin
+   5. Save all 'alldevices' files as you need
+   6. Do not clean up the database
+
+
