@@ -21,10 +21,10 @@ _Database: 'tuyathome', tables_:
  -    'sharething'   : describes a single thing's actions using the 'share' tuyaDAEMON feature.
 
 _New Constraints, syntax update_ :
-1. in 'alldevices' the 'device' field is required (references the thing's device). If missed, all dPs go to 'specialthings'.
-2. In the absence of the 'id', when not required by TuyaDAEMON (e.g. virtual devices), it is replaced by the name or by TuyaID from the wizard.
-3. All 'share' are exported to 'alldevices' with a unique 'name' (decoration) for cross reference.
-4. In gateway devices, the word 'gateway' (or 'Gateway') MUST be present in 'thingName' or 'TuyaName' (e.g. 'multi_gateway', 'Zbee Gateway').
+1. In 'alldevices' the 'device' field is required (references the thing's device). If missed, all dPs go to 'specialthings'.
+2. In gateway devices, the word 'gateway' (or 'Gateway') MUST be present in 'thingName' or 'TuyaName' (e.g. 'multi_gateway', 'Zbee Gateway').
+3. In the absence of the 'id', when not required by TuyaDAEMON (e.g. virtual devices), it is replaced by the name or by TuyaID from the wizard.
+4. All 'share' are exported to 'alldevices' with a unique 'name' (decoration) for cross reference.
 
 ***Goals:***
 
@@ -34,22 +34,22 @@ _New Constraints, syntax update_ :
   - Creating the 'alldevices.server.json' structure for one or more tuyaDAEMON servers.
   - Documentation production.
 
-***Use:***
+***Uses:***
 
-1. as a tool to edit 'alldevices' file (one tuyaDEAMON):
+1. as an interactive tool to edit an 'alldevices' file (one tuyaDEAMON):
    1. Clear the database.
-   2. import the 'alldevices' file.
+   2. Import the 'alldevices' file.
    3. Merge the last 'wizard'.
-   4. Edit things as required, possibly also using PHPMyAdmin
-   5. Save alldevices updated.
+   4. Edit things as required, possibly also using PHPMyAdmin.
+   5. Save 'alldevices' file updated.
 
-2. as a general 'things' archive (many tuyaDEAMON)
-   1. Update the 'lookupserver' table to your needs ('ALL' and 'NEW' are required)
-   1. Import all 'alldevices' files (repeatable)
-   1. Merge the last 'wizard' (repeatable)
-   2. Merge also 'new' things  (repeatable)
-   4. Edit things as required, possibly also using PHPMyAdmin
-   5. Save all 'alldevices' files as you need
-   6. Do not clean up the database
+2. as a general 'things' archive (many tuyaDEAMON servers):
+   1. Update the 'lookupserver' table to suit your needs ('ALL' and 'NEW' are required).
+   1. Import all 'alldevices' files (repeatable).
+   1. Merge the last 'wizard' (repeatable).
+   2. Merge also 'new' things  (repeatable).
+   4. Edit things as required, possibly also using PHPMyAdmin.
+   5. Save all 'alldevices' files as you need.
+   6. Do not clean up the database.
 
 
