@@ -13,7 +13,7 @@ _When the tuyaDAEMON system grows, the management of 'alldevices' becomes more c
 _Used data resources, all in the 'BASEPATH' dir (&lt;path>/tuyadaemontoolkit/devicedata)_:
 1. the 'device_xxxxx.json' files with device definitions, from tuyadaemon-toolkit, step 3: "JSON creation".
 1. the 'alldevices.server.json' file, exported from node-red tuyaDAEMON servers
-1. the 'wizard.txt' file, from 'tuya-cli wizard' console output.
+1. the 'tuyawizard.txt' file, from 'tuya-cli wizard' console output.
  
 _Database: 'tuyathome', tables_:
  -    'allthings'    : defines a thing: name, type, device, etc...
@@ -23,7 +23,8 @@ _Database: 'tuyathome', tables_:
 _New Constraints, syntax update_ :
 1. in 'alldevices' the 'device' field is required (references the thing's device). If missed, all dPs go to 'specialthings'.
 2. In the absence of the 'id', when not required by TuyaDAEMON (e.g. virtual devices), it is replaced by the name or by TuyaID from the wizard.
-3. All 'share' are exported to 'alldevices' with a unique 'name' (decoration) for cross reference. 
+3. All 'share' are exported to 'alldevices' with a unique 'name' (decoration) for cross reference.
+4. In gateway devices, the word 'gateway' (or 'Gateway') MUST be present in 'thingName' or 'TuyaName' (e.g. 'multi_gateway', 'Zbee Gateway').
 
 ***Goals:***
 
