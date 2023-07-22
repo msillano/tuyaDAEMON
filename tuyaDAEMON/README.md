@@ -31,19 +31,19 @@ TuyaDAEMON isolates your IOT **custom application** from all details of _device 
  _To manage such a rapidly changing environment, I choose to use a data structure in **tuyaDAEMON** to describe individual devices and single datapoint capabilities, so that all operations that are actually not managed or bogus can be intercepted and not sent to the device, giving stable and reliable operations with no surprises. And if the evolution of the SW offers us new features, it is easy to update the behavior of tuyaDAEMON._
  
  _To enable HI-LEVEL communications with Tuya-cloud you must use the [tuyaTRIGGER module](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) which uses an alternative communication mechanism with the devices._
-_This allows [fast and reliable](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info) two-way communication of commands and events even with all devices not reachable via MQTT from the `tuyapi` library (WiFi sensors, IR controls, etc.)._
+_This allows [fast and reliable](https://github.com/msillano/tuyaDAEMON/wiki/60.-tuyaTRIGGER-info) two-way communication of commands and events even with all devices not reachable via MQTT from the `tuyapi` library (WiFi sensors, IR controls, etc.)._
 
 _**The use of tuyaDAEMON CORE + tuyaTRIGGER guarantees the user that in any case all Tuya devices can be integrated.**_
 
 _"fake" devices_ can be implemented with specialized flows, to handle custom (non-Tuya) devices. In many cases, the required interface is a simple protocol adapter, as in the case of [MQTT devices](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study) or in the case of the [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a device using the USB-COM interface.
 
 ### applications
-_tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor) with a rich framework for IoT, offering to the power user many ways to implement their own projects:_
+_tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor) with a rich framework for IoT, offering to the power user many ways to implement their own projects:_
 
 1. users can add new functionalities, i.e. new tasks, building more js SW only devices, to cover the sector of interest (see [_system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system), it adds, among other things, benchmarks, text-to-speech, etc. capabilities to tuyaDAEMON). 
 2. users can add any not-Tuya hardware device, with a simple node-red interface flow (see [433 MHz gateway](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station)).
-3. users can design and build new devices derived from existing ones, in OO style (see [OO devices](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#oo-devices) and [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study))
-4. users can build inside tuyaDAEMON ['chains' (meta-programming)](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#share-and-command-chains) using existing tasks to get the required event-driven behavior: tests, delays, sequences, repetions and fork of tasks  are simple to implement in JSON  + js (example: [system.beep_loop](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#iteration)).
+3. users can design and build new devices derived from existing ones, in OO style (see [OO devices](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) and [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study))
+4. users can build inside tuyaDAEMON ['chains' (meta-programming)](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#share-and-command-chains) using existing tasks to get the required event-driven behavior: tests, delays, sequences, repetions and fork of tasks  are simple to implement in JSON  + js (example: [system.beep_loop](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#iteration)).
 5. the entire tuyaDAEMON engine can be integrated into any larger user project using the favorite interface: node-red or MQTT or HTTP REST or database.
  
  _Any effort is made to make it modular, small, easy to modify, and [fully documented](https://github.com/msillano/tuyaDAEMON/wiki)._
@@ -79,19 +79,19 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
  
 - _Extra flow_: "mirror devices" with some examples of triggers use.
  
-- **tuyaDAEMON.toolkit** is an [external application](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) in PHP that uses a MySQL database to store all information about the devices and creates some useful artifacts. Using this app, you can test the capabilities of any new device, sending commands (GET/SET/MULTIPLE/SCHEMA/REFRESH) to all DPs. A growing collection of [known devices](https://github.com/msillano/tuyaDAEMON/tree/main/devices) is ready, but it is easy to extend it to your new devices.
+- **tuyaDAEMON.toolkit** is an [external application](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit) in PHP that uses a MySQL database to store all information about the devices and creates some useful artifacts. Using this app, you can test the capabilities of any new device, sending commands (GET/SET/MULTIPLE/SCHEMA/REFRESH) to all DPs. A growing collection of [known devices](https://github.com/msillano/tuyaDAEMON/tree/main/devices) is ready, but it is easy to extend it to your new devices.
 
 ### configuration (all modules)
    
 1) Since 2.2.0, all configuration data are in a `Global MODULE config´ node, with a friendly user interface, mandatory in any module, to make simple the configuration task. **_Refer to this _node info_ for up-to-date configuration instructions for each module._**
     - Only a few node-red configuration nodes still require the user direct setup: _mySQL, MQTT, tuya-smart-device_ (new devices).     
      
-2)  _Global CORE config_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on all devices, that control the _CORE_ behavior on a device/dps basis. <br>
-Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
+2)  _Global CORE config_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/40.-tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on all devices, that control the _CORE_ behavior on a device/dps basis. <br>
+Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
     - you can edit it directly using the `global CORE config` node, using the JSON edit facility.
     - you can export it to the file `alldevices.json` for backup or edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
     - For _known tuya devices_ a JSON fragment for `'alldevices'` is in standard device documentation [flie zip](https://github.com/msillano/tuyaDAEMON/tree/main/devices#use).   
-    - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) can produce an `'alldevice'` fragment for a new device.
+    - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit) can produce an `'alldevice'` fragment for a new device.
       
 3) All nodes requiring or allowing some user update are named with an asterisk (e.g. '*device selector') and in the  'node description' you can find specific instructions.
  
@@ -100,9 +100,9 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-de
     - Since ver.2.2.0: you can test any module capabilities and add later the devices. 
    
  - Precondition: a clean `node-red` installed and working.
-     - see [multiple instances](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#multiple-instances-of-tuyadaemon-in-the-same-server) before install tuyaDEAMON.
+     - see [multiple instances](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#multiple-instances-of-tuyadaemon-in-the-same-server) before install tuyaDEAMON.
      - see also: [node-red](https://nodered.org/docs/getting-started/)
-     - _For Android top-box deployment see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/deployment:-android-server)._
+     - _For Android top-box deployment see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/80.-deployment:-android-server)._
      - _May 2023: Installed in an older iMac 2008: OS 'El Capitain' 10.11.0, node v. 14.21.3, node-red v 3.0.3 + MAMP + MQTT explorer._
    
  - Precondition: a _mySQL_ server is optional, but required for a serious use.
