@@ -19,6 +19,7 @@ _Database: 'tuyathome', tables_:
  -    'allthings'    : defines a thing: name, type, device, etc...
  -    'specialthing' : defines a single thing's quirks or extra dP as a delta from the device's capabilities.
  -    'sharething'   : describes a single thing's actions using the 'share' tuyaDAEMON feature.
+ -    'lookupserver' : list of options to group things.
 
 _New Constraints, syntax update_ :
 1. In 'alldevices' the 'device' field is required (references the thing's device). If missed, all dPs go to 'specialthings'.
