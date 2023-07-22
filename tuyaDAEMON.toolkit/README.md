@@ -8,7 +8,7 @@ This **_Toolkit_** is developed in 'php' and you need a WEB server. I use [*xamp
 
 ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/toolkit01.jpg)
 
-For the toolkit use, see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit).
+For the toolkit use, see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit).
 
 ------------------------
 Last version:  tuyadaemontoolkit.2.0.zip (13/05/2021) The sql with data is the file DB-full.2.0.sql.
