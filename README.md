@@ -8,7 +8,7 @@ _**TuyaDAEMON's goal is not to control some Tuya devices but to integrate the en
 
 ### Advanced features that make tuyaDAEMON unique
 1. Open, modular, [full documented](https://github.com/msillano/tuyaDAEMON/wiki): expressly designed for every customization need.
-2. Powerful control meta-language ([command chains](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#share-and-command-chains)) with an expressive power (Turing complete) not found in other IOT environments, usually limited to "IF ... THEN" automation (see [also here](https://github.com/msillano/tuyaDAEMON/wiki/why-tuyaDAEMON-%3F#2-what-is-meant-by-integrated)).
+2. Powerful control meta-language ([command chains](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#share-and-command-chains)) with an expressive power (Turing complete) not found in other IOT environments, usually limited to "IF ... THEN" automation (see [also here](https://github.com/msillano/tuyaDAEMON/wiki/10.-why-tuyaDAEMON-%3F#2-what-is-meant-by-integrated)).
 3. [ObjectOriented](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#oo-devices) approach for structuring super-devices that use more than one elementary device.
 4. [Meta-tools](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) for device test, definition and maintenance activities.
 
