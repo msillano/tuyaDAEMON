@@ -37,7 +37,7 @@ _New Constraints, syntax update_ :
 
 ***Uses:***
 
-1. as an interactive tool to edit an 'alldevices' file (one tuyaDEAMON):
+1. as an interactive tool to edit the 'alldevices' file (one tuyaDEAMON):
    1. Clear the database.
    2. Import the 'alldevices' file.
    3. Merge the last 'wizard'.
@@ -51,6 +51,6 @@ _New Constraints, syntax update_ :
    2. Merge also 'new' things  (repeatable).
    4. Edit things as required, possibly also using PHPMyAdmin.
    5. Save all 'alldevices' files as you need.
-   6. Do not clean up the database.
+   6. Do not clean up the database: keep it updated.
 
 
