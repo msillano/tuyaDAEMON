@@ -1,6 +1,6 @@
 # TuyaDAEMON project
 
-_**TuyaDAEMON's goal is not to control some Tuya devices but to integrate the entire Tuya ecosystem in node-red, creating a new level of abstraction that includes both Tuya-cloud and all possible extensions: MQTT and custom devices and logic of extended automation.**_
+_**TuyaDAEMON's primary objective is not merely controlling select Tuya devices or providing a unique user interface. Instead, it focuses on seamlessly integrating the entire Tuya ecosystem into node-red, thereby establishing a new level of abstraction that encompasses Tuya-cloud, MQTT, custom devices, and extended automation logic. In essence, TuyaDAEMON serves as an open framework for advanced custom IoT development.**_
 
 **Tuya ecosystem:**([_source Tuya_](https://developer.tuya.com/en/docs/iot/open-api/platform-overview/solution-overview))
 
