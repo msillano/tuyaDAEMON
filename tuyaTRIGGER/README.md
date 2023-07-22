@@ -10,7 +10,7 @@ This 'counter' is used as a dual port HW register: a sender (_tuya-cloud/node-re
  - _tuya => node-red_ (**TUYATRG**): A tuya **scene** (user action) or **automation** (event) sets  a predefined value on the 'counter' (e.g. 2030), and when node-red knows that, it must first reset  the "counter' to 0, then it can do anything.
  Tuya automation,  say `trigger2030`: _If "any-event" do "counter:2030"_ 
 
-This [**TRIGGER** mechanism](https://github.com/msillano/tuyaDAEMON/wiki/tuyaTRIGGER-info), implemented in **core_TRIGGER**, allow a better _tuya <=> node-red_ integration:
+This [**TRIGGER** mechanism](https://github.com/msillano/tuyaDAEMON/wiki/60.-tuyaTRIGGER-info), implemented in **core_TRIGGER**, allow a better _tuya <=> node-red_ integration:
  - _node-red_ can set/get status for _all devices and data point_ not found by `node-red-contrib-tuya-smart-device`.
  - _node-red_ can fire automation on _tuya-cloud_ 
  - _tuya scene_ can control _node-red flows_, so a node-red user can employ _smartlife_ as remote control (from anywhere).
