@@ -1,4 +1,4 @@
-# TuyaDAEMON project
+ƒ# TuyaDAEMON project
 
 _**TuyaDAEMON's primary objective is not merely controlling select Tuya devices or providing a unique user interface. Instead, it focuses on seamlessly integrating the entire Tuya ecosystem into node-red, thereby establishing a new level of abstraction that encompasses Tuya-cloud, MQTT, custom devices, and extended automation logic. In essence, TuyaDAEMON serves as an open framework for advanced custom IoT development.**_
 
@@ -9,8 +9,8 @@ _**TuyaDAEMON's primary objective is not merely controlling select Tuya devices 
 ### Advanced features that make tuyaDAEMON unique
 1. Open, modular, [full documented](https://github.com/msillano/tuyaDAEMON/wiki): expressly designed for every customization need.
 2. Powerful control meta-language ([command chains](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#share-and-command-chains)) with an expressive power (Turing complete) not found in other IOT environments, usually limited to "IF ... THEN" automation (see [also here](https://github.com/msillano/tuyaDAEMON/wiki/10.-why-tuyaDAEMON-%3F#2-what-is-meant-by-integrated)).
-3. [ObjectOriented](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#oo-devices) approach for structuring super-devices that use more than one elementary device.
-4. [Meta-tools](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit) for device test, definition and maintenance activities.
+3. [ObjectOriented](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) approach for structuring super-devices that use more than one elementary device.
+4. [Meta-tools](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit) for device test, definition and maintenance activities.
 
 <hr>
 
@@ -44,7 +44,7 @@ In many cases the required interface is a simple protocol adapter, like in case 
 In the case of the '433 MHZ sensor gateway', the module includes a specialized adapter for each device, such as the
 [weather station](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station) which uses 3 sensors (temperature, wind, rain).
 
-Since the version 2.0 the generalized [OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#oo-devices), in a [distributed environement](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#networking-tuyadaemon), adds more power to tuyaDAEMON. It is easy to finalize the tuyaDAEMON resources in integrated projects, OO-oriented, with UI and many base devices: see as example the device [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study), a terrace watering timer with UI, fuzzy control from wheater, build using using 3 tuya devices.
+Since the version 2.0 the generalized [OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices), in a [distributed environement](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#networking-tuyadaemon), adds more power to tuyaDAEMON. It is easy to finalize the tuyaDAEMON resources in integrated projects, OO-oriented, with UI and many base devices: see as example the device [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study), a terrace watering timer with UI, fuzzy control from wheater, build using using 3 tuya devices.
 
 **_From version 2.0 tuyaDAEMON is a complete framework for advanced custom IOT projects._**
 
@@ -70,7 +70,7 @@ In writing, the commands for state change requests to all devices take the form 
 ````
 ### REST interfaces
 
-To make easier the interoperability with external applications, tuyaDEAMON offers also a [_**fast REST**_](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) asynchronous interface with an immediate JSON response:
+To make easier the interoperability with external applications, tuyaDEAMON offers also a [_**fast REST**_](https://github.com/msillano/tuyaDAEMON/wiki/70.-tuyaDAEMON-REST) asynchronous interface with an immediate JSON response:
 _Examples:_
  _Since ver. 2.0:_
  - _SET:_ `http://localhost:1984/tuyaDAEMON?device=tuya_bridge&property=relay&value=OFF`
@@ -86,8 +86,8 @@ _Examples:_
   
 note: all devices accept 'GET' and 'SCHEMA' requests via _fast REST_: the data comes from the 'global.tuyastatus' structure. 
 
-A second [_**debug REST**_](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-REST) interface is synchronous and dedicated to development applications.
-See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit), a PHP application to help users manage devices.
+A second [_**debug REST**_](https://github.com/msillano/tuyaDAEMON/wiki/70.-tuyaDAEMON-REST) interface is synchronous and dedicated to development applications.
+See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit), a PHP application to help users manage devices.
 
 ### MQTT interface
 
@@ -99,7 +99,7 @@ As an example see [here](https://github.com/msillano/tuyaDAEMON/wiki/custom-devi
 The MQTT topics structure is simple:
 > tuyaDAEMON/<remote_name>/<device_name>|'&nbsp;'/events|commands[/<property_name>]  
 
-Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-as-event-processor#commands).
+Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#commands).
 
   So: 
   - `tuyaDAEMON/DEVPC/tuya_bridge/commands/relay`   + 'ON'   is a local SET
@@ -119,7 +119,7 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
  
 - _For more documentation see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki)._
  
-- _If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](https://github.com/msillano/tuyaDAEMON/wiki/why-tuyaDAEMON-%3F) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
+- _If you are interested in the reasons behind the tuyaDAEMON's project choices, you can read [why-tuyaDEAMON](https://github.com/msillano/tuyaDAEMON/wiki/10.-why-tuyaDAEMON-%3F) - In italiano: [perché-tuyaDAEMON](perché-tuyaDEAMON.pdf)._ 
 
 
 <hr>
@@ -139,7 +139,7 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
  
 ### Version 2.0
  
-_With the version 2.0 tuyaDAEMON reaches 2 milestones: the ability to use and create custom devices in a [hierarchical OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#oo-devices), and the ability to create distributed [TuyaDAEMON network](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#networking-tuyadaemon)._
+_With the version 2.0 tuyaDAEMON reaches 2 milestones: the ability to use and create custom devices in a [hierarchical OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices), and the ability to create distributed [TuyaDAEMON network](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#networking-tuyadaemon)._
  
   _Last [version 2.2.2](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)_
  
