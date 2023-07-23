@@ -43,6 +43,7 @@ _New Constraints, syntax update_ :
    3. Merge the last 'wizard'.
    4. Edit things as required, possibly also using PHPMyAdmin.
    5. Save 'alldevices' file updated (names like: `alldevices.new_20230719201742.json`. You can also copy/paste to 'Global CORE config' node).
+   6. _note: the logs on-screen help you identify any problem_
 
 2. as a general 'things' archive (many tuyaDEAMON servers):
    1. Update the 'lookupserver' table to suit your needs ('ALL' and 'NEW' are required).
