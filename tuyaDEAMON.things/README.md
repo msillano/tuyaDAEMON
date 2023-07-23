@@ -12,7 +12,7 @@ _When the tuyaDAEMON system grows, the management of 'alldevices' becomes more c
 
 _Used data resources, all in the 'BASEPATH' dir (&lt;path>/tuyadaemontoolkit/devicedata)_:
 1. the 'alldevices.server.json' file, exported from node-red tuyaDAEMON servers: the main definition file.
-1. the 'device_xxxxx.json' files with device definitions, from tuyadaemon-toolkit, step 3: "JSON creation".
+1. the 'device_xxxxx.json' files with device definitions, from [tuyadaemon-toolkit](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON.toolkit), step 3: "JSON creation".
 1. the 'tuyawizard.txt' file, from 'tuya-cli wizard' console output.
  
 _Database: 'tuyathome', tables_:
