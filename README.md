@@ -16,11 +16,11 @@ _**TuyaDAEMON's primary objective is not merely controlling select Tuya devices 
 
  _All the details of the communication are resolved by **tuyaDAEMON**, using 3 bidirectional communication channels transparently to the user:_
 
-### LOW LEVEL MQTT (see tuya [DEAMON core](./tuyaDAEMON/README.md))
+### LOW LEVEL MQTT (see tuya [DEAMON core](./tuyaDAEMON/README.md) + CORE_devices)
 
 Using [node-red-contrib-tuya-smart-device](https://github.com/vinodsr/node-red-contrib-tuya-smart-device) you can exchange local MQTT communications with many Tuya devices. You receive notifications of device status changes regardless of the cause: Tuya-cloud, smartlife app, voice control. And vice versa, the commands sent by **tuyaDAEMON** are executed by the devices and all the app interfaces are kept updated in real-time. 
 
-### HIGH LEVEL TRIGGER (see [tuyaTRIGGER](./tuyaTRIGGER/README.md))
+### HIGH LEVEL TRIGGER (see [tuyaTRIGGER](./tuyaTRIGGER/README.md) + MIRROR_devices)
 The TRIGGERs do not connect to individual devices, but create a direct and bidirectional connection with Tuya-cloud events and 'automation', allowing complete control from anywhere of both the smartlife logic and the devices not handled by LOW-LEVEL MQTT channel (user can define 'mirror' devices: see ['Smoke detector'](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study)).
 
   Example: _Using a “Smart Home Infrared Universal Remote Controller” device you have replicas of the various remote controls on your smartphone, even better than those I had developed in 2016 (see [remoteDB](https://github.com/msillano/remotesDB)). Very well: thanks to Tuya I can now control 2 televisions, a monitor, an air conditioner, a DVB tuner, and a TV-top-box from my smartphone! There are some limitations: voice commands cannot be used, moreover, since the device does not use the MQTT protocol, it cannot be controlled at LOW LEVEL._
@@ -33,7 +33,7 @@ The TRIGGERs do not connect to individual devices, but create a direct and bidir
                          comment: "available: 'RAI1 HD’,’RAI2 HD’,’RAI3 HD’..."
 ````
 
-### CUSTOM CHANNEL (see [system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) a 'fake' device)
+### CUSTOM CHANNEL (see [system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) and 'fake' devices)
 
 Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external devices, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON** processor, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_. 
 
