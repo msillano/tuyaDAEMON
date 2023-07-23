@@ -7,7 +7,7 @@ _When the tuyaDAEMON system grows, the management of 'alldevices' becomes more c
    ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/deamonthings.png?raw=true)
 
  Definitions:
-  - *device*: an IOT _class_ of tuya or custom gadgets, defined via DPs and capabilities using [tuyadaemon-toolkit](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit).
+  - *device*: an IOT _class_ of Tuya or custom gadgets, defined via DPs and capabilities using [tuyadaemon-toolkit](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit).
   - *thing*: a single device instance, with its own ID, KEY, quirks, extra properties (dp or attributes), shares (methods), and comments.
 
 _Used data resources, all in the 'BASEPATH' dir (&lt;path>/tuyadaemontoolkit/devicedata)_:
