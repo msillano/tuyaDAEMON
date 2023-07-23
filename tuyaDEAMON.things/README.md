@@ -31,7 +31,7 @@ _New Constraints, syntax update_ :
 
   - Populate and update the 'tuyathome' DB from resources in a simple and iterable way.
   - Thing's definition and management in small chunks with accessible CRUD forms.
-  - Bulk operation directly on DB (e.g. using 'phpMyAdmin').
+  - Bulk operations directly on DB (e.g. using 'phpMyAdmin').
   - Creating the 'alldevices.server.json' structure for one or more tuyaDAEMON servers.
   - Documentation production.
 
