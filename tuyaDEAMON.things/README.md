@@ -40,7 +40,7 @@ _New Constraints, syntax update_ :
 1. as an interactive tool to edit the 'alldevices' file (one tuyaDEAMON):
    1. Clear the database.
    2. Import the 'alldevices' file (names like: `alldevices-MACTEST-20230719-201604.json`). 
-   3. Merge the last 'wizard'.
+   3. Merge the last 'wizard' file.
    4. Edit things as required, possibly also using PHPMyAdmin.
    5. Save 'alldevices' file updated (names like: `alldevices.new_20230719201742.json`. You can also copy/paste to 'Global CORE config' node).
    6. _note: the logs on-screen help you identify any problem_
@@ -48,7 +48,7 @@ _New Constraints, syntax update_ :
 2. as a general 'things' archive (many tuyaDEAMON servers):
    1. Update the 'lookupserver' table to suit your needs ('ALL' and 'NEW' are required).
    1. Import all 'alldevices' files (repeatable).
-   1. Merge the last 'wizard' (repeatable).
+   1. Merge the last 'wizard' file (repeatable).
    2. Merge also 'new' things  (repeatable).
    4. Edit things as required, possibly also using PHPMyAdmin.
    5. Save all 'alldevices' files as you need.
