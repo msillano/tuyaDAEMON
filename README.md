@@ -131,11 +131,14 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
  - USB-serial devices, using custom adapter: see [PM_detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study)
  - 433 MHz sensors, using custom 433 gateway: see [Weather station](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station)
  
-### Applications 
+### Examples: 
  - YAWT (Yet Another Watering Timer), 8 zones watering, using REST and a WEB map interface, see [here](https://www.instructables.com/YAWT-Yet-Another-Watering-Timer/).
 
 <hr>
- 
+
+### New: [tuyaDEAMON-applications](https://github.com/msillano/tuyaDEAMON-applications) repository.
+ <hr>
+
 ### Version 2.0
  
 _With the version 2.0 tuyaDAEMON reaches 2 milestones: the ability to use and create custom devices in a [hierarchical OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices), and the ability to create distributed [TuyaDAEMON network](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#networking-tuyadaemon)._
