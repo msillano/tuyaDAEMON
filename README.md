@@ -1,42 +1,47 @@
 
-_**TuyaDAEMON's primary objective is not merely controlling select Tuya devices or providing a unique user interface. Instead, it focuses on seamlessly integrating the entire Tuya ecosystem into node-red, thereby establishing a new level of abstraction that encompasses the Tuya-cloud, any IOT device of every brand, any custom device, MQTT, DB, and extended automation logic. TuyaDAEMON serves as an open framework for advanced custom IoT development.**_
+_**TuyaDAEMON's primary objective is not merely controlling some devices or providing a unique user interface. Instead, it focuses on seamlessly integrating the entire Tuya ecosystem into node-red, thereby establishing a new level of abstraction that encompasses the Tuya-cloud, any IOT device of every brand, any custom device, MQTT, DB, and extended automation logic. TuyaDAEMON serves as an open framework for advanced custom IoT development.**_
 
 **Tuya ecosystem:**([_source Tuya_](https://developer.tuya.com/en/docs/iot/open-api/platform-overview/solution-overview))
 
 ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/network_architecture.png)
 
+TuyaDAEMON is a powerful and versatile IoT development framework that can be used to create a wide variety of projects. It is easy to use for beginners, but also has powerful features that appeal to experienced developers.
+
 ### Advanced features that make tuyaDAEMON unique
+TuyaDAEMON has some unique features that make it stand out from the competition. These features include:
+
 1. Open, modular, [full documented](https://github.com/msillano/tuyaDAEMON/wiki): expressly designed for every customization need.
-2. Powerful control meta-language ([command chains](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#share-and-command-chains)) with an expressive power (Turing complete) not found in other IOT environments, usually limited to "IF ... THEN" automation (see [also here](https://github.com/msillano/tuyaDAEMON/wiki/10.-why-tuyaDAEMON-%3F#2-what-is-meant-by-integrated)).
-3. [ObjectOriented](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) approach for structuring super-devices that use more than one elementary device.
-4. Easy custom extensions in node-RED to handle any kind of device, by any brand or full custom (see 'study cases' on [wiki](https://github.com/msillano/tuyaDAEMON/wiki)). 
+2. TuyaDAEMON is borns to work with any Tuya device without hacking, but it is also open to all devices, custom or from other firms. This makes it a more flexible framework than some of its competitors (see 'study cases' on [wiki](https://github.com/msillano/tuyaDAEMON/wiki)). 
+3. [ObjectOriented](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) approach that makes it easy to create complex projects.
+4. Powerful control meta-language ([command chains](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#share-and-command-chains)) with an expressive power (Turing complete) not found in other IOT environments, usually limited to "IF ... THEN" automation (see [also here](https://github.com/msillano/tuyaDAEMON/wiki/10.-why-tuyaDAEMON-%3F#2-what-is-meant-by-integrated)).
 5. [Meta-tools](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit) for device test, maintenance, and documentation activities.
-6. Applications and user's notes [repository](https://github.com/msillano/tuyaDEAMON-applications). 
+6. Applications and programmer's notes [repository](https://github.com/msillano/tuyaDEAMON-applications). 
 
-<hr>
+If you are looking for an IoT development framework that is powerful, versatile, and easy to use, then TuyaDAEMON is a good option to consider.
 
- _All the details of the communication are resolved by **tuyaDAEMON**, using 3 bidirectional communication channels transparently to the user:_
+
+ _All the details of the communication with devices are resolved by **tuyaDAEMON**, using 3 bidirectional communication channels transparently to the user:_
 
 ### LOW LEVEL MQTT (see tuya [DEAMON core](./tuyaDAEMON/README.md) + CORE_devices)
 
 Using [node-red-contrib-tuya-smart-device](https://github.com/vinodsr/node-red-contrib-tuya-smart-device) you can exchange local MQTT communications with many Tuya devices. You receive notifications of device status changes regardless of the cause: Tuya-cloud, smartlife app, voice control. And vice versa, the commands sent by **tuyaDAEMON** are executed by the devices and all the app interfaces are kept updated in real-time. 
 
 ### HIGH LEVEL TRIGGER (see [tuyaTRIGGER](./tuyaTRIGGER/README.md) + MIRROR_devices)
-The TRIGGERs do not connect to individual devices, but create a direct and bidirectional connection with Tuya-cloud events and 'automation', allowing complete control from anywhere of both the smartlife logic and the devices not handled by LOW-LEVEL MQTT channel (user can define 'mirror' devices: see ['Smoke detector'](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study)).
+The TRIGGERs do not connect to individual devices, but create a direct and bidirectional connection with Tuya-cloud events and 'automation', allowing complete control from anywhere of both the smartlife logic and the devices not handled by LOW-LEVEL MQTT channel (see [also here](https://support.tuya.com/en/help/_detail/K9tjtiy33x3qf)). Users can define 'mirror' devices: see ['Smoke detector' case-study](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study)).
 
-  Example: _Using a “Smart Home Infrared Universal Remote Controller” device you have replicas of the various remote controls on your smartphone, even better than those I had developed in 2016 (see [remoteDB](https://github.com/msillano/remotesDB)). Very well: thanks to Tuya I can now control 2 televisions, a monitor, an air conditioner, a DVB tuner, and a TV-top-box from my smartphone! There are some limitations: voice commands cannot be used, moreover, since the device does not use the MQTT protocol, it cannot be controlled at LOW LEVEL._
-  _However, **Tuya-cloud** resources can be used to create a 'scene' with the sequence of commands needed to tune a TV channel, e.g. "Rai 3 HD", on the living room television. As icon I will use the RAI3 logo, as name 'tune RAI three'. Now I can use the voice command: "Hey Google, run tune Rai three"!_
-  _A_ "mirror" device _standardizes this behavior in **tuyaDEAMON**, using TRIGGERS to execute commands. I can now create a node-red automation, which, if I am at home, automatically turns on the television and tunes in RAI 3 when my favorite TV series is on the air!_
+  Example: _Using a “Smart Home Infrared Universal Remote Controller” device you have replicas of the various remote controls on your smartphone, even better than those I had developed in 2016 (see [remoteDB](https://github.com/msillano/remotesDB)). Very well: thanks to Tuya I can now control 2 televisions, a monitor, an air conditioner, a DVB tuner, and a TV top box from my smartphone! There are some limitations: voice commands cannot be used, moreover, since the device does not use the MQTT protocol, it cannot be controlled at the LOW LEVEL._
+  _However, **Tuya-cloud** resources can be used to create a 'scene' with the sequence of commands needed to tune a TV channel, e.g. "Rai 3 HD", on the living room television. As icon, I will use the RAI3 logo, as name: 'tune RAI three'. Now I can use the voice command: "Hey Google, run tune Rai three"!_
+  _A_ "mirror" device _standardizes this behavior in **tuyaDEAMON**, using TRIGGERS to execute commands. I can now create Node-RED automation, which, if I am at home, automatically turns on the television and tunes in RAI 3 when my favorite TV series is on the air!_
 ````  
               tuyastatus: object
                     living.tv: object
-                         channel: "RAI3 HD"
+                         tvchannel: "RAI3 HD"
                          comment: "available: 'RAI1 HD’,’RAI2 HD’,’RAI3 HD’..."
 ````
 
 ### CUSTOM CHANNEL (see [system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) and 'fake' devices)
 
-Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external devices, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON** processor, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_. 
+Simple **node-red** flows constitute the interfaces to HD and SW resources, allowing the insertion of external devices, not tuya-compatible, into the system. A very useful two-tier model, consisting of a first-level represented by **tuyaDAEMON** processor, which standardizes the various sources and devices, to provide all data and commands in a homogeneous way to the _higher application level_ (see TuyaDAEMON [simplified model](https://github.com/msillano/tuyaDEAMON-applications#tuyadeamon-model-for-applications)). 
 
 **Custom channels** are implemented additively with specialized flows, to implement 'fake' devices. 
 
