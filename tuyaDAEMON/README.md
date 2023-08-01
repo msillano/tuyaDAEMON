@@ -81,6 +81,8 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
  
 - **tuyaDAEMON.toolkit** is an [external application](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit) in PHP that uses a MySQL database to store all information about the devices and creates some useful artifacts. Using this app, you can test the capabilities of any new device, sending commands (GET/SET/MULTIPLE/SCHEMA/REFRESH) to all DPs. A growing collection of [known devices](https://github.com/msillano/tuyaDAEMON/tree/main/devices) is ready, but it is easy to extend it to your new devices.
 
+- **tuyaDAEMON.things** is an [external application](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDEAMON.things) in PHP that uses a MySQL database to store information about all device instances (Tuya and custom, included comments, shares, etc.) used in one or more tuyaDAEMON servers. Using this app, you can  import/export the 'alldevices.json' structure and do things' definitions and management in small chunks with accessible CRUD forms.
+
 ### configuration (all modules)
    
 1) Since 2.2.0, all configuration data are in a `Global MODULE config´ node, with a friendly user interface, mandatory in any module, to make simple the configuration task. **_Refer to this _node info_ for up-to-date configuration instructions for each module._**
