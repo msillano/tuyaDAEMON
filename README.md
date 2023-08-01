@@ -1,5 +1,5 @@
 
-_**TuyaDAEMON's primary objective is not merely controlling select Tuya devices or providing a unique user interface. Instead, it focuses on seamlessly integrating the entire Tuya ecosystem into node-red, thereby establishing a new level of abstraction that encompasses Tuya-cloud, MQTT, custom devices, and extended automation logic. In essence, TuyaDAEMON serves as an open framework for advanced custom IoT development.**_
+_**TuyaDAEMON's primary objective is not merely controlling select Tuya devices or providing a unique user interface. Instead, it focuses on seamlessly integrating the entire Tuya ecosystem into node-red, thereby establishing a new level of abstraction that encompasses the Tuya-cloud, any IOT device of every brand, any custom device, MQTT, DB, and extended automation logic. TuyaDAEMON serves as an open framework for advanced custom IoT development.**_
 
 **Tuya ecosystem:**([_source Tuya_](https://developer.tuya.com/en/docs/iot/open-api/platform-overview/solution-overview))
 
@@ -9,7 +9,9 @@ _**TuyaDAEMON's primary objective is not merely controlling select Tuya devices 
 1. Open, modular, [full documented](https://github.com/msillano/tuyaDAEMON/wiki): expressly designed for every customization need.
 2. Powerful control meta-language ([command chains](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#share-and-command-chains)) with an expressive power (Turing complete) not found in other IOT environments, usually limited to "IF ... THEN" automation (see [also here](https://github.com/msillano/tuyaDAEMON/wiki/10.-why-tuyaDAEMON-%3F#2-what-is-meant-by-integrated)).
 3. [ObjectOriented](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) approach for structuring super-devices that use more than one elementary device.
-4. [Meta-tools](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit) for device test, definition and maintenance activities.
+4. Easy custom extensions in node-RED to handle any kind of device, by any brand or full custom (see 'study cases' on [wiki](https://github.com/msillano/tuyaDAEMON/wiki)). 
+5. [Meta-tools](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit) for device test, definition and maintenance activities.
+6. Applications and user's notes [repository](https://github.com/msillano/tuyaDEAMON-applications). 
 
 <hr>
 
@@ -38,12 +40,12 @@ Simple **node-red** flows constitute the interfaces to HD and SW resources, allo
 
 **Custom channels** are implemented additively with specialized flows, to implement 'fake' devices. 
 
-In many cases the required interface is a simple protocol adapter, like in case of [MQTT devices](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Ozone_PDMtimer/device_Ozone_PDMtimer.pdf) or in case of [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a device that uses USB-COM interface.
+In many cases, the required interface is a simple protocol adapter, like in case of [MQTT devices](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Ozone_PDMtimer/device_Ozone_PDMtimer.pdf) or in case of [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a device that uses USB-COM interface.
 
 In the case of the '433 MHZ sensor gateway', the module includes a specialized adapter for each device, such as the
 [weather station](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station) which uses 3 sensors (temperature, wind, rain).
 
-Since the version 2.0 the generalized [OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices), in a [distributed environement](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#networking-tuyadaemon), adds more power to tuyaDAEMON. It is easy to finalize the tuyaDAEMON resources in integrated projects, OO-oriented, with UI and many base devices: see as example the device [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study), a terrace watering timer with UI, fuzzy control from wheater, build using using 3 tuya devices.
+Since version 2.0 the generalized [OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices), in a [distributed environement](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#networking-tuyadaemon), adds more power to tuyaDAEMON. It is easy to finalize the tuyaDAEMON resources in integrated projects, OO-oriented, with UI and many base devices: see as an example the device [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study), a terrace watering timer with UI, fuzzy control from wheater, build using 3 tuya devices.
 
 **_From version 2.0 tuyaDAEMON is a complete framework for advanced custom IOT projects._**
 
