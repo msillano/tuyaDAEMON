@@ -253,6 +253,9 @@ To design node_red applications using Tuya devices is always necessary:
 --------------------
 
 **versions**
+_tuyaDAEMON version 2.2.3_ 
+  - node-red-contrib-tuya-smart-device 5.2.0: _Added new command 'SET_EVENT_MODE' (values: 'event-both' (default), 'event-data', 'event-dp-refresh')._
+
 _tuyaDAEMON version 2.2.2_ 
   - node-red-contrib-tuya-smart-device 5.1.0
   - TuyAPI 7.5.1
