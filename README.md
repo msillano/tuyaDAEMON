@@ -10,7 +10,7 @@ _**TuyaDAEMON's primary objective is not merely controlling select Tuya devices 
 2. Powerful control meta-language ([command chains](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#share-and-command-chains)) with an expressive power (Turing complete) not found in other IOT environments, usually limited to "IF ... THEN" automation (see [also here](https://github.com/msillano/tuyaDAEMON/wiki/10.-why-tuyaDAEMON-%3F#2-what-is-meant-by-integrated)).
 3. [ObjectOriented](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) approach for structuring super-devices that use more than one elementary device.
 4. Easy custom extensions in node-RED to handle any kind of device, by any brand or full custom (see 'study cases' on [wiki](https://github.com/msillano/tuyaDAEMON/wiki)). 
-5. [Meta-tools](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit) for device test, definition and maintenance activities.
+5. [Meta-tools](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit) for device test, maintenance, and documentation activities.
 6. Applications and user's notes [repository](https://github.com/msillano/tuyaDEAMON-applications). 
 
 <hr>
