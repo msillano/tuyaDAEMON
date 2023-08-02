@@ -56,7 +56,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 ![](./../pics/tuyadaemon07.jpg)
 
  
- - **tuyaDEAMON CORE:** the main flow, for low-level MQTT communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors.
+ - **tuyaDEAMON CORE:** the main flow, for low-level MQTT communication with many tuya `'real' devices`, and also with devices using a _gateway_ (`'virtual' devices`) e.g. Zigbee sensors. (since ver 2.2.2: splitted for user convenience into two flows, 'CORE' and 'CORE_devices').
  
  - [**tuyaTRIGGER module**](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER) for Tuya-cloud comunications, adds extra capabilities:
    - The start of **tuya automations** from _node-red_.
@@ -88,7 +88,7 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 1) Since 2.2.0, all configuration data are in a `Global MODULE config´ node, with a friendly user interface, mandatory in any module, to make simple the configuration task. **_Refer to this _node info_ for up-to-date configuration instructions for each module._**
     - Only a few node-red configuration nodes still require the user direct setup: _mySQL, MQTT, tuya-smart-device_ (new devices).     
      
-2)  _Global CORE config_ includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/40.-tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on all devices, that control the _CORE_ behavior on a device/dps basis. <br>
+2)  _Global CORE config_ node (since ver. 2.2.2 in 'CORE_devices' flow) includes [`global.alldevices`](https://github.com/msillano/tuyaDAEMON/wiki/40.-tuyaDAEMOM-global.alldevices), a big JSON structure with all required information on all devices, that control the _CORE_ behavior on a device/dps basis. <br>
 Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
     - you can edit it directly using the `global CORE config` node, using the JSON edit facility.
     - you can export it to the file `alldevices.json` for backup or edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
@@ -151,7 +151,7 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-ne
  
      Alternative: Install a TuyaDAEMON module, then add the missing nodes as required by node-red messages.
         
-2. The best way is to get the last version for single modules, starting from  [tuyaDAEMON.CORE-install-2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON).
+2. The best way is to get the last version for single modules, starting from  [tuyaDAEMON.CORE-install-x.x.x.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON).
 3.  See the info on the ´global CORE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
 4.  Using 'full' files is faster than installing individual modules, but the configuration must always be done module by module. Advisable in case of updates, the first time is better one module at a time.
 
