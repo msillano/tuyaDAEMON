@@ -127,6 +127,7 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-ne
      - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
      - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
      - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
+       
        - Using the `node-red-contrib-tuya-smart-device`: the ver. **5.2.0** is ok.
        - _for v. 4.1.1 see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83)_
        - _for v. 5.0.1 see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113)_
