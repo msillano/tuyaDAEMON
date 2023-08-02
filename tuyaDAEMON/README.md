@@ -210,7 +210,7 @@ note 05/2023: _I found an exception, a new response format (see [ISSUE#117](http
 - a mixed strategy: if any DP changes, it returns only the modified DPs, otherwise all the DPs. (e.g. [power\_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power\_strip/device\_power\_strip.pdf)).
 - deprecated in tuyaDAEMON because it requires encoded data values.
 
-**SCHEMA:** implemented in a few bigger devices, returns the values of all DPs (e.g. [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device\_ACmeter.pdf)).
+**SCHEMA:** implemented in a few bigger devices, returns the values of all (or only some) DPs (e.g. [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device\_ACmeter.pdf)).
 
 **REFRESH:** implemented in a few devices, forces a new data sample or update. Returns only the PDs that have changed. 
 
