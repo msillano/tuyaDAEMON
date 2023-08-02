@@ -38,12 +38,12 @@ _**The use of tuyaDAEMON CORE + tuyaTRIGGER guarantees the user that in any case
 _"fake" devices_ can be implemented with specialized flows, to handle custom (non-Tuya) devices. In many cases, the required interface is a simple protocol adapter, as in the case of [MQTT devices](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study) or in the case of the [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a device using the USB-COM interface.
 
 ### applications
-_tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor) with a rich framework for IoT, offering to the power user many ways to implement their own projects:_
+_tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor) with a rich framework for IoT, offering power users many ways to implement their own projects:_
 
-1. users can add new functionalities, i.e. new tasks, building more js SW only devices, to cover the sector of interest (see [_system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system), it adds, among other things, benchmarks, text-to-speech, etc. capabilities to tuyaDAEMON). 
+1. users can add new functionalities, i.e. new tasks, building more js SW-only devices, to cover the sector of interest (see [_system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system), it adds, among other things, benchmarks, text-to-speech, etc. capabilities to tuyaDAEMON). 
 2. users can add any not-Tuya hardware device, with a simple node-red interface flow (see [433 MHz gateway](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station)).
 3. users can design and build new devices derived from existing ones, in OO style (see [OO devices](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) and [watering_sys](https://github.com/msillano/tuyaDAEMON/wiki/derived-device-'watering_sys':-case-study))
-4. users can build inside tuyaDAEMON ['chains' (meta-programming)](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#share-and-command-chains) using existing tasks to get the required event-driven behavior: tests, delays, sequences, repetions and fork of tasks  are simple to implement in JSON  + js (example: [system.beep_loop](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#iteration)).
+4. users can build inside tuyaDAEMON ['chains' (meta-programming)](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#share-and-command-chains) using existing tasks to get the required event-driven behavior: tests, delays, sequences, repetitions and fork of tasks  are simple to implement in JSON  + js (example: [system.beep_loop](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#iteration)).
 5. the entire tuyaDAEMON engine can be integrated into any larger user project using the favorite interface: node-red or MQTT or HTTP REST or database.
  
  _Any effort is made to make it modular, small, easy to modify, and [fully documented](https://github.com/msillano/tuyaDAEMON/wiki)._
@@ -67,13 +67,13 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
   - [**System module:**](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) offerts some useful properties: _Alarms_ in case of WiFi, Lan or AC power down, access to remote tuyaDEAMON servers, text-to-speech, etc. See also the [reference documentation](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_system/device__system.pdf).
  
  ------------------------------
-  - **tuyaDEAMON MQTT:** a broker that offers acces to tuyaDAEMON via MQTT and allows the use of [simple UI](https://raw.githubusercontent.com/msillano/tuyaDAEMON/main/pics/ScreenShot_20210612210400.png).
+  - **tuyaDEAMON MQTT:** a broker that offers access to tuyaDAEMON via MQTT and allows the use of [simple UI](https://raw.githubusercontent.com/msillano/tuyaDAEMON/main/pics/ScreenShot_20210612210400.png).
   
-  - **433 MHz gateway module:** a module to receive data from device using 433.92 MHz, 868 MHz, 315 MHz, 345 MHz and 915 MHz ISM bands. [Two devices](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station) implemented: 'Weather station' and 'extra temperature' probes.
+  - **433 MHz gateway module:** a module to receive data from devices using 433.92 MHz, 868 MHz, 315 MHz, 345 MHz and 915 MHz ISM bands. [Two devices](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station) implemented: 'Weather station' and 'extra temperature' probes.
 
-  - _Extra flow_: ["PM detector"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a `'custom' device` study case, this device uses USB-serial to comminicate.
+  - _Extra flow_: ["PM detector"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a `'custom' device` study case, this device uses USB-serial to communicate.
  
- - _Extra flow_: ["watering_sys"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'watering_sys':-case-study), a `OO level 2 device` study case, a custom super-device build using 2 switch and 1 sensor. With an UI ad hoc.
+ - _Extra flow_: ["watering_sys"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'watering_sys':-case-study), a `OO level 2 device` study case, a custom super-device build using 2 switches and 1 sensor. With an UI ad hoc.
  
  - _Extra subflow_: ["Ozone_PDMtimer"](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study) example of MQTT devices integration, using a general purpose MQTT-tuya adapter node.
  
@@ -92,12 +92,13 @@ _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEM
 Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-new-device-to-tuyaDAEMON) must be added to it. To update/modify/edit this structure:
     - you can edit it directly using the `global CORE config` node, using the JSON edit facility.
     - you can export it to the file `alldevices.json` for backup or edit it using external editors (e.g. _Notepad++_ and _'JSON Viewer'_ plugin) and back with copy-paste.
-    - For _known tuya devices_ a JSON fragment for `'alldevices'` is in standard device documentation [flie zip](https://github.com/msillano/tuyaDAEMON/tree/main/devices#use).   
-    - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit) can produce an `'alldevice'` fragment for a new device.
+    - For _known tuya devices_ a JSON fragment for `'alldevices'` is in standard device documentation [file zip](https://github.com/msillano/tuyaDAEMON/tree/main/devices#use).   
+    - The application [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit) can produce an `'alldevice'` basic fragment for a new device.
+    - The application [tuyaDAEMON.things](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDEAMON.things) enables the 'alldevices' definition and management in small chunks with accessible CRUD forms.
       
 3) All nodes requiring or allowing some user update are named with an asterisk (e.g. '*device selector') and in the  'node description' you can find specific instructions.
  
- ### First time installation (CORE)
+ ### First-time installation (CORE)
  - Precondition: It is not required to have any Tuya device to install or test tuyaDAEMON, you can use it as the framework for any IOT purpose. You can also never use Tuya devices, but only custom devices (USB, MQTT, tasmotized, etc...).
     - Since ver.2.2.0: you can test any module capabilities and add later the devices. 
    
@@ -107,13 +108,13 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-ne
      - _For Android top-box deployment see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki/80.-deployment:-android-server)._
      - _May 2023: Installed in an older iMac 2008: OS 'El Capitain' 10.11.0, node v. 14.21.3, node-red v 3.0.3 + MAMP + MQTT explorer._
    
- - Precondition: a _mySQL_ server is optional, but required for a serious use.
+ - Precondition: a _mySQL_ server is optional, but required for serious use.
      -  The default is local MySQL ('node-red-node-mysql' is used) and, for a simple installation, you can
-		  use distribution as WAMP (or XAMP, LAMP, MAMP etc.): phpMyAdmin and Apache server are included.
+		  use distribution as WAMP (or XAMP, LAMP, MAMP, etc.): phpMyAdmin and Apache server are included.
           _You can also use a DB accessible on the net; the DB doesn't need to be on the same server as node-red_.
      - Import, using phpMyAdmin, the  `DB-core.x.x.x.sql`  to create the required DB and tables. 
      - More DB tables can be required by some modules: see for 'DB-modulex.x.x.x.sql.zip'.
-     - you can install MySQL later: install TuyaDAEMON and disable the three mysql nodes in CORE.
+     - you can install MySQL later: install TuyaDAEMON and disable the three MySQL nodes in CORE.
 
  - Precondition: when you want to add _Tuya devices_
      - A robust WiFi router (best with UPS).
@@ -126,7 +127,10 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-ne
      - [node-red-contrib-config](https://flows.nodered.org/node/node-red-contrib-config)
      - [node-red-contrib-looptimer-advanced](https://flows.nodered.org/node/node-red-contrib-looptimer-advanced)
      - [node-red-contrib-tuya-smart-device](https://flows.nodered.org/node/node-red-contrib-tuya-smart-device)
-       - _You can update the `node-red-contrib-tuya-smart-device` v. 4.1.1: see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83), or `node-red-contrib-tuya-smart-device` v. 5.0.1: see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113), for **ver 5.1.0** see [ISSUE#118](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/118): replace the file `...\node_modules\node-red-contrib-tuya-smart-device\src\tuya-smart-device.js`_.
+       - Using the `node-red-contrib-tuya-smart-device`: the ver. **5.2.0** is ok.
+       - _for v. 4.1.1 see [issue#83](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/83)_
+       - _for v. 5.0.1 see [issue#113](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/113)_
+       - _for v. 5.1.0 see [ISSUE#118](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/118): replace the file `...\node_modules\node-red-contrib-tuya-smart-device\src\tuya-smart-device.js`._
 
    - required by other modules: SYSTEM
      - [node-red-contrib-jsontimer](https://flows.nodered.org/node/node-red-contrib-jsontimer)
@@ -144,10 +148,10 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-ne
     - [node-red-node-serialport](https://flows.nodered.org/node/node-red-node-serialport) (PM_detector)
     - [node-red-contrib-rtl_433](https://flows.nodered.org/node/node-red-contrib-rtl_433) (433_gateway)
  
-     Alternative: install a TuyaDAEMON module, then add the missing nodes as required by node-red messages.
+     Alternative: Install a TuyaDAEMON module, then add the missing nodes as required by node-red messages.
         
 2. The best way is to get the last version for single modules, starting from  [tuyaDAEMON.CORE-install-2.2.2.zip](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON).
-3.  See the info of the ´global CORE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
+3.  See the info on the ´global CORE config´ node, it contains all the updated configuration instructions (select the node the click the `[i]` button). 
 4.  Using 'full' files is faster than installing individual modules, but the configuration must always be done module by module. Advisable in case of updates, the first time is better one module at a time.
 
 ### module installation (addons) ###
@@ -159,13 +163,15 @@ TuyaDAEMON is modular: all extensions are implemented as node-red flows (modules
 
 1. Adding a new device (or module) you must:
     - Import the <module_nodered>.json file in node-red, then do 'Deploy'
-    - For devices, you must update the 'Global.alldevices" structure in  `*Global CORE config` node. The data are in:
+    - For any added device, you must update the 'Global.alldevices' structure in  `*Global CORE config` node. The data are in:
     
-       - the `device_xxxx.json` file in the installation package
-       - for [known devices](https://github.com/msillano/tuyaDAEMON/tree/main/devices) are public
-       - built by [tuyadaemon-toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit), for a new device
-       - user built step-by-step following [instructions for new devices](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON)
-2.  For any added TuyaDEAMON module, read the flow description and see the info of the ´global MODULE config´ node it contains all the updated configuration instructions (select the node the click the `[i]` button). 
+       - the `device_xxxx.json` file in the installation package.
+       - for some [known devices](https://github.com/msillano/tuyaDAEMON/tree/main/devices) data are public.
+       - user built step-by-step following [instructions for new devices](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON).
+       - built by [tuyadaemon-toolkit](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMON-toolkit), for a new device.
+       - [tuyadaemon-things](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDEAMON.things) tool can also be used to edit and built the structure 'Global.alldevices'.
+        
+2.  For any added TuyaDEAMON module, read the flow description and see the info of the ´global MODULE config´ node: it contains all the updated configuration instructions (select the node then click the `[i]` button). 
 3.  In each module, you will find some standalone tests (see also each test node info) to verify your installation: after you can disable/delete them.
 4.  Caveat: after a module 'Import' + 'Deploy' always _verify all external links_: sometimes (not clear why) the `external 'link' nodes` are not correctly updated.
 
@@ -173,7 +179,7 @@ TuyaDAEMON is modular: all extensions are implemented as node-red flows (modules
  ### Tuya devices capabilities, _as currently known_ ###
  
 _Any tuya device, any DP can have its own behavior: tuya devices use a poll of [common HW, definitions](https://developer.tuya.com/en/docs/iot/terms?id=K914joq6tegj4) and code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in the Tuya environment, etc...).
-Usually it is very dangerous to do generalizations based on few cases._
+Usually, it is very dangerous to do generalizations based on a few cases._
 
 
 **Device Capabilities:**
@@ -189,7 +195,7 @@ msg.payload:{
             "cid": deviceid;                            // only from subdevices, mandatory
             "dps":{
                 [dp]: value                             //  atomic or string or encoded, 
-               ...                                      //  more than one dp in some cases
+               ...                                      //  in some cases more than one dp
             }}}}
 ````
 
@@ -203,16 +209,16 @@ note 05/2023: _I found an exception, a new response format (see [ISSUE#117](http
 - a mixed strategy: if any DP changes, it returns only the modified DPs, otherwise all the DPs. (e.g. [power\_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power\_strip/device\_power\_strip.pdf)).
 - deprecated in tuyaDAEMON because it requires encoded data values.
 
-**SCHEMA:** implemented in few bigger devices, returns the values of all DPs (e.g. [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device\_ACmeter.pdf)).
+**SCHEMA:** implemented in a few bigger devices, returns the values of all DPs (e.g. [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device\_ACmeter.pdf)).
 
-**REFRESH:** implemented in few devices, forces a new data sample or update. Returns only the PDs that have changed. 
+**REFRESH:** implemented in a few devices, forces a new data sample or update. Returns only the PDs that have changed. 
 
 - _smartLife app_ repeats REFRESH every 5s, when it is required by a responsive UI, but only when the UI is visible, to reduce the resources use.
 
 **Data Point Capabilities:**
 
 _The value of a DP is usually atomic (boolean, integer, string), for easy use in tuya-cloud automation. 
-But some DPs can use structured values, e.g. in the case of configuration data, usually defined in a page of the UI, and not used in automation. Structured data is usually JSON, base64 encoded. In many cases the ´encode/decode´ functions (see <code>core.ENCODE/DECODE user library</code> node) are indispensable for obtaining human readable values._
+But some DPs can use structured values, e.g. in the case of configuration data, usually defined on a page of the UI, and not used in automation. Structured data is usually JSON, base64 encoded. In many cases, the ´encode/decode´ functions (see <code>core.ENCODE/DECODE user library</code> node) are indispensable for obtaining human-readable values._
 
 Any DP as is own behavior:
 
@@ -229,7 +235,7 @@ Any DP as is own behavior:
     - all DPs (such as **SCHEMA**), ignoring the DP in the request (e.g. [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
  
 - **SET(DP, value)** If the value is **_not null_**, updates the DP value and returns the new value:
-    - can be used as a **trigger**, i.e. with side effects, in this case the value may be useless and 'any' (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
+    - can be used as a **trigger**, i.e. with side effects, in this case, the value may be useless and 'any' (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
 
 - **SET(DP, null)** If the value is **_null_**, returns the last DP value:
     - if it works, can be used instead of **GET(DP)**. It is useful when GET(DP) is not standard or not available (e.g. [Power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
@@ -239,18 +245,18 @@ Any DP as is own behavior:
 **IMPORTANT**: Sending commands that are _not implemented_ or _not allowed_ or sending _wrong data type_ or _wrong value_ to a DP can have many bad effects:
 
 - Nothing, silent ignore
-- SET/GET of unespected values
+- SET/GET of unexpected values
 - the message _"json obj data unvalid"_
 - waiting for some time, then device disconnection.
 - gateway disconnection.
-- the device "reboot themself".
-- the device hangup, you must restart.
+- the device "reboots themself".
+- the device hangup and you must restart it.
 - the gateway hangup.
 
 To design node_red applications using Tuya devices is always necessary:
 1. study each new device in detail, as explained [step by step here](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON).
-2. If you use few devices, you can design an ad-hoc node-red flow, tuned on your devices.
-3. As general solution, to have a flexible but robust framework, better to use a data structure that verifies the commands sent to each device (like [global.alldevices](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices) object does in tyuaDAEMON CORE).
+2. If you use a few devices, you can design an ad-hoc node-red flow, tuned on your devices.
+3. As a general solution, to have a flexible but robust framework, better to use a data structure that verifies the commands sent to each device (like [global.alldevices](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices) object does in tyuaDAEMON CORE).
  
 --------------------
 
@@ -262,7 +268,7 @@ _tuyaDAEMON version 2.2.2_
   - node-red-contrib-tuya-smart-device 5.1.0
   - TuyAPI 7.5.1
   - Maintenance release.
-  - Refactoring device intallation nodes
+  - Refactoring device installation nodes
   - bug fixes and minor code updates
 
 _tuyaDAEMON version 2.2.1_ 
@@ -304,14 +310,14 @@ _tuyaDAEMON version 2.0_ (13/05/2021)
 _tuyaDAEMON version 1.3_ (01/03/2021)
 - node-red-contrib-tuya-smart-device 3.0.2
 - tuyapi ver. 6.1.1
-- Tuya_bridge uses the TYWR 7-32 relay. Trigger flows refactoring to separe custom flows.
+- Tuya_bridge uses the TYWR 7-32 relay. Trigger flows refactoring to separate custom flows.
   
 _tuyaDAEMON version 1.2_ (12/02/2021)
 - node-red-contrib-tuya-smart-device 2.0.0
 - tuyapi ver. 6.1.1
 - Added REST interface.
 - new tuyaDAEMON.toolkit 1.0.
-- Updated wiki documentation, added known devices.
+- Updated wiki documentation, and added known devices.
 
 _tuyaDAEMON version 1.1_ (19/01/2021)
 - node-red-contrib-tuya-smart-device 2.0.0
