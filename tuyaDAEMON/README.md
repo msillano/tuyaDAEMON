@@ -10,7 +10,7 @@ TuyaDAEMON isolates your IOT **custom application** from all details of _device 
 - tuyaDAEMON is 'open' by design:
     - updates the `global.tuyastatus` structure (_device:property:value_) with all status messages from all controlled devices.
     - logs all commands and events in the mySQL `'tuyathome:messages'` table
-    - offers complete HTTP REST interfaces (MQTT with `core_MQTT` module)
+    - offers complete HTTP REST interfaces (and MQTT with `core_MQTT` module)
 - uses _friendly names_ for all devices and properties, in any language
 
 ### IMPLEMENTATION
