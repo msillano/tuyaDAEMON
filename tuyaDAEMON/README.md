@@ -1,6 +1,6 @@
 # TuyaDAEMON core
 
-_TuyaDAEMON's goal is to integrate the entire Tuya ecosystem into node-red, and not just to control some devices, creating a new level of abstraction that includes both Tuya-cloud and all possible custom extensions._
+_TuyaDAEMON's goal is to integrate the entire Tuya ecosystem into node-red, creating a new level of abstraction that includes both Tuya-cloud and all possible custom extensions._
 
 TuyaDAEMON isolates your IOT **custom application** from all details of _device data and commands exchanges_:
 - do not require user hacking in any Tuya or custom device.
