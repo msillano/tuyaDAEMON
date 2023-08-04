@@ -179,14 +179,14 @@ TuyaDAEMON is modular: all extensions are implemented as node-red flows (modules
 -------------------
  ### Tuya devices capabilities, _as currently known_ ###
  
-_Any tuya device, any DP can have its own behavior: tuya devices use a poll of [common HW, definitions](https://developer.tuya.com/en/docs/iot/terms?id=K914joq6tegj4) and code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in the Tuya environment, etc...).
+_Any Tuya device, any DP can have its own behavior: Tuya devices use a poll of [common HW, definitions](https://developer.tuya.com/en/docs/iot/terms?id=K914joq6tegj4) and code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in the Tuya environment, etc...).
 Usually, it is very dangerous to do generalizations based on a few cases._
 
 
 **Device Capabilities:**
 
 **response:**
-All tuya devices react to external or internal commands by sending messages, which we find in output from the *tuya-smart-device* nodes. All responses have the same format: one or more pairs _(dp: value)_, regardless of whether they are caused by PUSH, REFRESH, GET, SET, SCHEMA, MULTIPLE commands (see `CORE.logging node _info_ for details).
+All Tuya devices react to external or internal commands by sending messages, which we find in output from the *tuya-smart-device* nodes. All responses have the same format: one or more pairs _(dp: value)_, regardless of whether they are caused by PUSH, REFRESH, GET, SET, SCHEMA, MULTIPLE commands (see `CORE.logging node _info_ for details).
 ````
 msg.payload:{     
         "deviceId":    gatewayID|deviceid,       // from subdevices => "deviceId": gatewayId
@@ -209,7 +209,7 @@ note 05/2023: _I found an exception, a new response format (see [ISSUE#117](http
 - only the modified DPs
 - a mixed strategy: if any DP changes, it returns only the modified DPs, otherwise all the DPs. (e.g. [power\_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power\_strip/device\_power\_strip.pdf)).
 - deprecated in tuyaDAEMON because it requires encoded data values.
-
+  
 **SCHEMA:** implemented in a few bigger devices, returns the values of all (or only some) DPs (e.g. [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device\_ACmeter.pdf)).
 
 **REFRESH:** implemented in a few devices, forces a new data sample or update. Returns only the PDs that have changed. 
@@ -219,7 +219,7 @@ note 05/2023: _I found an exception, a new response format (see [ISSUE#117](http
 **Data Point Capabilities:**
 
 _The value of a DP is usually atomic (boolean, integer, string), for easy use in tuya-cloud automation. 
-But some DPs can use structured values, e.g. in the case of configuration data, usually defined on a page of the UI, and not used in automation. Structured data is usually JSON, base64 encoded. In many cases, the ´encode/decode´ functions (see <code>core.ENCODE/DECODE user library</code> node) are indispensable for obtaining human-readable values._
+But some DPs can use structured values, e.g. in the case of configuration data, usually defined on a page of the tuya UI, and not used in automation. Structured data is usually JSON, base64 encoded. In many cases, the ´encode/decode´ functions (see <code>core_devices.ENCODE/DECODE user library</code> node) are indispensable for obtaining human-readable values._
 
 Any DP as is own behavior:
 
@@ -233,7 +233,7 @@ Any DP as is own behavior:
 - **GET(DP)** is without side effects, it can be requested as many times as you want. GET returns:
     - the present **DP** value
     - the last **PUSHED** value (e.g. [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf).'countdown ')
-    - all DPs (such as **SCHEMA**), ignoring the DP in the request (e.g. [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
+    - all (or many) DPs (such as **SCHEMA**), ignoring the DP in the request (e.g. [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
  
 - **SET(DP, value)** If the value is **_not null_**, updates the DP value and returns the new value:
     - can be used as a **trigger**, i.e. with side effects, in this case, the value may be useless and 'any' (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
