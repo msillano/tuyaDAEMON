@@ -124,7 +124,8 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
   _Since ver. 2.0:_
  
  ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/dbtuyathome03.png)
- 
+
+ - As far as the use of the DB is concerned, see the [programmer's notes](https://github.com/msillano/tuyaDEAMON-applications#programmers-notes).
  <hr>
  
 - _For more documentation see the [wiki](https://github.com/msillano/tuyaDAEMON/wiki)._
