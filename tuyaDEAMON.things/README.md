@@ -34,6 +34,8 @@ _New Constraints, syntax update_ :
   - Bulk operations directly on DB (e.g. using 'phpMyAdmin').
   - Creating the 'alldevices.server.json' structure for one or more tuyaDAEMON servers.
   - Documentation production.
+  
+![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/Screenshot%20115309.png?raw=true)
 
 ***Uses:***
 
