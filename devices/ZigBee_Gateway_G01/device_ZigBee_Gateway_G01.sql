@@ -1,2 +1,0 @@
-INSERT INTO `deviceinfos` (`dName`, `model`, `picName`, `tuyaType`, `tuyaProductID`, `protocol`, `power`, `capabilities`, `description`, `note01`, `note02`, `sellerURL`, `refURL`, `infoURL`, `copynotice`) VALUES
-('ZigBee_Gateway_G01', 'USZ-GATEWAY-WH-G01', 'ZigBee_Gateway_1.png', 'wfcon', NULL, 'WiFi', 'USB', 'NONE', 'Tuya Zigbee 3.0 Gateway HUB Wireless. Works With Alexa Google Home', 'there are no known DPs for this device', NULL, 'https://www.aliexpress.com/item/1005005240687974.html', NULL, 'USZ-GATEWAY-WH-G01', '2021 marco.sillano@gmail.com'); 
