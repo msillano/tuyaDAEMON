@@ -75,4 +75,4 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_ZigBee_3_Gang.jpg) [ZigBee_3_Gang](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ZigBee_3_Gang/device_ZigBee_3_Gang.pdf) 
 
-- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_ZigBee_Gateway_1.png) [ZigBee_Gateway_1](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ZigBee_Gateway_1/device_ZigBee_Gateway_1.pdf) 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_ZigBee_Gateway_1.png) [ZigBee_Gateway_G01](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ZigBee_Gateway_G01/device_ZigBee_Gateway_G01.pdf) 
