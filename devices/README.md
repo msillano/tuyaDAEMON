@@ -1,6 +1,6 @@
 # Devices available
 For user convenience, this is a collection of data about some known _Tuya devices_: you can download the xxxx.zip files.
-Also present for documentation are some _custom devices_, and the _fake devices_ (i.e. tuyaDAEMON extensions) '_core',  '_system', and '_trigger'.
+Also present for documentation are some _custom devices_, and the _SW only fake devices_ (i.e. tuyaDAEMON extensions) '_core',  '_system', and '_trigger'.
 
 It is an open list, you can contribute using [tuyaDeamon toolkit](https://github.com/msillano/tuyaDAEMON/wiki/90.-tuyaDAEMON-toolkit) and sharing the zip file of your devices.
 
