@@ -29,6 +29,8 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Alarm_siren.jpg) [Alarm_siren](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Alarm_siren/device_Alarm_siren.pdf) 
 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_BLE_Gateway.jpg) [BLE_Gateway](https://github.com/msillano/tuyaDAEMON/blob/main/devices/BLE_Gateway/device_BLE_Gateway.pdf) 
+
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_BreakerDIN.jpg) [BreakerDIN](https://github.com/msillano/tuyaDAEMON/blob/main/devices/BreakerDIN/device_BreakerDIN.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_dimmer01.png) [Dimmer01](https://github.com/msillano/tuyaDAEMON/blob/main/devices/dimmer01/device_dimmer01.pdf) 
