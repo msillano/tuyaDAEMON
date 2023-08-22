@@ -63,7 +63,9 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_switch-4CH.jpg) [switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf) 
 
-- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Temperature_Humidity_Sensor.jpg) [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf) 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Temperature_Humidity_Sensor.jpg) [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf)
+
+  - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Temperature_Humidity_Sensor_2.jpg) [Temperature_Humidity_Sensor_2](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Temperature_Humidity_Sensor_2/device_Temperature_Humidity_Sensor_2.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_TRV_Thermostatic_Radiator_Valve.jpg) [TRV_Thermostatic_Radiator_Valve](https://github.com/msillano/tuyaDAEMON/blob/main/devices/TRV_Thermostatic_Radiator_Valve/device_TRV_Thermostatic_Radiator_Valve.pdf) 
 
