@@ -70,6 +70,8 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_TRV_Thermostatic_Radiator_Valve.jpg) [TRV_Thermostatic_Radiator_Valve](https://github.com/msillano/tuyaDAEMON/blob/main/devices/TRV_Thermostatic_Radiator_Valve/device_TRV_Thermostatic_Radiator_Valve.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Watchdog02.png) [Watchdog02 (custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Watchdog02/device_Watchdog02.pdf)
+ 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Watchdog02.png) [Watchdog03 (custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Watchdog03/device_Watchdog03.pdf)
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Water_leak_sensor.jpg) [Water_leak_sensor](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Water_leak_sensor/device_Water_leak_sensor.pdf) 
 
