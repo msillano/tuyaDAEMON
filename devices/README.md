@@ -41,7 +41,9 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_micro_inverter.jpg) [micro_inverter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/micro_inverter/device_micro_inverter.pdf) 
 
-- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Multifunction_Gateway.png) [Multifunction Gateway](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Multifunction_Gateway/device_Multifunction_Gateway.pdf) 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Multifunction_Gateway.png) [Multifunction Gateway](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Multifunction_Gateway/device_Multifunction_Gateway.pdf)
+
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_multi_gateway02.png) [Multifunction Gateway02](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Multifunction_Gateway02/device_multi_gateway02.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Ozone_PDMtimer.jpg) [MQTT Ozone_PDMtimer (custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Ozone_PDMtimer/device_Ozone_PDMtimer.pdf) 
 
