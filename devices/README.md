@@ -59,7 +59,7 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Smoke_Detector.jpg) [Smoke_Detector](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Smoke_Detector/device_Smoke_Detector.pdf)
 
-- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_soil_flora.png) [soil_flora](https://github.com/msillano/tuyaDAEMON/blob/main/devices/soil_flora/device_soil_flora.pdf) 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_mi_flora.ipg) [soil_flora](https://github.com/msillano/tuyaDAEMON/blob/main/devices/soil_flora/device_soil_flora.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_soil_meterBT.png) [soil_meterBT](https://github.com/msillano/tuyaDAEMON/blob/main/devices/soil_meterBT/device_soil_meterBT.pdf) 
 
