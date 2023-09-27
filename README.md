@@ -95,7 +95,7 @@ See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/
 
 ### MQTT interface
 
-But with version 2.1 I added to  **tuyaDAEMON** a _MQTT broker_ and a _MQTT interface_, both for events and commands. This was done thinking to UI. On PC (and portables), **node-red** offers good interfaces, but is required some development time. **SmartLife** UI is good, but become fast too big to be very friendly. Interfaces can be done in **HTML/js/php** but also in this case the development is not for all (see example . Using **MQTT** it is easy to find ready UI:
+But with version 2.1 I added to  **tuyaDAEMON** a _MQTT broker_ and a _MQTT interface_, both for events and commands. This was done thinking to UI. On PC (and portables), **node-red** offers good interfaces, but is required some development time. **SmartLife** UI is good, but become fast too big to be very friendly. Interfaces can be done in **HTML/js/php** but also in this case the development is not for all (see [example](https://github.com/msillano/tuyaDEAMON-applications/wiki/note-3-%E2%80%90-dynamic-HTML-pages)). Using **MQTT** it is easy to find ready UI:
 - For PC I use the client ['mqtt-explorer'](http://mqtt-explorer.com), which shows all data, locals, and remotes, also with charts, and allows to send any command ([use example](https://github.com/msillano/tuyaDAEMON/raw/main/pics/Immagine%202022-04-07%20184055.png)). Ready, car does not require customization. A good tool for developers, it can be the general [purpose UI](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ScreenShot_20210612210400.png) for **tyuaDAEMON**.
 <table><tr><td>
  <img  src="https://github.com/msillano/tuyaDAEMON/blob/main/pics/ScreenShot_20210612210400.png?raw=true">
