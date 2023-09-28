@@ -251,7 +251,8 @@ Any DP as is own behavior:
 - waiting for some time, then device disconnection.
 - gateway disconnection.
 - the device "reboots themself".
-- the device hangup and you must restart it.
+- the device hangup (dead) and you must restart it.
+- the device hangup and you get only _"json obj data unvalid"_
 - the gateway hangup.
 
 To design node_red applications using Tuya devices is always necessary:
