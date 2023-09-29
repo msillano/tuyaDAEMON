@@ -63,7 +63,10 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_mi_flora.jpg) [soil_flora](https://github.com/msillano/tuyaDAEMON/blob/main/devices/soil_flora/device_soil_flora.pdf) 
 
-- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_soil_meterBT.png) [soil_meterBT](https://github.com/msillano/tuyaDAEMON/blob/main/devices/soil_meterBT/device_soil_meterBT.pdf) 
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_soil_meterBT.png) [soil_meterBT](https://github.com/msillano/tuyaDAEMON/blob/main/devices/soil_meterBT/device_soil_meterBT.pdf)
+
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_Soil_probeZB.png) [soil_meterBT](https://github.com/msillano/tuyaDAEMON/blob/main/devices/Soil_probeZB/device_Soil_probeZB.pdf) 
+
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_switch-1CH.jpg) [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf) 
 
