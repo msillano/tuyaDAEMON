@@ -140,7 +140,7 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
  - Tuya device hi level, via 'TRIGGER': see [smoke_alarm](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study).
  - Custom 'SW only' device, i.e. feature modules: see [system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system)
  - MQTT devices, using custom driver nodes: see [PDMtimer](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study)
- - custom devices using ESP-10 (ESP8266): see [watchdog](https://github.com/msillano/tuyaDEAMON-applications/wiki/note-5:-Watchdog-for-IOT#note-esp-01-programming)
+ - Custom devices using ESP-10 (ESP8266): see [watchdog](https://github.com/msillano/tuyaDEAMON-applications/wiki/note-5:-Watchdog-for-IOT#note-esp-01-programming)
  - USB-serial devices, using custom adapter: see [PM_detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study)
  - 433 MHz sensors, using custom 433 gateway: see [Weather station](https://github.com/msillano/tuyaDAEMON/wiki/case-study:-433-MHz-weather-station)
  
