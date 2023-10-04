@@ -24,7 +24,7 @@ TuyaDAEMON isolates your IOT **custom application** from all details of _device 
  
  3) _Tuya devices_ can update their own firmware version via **OTA**: for the user, this is an investment guarantee, but it can introduce problems when the software (`tuyapi` and `tuya-smart-device`) is not updated: some device messages can't be decoded (see [issue#17](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/27)).
  
- 4) Tuyapi sometimes finds an error message from devices: `"json obj data invalid"`: the source of this is not clear (see [issue#246](https://github.com/codetheweb/tuyapi/issues/246)), maybe a catch-all error message, but the best interpretation is "_the required operation is not available_".
+ 4) Tuyapi sometimes finds an error message from devices: `"json obj data invalid"`: the source of this is not clear (see [issue#246](https://github.com/codetheweb/tuyapi/issues/246)), maybe a catch-all error message, but the best interpretation is "_the required operation is not available_" (see also [here](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-new-device-to-tuyaDAEMON#11-test-getset-bad-response-2--json-obj-data-unvalid)).
  
  5) Each _Tuya device_ can only make a limited number of simultaneous MQTT connections. This number, which differs from device to device, can be low: in this case, the device will close the tuyaDEAMON connection when one or more apps (smartLife, Tuya smart, google home ...) are active. Fortunately, I only found a few devices with very low potential connections. 
 
@@ -35,7 +35,7 @@ _This allows [fast and reliable](https://github.com/msillano/tuyaDAEMON/wiki/60.
 
 _**The use of tuyaDAEMON CORE + tuyaTRIGGER guarantees the user that in any case all Tuya devices can be integrated.**_
 
-_"fake" devices_ can be implemented with specialized flows, to handle custom (non-Tuya) devices. In many cases, the required interface is a simple protocol adapter, as in the case of [MQTT devices](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study) or in the case of the [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a device using the USB-COM interface.
+_"fake" devices_ can be implemented with specialized flows, to handle _custom (non-Tuya) devices_. In many cases, the required interface is a simple protocol adapter, as in the case of [MQTT devices](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study) or in the case of the [PM detector](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-'PM-detector':-case-study), a device using the USB-COM interface.
 
 ### applications
 _tuyaDEAMON is a powerful [event processor](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor) with a rich framework for IoT, offering power users many ways to implement their own projects:_
@@ -139,7 +139,6 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-ne
      - [node-red-node-base64](https://flows.nodered.org/node/node-red-node-base64)
    
    - required by other modules: MQTT
-   
      - [node-red-contrib-aedes](https://flows.nodered.org/node/node-red-contrib-aedes)
 
   - optional, required by some custom devices:
@@ -160,7 +159,7 @@ Any [new device](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-ne
 TuyaDAEMON is modular: all extensions are implemented as node-red flows (modules), that the user can add to CORE.
 - _CORE extensions_, to add features to TuyaDEAMON CORE: TRIGGER, SYSTEM, MQTT ..., implemented as 'devices'.
 - _custom devices_, to do required protocol conversions: USB/COM, RF 433 MHz, etc...
-- _subflows_, to replace *tuya-smart-device* nodes: MQTT...
+- _subflows_, ready functional blocks, to simplify common operations or to replace *tuya-smart-device* nodes: MQTT...
 
 1. Adding a new device (or module) you must:
     - Import the <module_nodered>.json file in node-red, then do 'Deploy'
@@ -179,8 +178,8 @@ TuyaDAEMON is modular: all extensions are implemented as node-red flows (modules
 -------------------
  ### Tuya devices capabilities, _as currently known_ ###
  
-_Any Tuya device, any DP can have its own behavior: Tuya devices use a poll of [common HW, definitions](https://developer.tuya.com/en/docs/iot/terms?id=K914joq6tegj4) and code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in the Tuya environment, etc...).
-Usually, it is very dangerous to do generalizations based on a few cases._
+_Any Tuya device, any DP can have its own behavior: Tuya devices use a poll of [common HW, definitions](https://developer.tuya.com/en/docs/iot/terms?id=K914joq6tegj4) and code, but they are designed by different manufacturers, with objectives and exigences very different. (e.g.: some manufacturers try to promote their apps, reducing the performance of their products in the Tuya environment; individual manufacturers are not interested in automation, and often neglect this aspect, etc...).
+Usually, it is very dangerous to make generalizations based on a few cases._
 
 
 **Device Capabilities:**
@@ -190,20 +189,19 @@ All Tuya devices react to external or internal commands by sending messages, whi
 ````
 msg.payload:{     
         "deviceId":    gatewayID|deviceid,       // from subdevices => "deviceId": gatewayId
-        "deviceName":  name,                     // from tuya-smart node,
+        "deviceName":  name,                     // from tuya-smart node
         "data": {
             "t": Math.floor( Date.now() / 1000 );       // timestamp (sec), by tuya-smart node
-            "cid": deviceid;                            // only from subdevices, mandatory
+            "cid": deviceid;                            // only from subdevices
             "dps":{
-                [dp]: value                             //  atomic or string or encoded, 
-               ...                                      //  in some cases more than one dp
+                [dp]: value                             //  atomic or string or encoded 
+               ...                                      //  In some cases more than one dp
             }}}}
 ````
 
-
 note 05/2023: _I found an exception, a new response format (see [ISSUE#117](https://github.com/vinodsr/node-red-contrib-tuya-smart-device/issues/117)) by a gateway._
 
-**MULTIPLE:** implemented in a few devices, it acts like many SETs. It can return:
+**MULTIPLE:** Implemented in a few devices, it acts like many SETs. It can return:
 
 - all DPs in the command
 - only the modified DPs
@@ -228,7 +226,7 @@ Any DP as is own behavior:
    - at irregular intervals (unknown rule) (e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf).'temperature')
    - at a change in value (e.g. every 30s * k: [smart_breaker](https://github.com/msillano/tuyaDAEMON/blob/main/devices/smart_breaker/device_smart_breaker.pdf).'countdown ', e.g. at any variation: [device_switch-4CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-4CH/device_switch-4CH.pdf).'countdown1')
    - to inform the user about the progress of a slow task  (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ), after SET('start SD format', any))
-   - for some DPs (e.g. sensors) PUSH may be the unique capability.(e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf)).
+   - for some DPs (e.g. sensors) PUSH may be the unique capability (e.g. [Temperature_Humidity_Sensor](https://github.com/msillano/tuyaDAEMON/tree/main/devices/Temperature_Humidity_Sensor/device_Temperature_Humidity_Sensor.pdf)).
 
 - **GET(DP)** is without side effects, it can be requested as many times as you want. GET returns:
     - the present **DP** value
@@ -253,7 +251,7 @@ Any DP as is own behavior:
 - the device "reboots themself".
 - the device hangup (dead) and you must restart it.
 - the device hangup and you get only _"json obj data unvalid"_
-- the gateway hangup.
+- the gateway hangup (dead).
 
 To design node_red applications using Tuya devices is always necessary:
 1. study each new device in detail, as explained [step by step here](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON).
