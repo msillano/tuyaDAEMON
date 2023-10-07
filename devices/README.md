@@ -16,7 +16,7 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
    - Extract only the device_xxx.json file, and use it to update your 'global.alldevices' structure.
 
 3. If you are interest to detailed **info about a device**:
-   - consult this documentation sheets.
+   - Click and consult the documentation sheet.
 --------------------------------------------   
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico__system.jpg) [_core (SW custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_core/device__core.pdf) 
