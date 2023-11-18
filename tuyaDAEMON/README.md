@@ -185,7 +185,7 @@ Usually, it is very dangerous to make generalizations based on a few cases._
 **Device Capabilities:**
 
 **response:**
-All Tuya devices react to external or internal commands by sending messages, which we find in output from the *tuya-smart-device* nodes. All responses have the same format: one or more pairs _(dp: value)_, regardless of whether they are caused by PUSH, REFRESH, GET, SET, SCHEMA, MULTIPLE commands (see `CORE.logging node _info_ for details).
+All Tuya devices react to external or internal commands by sending messages, which we find in output from the *tuya-smart-device* nodes (see [TuyAPI docs](https://codetheweb.github.io/tuyapi/index.html)). All responses have the same format: one or more pairs _(dp: value)_, regardless of whether they are caused by PUSH, REFRESH, GET, SET, SCHEMA, MULTIPLE commands (see `CORE.logging node _info_ for details).
 ````
 msg.payload:{     
         "deviceId":    gatewayID|deviceid,       // from subdevices => "deviceId": gatewayId
