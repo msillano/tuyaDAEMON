@@ -233,7 +233,7 @@ Any DP as is own behavior:
     - the last **PUSHED** value (e.g. [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf).'countdown ')
     - all (or many) DPs (such as **SCHEMA**), ignoring the DP in the request (e.g. [power_strip](https://github.com/msillano/tuyaDAEMON/blob/main/devices/power_strip/device_power_strip.pdf)).
  
-- **SET(DP, value)** If the value is **_not null_**, updates the DP value and returns the new value:
+- **SET(DP, value)** If the value is **_not null_**, updates the DP value and returns the new value (or returns no value: SET and forget):
     - can be used as a **trigger**, i.e. with side effects, in this case, the value may be useless and 'any' (e.g. [WiFi_IP_Camera](https://github.com/msillano/tuyaDAEMON/blob/main/devices/WiFi_IP_Camera/device_WiFi_IP_Camera.pdf ).'start SD format')
 
 - **SET(DP, null)** If the value is **_null_**, returns the last DP value:
