@@ -256,7 +256,7 @@ Any DP as is own behavior:
 To design node_red applications using Tuya devices is always necessary:
 1. study each new device in detail, as explained [step by step here](https://github.com/msillano/tuyaDAEMON/wiki/Howto:-add-a-new-device-to-tuyaDAEMON).
 2. If you use a few devices, you can design an ad-hoc node-red flow, tuned on your devices.
-3. As a general solution, to have a flexible but robust framework, better to use a data structure that verifies the commands sent to each device (like [global.alldevices](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices) object does in tyuaDAEMON CORE).
+3. As a general solution, to have a flexible but robust framework, better to use a data structure that verifies the commands sent to each device (like [global.alldevices](https://github.com/msillano/tuyaDAEMON/wiki/tuyaDAEMOM-global.alldevices) object does in TuyaDAEMON CORE).
  
 --------------------
 
