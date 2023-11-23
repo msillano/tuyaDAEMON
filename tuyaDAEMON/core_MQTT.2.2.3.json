@@ -1,0 +1,414 @@
+[
+    {
+        "id": "18bb68e662c98334",
+        "type": "tab",
+        "label": "core_MQTT",
+        "disabled": false,
+        "info": "# tuyaDAEMON.core.MQTT #\nThis flow extends tuyaDEAMON.core with an MQTT broker.\n\n### Advantages\n *   Use of standard MQTT client as UI interface to tuyaDAEMON. I chose [MQTTExplorer](http://mqtt-explorer.com) because it is easy to use, complete, portable.\n \n *   Use of standard MQTT clients applications in smartphones, (my favorite for Android is [IOT MQTT Panel](www.snrlab.in/category/iot) to build specialized interfaces to some tasks (e.g. watering)\n \n *   Interface for the exchange of data and commands with more application and automation systems that use this protocol. Using TRIGGER, we can remotely control tuyaDAEMON and the connected systems. \n \n### Installation\n \n  note: **tuyadaemon.core.MQTT** can be installed (and tested) even without any Tuya device.\n  \n - Download last version and import it in node-red tuyaDAEMON, using a new flow.\n - Or enable the flow, if it is present.\n\n### Configuration\n\n  See the node: `'global MQTT config'`: follow the node documentation.\n\n"
+    },
+    {
+        "id": "4f7c83426b9a11e0",
+        "type": "group",
+        "z": "18bb68e662c98334",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "4dfb0bd15135eb35",
+            "cb48ce1c0005fb86",
+            "18946462e2d0c288",
+            "1ef08492b2f0a0ff",
+            "ce6063f123cd047c",
+            "dafa59fa7529b7ee",
+            "8627ec3d9f71e680"
+        ],
+        "x": 34,
+        "y": 539,
+        "w": 652,
+        "h": 422
+    },
+    {
+        "id": "7a1504f3dc05ec5f",
+        "type": "mqtt out",
+        "z": "18bb68e662c98334",
+        "name": "client MQTT out: events",
+        "topic": "",
+        "qos": "1",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "b1477888b2bc18dd",
+        "x": 550,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "1a032e91f91d8723",
+        "type": "mqtt in",
+        "z": "18bb68e662c98334",
+        "name": "client MQTT in: commands",
+        "topic": "tuyaDAEMON/ANDROID/+/commands/#",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "b1477888b2bc18dd",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 550,
+        "y": 340,
+        "wires": [
+            [
+                "9244c8fdf9021804"
+            ]
+        ]
+    },
+    {
+        "id": "a52c303745cdf1d1",
+        "type": "aedes broker",
+        "z": "18bb68e662c98334",
+        "name": "tuyaDEAMON broker",
+        "mqtt_port": 1883,
+        "mqtt_ws_bind": "port",
+        "mqtt_ws_port": "8088",
+        "mqtt_ws_path": "",
+        "cert": "",
+        "key": "",
+        "certname": "",
+        "keyname": "",
+        "persistence_bind": "memory",
+        "dburl": "",
+        "usetls": false,
+        "x": 540,
+        "y": 220,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9244c8fdf9021804",
+        "type": "function",
+        "z": "18bb68e662c98334",
+        "name": "format std command",
+        "func": "function yesSpecial(str) {\n    if (!str) return str;\n    let tmp = str.replace('%23', '#').replace('%2B', '+').trim();\n    return ((tmp === undefined) || (tmp === '')) ? undefined : tmp.replace('%25', '%');     // the only spaces (' ') becomes undefined\n}\n\nfunction isJSON(str){\n    if (str.startsWith('[')) return true;\n    if (str.startsWith('{')) return true;\n    return false;\n}\n\nlet inptop = msg.topic + '//////';\nlet pars = inptop.split(\"/\");\n// 11/05/2023: updated using ir, id, ip\nlet xtopic = flow.get(\"topic-commands\");\nlet xparts = xtopic.split(\"/\");\nlet ir, id, ip = -1;\nfor (let idx = 0; idx < xparts.length; idx++) {\n    if (xparts[idx] === '+remote+') ir = idx;\n    if (xparts[idx] === '+device+') id = idx;\n    if (xparts[idx] === '+property+') ip = idx;\n}\nlet newmsg = { payload: {} };\n// node.warn([\"pre in MQTT\", pars, xparts]);\n// if (pars[0] == xparts[0]) {\nnewmsg.payload['remote'] = ir >= 0 ? pars[ir] : null;\nnewmsg.payload['device'] = yesSpecial(id >= 0 ? pars[id] : null);\nnewmsg.payload['property'] = yesSpecial(ip >= 0 ? pars[ip] : null);\nnewmsg.payload['value'] = isJSON(msg.payload) ? JSON.parse(msg.payload) : msg.payload;\n// node.warn([\"post in MQTT\", ir, id, ip, newmsg]);\n// null cases\nif (!newmsg.payload.value) delete (newmsg.payload.value);\nif (!newmsg.payload.property) delete (newmsg.payload.property);\nif (!newmsg.payload.device) delete (newmsg.payload.device);\nreturn newmsg;\n//}\n// return null;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 340,
+        "wires": [
+            [
+                "f294d70eec07e15c",
+                "b653443523c44ad8"
+            ]
+        ]
+    },
+    {
+        "id": "b07f4a1bd427c7fc",
+        "type": "link in",
+        "z": "18bb68e662c98334",
+        "name": "from core.events info",
+        "links": [
+            "19bd7e8a4f4718d0"
+        ],
+        "x": 115,
+        "y": 280,
+        "wires": [
+            [
+                "d3d367f3fa3ff8a7",
+                "9ee95a3bd3b893a3"
+            ]
+        ]
+    },
+    {
+        "id": "d3d367f3fa3ff8a7",
+        "type": "function",
+        "z": "18bb68e662c98334",
+        "name": "format event",
+        "func": "//\nfunction noSpecial(str) {\n    if (str === undefined) return (\"\");\n    let tmp = str.replace('%', '%25').replace('#', '%23');\n    return tmp.replace('+', '%2B');\n}\n\nlet remote = global.get(\"instance_name\");\nif (msg.remote_from && (msg.remote_from !== \"NULL\"))\n    remote = msg.remote_from;\nlet xtopic = flow.get(\"topic-events\").replace(\"+remote+\", remote);\n\n// Special case list devices \nif ((msg.from === \"_system\") && (msg.infodp === \"list\") && (msg.info.value.length > 0)) {\n    msg.info.value.forEach((device, index) => {\n        const lmsg = {\n            topic: xtopic.replace(\"+device+\", noSpecial(device)).replace(\"/+property+\", \"\"),\n            //            topic: 'tuyaDAEMON/' + remote + '/' + noSpecial(device) + '/event',\n            payload: null\n        };\n        node.send(lmsg);\n    });\n    return null;\n}\n\n// Special case list devices   ( from _system/_tuyastatus)\nif ((msg.from === \"_system\") && (msg.infodp === \"_tuyastatus\") && (msg.info.value.list !== undefined)) {\n    msg.info.value.list.forEach((device, index) => {\n        const lmsg = {\n            topic: xtopic.replace(\"+device+\", noSpecial(device)).replace(\"/+property+\", \"\"),\n            //        topic: 'tuyaDAEMON/' + remote + '/' + noSpecial(device) + '/events',\n            payload: null\n        };\n        node.send(lmsg);\n    });\n    return null;\n}\n\n// Special case schema devices   ( from _system/_tuyastatus)\nif ((msg.from === \"_system\") && (msg.infodp === \"_tuyastatus\") && (msg.info.value.value.schema !== undefined)) {\n    //         msg.info.value.value.schema.forEach((dps, val) => {\n    for (const [dps, val] of Object.entries(msg.info.value.value.schema)) {\n        const lmsg = {\n            //           topic: 'tuyaDAEMON/' + remote + '/' + noSpecial(msg.info.value.device) + '/events/' + noSpecial(dps),\n            topic: xtopic.replace(\"+device+\", noSpecial(msg.info.value.device)).replace(\"+property+\", noSpecial(dps)),\n            payload: (val === null || val === \"\") ? '\"null\"' : JSON.stringify(val)\n        };\n        if (dps !== '_t')\n            node.send(lmsg);\n    }\n    return null;\n}\n// general case\n// let xtopic = 'tuyaDAEMON/' + remote + '/' + noSpecial(msg.info.device) + '/events/' + noSpecial(msg.info.property);\nconst newmsg = {\n    topic: xtopic.replace(\"+device+\", noSpecial(msg.info.device)).replace(\"+property+\", noSpecial(msg.info.property)),\n    payload: (msg.info.value === \"\" || msg.info.value === \"\") ? '\"null\"' : JSON.stringify(msg.info.value)\n}\nif (msg.info.property === '_t')\n    return null;\nreturn newmsg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "\n",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 280,
+        "wires": [
+            [
+                "7a1504f3dc05ec5f",
+                "38156fd28acc0327"
+            ]
+        ]
+    },
+    {
+        "id": "38156fd28acc0327",
+        "type": "debug",
+        "z": "18bb68e662c98334",
+        "d": true,
+        "name": "MQTT TX EVENTS",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 850,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "f294d70eec07e15c",
+        "type": "link out",
+        "z": "18bb68e662c98334",
+        "name": "to core.std_cmds",
+        "mode": "link",
+        "links": [
+            "3c5b3f3fdf018e85"
+        ],
+        "x": 1055,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "b653443523c44ad8",
+        "type": "debug",
+        "z": "18bb68e662c98334",
+        "d": true,
+        "name": "MQTT COMMANDS",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "9ee95a3bd3b893a3",
+        "type": "debug",
+        "z": "18bb68e662c98334",
+        "d": true,
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "9735a33de7fb7854",
+        "type": "comment",
+        "z": "18bb68e662c98334",
+        "name": "CORE MQTT extension  2.2.2",
+        "info": "a) Initial configuration: see `*Global MQTT config` node.\n \n\n### Troubleshooting ###\n\n1. **Important: After 'Import' + 'Deploy' CHECK all external links nodes**. <br>\n   As help, the name of all Links shows the origin or the destination (e.g.: `from core.'to fake devices'`, `to core.'logging'`)\n\n\n2. _MQTT STARTUP ERROR: adjust the startup delay_\n  You need to increment the delay in 'startup delay' node. See [starup process](https://github.com/msillano/tuyaDAEMON/wiki/ver.-2.0--milestones#the-tuyadaemon-three-step-startup-process).\n  \n------------------------------------\n2.2.2\n- updated installation istructions\n- better topic process for commands\n\n",
+        "x": 200,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "5f673576ba121c84",
+        "type": "config",
+        "z": "18bb68e662c98334",
+        "name": "Global MQTT config",
+        "properties": [
+            {
+                "p": "topic-events",
+                "pt": "flow",
+                "to": "tuyaDAEMON/+remote+/+device+/events/+property+",
+                "tot": "str"
+            },
+            {
+                "p": "topic-commands",
+                "pt": "flow",
+                "to": "tuyaDAEMON/+remote+/+device+/commands/+property+",
+                "tot": "str"
+            }
+        ],
+        "active": true,
+        "x": 220,
+        "y": 120,
+        "wires": [],
+        "info": "## MQTT Configuration\n\nUser defined:<br>\n\n_flow.topic-event_ <br>\n        `tuyaDAEMON/+remote+/+device+/events/+property+` (default)\n        \n_flow.topic-command_ <br>\n        `tuyaDAEMON/+remote+/+device+/commands/+property+`  (default)     \n\nTopic default architecture:\n\n    'tuyaDAEMON/<instance_name>/<device>/commands/<property>'  JSON value\n    'tuyaDAEMON/<instance_name>/<device>/events/<property>'\n       \nand values are always JSON.\n\nnote:  `'+remote+', '+device+', '+property+'` are mandatory placeholders, replaced at runtime.     \n\n--------------------------\nUsing the default topic definition you get this structure on _MQTTexplorer_:\n\n````\n192.168.XX.XX\\                               (server IP)\n    $SYS\n    tuyaDAEMON\\\n        ANDROID\\                             (remote name)\n            core\\                            (user device name or deviceID)\n                commands\\\n                    ...\n                events\\ \n                    _heartbeat = \"13:29:10\"  (user dP name or dP, last value)\n                    ...\n            HAL@home\\                        (user device name or deviceID)\n                ...        \n````\n\n-------------------------------\n### MQTT broker setup\n\n- You can use the `aedes broker node` defaults.<br>\n- Update the 'MQTT server configuration' in client nodes.<br>\n- This module does not require `global.alldevices` updates.\n\n### details\n\n- This flow includes a 'MQTT broker' (server) node. Clients nodes and external client (like MQTTexplorer) can connect to this server.\n\n- If you like to use an external broker (e.g. _Mosqitto_) disable/delete the 'MQTT broker' node and use node-red 'MQTT server configuration' in client nodes to link the external broker.\n\n- In case of many instances you can:\n   \n  - any instance uses own broker.\n  - all instances uses an external MQTT broker (e.g. _Mosquitto_).\n  - only one instace (master: better if 24/7 on) works as broker for all others (slaves):\n     - in slaves disable/delete the 'MQTT broker' node.\n     - in slaves set the 'MQTT server configuration' in client nodes to link the master.\n     - the external clients (like MQTTexplorer) must connect the master.\n  \n## Test \n\nUse a MQTT Client (e.g. MQTTExplorer) to connect to http://localhost:1883 (default).\n\n - See 'CORE test using MQTT (readme)' node."
+    },
+    {
+        "id": "ace2a94e4df01f59",
+        "type": "comment",
+        "z": "18bb68e662c98334",
+        "name": "test only",
+        "info": "usually disabled",
+        "x": 660,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "4dfb0bd15135eb35",
+        "type": "comment",
+        "z": "18bb68e662c98334",
+        "g": "4f7c83426b9a11e0",
+        "name": "SET: MQTT topic: tuyaDAEMON/DEVPC/core/commands/_info        value=\"ok\"",
+        "info": "Copy-paste the topic, set JSON value. Then PUBLISH\n\nExpected response (same as SET std cmds):\n\n          [\"TX: SET fake core/version\",\"ok\"]\n\nThen (as usual):\n\n          [\"RX: core/version\", object]\n\nOpen: \n\n          array[2]\n               0: \"RX: core/version\"\n               1: object\n                   devices: object\n                      real: array[0]\n                      virtual: array[0]\n                      fake: array[1]\n                          0: \"core\"\n                   core_mqtt: \"2.2.0\"\n                   core: \"2.2.0\"\n\n In MQTTExplorer:\n\n       tuyaDAEMON\n          DEVPC\n              core\n                 event\n                    version = {\"devices\":{\"real\":[],\"virtual\":[],\"fake\":[\"core\"]},\"core_mqtt\":\"2.2.0\",\"core\":\"2.2.0\"}\n",
+        "x": 340,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "cb48ce1c0005fb86",
+        "type": "comment",
+        "z": "18bb68e662c98334",
+        "g": "4f7c83426b9a11e0",
+        "name": "CORE test using MQTT (readme)",
+        "info": "\nAll tuyaDEAMON commads and events can be handled via MQTT\n\nExamples:\n- test CORE properties using 'MQTTExplorer' (http://mqtt-explorer.com/) as UI client connected to TuyaDAEMON MQTT Broker (usually 'localhost:1883').\n\nTopic: \n\ngeneral default [structure](https://github.com/msillano/tuyaDAEMON#mqtt-interface): \n\n    tuyaDAEMON/<remote_name>/<device_name>|' '/event|command[/<property_name>]\n\nValue (payload):\n\n   always JSON:\n       a string        = \"string\"\n       boolean true    = true\n       null, undefined = < nothing, clean pad >\n     \nhit:\n   If 'PUBLISH' is without effect, check for extra spaces before or after the topic string (common mistake using copy-paste).\n   \nMore examples can be found in ['github.tuyaDEAMON.tuyaTRIGGER.readme'](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaTRIGGER/README.md#mqtt-tuya_bridge-tests)-",
+        "x": 190,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "18946462e2d0c288",
+        "type": "comment",
+        "z": "18bb68e662c98334",
+        "g": "4f7c83426b9a11e0",
+        "name": "GET: MQTT topic: tuyaDAEMON/DEVPC/core/commands/_info        value: nothing",
+        "info": "Copy-paste the topic, clear JSON pad. then PUBLISH\n\nExpected response (same as GET std cmds):\n          \"TX: GET fake core/version\"\n\nthen (after Deploy or Restart):\n\n\n          [\"RX: core/version\",\"none\"]\n          \nor (after a SET):\n\n          [\"RX: core/version\", object]\n          \nIn MQTTExplorer:\n\n       tuyaDAEMON\n          DEVPC\n              core\n                 event\n                    version = \"none\"\nor:\n\n       tuyaDAEMON\n          DEVPC\n              core\n                 event\n                    version = {\"devices\":{\"real\":[],\"virtual\":[],\"fake\":[\"core\"]},\"core_mqtt\":\"2.2.0\",\"core\":\"2.2.0\"}\n          ",
+        "x": 350,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "1ef08492b2f0a0ff",
+        "type": "comment",
+        "z": "18bb68e662c98334",
+        "g": "4f7c83426b9a11e0",
+        "name": "GET: MQTT topic: tuyaDAEMON/DEVPC/core/commands/_DBase        value: nothing",
+        "info": "Copy-paste the topic, set JSON value. then PUBLISH\n\nExpected response (same as GET std cmds):\n           \"TX: GET fake core/_DBase\"\n\nthen (as usual):\n           [\"RX: core/_DBase\",true]\n           \nIn MQTTExplorer:\n\n       tuyaDAEMON\n          DEVPC\n              core\n                 event\n                    _DBase = true\n           ",
+        "x": 360,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "ce6063f123cd047c",
+        "type": "comment",
+        "z": "18bb68e662c98334",
+        "g": "4f7c83426b9a11e0",
+        "name": "GET: MQTT topic: tuyaDAEMON/DEVPC/core/commands/_heartbeat        value: nothing",
+        "info": "Copy-paste the topic, clear JSON pad. Then PUBLISH\n\nExpected response (same as GET std cmds):\n          TX: GET fake core/_heartbeat\n\nthen (as usual):\n          [\"RX: core/_heartbeat\",\"09:37:10\"]\n          \nIn MQTTExplorer:\n\n       tuyaDAEMON\n          DEVPC\n              core\n                 event\n                     _heartbeat = \"09:37:10\" ",
+        "x": 370,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "dafa59fa7529b7ee",
+        "type": "comment",
+        "z": "18bb68e662c98334",
+        "g": "4f7c83426b9a11e0",
+        "name": "SCHEMA: MQTT topic: tuyaDAEMON/DEVPC/core/commands      value: nothing",
+        "info": "Copy-paste the topic, clear JSON pad. Then PUBLISH\n\nExpected response (same as SCHEMA std cmds):\n\n         TX: GET SCHEMA: fake core\n\nThen (as usual):\n\n         [\"RX: core/_DBase\",true]\n         [\"RX: core/_heartbeat\",\"09:49:08\"]\n         [\"RX: core/version\",\"none\"]\n\nIn MQTTExplorer:\n\n       tuyaDAEMON\n          DEVPC\n              core\n                 event\n                    _DBase = true\n                    _heartbeat = \"09:49:38\"\n                    version = \"none\"",
+        "x": 350,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "5869f9719f480c72",
+        "type": "inject",
+        "z": "18bb68e662c98334",
+        "name": "statup delay",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "4",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 510,
+        "y": 120,
+        "wires": [
+            [
+                "41b04161cb15aa63"
+            ]
+        ],
+        "icon": "node-red/trigger.svg"
+    },
+    {
+        "id": "41b04161cb15aa63",
+        "type": "function",
+        "z": "18bb68e662c98334",
+        "name": "mqtt flow startup",
+        "func": "// So, if some 'On Start' function  requires 'Global Config' data, palace it there.\n// --------------- locals\nconst asMODULE = \"modules.core_mqtt\";\nconst VERSION = \"2.2.2\";\n// --------------------------------------------------- standard\nif (!global.get(\"coresetup\")) {\n    node.warn(\"MQTT STARTUP ERROR: adjust the startup delay.\");\n    return ([null]);\n}\n// --------------------- init startup for the flow.\nglobal.set(asMODULE, VERSION);  // update\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// nothing to do\n",
+        "finalize": "global.set(\"modules.core_mqtt\", undefined);\n",
+        "libs": [],
+        "x": 840,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8627ec3d9f71e680",
+        "type": "comment",
+        "z": "18bb68e662c98334",
+        "g": "4f7c83426b9a11e0",
+        "name": "LIST: MQTT topic: tuyaDAEMON/DEVPC/ /commands      value: nothing",
+        "info": "Copy-paste the topic, clear JSON pad. Then PUBLISH\n\nExpected response:\n\n    \"ANDROID: TX: GET device LIST\"      \n\nThen (as usual):\n\n11/5/2023, 15:41:42node: tuyaDAEMON.core.info\nmsg.payload : array[2]\narray[2]\n  0: \"ANDROID: RX: HAL@home/list\"\n  1: array[2]\n     0: \"HAL@home\"\n     1: \"core\"\n\n\nIn MQTTExplorer: not stored, updates the device list.\n\n  ",
+        "x": 320,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "b1477888b2bc18dd",
+        "type": "mqtt-broker",
+        "name": "default",
+        "broker": "http://localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
