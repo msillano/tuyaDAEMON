@@ -109,6 +109,8 @@ As an example see [here](https://github.com/msillano/tuyaDAEMON/wiki/custom-devi
 The MQTT topics structure is simple:
 > tuyaDAEMON/<remote_name>/<device_name>|'&nbsp;'/events|commands[/<property_name>]  
 
+The 'value' ( '', string or json) is the message.
+
 Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#commands).
 
   So: 
