@@ -2,7 +2,7 @@
 
 Tuya IoT Cloud is a global cloud platform that provides a comprehensive suite of IoT capabilities, including device management, scenario automation, data analytics, and industry services. It is widely used by businesses of all sizes to develop and manage IoT applications.
 
-This library implements experimental access to Tuya Cloud API to get data or perform operations programmatically, without the use of  the SmartLife App.
+This library implements experimental access to Tuya Cloud API via REST to get data or perform operations programmatically, without the use of  the SmartLife App.
 
 To get started with Tuya IoT Cloud, you will need to create a developer account and register your devices. You can then start using the Tuya IoT Cloud APIs to develop and manage your IoT applications, as usual required (see [here](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-new-device-to-tuyaDAEMON#1-preconditions)).
 
