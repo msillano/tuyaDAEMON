@@ -26,3 +26,23 @@ The `nr_Tuya_OpenAPI_2.0` is a minimal implementation, for testing and API explo
  - API reference:
      - IoT-Core: Start [here](https://developer.tuya.com/en/docs/cloud) (registration required). 
  - This project is derived from the project by NotEnoughTech (https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya%20Cloud%20API)
+
+---
+### Tuya Cloud API and TuyaDAEMON
+
+The ability to access OpenAPI simply can open up interesting scenarios in TuyaDAEMON. Let's look at the various aspects:
+
+Device control
+- Local access to real device properties is quite good with tuya-smart-device node and only in some rare cases the access via CloudAPI can be useful.
+- Devices such as WiFi sensors, which cannot be managed with tuya-smart-device node, are currently controlled in TuyaDAEMON with TRIGGER. Although the Trigger technique is reliable and more stable than CloudAPI, it has limitations in reading numerical measurements.
+In this case, the use of CloudAPI (e.g. API Query_Properties) could be valid.
+- Some subdevices (using a hub) could also benefit from CloudAPI, when not all DPs are accessible.
+  
+Device Management
+- Some non-local aspects of device management (e.g. space (home), groups, automation) are only partially manageable via TRIGGER + Automation. If you want advanced applications in these areas, using CloudAPI must be necessary.
+- Some management operations (like add/remove/rename devices, automation, etc...) actually are performed using a Tuya APP (SmartLife). If you want to do thems in a custom application, you need to use CloudAPI.
+
+### notes on OpenAPI V2.0
+
+
+
