@@ -4,6 +4,7 @@ Tuya IoT Cloud is a global cloud platform that provides a comprehensive suite of
 
 [Tuya OpenAPI](https://developer.tuya.com/en/docs/cloud) is a set of open Application Programming Interfaces (APIs) provided by Tuya Smart, accessible via REST (HTTP),  that enables developers to integrate Tuya Cloud services into their own applications. 
 
+---
 ### node-red Tuya OpenAPI V2.0
 
 This library implements experimental access to Tuya Cloud API to get data or perform operations programmatically, without using  the 'SmartLife Ap'p or the 'Tuya Development Platform'.
