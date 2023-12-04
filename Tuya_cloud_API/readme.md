@@ -12,6 +12,7 @@ The "Tuya Cloud API V2.0" is a minimal node-red implementation, for testing and 
 
 - SET 'client_id' and 'device_id' in  'Settings CLICK 'On Start' TAB' node una tantum. 
 - SET your Tuya SecretKey in (all) 'Sign signStr with secret' nodes.
+- Update URL var with your regional [tuya data center](https://github.com/tuya/tuya-home-assistant/blob/main/docs/regions_dataCenters.md) in ALL second function nodes.  
 - All flows are very similar, with a few differences - read the flow comments node for the required customizations.
 
 
