@@ -44,5 +44,25 @@ Device Management
 
 ### notes on OpenAPI V2.0
 
+The tuyaAPI v. 2.0 introduces two new abstraction levels for device management: standard devices and "code". Standard devices are categorized by their function set ('code' collection). This allows the creation of maps also for devices that are not manufactured by Tuya but can still be controlled using the tuyaAPI. 
+
+Additionally, the tuyaAPI v. 2.0 introduces the concept of spaces and subspaces for defining the spatial location of devices. Spaces represent large areas, such as a home or office, while subspaces represent smaller areas within a space, such as a living room or bedroom. This new device spatial definition, in conjunction with 'groups', allows for more granular control over device operation and enables the creation of more complex automation scenarios.
+
+
+The 'standard' access
+> "The standard instruction set lets you control devices from different manufacturers with a single set of instructions. However, to achieve standardization, mapping relationships shall be manually created, and Tuya cannot guarantee that all hardware products support this function."
+
+The "instruction set" is defined using "code" (i.e. tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to natives DP. The devices are grouped in 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
+
+the space abstraction
+
+### TuyaDAEMON 3.0
+objectives
+specifications 
+   new device OpenAPI
+   new pseudoDP
+   alldevice update
+   tools update
+   migration
 
 
