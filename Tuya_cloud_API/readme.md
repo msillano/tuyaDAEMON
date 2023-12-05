@@ -7,7 +7,7 @@ Tuya IoT Cloud is a global cloud platform that provides a comprehensive suite of
 ---
 ### node-red Tuya OpenAPI V2.0
 
-This library implements experimental access to Tuya Cloud API to get data or perform operations programmatically, without using  the 'SmartLife Ap'p or the 'Tuya Development Platform'.
+This library implements experimental access to Tuya Cloud API to get data or perform operations programmatically, without using  the 'SmartLife App' or the 'Tuya Development Platform'.
 
 To start with Tuya IoT Cloud, you must create a developer account and register your devices, to get the credentials (see [here for references](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-new-device-to-tuyaDAEMON#1-preconditions)). You can then start using the `nr_Tuya_OpenAPI_2.0` to develop and manage your node-red IoT applications.
 
@@ -28,6 +28,24 @@ The `nr_Tuya_OpenAPI_2.0` is a minimal implementation, for testing and API explo
  - This project is derived from the project by NotEnoughTech (https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya%20Cloud%20API)
 
 ---
+
+### notes on OpenAPI V2.0
+
+The tuyaAPI v. 2.0 introduces two new abstraction levels for device management: standard devices and "code". Standard devices are categorized by their function set using common codes. This allows the creation of maps also for devices that are not manufactured by Tuya but can still be controlled using the tuyaAPI. 
+
+Additionally, the tuyaAPI v. 2.0 introduces the concept of space and subspace for defining the spatial location of devices. Spaces represent large areas, such as a home or office, while subspaces represent smaller areas within a space, such as a living room or bedroom. This device spatial definition, in conjunction with 'groups', allows for more granular control over device operation and enables the creation of more complex automation scenarios.
+
+
+The 'standard' access
+> "The standard instruction set lets you control devices from different manufacturers with a single set of instructions. However, to achieve standardization, mapping relationships shall be manually created, and Tuya cannot guarantee that all hardware products support this function."
+
+The "instruction set" is defined using "code" (i.e. tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to natives DP. The devices are grouped in 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
+
+the space abstraction
+
+
+
+---
 ### Tuya Cloud API and TuyaDAEMON
 
 The ability to access OpenAPI simply can open up interesting scenarios in TuyaDAEMON. Let's look at the various aspects:
@@ -41,20 +59,6 @@ In this case, the use of CloudAPI (e.g. API Query_Properties) could be valid.
 Device Management
 - Some non-local aspects of device management (e.g. space (home), groups, automation) are only partially manageable via TRIGGER + Automation. If you want advanced applications in these areas, using CloudAPI must be necessary.
 - Some management operations (like add/remove/rename devices, automation, etc...) actually are performed using a Tuya APP (SmartLife). If you want to do thems in a custom application, you need to use CloudAPI.
-
-### notes on OpenAPI V2.0
-
-The tuyaAPI v. 2.0 introduces two new abstraction levels for device management: standard devices and "code". Standard devices are categorized by their function set ('code' collection). This allows the creation of maps also for devices that are not manufactured by Tuya but can still be controlled using the tuyaAPI. 
-
-Additionally, the tuyaAPI v. 2.0 introduces the concept of spaces and subspaces for defining the spatial location of devices. Spaces represent large areas, such as a home or office, while subspaces represent smaller areas within a space, such as a living room or bedroom. This new device spatial definition, in conjunction with 'groups', allows for more granular control over device operation and enables the creation of more complex automation scenarios.
-
-
-The 'standard' access
-> "The standard instruction set lets you control devices from different manufacturers with a single set of instructions. However, to achieve standardization, mapping relationships shall be manually created, and Tuya cannot guarantee that all hardware products support this function."
-
-The "instruction set" is defined using "code" (i.e. tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to natives DP. The devices are grouped in 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
-
-the space abstraction
 
 ### TuyaDAEMON 3.0
 objectives
