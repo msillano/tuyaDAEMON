@@ -63,10 +63,10 @@ Device control
 - Some subdevices (using a hub) could also benefit from CloudAPI, when not all DPs are accessible via tuya-smart-device node.
   
 Device Management
-- Some non-local aspects of device management (e.g. space (home), groups, automation) are only partially manageable via TRIGGER + Automation. If you want advanced applications in these areas, using CloudAPI must be necessary.
-- Some operations (like add/remove/rename devices, create/modify automation, etc...) actually are performed using a Tuya APP (SmartLife). If you want to do thems in a custom application, you can use CloudAPI.
+- Some non-local aspects of device management (e.g. space (home), groups, automation) are only partially manageable via TRIGGER + Automation. If you want advanced applications in these areas, the use of CloudAPI must be necessary.
+- Some operations (like add/remove/rename devices, create/modify automation, etc...) actually are performed using a Tuya APP (SmartLife). If you want to do this in a custom application, you can use CloudAPI.
 
-> _In conclusion, I believe, in an open strategy, that it is useful to create a new optional communication channel (core_OPENAPI) into TuyaDEAMON, to be used only in essential cases, to minimize the dependence of TuyaDAEMON on the evolution and strategy of Tuya Cloud._
+> _In conclusion, I believe, in an open strategy, that it is useful to create a new optional communication channel using OpenAPI into TuyaDEAMON, to be used only in essential cases, to minimize the dependence of TuyaDAEMON on the evolution and strategy of Tuya Cloud._
 
 ---
 ### core_OPENAPI custom device
