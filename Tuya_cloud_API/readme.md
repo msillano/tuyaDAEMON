@@ -86,18 +86,26 @@ specifications
          - APIurl (URI) (like "/v2.0/cloud/scene/rule?space_id=123456789")
          - body (JSON)  (like {"properties":{"switch_1":false}} )
      - Output:
-         - The JSON structure from OpenAPI, processed only in error case
+         - A msg for global.tyastatus.openapi logging, having as 'value' the result (a JSON structure) from OpenAPI, or an error message.
    
 
 - APIstatus pseudoDP: uses the Tuya API 'query_properties', is a replacement for "GET schema". Using this Tuya API as the advantage that the API result includes also the DPs.
      - Input: none
-     - Output:  a msg for TuyaDAEMON log or an error msg.
+     - Output:
+         - A message for global.tyastatus.openapi logging, having as 'value' the result,
+         - A msg for global.tyastatus.device logging, having the read DP-values.
+         - or an error msg.
 
 - APIinstruction pseudoDP,  which uses the Tuya API 'send_properties', is a replacement for "MULTIPLE SET":
-     - Input: an object with couples (code: value) required by OpenAPI and a DP map required by log.
-     - Output: a msg for TuyaDAEMON log: as 'value' the JSON result from OpenAPI or an error msg.
+     - Input:
+        - An object with couples (code: value) required by OpenAPI and a DP map required by log.
+     - Output:
+        - A message for global.tyastatus.openapi logging, having as 'value' the result,
+        - A msg for global.tyastatus.device logging, having the read DP-values.
+        - or an error msg.
 
    alldevice update
+   
    tools update
    migration
 
