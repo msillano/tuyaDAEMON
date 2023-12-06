@@ -5,6 +5,24 @@ Tuya IoT Cloud is a global cloud platform that provides a comprehensive suite of
 [Tuya OpenAPI](https://developer.tuya.com/en/docs/cloud) is a set of open Application Programming Interfaces (APIs) provided by Tuya Smart, accessible via REST (HTTP),  that enables developers to integrate Tuya Cloud services into their own applications. 
 
 ---
+### notes on Tuya OpenAPI V2.0
+
+The OpenAPI v. 2.0 introduces two new abstraction levels for device management: standard devices and "code". Standard devices are categorized by their function set using common codes. This allows the creation of maps also for devices that are not Tuya natives but can still be controlled using the tuyaAPI. 
+
+Additionally, the tuyaAPI v. 2.0 introduces the concept of space and subspace for defining the spatial location of devices. Spaces represent large areas, such as a home or office, while subspaces represent smaller areas within a space, such as a living room or bedroom. This device spatial definition, in conjunction with 'groups' (association for devices from the same space and same category), allows for more granular control over device operation and enables the creation of more complex automation scenarios.
+
+
+The 'standard' access
+> "The standard instruction set lets you control devices from different manufacturers with a single set of instructions. However, to achieve standardization, mapping relationships shall be manually created, and Tuya cannot guarantee that all hardware products support this function."
+
+- The "property set" (i.e. 'status' - Read enabled, and 'instruction' - Write enabled) of a device is defined using "code" (i.e. Tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to native DPs. The devices are grouped in 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
+
+The space abstraction
+> "A space defines the geographical location, area, and layout information of IoT scenes, and displays the topological relationship between various smart devices in a tree structure."
+
+- The smart-home definitions ("home", "room",...) are derived from the abstract space definitions. 
+
+---
 ### node-red Tuya OpenAPI V2.0
 
 This library implements experimental access to Tuya Cloud API to get data or perform operations programmatically, without using  the 'SmartLife App' or the 'Tuya Development Platform'.
@@ -27,24 +45,6 @@ The `nr_Tuya_OpenAPI_2.0` is a minimal implementation, for testing and API explo
      - IoT-Core: Start [here](https://developer.tuya.com/en/docs/cloud) (registration required). 
  - This project is derived from the project by NotEnoughTech (https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya%20Cloud%20API)
 
----
-
-### notes on Tuya OpenAPI V2.0
-
-The OpenAPI v. 2.0 introduces two new abstraction levels for device management: standard devices and "code". Standard devices are categorized by their function set using common codes. This allows the creation of maps also for devices that are not Tuya natives but can still be controlled using the tuyaAPI. 
-
-Additionally, the tuyaAPI v. 2.0 introduces the concept of space and subspace for defining the spatial location of devices. Spaces represent large areas, such as a home or office, while subspaces represent smaller areas within a space, such as a living room or bedroom. This device spatial definition, in conjunction with 'groups' (association for devices from the same space and same category), allows for more granular control over device operation and enables the creation of more complex automation scenarios.
-
-
-The 'standard' access
-> "The standard instruction set lets you control devices from different manufacturers with a single set of instructions. However, to achieve standardization, mapping relationships shall be manually created, and Tuya cannot guarantee that all hardware products support this function."
-
-- The "property set" (i.e. 'status' (RO) and 'functions' (WO)) of a device is defined using "code" (i.e. Tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to native DPs. The devices are grouped in 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
-
-The space abstraction
-> "A space defines the geographical location, area, and layout information of IoT scenes, and displays the topological relationship between various smart devices in a tree structure."
-
-- The smart-home definitions ("home", "room",...) are derived from the abstract space definitions. 
 
 ---
 ### Tuya Cloud API and TuyaDAEMON
@@ -58,7 +58,7 @@ Device control
   
 Device Management
 - Some non-local aspects of device management (e.g. space (home), groups, automation) are only partially manageable via TRIGGER + Automation. If you want advanced applications in these areas, using CloudAPI must be necessary.
-- Some management operations (like add/remove/rename devices, create/modify automation, etc...) actually are performed using a Tuya APP (SmartLife). If you want to do thems in a custom application, you need to use CloudAPI.
+- Some operations (like add/remove/rename devices, create/modify automation, etc...) actually are performed using a Tuya APP (SmartLife). If you want to do thems in a custom application, you need to use CloudAPI.
 
 > _In conclusion, I believe it is useful to insert a new communication channel (core_OPENAPI) into TuyaDEAMON via OpenAPI calls, to be used only in essential cases, to minimize the dependence of TuyaDAEMON on the evolution and strategy of Tuya._
 
@@ -68,12 +68,26 @@ objectives
 - Complete the access to Tuya devices, potentially getting all data available from the Tuya Cloud. 
 - Extend the TuyaDEAMON/Tuya Cloud collaboration in areas (space, groups, automation, etc.) application-related.
 - Use (and implementation) of core_OPENAPI minimal, optional, and complete (all API must be callables).
+- Minimal minds that API URL construction and  mapping code <=> DP are user-local, defined in call parameters, and not global: this to exclude global.alldevices extensions. 
   
 specifications
    new pseudoDP
    Two new pseudoDP implements the device access:
-   APIschema, which uses the Tuya API 'query_properties', returns the complete device status (replacement for GET schema). No values.
-   APIfunction,  which uses the Tuya API 'query_properties', returns true/false. (replacement for MULTIPLE SET). Value: an object with couples (code:value).
+   APIstatus, which uses the Tuya API 'query_properties', returns the complete device status (replacement for GET schema). Input: none, Output OK: a msg for TuyaDAEMON log. Output KO: error msg.
+   APIinstruction,  which uses the Tuya API 'send_properties', returns true/false. (replacement for MULTIPLE SET). Input: an object with couples (code: value) and DP map, Output OK: a msg for TuyaDAEMON log. Output KO: error msg.
+
+   new device OPENAPI
+     Automatically get and refresh token
+     Only one property:
+     callAPI DP:
+       input:
+       Allows calls to any API, so the input data must be complete
+       method (string)
+       APIurl (URI) (like "/v2.0/cloud/scene/rule?space_id=123456789")
+       body (JSON)  (like {"properties":{"switch_1":false}} )
+       Output:
+       The JSON structure from OpenAPI, processed only in error case
+   
    
    alldevice update
    tools update
