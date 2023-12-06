@@ -43,7 +43,6 @@ The `nr_Tuya_OpenAPI_2.0` flow is a minimal implementation, for testing and API 
 
 - SET `client_id` and `device_id` and regional [tuya data center](https://github.com/tuya/tuya-home-assistant/blob/main/docs/regions_dataCenters.md) in  'Settings CLICK 'On Start' TAB' node una tantum. 
 - SET your Tuya `SecretKey` in (all) 'Sign signStr with secret' nodes.
-- Update URL var with your regional [tuya data center](https://github.com/tuya/tuya-home-assistant/blob/main/docs/regions_dataCenters.md) in ALL second function nodes.  
 - All flows are very similar, with a few differences - read the flow comments node for the required customizations.
 
 #### notes:
