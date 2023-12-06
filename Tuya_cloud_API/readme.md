@@ -40,7 +40,6 @@ To start with Tuya IoT Cloud, you must create a developer account and register y
 The `nr_Tuya_OpenAPI_2.0` flow is a minimal implementation, for testing and API exploration, essentially an examples collection.
 
 #### Config
-
 - SET `client_id` and `device_id` and regional tuya [data center](https://github.com/tuya/tuya-home-assistant/blob/main/docs/regions_dataCenters.md) in  'Settings CLICK 'On Start' TAB' node una tantum. 
 - SET your Tuya `SecretKey` in (all) 'Sign signStr with secret' nodes.
 - All flows are very similar, with a few differences - read the flow comments node for the required customizations.
@@ -54,7 +53,6 @@ The `nr_Tuya_OpenAPI_2.0` flow is a minimal implementation, for testing and API 
 
 ---
 ### Tuya Cloud API and TuyaDAEMON
-
 The ability to access OpenAPI simply can open up interesting scenarios in TuyaDAEMON. Let's look at the various aspects:
 
 Device control
@@ -87,8 +85,7 @@ specifications
          - body (JSON)  (like {"properties":{"switch_1":false}} )
      - Output:
          - A msg for global.tyastatus.openapi logging, having as 'value' the result (a JSON structure) from OpenAPI, or an error message.
-   
-
+ 
 - APIstatus pseudoDP: uses the Tuya API 'query_properties', is a replacement for "GET schema". Using this Tuya API as the advantage that the API result includes also the DPs.
      - Input: none
      - Output:
@@ -104,8 +101,9 @@ specifications
         - A msg for global.tyastatus.device logging, having the read DP-values.
         - or an error msg.
 
-   alldevice update
-   
+global.ualldevice update
+ - The only change is to make 'deviceID' mandatory also for subdevices controlled by a hub (in global.alldevice/virtual). This is necessary to be able to use psudoDP. The id can be provided by 'tuya_cli wizard'.
+ - The change is without consequences because the 'virtual' test is always done using  the presence of the CID, and in messages, we can use any of 'user_name | CID | ID' as a index for the device.
    tools update
    migration
 
