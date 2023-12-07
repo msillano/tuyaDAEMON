@@ -1,20 +1,22 @@
 # Tuya Cloud API (OpenAPI)
 
-Tuya IoT Cloud is a global cloud platform that provides a comprehensive suite of [IoT capabilities](https://www.tuya.com/), including device management, scenario automation, data analytics, and industry services. It is widely used by businesses of all sizes to develop and manage IoT applications.
+IoT Cloud by Tuya Smart is a global cloud platform that provides a comprehensive suite of [IoT capabilities](https://www.tuya.com/), including device management, scenario automation, data analytics, and industry services. Businesses of all sizes rely on Tuya IoT Cloud to develop and manage their IoT applications.
 
-[Tuya OpenAPI](https://developer.tuya.com/en/docs/cloud) is a set of open Application Programming Interfaces (APIs) provided by Tuya Smart, accessible via REST (HTTP),  that enables developers to integrate Tuya Cloud services into their own applications. 
+[Tuya OpenAPI](https://developer.tuya.com/en/docs/cloud) is a set of open Application Programming Interfaces (APIs) provided by Tuya Smart, accessible via REST (HTTP), which enables developers to seamlessly integrate Tuya Cloud services into their own applications.
 
 ---
 ### notes on Tuya OpenAPI V2.0
 
-The OpenAPI v. 2.0 introduces two new abstraction levels for device management: standard devices and "code". Standard devices are categorized by their function set using common codes. This allows the creation of maps also for devices that are not Tuya natives but can still be controlled using the tuyaAPI. 
+ The OpenAPI v. 2.0 introduces two new abstraction levels for device management: standard devices and "code". Standard devices are categorized by their function set using common codes. This allows the creation of maps also for devices that are not Tuya natives but can still be controlled using the tuyaAPI. 
 
 Additionally, the tuyaAPI v. 2.0 introduces the concept of space and subspace for defining the spatial location of devices. Spaces represent large areas, such as a home or office, while subspaces represent smaller areas within a space, such as a living room or bedroom. This device spatial definition, in conjunction with 'groups', allows for more granular control over device operation and enables the creation of more complex automation scenarios.
 
 The 'standard' access
-> "The standard instruction set lets you control devices from different manufacturers with a single set of instructions. However, to achieve standardization, mapping relationships shall be manually created, and Tuya cannot guarantee that all hardware products support this function."
+> "The _standard instruction set_ lets you control devices from different manufacturers with a single set of instructions. However, to achieve standardization, mapping relationships shall be manually created, and Tuya cannot guarantee that all hardware products support this function."
 
 - The "property set" (Tuya classed as 'status' - Read enabled, and 'instruction' - Write enabled) of a device is defined using "code" (i.e. Tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to native DPs. The devices are grouped in 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
+  
+> **TuyaDAEMON** manages devices individually and defines access rules on a single DP basis. This allows users to specialize individual devices based on their function. In object-oriented programming terms, users can define  _single_derived devices_. <br> For instance, the [1CH switch](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf), when employed as a [tuya-bridge](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER), has its "countdown" property unavailable to users (check [note 2](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER#mqtt-tuya_bridge-tests-requres-core_mqtt)) due to its prior utilization for "trigger" purposes.
 
 The space abstraction
 > "A space defines the geographical location, area, and layout information of IoT scenes, and displays the topological relationship between various smart devices in a tree structure."
@@ -25,15 +27,17 @@ The space abstraction
 The device group
 > "A device group is a collection of devices with the same features, allowing users to manage and control a large number of devices as a whole. For example, turn devices on or off, and create scheduled tasks."
 
-- A group is, in OOP terms, a 'derived device': a collection of devices of the same type (see    [TuyaDEAMON OO capabilities](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices))
+- A group is, in OOP terms, a 'derived device': a collection of devices of the same type. This is the unique derivation feature in the Tuya cloud.
 - All devices in a group must belong to the same space.
 - A group inherits DPs (and not 'code') from devices to define the group's properties. 
 - Limits: 50  groups per space, 100 devices per group.
+
+  > **TuyaDAEMON** offers users a complete [OO recursive paradigm](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices), with all patterns: _composition, aggregation, use_ and instruction _inheritance, override_.
   
 ---
 ### node-red Tuya OpenAPI V2.0
 
-This [node-red flow](https://github.com/msillano/tuyaDAEMON/blob/main/Tuya_cloud_API/nr-OpenAPI20.json.zip) implements experimental access to Tuya Cloud API to get data or perform operations programmatically, without using  the 'SmartLife App' or the 'Tuya Development Platform'.
+This node-red flow [https://github.com/msillano/tuyaDAEMON/blob/main/Tuya_cloud_API/nr-OpenAPI20.json.zip](https://github.com/msillano/tuyaDAEMON/blob/main/Tuya_cloud_API/nr-OpenAPI20.json.zip) implements experimental access to Tuya Cloud API to get data or perform operations programmatically, without using  the 'SmartLife App' or the 'Tuya Development Platform'.
 
 To start with Tuya IoT Cloud, you must create a developer account and register your devices, to get the credentials (see [here for references](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-new-device-to-tuyaDAEMON#1-preconditions)). You can then start using the `nr_Tuya_OpenAPI_2.0` flow to develop and manage your node-red IoT applications.
 
