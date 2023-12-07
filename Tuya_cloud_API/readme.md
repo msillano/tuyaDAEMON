@@ -76,7 +76,15 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 * Some operations (such as adding/removing/renaming devices, creating/modifying automation, etc.) are actually performed only using a Tuya APP (SmartLife). If you want to do this in a custom application, you can use CloudAPI.
 
-In conclusion, from an open-strategy perspective, it is beneficial to create a new optional communication channel using OpenAPI in TuyaDAEMON, to be used only in essential cases, to minimize the TuyaDAEMON's dependence on the evolution and strategy of Tuya Cloud.
+**Automation Management**
+
+ In SmartLife the 'automations' section is not exactly user friendly. Using OpenAPI can help. In particular I noticed the following problems:
+ 
+*  Sometimes it is very difficult to set a parameter value (for example a countdown - trigger to 70140) using the very poor APP user interface. Tuya sayd: "_The device and device function options in the smart scene linkage (Automation/Tap-to-Run) are set by the product manufacturer and cannot be changed by us_". This is true, but only partially:  "_for theautomations, which is a plus of Tuya and does not directly affect the manufacturer device, all manufacturers have used the default U.I. offert by_ Tuya IoT Development Platform _and this is the problem" (bug: Tuya proposes only one interface for all numerical range)_".
+ 
+*  When a device changes ID (for re-connection or replacement) all the automations connected to that device are "unavailable" (ok). But the users must modify the automation by manually entering in SmartLife again all data or conditions for to the new device, when a simple ID replacement is enough. This can be really frustrating. 
+
+> In conclusion, from an open-strategy perspective, it is beneficial to create a new optional communication channel using OpenAPI in TuyaDAEMON, to be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud.
 
 ### core_OPENAPI custom device
   A custom device, **core_OPENAPI** implements this TuyaDAEMON extension, with the following objectives:
@@ -120,7 +128,7 @@ In conclusion, from an open-strategy perspective, it is beneficial to create a n
 
 **tools update**
 * The use of OpenAPI could allow the automation of some tedious manual steps still required by the tools, such as identifying the DP of a new device.
-* It also opens up the possibility of new tools, such as, for example, the management of automations, which would allow users to edit all the parameters without problems. In fact, sometimes it is very difficult to set a defined trigger value (for example 70140) using the standard slider of the SmartLife APP user interface.
+* It also opens up the possibility of new tools, like 'automation tool', to build an alternative to SmartLife.
   
 _Interesting opportunities to evaluate._
 
