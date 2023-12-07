@@ -128,7 +128,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 **tools update**
 * The use of OpenAPI could allow the automation of some tedious manual steps still required by the tools, such as identifying the DP of a new device.
-* It also opens up the possibility of new tools, like 'automation tool', to build an alternative to SmartLife.
+* It also opens up the possibility of new tools, like 'automation tool', to build a better alternative to SmartLife.
   
 _Interesting opportunities to evaluate._
 
