@@ -15,8 +15,8 @@ note: OpenAPI v. 2.0 introduces also _virtual devices_ (i.e. SW-only models from
 **The 'standard' access**
 > "The _standard instruction set_ lets you control devices from different manufacturers with a single set of instructions. However, to achieve standardization, mapping relationships shall be manually created, and Tuya cannot guarantee that all hardware products support this function."
 
-- The "property set" (classed by Tuya as 'status' - Read enabled, and 'instruction' - Write enabled) of a device is defined using _code_ (i.e. Tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to native DPs. The devices are grouped in 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
-- 
+- The "property set" (classed by Tuya as 'status' - Read enabled, and 'instruction' - Write enabled) of a device is defined using _code_ (i.e. Tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to native DPs.
+- The devices are grouped in 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
   
 > **TuyaDAEMON** manages devices individually and defines access rules on a single DP basis. This allows users to specialize individual devices based on their function. In object-oriented programming terms, users can define  _single_derived devices_. <br> For instance, a [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf), when employed as a [tuya-bridge](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER), has its "countdown" property unavailable to users (check [note 2](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER#mqtt-tuya_bridge-tests-requres-core_mqtt)) due to its prior utilization for "trigger" purposes.
 
@@ -72,7 +72,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 **Device Management**
 
-* Some non-basic aspects of device management (e.g., spaces (homes), groups, automation) are only partially manageable via TRIGGER + Automation. If you want advanced applications in these areas, the use of CloudAPI is necessary.
+* Some non-basic aspects of device management (e.g., spaces (home), groups, automation) are only partially manageable via TRIGGER + Automation. If you want advanced applications in these areas, the use of CloudAPI is necessary.
 
 * Some operations (such as adding/removing/renaming devices, creating/modifying automation, etc.) are actually performed only using a Tuya APP (SmartLife). If you want to do this in a custom application, you can use CloudAPI.
 
@@ -99,19 +99,19 @@ In conclusion, from an open-strategy perspective, it is beneficial to create a n
          - A msg for global.tyastatus.openapi logging, having as 'value' the result from OpenAPI (a JSON structure). 
          - Or an error message.
  
-- **APIstatus** pseudoDP: uses the Tuya API 'query_properties', is a replacement for "GET schema". Using this Tuya API as the advantage that the API result includes also the DPs.
+- **APIstatus** pseudoDP: uses the Tuya API 'query_properties', is a replacement for "GET schema". Using this Tuya API has the advantage that the API result includes also the DPs.
      - Input: none
      - Output:
          - A message for global.tyastatus.openapi logging, having as 'value' the result,
          - A msg for global.tyastatus.device logging, having the read DP-values.
          - or an error msg.
 
-- **APIinstruction** pseudoDP,  which uses the Tuya API 'send_properties', is a replacement for "MULTIPLE SET":
+- **APIinstruction** pseudoDP: uses the Tuya API 'send_properties', is a replacement for "MULTIPLE SET":
      - Input:
         - An object with couples (code: value) required by OpenAPI and a DP map required by log.
      - Output:
         - A message for global.tyastatus.openapi logging, having as 'value' the result,
-        - A msg for global.tyastatus.device logging, having the read DP-values.
+        - A msg for global.tyastatus.device logging, having the sent DP-values.
         - or an error msg.
 
 **global.alldevice update**
