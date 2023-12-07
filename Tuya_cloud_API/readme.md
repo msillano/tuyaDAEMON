@@ -68,7 +68,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 * Tuya devices such as WiFi low-power sensors, which cannot be managed with the tuya-smart-device node, are currently controlled in TuyaDAEMON with TRIGGER. While the Trigger technique is reliable and more stable than CloudAPI, it has limitations in reading numerical measurements. In such cases, the use of CloudAPI (e.g., API _Query_Properties_) could be beneficial.
 
-* Some subdevices (using a hub) could also benefit from CloudAPI, when not all DPs are accessible via the tuya-smart-device node.
+* Some subdevices (using a hub) could also benefit from CloudAPI when not all DPs are accessible via the tuya-smart-device node.
 
 **Device Management**
 
@@ -78,11 +78,11 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 **Automation Management**
 
- In SmartLife the 'automations' section is not exactly user friendly. Using OpenAPI can help. In particular I noticed the following problems:
+ In SmartLife the 'automations' section is not exactly user-friendly. Using OpenAPI can help. In particular, I noticed the following problems:
  
-*  Sometimes it is very difficult to set a parameter value (for example a countdown - trigger to 70140) using the very poor APP user interface. Tuya sayd: "_The device and device function options in the smart scene linkage (Automation/Tap-to-Run) are set by the product manufacturer and cannot be changed by us_". This is true, but only partially:  "_for theautomations, which is a plus of Tuya and does not directly affect the manufacturer device, all manufacturers have used the default U.I. offert by_ Tuya IoT Development Platform _and this is the problem" (bug: Tuya proposes only one interface for all numerical range)_".
+*  Sometimes it is very difficult to set a parameter value (for example a countdown - trigger to 70140, try yourself) using the very poor APP user interface. Tuya said: "_The device and device function options in the smart scene linkage (Automation/Tap-to-Run) are set by the product manufacturer and cannot be changed by us_". This is true, but only partially:  "_for the smart scenes, which is a plus of Tuya and does not directly affect the manufacturer device, all manufacturers have used the default U.I. offered by_ Tuya IoT Development Platform _and this is the problem" (bug: Tuya proposes only one interface for all numerical range)_".
  
-*  When a device changes ID (for re-connection or replacement) all the automations connected to that device are "unavailable" (ok). But the users must modify the automation by manually entering in SmartLife again all data or conditions for to the new device, when a simple ID replacement is enough. This can be really frustrating. 
+*  When a device changes ID (for re-connection or replacement) all the automations connected to that device are "unavailable" (ok). However, the users must modify the automation by manually entering in SmartLife again all data or conditions for to the new device, when a simple ID replacement is enough. This can be really frustrating. 
 
 > In conclusion, from an open-strategy perspective, it is beneficial to create a new optional communication channel using OpenAPI in TuyaDAEMON, to be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud.
 
@@ -94,7 +94,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 - Use (and implementation) of core_OPENAPI must be minimal, optional, and complete (all API must be callables).
 - Minimal minds that API URL construction and  mapping code <=> DP are user-local, defined in call parameters, and not global: this to exclude heavy global.alldevices extensions. 
   
-**specifications**
+**Specifications**
 
    The new device OPENAPI automatically gets and refreshes the token, and exposes only one property and two new [pseudoDP](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#pseudodp),  usable on any real/virtual tuyaDEAMON device (not on 'fake' devices, not handled by Tuya Cloud):
 
