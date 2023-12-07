@@ -76,12 +76,12 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 * Some operations (such as adding/removing/renaming devices, creating/modifying automation, etc.) are actually performed only using a Tuya APP (SmartLife). If you want to do this in a custom application, you can use CloudAPI.
 
-In conclusion, from an open-strategy perspective, it is beneficial to create a new optional communication channel using OpenAPI in TuyaDAEMON, to be used only in essential cases, to minimize TuyaDAEMON's dependence on the evolution and strategy of Tuya Cloud.
+In conclusion, from an open-strategy perspective, it is beneficial to create a new optional communication channel using OpenAPI in TuyaDAEMON, to be used only in essential cases, to minimize the TuyaDAEMON's dependence on the evolution and strategy of Tuya Cloud.
 
 ### core_OPENAPI custom device
   A custom device, **core_OPENAPI** implements this TuyaDAEMON extension, with the following objectives:
   
-- Complete the access to/from Tuya devices, potentially getting all available data from the Tuya Cloud. 
+- Complete the access to/from Tuya devices, potentially sending/getting all available data to/from the Tuya Cloud. 
 - Extend the TuyaDEAMON/Tuya Cloud collaboration in areas (space, groups, automation, etc.) application-related.
 - Use (and implementation) of core_OPENAPI must be minimal, optional, and complete (all API must be callables).
 - Minimal minds that API URL construction and  mapping code <=> DP are user-local, defined in call parameters, and not global: this to exclude heavy global.alldevices extensions. 
