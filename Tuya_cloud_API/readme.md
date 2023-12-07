@@ -32,7 +32,7 @@ The device group
 - All devices in a group must belong to the same space.
 - Limits: 50  groups per space, 100 devices per group.
 
-> **TuyaDAEMON** offers users a complete [OO recursive paradigm](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices), with all patterns: _composition, aggregation, use_ and instruction _inheritance, override_.
+> **TuyaDAEMON** offers users a complete [OO recursive paradigm](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) for devices, with all patterns: _composition, aggregation, use_ and instruction _inheritance, override_.
   
 ---
 ### node-red Tuya OpenAPI V2.0
