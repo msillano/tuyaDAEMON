@@ -4,25 +4,27 @@ IoT Cloud by Tuya Smart is a global cloud platform that provides a comprehensive
 
 [Tuya OpenAPI](https://developer.tuya.com/en/docs/cloud) is a set of open Application Programming Interfaces (APIs) provided by Tuya Smart, accessible via REST (HTTP), which enables developers to seamlessly integrate Tuya Cloud services into their own applications.
 
----
 ### notes on Tuya OpenAPI V2.0
 
- The OpenAPI v. 2.0 introduces two new abstraction levels for device management: standard devices and "code". Standard devices are categorized by their function set using common codes. This allows the creation of maps also for devices that are not Tuya natives but can still be controlled using the tuyaAPI. 
+ The OpenAPI v. 2.0 introduces two new abstraction levels for device management: _standard devices_ and _code_. Standard devices are categorized by their function set using common codes. This allows the creation of maps also for devices that are not Tuya natives but can still be controlled using the tuyaAPI. 
 
-Additionally, the tuyaAPI v. 2.0 introduces the concept of space and subspace for defining the spatial location of devices. Spaces represent large areas, such as a home or office, while subspaces represent smaller areas within a space, such as a living room or bedroom. This device spatial definition, in conjunction with 'groups', allows for more granular control over device operation and enables the creation of more complex automation scenarios.
+Additionally, OpenAPI v. 2.0 introduces the concept of _space_ and _subspace_ for defining the spatial location of devices. Spaces represent large areas, such as a home or office, while subspaces represent smaller areas within a space, such as a living room or bedroom. This device spatial definition, in conjunction with 'groups', allows for more granular control over device operation and enables the creation of more complex automation scenarios.
+
+note: OpenAPI v. 2.0 introduces also _virtual devices_ (i.e. SW-only models from custom projects or TuyaGo) not to be confused with TyaDAEMON's _virtual devices_ (subdevices: Tuya HW devices using a hub). _Tuya virtual devices_ do not affect TuyaDEAMON.
 
 **The 'standard' access**
 > "The _standard instruction set_ lets you control devices from different manufacturers with a single set of instructions. However, to achieve standardization, mapping relationships shall be manually created, and Tuya cannot guarantee that all hardware products support this function."
 
-- The "property set" (Tuya classed as 'status' - Read enabled, and 'instruction' - Write enabled) of a device is defined using "code" (i.e. Tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to native DPs. The devices are grouped in 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
+- The "property set" (Tuya classed as 'status' - Read enabled, and 'instruction' - Write enabled) of a device is defined using _code_ (i.e. Tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to native DPs. The devices are grouped in 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
   
-> **TuyaDAEMON** manages devices individually and defines access rules on a single DP basis. This allows users to specialize individual devices based on their function. In object-oriented programming terms, users can define  _single_derived devices_. <br> For instance, a [1CH switch](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf), when employed as a [tuya-bridge](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER), has its "countdown" property unavailable to users (check [note 2](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER#mqtt-tuya_bridge-tests-requres-core_mqtt)) due to its prior utilization for "trigger" purposes.
+> **TuyaDAEMON** manages devices individually and defines access rules on a single DP basis. This allows users to specialize individual devices based on their function. In object-oriented programming terms, users can define  _single_derived devices_. <br> For instance, a [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf), when employed as a [tuya-bridge](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER), has its "countdown" property unavailable to users (check [note 2](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER#mqtt-tuya_bridge-tests-requres-core_mqtt)) due to its prior utilization for "trigger" purposes.
 
 **The space abstraction**
-> "A space defines the geographical location, area, and layout information of IoT scenes, and displays the topological relationship between various smart devices in a tree structure."
+> "A _space_ defines the geographical location, area, and layout information of IoT scenes, and displays the topological relationship between various smart devices in a tree structure."
 
+- It is recursive: a space/subspace can contain subspaces.
 - The smart-home definitions ("home", "room",...) are derived from the abstract space definitions.
-- Limits: 100 devices per space (subspace), 100 subspaces per space (subspace), 10 subspaces deep. 
+- Limits: 100 devices per space/subspace, 100 subspaces per space/subspace, 10 max space tree deep. 
 
 **The device group**
 > "A device group is a collection of devices with the same features, allowing users to manage and control a large number of devices as a whole. For example, turn devices on or off, and create scheduled tasks."
@@ -53,7 +55,7 @@ The `nr_Tuya_OpenAPI_2.0` flow is a minimal implementation, for testing and API 
  - TuyaAPI uses `codes` (tuya names for DPs) and not DPs. The output of the 'Get SCHEMA V2.0' flow maps DPs <=> codes.
  - API reference:
      - IoT-Core: Start [here](https://developer.tuya.com/en/docs/cloud) (registration required). 
- - This project is derived from the project by NotEnoughTech (https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya%20Cloud%20API)
+ - This project is derived from the project by NotEnoughTech ([https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya Cloud API](https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya%20Cloud%20API))
 
 ---
 ### Tuya Cloud API and TuyaDAEMON
@@ -61,27 +63,26 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 **Device Control**
 
-* Local access to real device properties is quite good with the tuya-smart-device node, and only in rare cases is access via CloudAPI useful.
+* Local access to Tuya real (WiFi) device properties is quite good with the tuya-smart-device node, and only in rare cases is access via CloudAPI useful.
 
-* Devices such as WiFi sensors, which cannot be managed with the tuya-smart-device node, are currently controlled in TuyaDAEMON with TRIGGER. While the Trigger technique is reliable and more stable than CloudAPI, it has limitations in reading numerical measurements. In such cases, the use of CloudAPI (e.g., API Query_Properties) could be beneficial.
+* Tuya devices such as WiFi low-power sensors, which cannot be managed with the tuya-smart-device node, are currently controlled in TuyaDAEMON with TRIGGER. While the Trigger technique is reliable and more stable than CloudAPI, it has limitations in reading numerical measurements. In such cases, the use of CloudAPI (e.g., API _Query_Properties_) could be beneficial.
 
 * Some subdevices (using a hub) could also benefit from CloudAPI, when not all DPs are accessible via the tuya-smart-device node.
 
 **Device Management**
 
-* Some non-local aspects of device management (e.g., spaces (homes), groups, automation) are only partially manageable via TRIGGER + Automation. If you want advanced applications in these areas, the use of CloudAPI is necessary.
+* Some non-basic aspects of device management (e.g., spaces (homes), groups, automation) are only partially manageable via TRIGGER + Automation. If you want advanced applications in these areas, the use of CloudAPI is necessary.
 
-* Some operations (such as adding/removing/renaming devices, creating/modifying automation, etc.) are actually performed using a Tuya APP (SmartLife). If you want to do this in a custom application, you can use CloudAPI.
+* Some operations (such as adding/removing/renaming devices, creating/modifying automation, etc.) are actually performed only using a Tuya APP (SmartLife). If you want to do this in a custom application, you can use CloudAPI.
 
 In conclusion, from an open-strategy perspective, it is beneficial to create a new optional communication channel using OpenAPI in TuyaDAEMON, to be used only in essential cases, to minimize TuyaDAEMON's dependence on the evolution and strategy of Tuya Cloud.
 
----
 ### core_OPENAPI custom device
-**objectives**
-- A custom device, **core_OPENAPI** implements this TuyaDAEMON extension.
-- Complete the access to Tuya devices, potentially getting all available data from the Tuya Cloud. 
+  A custom device, **core_OPENAPI** implements this TuyaDAEMON extension, with the following objectives:
+  
+- Complete the access to/from Tuya devices, potentially getting all available data from the Tuya Cloud. 
 - Extend the TuyaDEAMON/Tuya Cloud collaboration in areas (space, groups, automation, etc.) application-related.
-- Use (and implementation) of core_OPENAPI minimal, optional, and complete (all API must be callables).
+- Use (and implementation) of core_OPENAPI must be minimal, optional, and complete (all API must be callables).
 - Minimal minds that API URL construction and  mapping code <=> DP are user-local, defined in call parameters, and not global: this to exclude heavy global.alldevices extensions. 
   
 **specifications**
