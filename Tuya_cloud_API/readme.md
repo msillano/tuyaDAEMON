@@ -28,8 +28,8 @@ The device group
 > "A device group is a collection of devices with the same features, allowing users to manage and control a large number of devices as a whole. For example, turn devices on or off, and create scheduled tasks."
 
 - A group is, in OOP terms, a 'derived device': a collection of devices of the same type. This is the unique derivation feature in the Tuya cloud.
+- A group inherits DPs (and not 'code') from devices to define the group's properties.
 - All devices in a group must belong to the same space.
-- A group inherits DPs (and not 'code') from devices to define the group's properties. 
 - Limits: 50  groups per space, 100 devices per group.
 
 > **TuyaDAEMON** offers users a complete [OO recursive paradigm](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices), with all patterns: _composition, aggregation, use_ and instruction _inheritance, override_.
