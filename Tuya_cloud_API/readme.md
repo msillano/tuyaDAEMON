@@ -6,7 +6,7 @@ IoT Cloud by Tuya Smart is a global cloud platform that provides a comprehensive
 
 ### notes on Tuya OpenAPI V2.0
 
- The OpenAPI v. 2.0 introduces two new abstraction levels for device management: _standard devices_ and _code_. Standard devices are categorized by their function set using common codes. This allows the creation of maps also for devices that are not Tuya natives but can still be controlled using the tuyaAPI. 
+ The OpenAPI v. 2.0 (since June 20, 2023) uses two abstraction levels for device management: _standard devices_ and _code_. Standard devices are categorized by their function set using common codes. This allows the creation of maps also for devices that are not Tuya natives but can still be controlled using the tuyaAPI. 
 
 Additionally, OpenAPI v. 2.0 introduces the concept of _space_ and _subspace_ for defining the spatial location of devices. Spaces represent large areas, such as a home or office, while subspaces represent smaller areas within a space, such as a living room or bedroom. This device spatial definition, in conjunction with 'groups', allows for more granular control over device operation and enables the creation of more complex automation scenarios.
 
@@ -15,7 +15,8 @@ note: OpenAPI v. 2.0 introduces also _virtual devices_ (i.e. SW-only models from
 **The 'standard' access**
 > "The _standard instruction set_ lets you control devices from different manufacturers with a single set of instructions. However, to achieve standardization, mapping relationships shall be manually created, and Tuya cannot guarantee that all hardware products support this function."
 
-- The "property set" (Tuya classed as 'status' - Read enabled, and 'instruction' - Write enabled) of a device is defined using _code_ (i.e. Tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to native DPs. The devices are grouped in 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
+- The "property set" (classed by Tuya as 'status' - Read enabled, and 'instruction' - Write enabled) of a device is defined using _code_ (i.e. Tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to native DPs. The devices are grouped in 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
+- 
   
 > **TuyaDAEMON** manages devices individually and defines access rules on a single DP basis. This allows users to specialize individual devices based on their function. In object-oriented programming terms, users can define  _single_derived devices_. <br> For instance, a [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf), when employed as a [tuya-bridge](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER), has its "countdown" property unavailable to users (check [note 2](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER#mqtt-tuya_bridge-tests-requres-core_mqtt)) due to its prior utilization for "trigger" purposes.
 
@@ -50,7 +51,7 @@ The `nr_Tuya_OpenAPI_2.0` flow is a minimal implementation, for testing and API 
 - SET your Tuya `SecretKey` in (all) 'Sign signStr with secret' nodes.
 - All flows are very similar, with a few differences - read the flow comments node for the required customizations.
 
-** notes: **
+**notes:**
  - You will need to add `node-red-contrib-crypto-js-dynamic` from the palette manager.
  - TuyaAPI uses `codes` (tuya names for DPs) and not DPs. The output of the 'Get SCHEMA V2.0' flow maps DPs <=> codes.
  - API reference:
@@ -115,9 +116,13 @@ In conclusion, from an open-strategy perspective, it is beneficial to create a n
 
 **global.alldevice update**
  - The only change is to make 'deviceID' mandatory (now optional) also for subdevices controlled by a hub (in global.alldevice/virtual). This is necessary to be able to use psudoDP. The id can be provided by 'tuya_cli wizard'.
- - The change is without consequences because the 'virtual' test is always done using  the presence of the CID, and in messages, we can use any of 'user_name | CID | ID' as an index for the device.
+ - This change is without consequences because the 'virtual' test is always done looking at the presence of the CID, and in command messages, we can use any of 'user_name | CID | ID' as an index for the device.
 
 **tools update**
-   migration
+* The use of OpenAPI could allow the automation of some tedious manual steps still required by the tools, such as identifying the DP of a new device.
+* It also opens up the possibility of new tools, such as, for example, the management of automations, which would allow users to edit all the parameters without problems. In fact, sometimes it is very difficult to set a defined trigger value (for example 70140) using the standard slider of the SmartLife APP user interface.
+  
+_Interesting opportunities to evaluate._
+
 
 
