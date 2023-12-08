@@ -6,7 +6,7 @@
 
 ### notes on Tuya OpenAPI V2.0
 
- The OpenAPI v. 2.0 (since June 20, 2023) uses two abstraction levels for device management: _standard devices_ and _code_. Standard devices are categorized by their function set using common codes. This allows the creation of DP maps for devices that are not Tuya natives but can still be controlled using the tuyaAPI. 
+ The OpenAPI v. 2.0 (since June 20, 2023) uses two abstraction levels for device management: _standard devices_ and _code_. Standard devices are categorized by their set of functions, defined by common codes. This allows the creation of DP maps for devices that are not Tuya natives but can still be controlled using the Tuya Cloud. 
 
 Additionally, OpenAPI v. 2.0 introduces the concept of _space_ and _subspace_ for defining the spatial location of devices. Spaces represent large areas, such as a home or office, while subspaces represent smaller areas within a space, such as a living room or bedroom.
 
@@ -109,7 +109,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
          - A msg for global.tuyastatus.openapi logging, having as 'value' the result from OpenAPI (a JSON structure). 
          - Or an error message.
  
-- **APIstatus** pseudoDP: uses the Tuya API 'query_properties', is a replacement for "GET schema". Using this Tuya API has the advantage that the API result includes also the DPs.
+- **APIstatus** pseudoDP: uses the Tuya API 'query_properties', is a replacement for "GET schema". Using this API has the advantage that the API result includes also the DPs.
      - Input: none
      - Output:
          - A msg for global.tuyastatus.openapi logging, having as 'value' the result (JSON),
@@ -121,7 +121,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
         - An object with couples (code: value) required by OpenAPI and a DP map required by log.
      - Output:
         - A msg for global.tuyastatus.openapi logging, having as 'value' the result,
-        - A msg for global.tuyastatus.device logging (echo), having the sent DP-values.
+        - A msg for global.tuyastatus.device logging (echo), having the sent DP:values.
         - or an error msg.
 
 **global.alldevice update**
