@@ -32,7 +32,7 @@ note: OpenAPI v. 2.0 introduces also _virtual devices_ (i.e. SW-only models from
 
 - All devices in a group must belong to the same space
 - A group inherits only few instructions (but not the  _status_) DPs (and not _code_) from devices to define the group's properties.
-- A group is, in OOP terms, like a 'derived device': a collection of devices of the same type: like a device, a group is shown on the main page, the users can send manually few commands and a group offers basic time scheduling.
+- A group is, in OOP terms, like a 'derived device': a collection of devices of the same type. Like a device, a group is shown on the main page, the users can send manually few commands and a group offers basic time scheduling.
 - But a Tuya 'group' IS NOT functionally equivalent to a device: Groups have their own API for set/get properties (`Query Group Properties`, `Send Group Properties`); a group cannot be used in _smart scenes_ neither in conditions nor in actions. This greatly limits the usefulness of groups.
 - Limits: 50  groups per space, 100 devices per group.
 
