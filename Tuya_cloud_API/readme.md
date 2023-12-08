@@ -18,7 +18,7 @@ note: OpenAPI v. 2.0 introduces also _virtual devices_ (i.e. SW-only models from
 - The "property set" (classed by Tuya as 'status' - Read enabled, and 'instruction' - Write enabled) of a device is defined using _code_ (i.e. Tuya name for a property, like 'switch_1' or 'cycle_time') and then mapped to native DPs.
 - All devices are grouped into 554 'standard categories' (@ 12/2023, see 'Get Category List' API).
   
-> **TuyaDAEMON** manages devices individually and defines access rules on a single DP basis. This allows users to specialize individual devices based on their function. In object-oriented programming terms, users can define  _single_derived devices_. <br> For instance, a [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf), when employed as a [tuya-bridge](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER), has its "countdown" property unavailable to users (check [note 2](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER#mqtt-tuya_bridge-tests-requres-core_mqtt)) due to its prior utilization for "trigger" purposes.
+> **TuyaDAEMON** manages devices individually and defines access rules on a single DP basis. This allows users to specialize individual devices based on their function. In object-oriented programming terms, users can define  _single_derived devices_. <br> For instance, a [switch-1CH](https://github.com/msillano/tuyaDAEMON/blob/main/devices/switch-1CH/device_switch-1CH.pdf), when employed as a [tuya-bridge](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER), has its `countdown` property unavailable to users (check [note 2](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER#mqtt-tuya_bridge-tests-requres-core_mqtt)) due to its prior utilization for "trigger" purposes.
 
 **The space abstraction**
 > "A _space_ defines the geographical location, area, and layout information of IoT scenes, and displays the topological relationship between various smart devices in a tree structure."
@@ -49,26 +49,26 @@ To start with Tuya IoT Cloud, you must create a Tuya developer account and regis
 The `nr_Tuya_OpenAPI_2.0` flow is a minimal implementation, for testing and API exploration, essentially an examples collection.
 
 #### Config
-- SET `client_id` and `device_id` and regional Tuya [data center](https://github.com/tuya/tuya-home-assistant/blob/main/docs/regions_dataCenters.md) in  'Settings CLICK 'On Start' TAB' node una tantum. 
-- SET your Tuya `SecretKey` in (all) 'Sign signStr with secret' nodes.
+- SET `client_id` and `device_id` and regional Tuya [data center](https://github.com/tuya/tuya-home-assistant/blob/main/docs/regions_dataCenters.md) in  `Settings CLICK 'On Start' TAB` node una tantum. 
+- SET your Tuya `SecretKey` in (all) `Sign signStr with secret` nodes.
 - All flows are very similar, with a few differences - read the flow comments node for the required customizations.
 
 **notes:**
  - You may need to add `node-red-contrib-crypto-js-dynamic` from the palette manager.
- - OpenAPI uses `codes` (tuya names for DPs) and not DPs. The output of the 'Get SCHEMA V2.0' flow maps DPs <=> codes.
+ - OpenAPI uses `codes` (tuya names for DPs) and not DPs. The output of the `Get SCHEMA V2.0` flow maps DPs <=> codes.
  - API reference:
      - IoT-Core: Start [here](https://developer.tuya.com/en/docs/cloud) (registration required). 
  - This project is derived from the project by NotEnoughTech ([https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya Cloud API](https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya%20Cloud%20API))
 
 ---
-### Tuya Cloud API and TuyaDAEMON
+### TuyaDAEMON and Tuya Cloud API
 The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. Let's explore the various aspects:
 
 **Device Control**
 
-* Local access to Tuya real (WiFi) device properties is quite good with the tuya-smart-device node, and only in rare cases the access via CloudAPI can be useful.
+* Local access to Tuya real (WiFi) device properties is quite good with the `tuya-smart-device` node, and only in rare cases the access via CloudAPI can be useful.
 
-* Tuya devices such as WiFi low-power sensors, which cannot be managed with the tuya-smart-device node, are currently controlled in TuyaDAEMON with TRIGGER. While the Trigger technique is reliable and more stable than CloudAPI, it has limitations in reading numerical measurements. In such cases, the use of CloudAPI (e.g., API _Query_Properties_) could be beneficial.
+* Tuya devices such as WiFi low-power sensors, which cannot be managed with the `tuya-smart-device` node, are currently controlled in TuyaDAEMON with TRIGGER. While the Trigger technique is reliable and more stable than CloudAPI, it has limitations in reading numerical measurements. In such cases, the use of CloudAPI (e.g., API `Query_Properties`) could be beneficial.
 
 * Some subdevices (using a hub) could also benefit from CloudAPI when not all DPs are accessible via the tuya-smart-device node.
 
@@ -76,15 +76,15 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 * Some non-basic aspects of device control (e.g., spaces (home), groups, automation) are only partially manageable via TRIGGER + Automation. If you want advanced applications in these areas, the use of CloudAPI is necessary.
 
-* Some operations (such as adding/removing/renaming devices, creating/modifying automation, etc.) are actually performed only using a Tuya APP (SmartLife). If you want to do this in a custom application, you can use CloudAPI.
+* Some operations (such as adding/removing/renaming devices, creating/modifying smart scenes, etc.) are actually performed only using a Tuya APP (SmartLife). If you want to do this in a custom application, you can use CloudAPI.
 
 **Smart scene linkage**
 
- In SmartLife the 'automations' management is not exactly user-friendly. Using OpenAPI can help. In particular, I noticed the following problems:
+ In SmartLife the 'smart scene' management is not exactly user-friendly. Using OpenAPI can help. In particular, I noticed the following problems:
  
 *  Sometimes it is very difficult to set a parameter value (for example a countdown trigger to 70140, try yourself) using the very poor APP user interface. This issue is present in quasi-all numerical smart scene parameters with a large range.<br>Tuya said: "_The device and device function options in the smart scene linkage (Automation/Tap-to-Run) are set by the product manufacturer and cannot be changed by us..._". This is true, but partial. My answer to Tuya: "_for the smart scenes, which is a plus of Tuya and does not directly affect the manufacturer device, many manufacturers have used the default U.I. proposed by_ Tuya IoT Development Platform _and THIS IS the problem, because Tuya offers only one default interface for all numerical ranges_".
  
-*  When a device changes ID (for re-connection or replacement) all the automations connected to that device are "unavailable" (ok). As a result, users have to change the automation by manually re-entering SmartLife with all the data or conditions for the new device, when a simple ID replacement would suffice. This can be really frustrating. 
+*  When a device changes ID (for re-connection or replacement) all the smart scenea connected to that device are "unavailable" (ok). As a result, users have to change the automation by manually re-entering SmartLife with all the data or conditions for the new device, when a simple ID replacement would suffice. This can be really frustrating. 
 
 > In conclusion, from an open-strategy perspective, it is beneficial to create a new optional communication channel using OpenAPI in TuyaDAEMON, to be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud.
 
@@ -92,7 +92,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
   A custom device, **core_OPENAPI** implements the TuyaDAEMON extension to OpenAPI (work in progress), with the following objectives:
   
 - Complete the access to/from Tuya devices, potentially setting/getting all available data to/from the Tuya Cloud. 
-- Extend the TuyaDEAMON/Tuya Cloud collaboration in areas (space, groups, automation, etc.) application-related.
+- Extend the TuyaDAEMON/Tuya Cloud collaboration in areas (space, groups, automation, etc.) application-related.
 - Use and implementation of core_OPENAPI must be minimal, optional, and complete (all API must be callables).
 - Minimal minds that API URL construction and the map code <=> DP are user-local, defined in call parameters, and not global: this is to exclude heavy global.alldevices extensions. 
   
@@ -102,31 +102,31 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 - **callAPI DP**:   Allows calls to any API, so the input data must be complete.
      - Input
-         - method (string), one of GET, PUT, POST, DELETE
-         - APIurl (URI) complete (like "/v2.0/cloud/scene/rule?space_id=123456789")
-         - body (JSON)  with required parameters (like {"properties":{"switch_1":false}} )
+         - `method` (string), one of GET, PUT, POST, DELETE
+         - `APIurl` (URI) complete (like "/v2.0/cloud/scene/rule?space_id=123456789")
+         - `body` (JSON)  with required parameters (like {"properties":{"switch_1":false}} )
      - Output:
-         - A msg for global.tuyastatus.openapi logging, having as 'value' the result from OpenAPI (a JSON structure). 
+         - A msg for `global.tuyastatus.openapi` logging, having as `value` the result from OpenAPI (a JSON structure). 
          - Or an error message.
  
 - **APIstatus** pseudoDP: uses the Tuya API 'query_properties', is a replacement for "GET schema". Using this API has the advantage that the API result includes also the DPs.
      - Input: none
      - Output:
-         - A msg for global.tuyastatus.openapi logging, having as 'value' the result (JSON),
-         - A msg for global.tuyastatus.device logging, having the read DP-values.
+         - A msg for `global.tuyastatus.openapi` logging, having as `value` the result (JSON),
+         - A msg for `global.tuyastatus.device` logging, having the read DP:values.
          - or an error msg.
 
 - **APIinstruction** pseudoDP: uses the Tuya API 'send_properties', is a replacement for "MULTIPLE SET":
      - Input:
-        - An object with couples (code: value) required by OpenAPI and a DP map required by log.
+        - An object with couples (code:value) required by OpenAPI and a DP map required by log.
      - Output:
-        - A msg for global.tuyastatus.openapi logging, having as 'value' the result,
-        - A msg for global.tuyastatus.device logging (echo), having the sent DP:values.
+        - A msg for `global.tuyastatus.openapi` logging, having as 'value' the result,
+        - A msg for `global.tuyastatus.device` logging (echo), having the sent DP:values.
         - or an error msg.
 
 **global.alldevice update**
- - The only change is to make 'deviceID' _mandatory_ (now optional) also for subdevices controlled by a hub (in global.alldevice/virtual). This is necessary to be able to use the new psudoDP. The id can be provided by 'tuya_cli wizard'.
- - This change is without consequences because the 'virtual' test is always done looking at the presence of the CID, and, in the TuyaDAEMON's command messages, we can use any of '_user_name | CID | ID_' as an index for the device.
+ - The only change is to make the device `id` _mandatory_ also for subdevices controlled by a hub (in `global.alldevice/virtual`, now optional). This is necessary to be able to use the new psudoDP. The device `id` can be provided by 'tuya_cli wizard' or SmartLife APP.
+ - This change is without consequences because the 'virtual' test is always done looking at the presence of the CID, and, in the TuyaDAEMON's command messages, we can use any of `user_name | CID | ID` as an index for the device.
 
 **tools update**
 * The use of OpenAPI could allow the automation of some tedious manual steps still required by the tools, such as identifying the DPs of a new device.
