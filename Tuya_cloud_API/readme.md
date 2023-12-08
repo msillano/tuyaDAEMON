@@ -30,12 +30,14 @@ note: OpenAPI v. 2.0 introduces also _virtual devices_ (i.e. SW-only models from
 **The device group**
 > "A device group is a collection of devices with the same features, allowing users to manage and control a large number of devices as a whole. For example, turn devices on or off, and create scheduled tasks."
 
-- A group is, in OOP terms, a 'derived device': a collection of devices of the same type. This is the unique derivation feature in the Tuya cloud.
-- A group inherits DPs (and not 'code') from devices to define the group's properties.
-- All devices in a group must belong to the same space.
+- All devices in a group must belong to the same space
+- A group inherits only some instructions (but not the  _status_) DPs (and not _code_) from devices to define the group's properties.
+- A group is, in OOP terms, like to a 'derived device': a collection of devices of the same type.
+- Like a device, a grop is show in the main page, the users can send some commands, and offerts basic time scheduling.
+- But a  'group' IS NOT functionally equivalent to a device: a group cannot be used in _smart scenes_ neither in condition nor in actions. Advanced time functions like countdown or random are not handled.
 - Limits: 50  groups per space, 100 devices per group.
 
-> **TuyaDAEMON** offers users a complete [OO recursive paradigm](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) for devices, with all patterns: _composition, aggregation, use_ and instruction _inheritance, override_.
+> **TuyaDAEMON** offers users a complete [OO recursive paradigm](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) for devices, with all patterns: _composition, aggregation, use_ and instruction _inheritance, override_. Any derived device IS a device.
   
 ---
 ### node-red Tuya OpenAPI V2.0
@@ -76,13 +78,13 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 * Some operations (such as adding/removing/renaming devices, creating/modifying automation, etc.) are actually performed only using a Tuya APP (SmartLife). If you want to do this in a custom application, you can use CloudAPI.
 
-**Automation Management**
+**Smart scene linkage**
 
  In SmartLife the 'automations' section is not exactly user-friendly. Using OpenAPI can help. In particular, I noticed the following problems:
  
-*  Sometimes it is very difficult to set a parameter value (for example a countdown - trigger to 70140, try yourself) using the very poor APP user interface. Tuya said: "_The device and device function options in the smart scene linkage (Automation/Tap-to-Run) are set by the product manufacturer and cannot be changed by us_". This is true, but only partially:  "_for the smart scenes, which is a plus of Tuya and does not directly affect the manufacturer device, all manufacturers have used the default U.I. offered by_ Tuya IoT Development Platform _and this is the problem" (bug: Tuya proposes only one interface for all numerical range)_".
+*  Sometimes it is very difficult to set a parameter value (for example a countdown - trigger to 70140, try yourself) using the very poor APP user interface. This issue is present in quasi all numerical smart scene parameters wity a large range.<br>Tuya said: "_The device and device function options in the smart scene linkage (Automation/Tap-to-Run) are set by the product manufacturer and cannot be changed by us..._". This is true, but only partially, my answer to Tuya: "_for the smart scenes, which is a plus of Tuya and does not directly affects the manufacturer device, all manufacturers have used the default U.I. offered by_ Tuya IoT Development Platform _and THIS IS the problem, because Tuya proposes only one default interface for all numerical ranges_".
  
-*  When a device changes ID (for re-connection or replacement) all the automations connected to that device are "unavailable" (ok). However, the users must modify the automation by manually entering in SmartLife again all data or conditions for to the new device, when a simple ID replacement is enough. This can be really frustrating. 
+*  When a device changes ID (for re-connection or replacement) all the automations connected to that device are "unavailable" (ok). However, the users must modify the automation by manually entering in SmartLife again all data or conditions for the new device, when a simple ID replacement is enough. This can be really frustrating. 
 
 > In conclusion, from an open-strategy perspective, it is beneficial to create a new optional communication channel using OpenAPI in TuyaDAEMON, to be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud.
 
