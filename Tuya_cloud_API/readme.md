@@ -31,13 +31,12 @@ note: OpenAPI v. 2.0 introduces also _virtual devices_ (i.e. SW-only models from
 > "A device group is a collection of devices with the same features, allowing users to manage and control a large number of devices as a whole. For example, turn devices on or off, and create scheduled tasks."
 
 - All devices in a group must belong to the same space
-- A group inherits only some instructions (but not the  _status_) DPs (and not _code_) from devices to define the group's properties.
-- A group is, in OOP terms, like a 'derived device': a collection of devices of the same type.
-- Like a device, a group is shown on the main page, the users can send some commands, and offers basic time scheduling.
-- But a  'group' IS NOT functionally equivalent to a device: a group cannot be used in _smart scenes_ neither in conditions nor in actions. Advanced time functions like countdown or random are not handled.
+- A group inherits only few instructions (but not the  _status_) DPs (and not _code_) from devices to define the group's properties.
+- A group is, in OOP terms, like a 'derived device': a collection of devices of the same type: like a device, a group is shown on the main page, the users can send manually few commands and a group offers basic time scheduling.
+- But a Tuya 'group' IS NOT functionally equivalent to a device: Groups have their own API for set/get properties (`Query Group Properties`, `Send Group Properties`); a group cannot be used in _smart scenes_ neither in conditions nor in actions. This greatly limits the usefulness of groups.
 - Limits: 50  groups per space, 100 devices per group.
 
-> **TuyaDAEMON** offers users a complete [OO recursive paradigm](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) for devices, with all patterns: _composition, aggregation, use_ and instruction _inheritance, override_. Any derived device IS a device.
+> **TuyaDAEMON** offers users a complete [OO recursive paradigm](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) for devices, with all patterns: _composition, aggregation, use_ and instruction _inheritance, override_, at the cost of creating some 'shares'. In TuyaDAEMON, any derived device IS a device.
   
 ---
 ### node-red Tuya OpenAPI V2.0
