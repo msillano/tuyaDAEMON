@@ -80,25 +80,25 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 **Smart scene linkage**
 
- In SmartLife the 'smart scene' management is not exactly user-friendly. Using OpenAPI can help. In particular, I noticed the following problems:
+ In SmartLife the 'smart scene' management is not exactly user-friendly. In particular, I noticed the following problems:
  
 *  Sometimes it is very difficult to set a parameter value (for example a countdown trigger to 70140, try yourself) using the very poor APP user interface. This issue is present in quasi-all numerical smart scene parameters with a large range.<br>Tuya said: "_The device and device function options in the smart scene linkage (Automation/Tap-to-Run) are set by the product manufacturer and cannot be changed by us..._". This is true, but partial. My answer to Tuya: "_for the smart scenes, which is a plus of Tuya and does not directly affect the manufacturer device, many manufacturers have used the default U.I. proposed by_ Tuya IoT Development Platform _and THIS IS the problem, because Tuya offers only one default interface for all numerical ranges_".
  
 *  When a device changes ID (for re-connection or replacement) all the smart scenes connected to that device are "unavailable" (ok). As a result, users have to change the automation by manually re-entering SmartLife with all the data or conditions for the new device, when a simple ID replacement would suffice. This can be really frustrating. 
 
-> In conclusion, from an open-strategy perspective, it is beneficial to create a new optional communication channel using OpenAPI in TuyaDAEMON, to be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud.
+> In conclusion, from an open-strategy perspective, it is beneficial to create in TuyaDAEMON a new optional communication channel for OpenAPI, to be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud.
 
 ### core_OPENAPI custom device (preliminary)
   A custom device, **core_OPENAPI** implements the TuyaDAEMON extension to OpenAPI (work in progress), with the following objectives:
   
 - Complete the access to/from Tuya devices, potentially setting/getting all available data to/from the Tuya Cloud. 
-- Extend the TuyaDAEMON/Tuya Cloud collaboration in areas (space, groups, automation, etc.) application-related.
+- Extend the TuyaDAEMON/Tuya Cloud collaboration in areas (space, groups, smart scenes, etc.) application-related.
 - Use and implementation of core_OPENAPI must be minimal, optional, and complete (all API must be callables).
-- Minimal minds that API URL construction and the map code <=> DP are user-local, defined in call parameters, and not global: this is to exclude heavy global.alldevices extensions. 
+- Minimal minds that API URL construction and the map code <=> DP are user-local, defined in call parameters, and not global: this is to exclude heavy `global.alldevices` extensions. 
   
 **Specifications**
 
-   The new device OPENAPI automatically gets and refreshes the token, and exposes only one property and two new [pseudoDP](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#pseudodp),  usable on any real/virtual tuyaDEAMON device (not on custom (fake) devices, not handled by Tuya Cloud):
+   The new device OPENAPI automatically gets and refreshes the token, and exposes only one property and two new [pseudoDP](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#pseudodp). The `pseudoDP` are usable on any real/virtual tuyaDEAMON device (not on custom (fake) devices, not handled by Tuya Cloud):
 
 - **callAPI DP**:   Allows calls to any API, so the input data must be complete.
      - Input
@@ -106,22 +106,21 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
          - `APIurl` (URI) complete (like "/v2.0/cloud/scene/rule?space_id=123456789")
          - `body` (JSON)  with required parameters (like {"properties":{"switch_1":false}} )
      - Output:
-         - A msg for `global.tuyastatus.openapi` logging, having as `value` the result from OpenAPI (a JSON structure). 
-         - Or an error message.
+         - A msg for `global.tuyastatus.openapi` logging, having as `value` the result from OpenAPI (a JSON structure), 
+         - or an error message.
  
 - **APIstatus** pseudoDP: uses the Tuya API 'query_properties', is a replacement for "GET schema". Using this API has the advantage that the API result includes also the DPs.
      - Input: none
      - Output:
          - A msg for `global.tuyastatus.openapi` logging, having as `value` the result (JSON),
-         - A msg for `global.tuyastatus.device` logging, having the read DP:values.
+         - A msg for `global.tuyastatus.device` logging, having the read DP:values,
          - or an error msg.
 
 - **APIinstruction** pseudoDP: uses the Tuya API 'send_properties', is a replacement for "MULTIPLE SET":
      - Input:
-        - An object with couples (code:value) required by OpenAPI and a DP map required by log.
+        - An object with couples (code:value) required by OpenAPI.
      - Output:
         - A msg for `global.tuyastatus.openapi` logging, having as 'value' the result,
-        - A msg for `global.tuyastatus.device` logging (echo), having the sent DP:values.
         - or an error msg.
 
 **global.alldevice update**
