@@ -91,7 +91,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 ### core_OPENAPI custom device (preliminary)
   A custom device, **core_OPENAPI** implements the TuyaDAEMON extension to OpenAPI (work in progress), with the following objectives:
   
-- Complete the access to/from Tuya devices, potentially sending/getting all available data to/from the Tuya Cloud. 
+- Complete the access to/from Tuya devices, potentially setting/getting all available data to/from the Tuya Cloud. 
 - Extend the TuyaDEAMON/Tuya Cloud collaboration in areas (space, groups, automation, etc.) application-related.
 - Use and implementation of core_OPENAPI must be minimal, optional, and complete (all API must be callables).
 - Minimal minds that API URL construction and the map code <=> DP are user-local, defined in call parameters, and not global: this is to exclude heavy global.alldevices extensions. 
