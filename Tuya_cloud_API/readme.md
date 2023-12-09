@@ -79,9 +79,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 **Smart scene linkage**
 
- In SmartLife the 'smart scene' management is not exactly user-friendly. In particular, I noticed the following problems:
- 
-*  Sometimes it is very difficult to set a parameter value (for example a countdown trigger to 70140, try yourself using any switch device) using the very poor APP user interface. This issue is present in quasi-all numerical smart scene parameters with a large range.<br>Tuya said: "_The device and device function options in the smart scene linkage (Automation/Tap-to-Run) are set by the product manufacturer and cannot be changed by us..._". This is true, but also partial. My answer to Tuya: "_for the smart scenes, which is a plus of Tuya and does not directly affect the manufacturer device, many manufacturers have used the default U.I. proposed by_ Tuya IoT Development Platform _and THIS IS the problem, because Tuya offers only one default interface for all numerical ranges..._".
+ In SmartLife the 'smart scene' management is not exactly user-friendly. In particular, I noticed the following problem:
  
 *  When a device changes ID (for re-connection or replacement) all the smart scenes connected to that device are "unavailable" (ok). As a result, users have to change the automation by manually re-entering SmartLife with all the data or conditions for the new device, when a simple ID replacement would suffice. This can be really frustrating. 
 
