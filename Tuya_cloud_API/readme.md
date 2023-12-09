@@ -121,6 +121,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
      - Output:
         - A msg for `global.tuyastatus.openapi` logging, having as 'value' the result,
         - or an error msg.
+     -  _note: On input, the `value` must be coded, if required by the DP definition._
 
 **global.alldevice update**
  - The only change is to make the device `id` _mandatory_ also for subdevices controlled by a hub (in `global.alldevice/virtual`, now optional). This is necessary to be able to use the new psudoDP. The device `id` can be provided by 'tuya_cli wizard' or SmartLife APP.
