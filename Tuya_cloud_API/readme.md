@@ -111,17 +111,18 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 - **APIstatus** pseudoDP: uses the Tuya API 'query_properties', is a replacement for "GET schema". Using this API has the advantage that the API result includes also the DPs.
      - Input: none
      - Output:
-         - A msg for `global.tuyastatus.openapi` logging, having as `value` the result (JSON),
-         - A msg for `global.tuyastatus.device` logging, having the read DP:values,
+         - A msg for `global.tuyastatus.openapi` logging, having as `value` the API result (JSON),
+         - A msg for `global.tuyastatus.&lt;device>` logging, having the read DP:values,
+         - _note: if required the DP's `values` are decoded by the standard CORE DP logging process._
          - or an error msg.
 
 - **APIinstruction** pseudoDP: uses the Tuya API 'send_properties', is a replacement for "MULTIPLE SET":
      - Input:
         - An object with couples (code:value) required by OpenAPI.
+        -  _note: the `value` must be coded, if required by the DP definition (see device datasheet)._
      - Output:
-        - A msg for `global.tuyastatus.openapi` logging, having as 'value' the result,
+        - A msg for `global.tuyastatus.openapi` logging, having as `value` the result from API.
         - or an error msg.
-     -  _note: On input, the `value` must be coded, if required by the DP definition._
 
 **global.alldevice update**
  - The only change is to make the device `id` _mandatory_ also for subdevices controlled by a hub (in `global.alldevice/virtual`, now optional). This is necessary to be able to use the new psudoDP. The device `id` can be provided by 'tuya_cli wizard' or SmartLife APP.
