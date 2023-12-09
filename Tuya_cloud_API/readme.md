@@ -41,7 +41,7 @@ note: OpenAPI v. 2.0 introduces also _virtual devices_ (i.e. SW-only models from
 ---
 ### node-red Tuya OpenAPI V2.0
 
-This node-red flow [https://github.com/msillano/tuyaDAEMON/blob/main/Tuya_cloud_API/nr-OpenAPI20.json.zip](https://github.com/msillano/tuyaDAEMON/blob/main/Tuya_cloud_API/nr-OpenAPI20.json.zip) implements experimental access to Tuya Cloud API to get data or perform instructions programmatically, without using  the 'SmartLife App' or the 'Tuya Development Platform' or 'TuyaDEAMON'.
+This node-red flow [https://github.com/msillano/tuyaDAEMON/blob/main/Tuya_cloud_API/nr_Tuya_OpenAPI_2.0.json.zip](https://github.com/msillano/tuyaDAEMON/blob/main/Tuya_cloud_API/nr_Tuya_OpenAPI_2.0.json.zip) implements experimental access to Tuya Cloud API to get data or perform instructions programmatically, without using  the 'SmartLife App' or the 'Tuya Development Platform' or 'TuyaDEAMON'.
 
 To start with Tuya IoT Cloud, you must create a Tuya developer account and register your devices, to get the credentials (see [here for references](https://github.com/msillano/tuyaDAEMON/wiki/50.-Howto:-add-a-new-device-to-tuyaDAEMON#1-preconditions)). You can then start using the `nr_Tuya_OpenAPI_2.0` flow to develop and manage your node-red IoT applications.
 
