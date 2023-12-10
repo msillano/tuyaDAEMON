@@ -6,11 +6,13 @@
 
 ### notes on Tuya OpenAPI V2.0
 
- The OpenAPI v. 2.0 (since June 20, 2023) uses two abstraction levels for device management: _standard devices_ and _code_. Standard devices are categorized by their set of functions, defined by common codes. This allows the creation of DP maps for devices that are not Tuya natives but can still be controlled using the Tuya Cloud. 
+ The OpenAPI v. 2.0 (since June 20, 2023) uses two abstraction levels for device management: _standard devices_ and _code_. Standard devices are categorized by their set of properties, defined by `codes`: a map links `code` to device `DP`. This allows the creation of DP maps for devices that are not Tuya natives but can still be controlled using the Tuya Cloud. 
 
 Additionally, OpenAPI v. 2.0 introduces the concept of _space_ and _subspace_ for defining the spatial location of devices. Spaces represent large areas, such as a home or office, while subspaces represent smaller areas within a space, such as a living room or bedroom.
 
-note: OpenAPI v. 2.0 introduces also _virtual devices_ (i.e. SW-only models from custom projects or TuyaGo) not to be confused with TyaDAEMON's _virtual devices_ (subdevices: Tuya HW devices using a hub). The _Tuya virtual devices_ do not affect TuyaDEAMON.
+note:
+  - OpenAPI v. 2.0 also introduces _virtual devices_ (i.e. SW-only models from custom projects or TuyaGo) not to be confused with TyaDAEMON's _virtual devices_ (subdevices: Tuya HW devices using a hub). The _Tuya virtual devices_ do not affect TuyaDEAMON.
+  - For APPs (SmartLife) Max. Limits (2023-09-19) see [here](https://support.tuya.com/en/help/_detail/K9q79msw3accz).
 
 **The 'standard' access**
 > "The _standard instruction set_ lets you control devices from different manufacturers with a single set of instructions. However, to achieve standardization, mapping relationships shall be manually created, and Tuya cannot guarantee that all hardware products support this function."
@@ -31,9 +33,9 @@ note: OpenAPI v. 2.0 introduces also _virtual devices_ (i.e. SW-only models from
 > "A device group is a collection of devices with the same features, allowing users to manage and control a large number of devices as a whole. For example, turn devices on or off, and create scheduled tasks."
 
 - All devices in a group must belong to the same space
-- A group inherits only few instructions (but not the  _status_) DPs (and not _code_) from devices to define the group's properties.
-- A group is, in OOP terms, like a 'derived device': a collection of devices of the same type. Like a device, a group is shown on the main page, the users can send manually few commands and a group offers basic time scheduling.
-- But a Tuya 'group' IS NOT functionally equivalent to a device: Groups have their own API for set/get properties (`Query Group Properties`, `Send Group Properties`); a group cannot be used in _smart scenes_ neither in conditions nor in actions. This greatly limits the usefulness of groups.
+- A group inherits only a few instructions (but not the  _status_) DPs (and not _code_) from devices to define the group's properties.
+- A group is, in OOP terms, like a 'derived device': a collection of devices of the same type. Like a device, a group is shown on the main page, the users can send manually some commands and a group offers basic time scheduling.
+- But a Tuya 'group' IS NOT functionally equivalent to a device: Groups have their own API for set/get properties (`Query Group Properties`, `Send Group Properties`); a group cannot be used in _smart scenes_ neither in conditions nor in actions. Groups of groups are not allowed. This greatly limits the usefulness of groups.
 - Limits: 50  groups per space, 100 devices per group.
 
 > **TuyaDAEMON** offers users a complete [OO recursive paradigm](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices) for devices, with all patterns: _composition, aggregation, use_ and instruction _inheritance, override_, at the cost of creating some 'shares'. In TuyaDAEMON, any derived device IS a device.
