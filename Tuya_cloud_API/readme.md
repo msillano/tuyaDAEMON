@@ -87,7 +87,10 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
   
 *  Manual Enable DP: "On the Tuya Smart platform, select your device on the Product page, click Extensions, and click Settings next to Scenario Connection Settings to check whether DPs for executing actions are configured for your device. If your device uses a standard solution, the DPs are fixed and enabled by default. If your device uses a non-standard solution, selected standard functions are enabled by default. However, you need to enable custom functions on the Scenario Connection Settings page." 
 
-> In conclusion, from an open-strategy perspective, it is beneficial to create in TuyaDAEMON a new optional communication channel for OpenAPI, to be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud.
+> TuyaDAEMON uses '[shares](https://github.com/msillano/tuyaDAEMON/wiki/40.-tuyaDAEMOM-global.alldevices#devices-structuration)' as meta-language for user device automation and OO definition. As language is Turing complete, so more powerful than what is available in other environments (including Tuya 'smart scene linkage').
+
+**conclusion**
+From an open-strategy perspective, it is beneficial to create in TuyaDAEMON a new optional communication channel for OpenAPI, to be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud.
 
 ### core_OPENAPI custom device (preliminary)
   A custom device, **core_OPENAPI** implements the TuyaDAEMON extension to OpenAPI (work in progress), with the following objectives:
