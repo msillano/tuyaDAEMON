@@ -91,7 +91,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 **conclusion:**  From an open-strategy perspective, it is beneficial to create in TuyaDAEMON a new optional communication channel for OpenAPI, to be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud.
 
-### core_OPENAPI custom device (preliminary)
+### core_OPENAPI: custom device (preliminary)
   A custom device, **core_OPENAPI** implements the TuyaDAEMON extension to OpenAPI (work in progress), with the following objectives:
   
 - Complete the access to/from Tuya devices, potentially setting/getting all available data to/from the Tuya Cloud. 
