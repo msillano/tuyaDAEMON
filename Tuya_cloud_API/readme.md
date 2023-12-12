@@ -115,7 +115,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
      - Output:
          - A msg for `global.tuyastatus.openapi` logging, having as `value` the API result (JSON),
          - A msg for `global.tuyastatus.&lt;device>` logging, having the read DP:values,
-         - _note: if required the DP's `values` are decoded by the standard CORE DP logging process._
+         - _note: if required, the DP's `values` are decoded by the standard CORE DP logging process._
          - or an error msg.
 
 - **APIinstruction** pseudoDP: uses the Tuya API 'send_properties', is a replacement for "MULTIPLE SET":
