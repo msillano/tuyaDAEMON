@@ -144,6 +144,7 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
 ### Devices interfaces
  - Tuya device low level, via 'tuyapi' driver: see [CORE](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)
  - Tuya device hi level, via 'TRIGGER': see [smoke_alarm](https://github.com/msillano/tuyaDAEMON/wiki/mirror-device-'Smoke_Detector':-case-study).
+ - Tuya Cloud and OpenAPI access: see [core_OPENAPI](https://github.com/msillano/tuyaDAEMON/tree/main/Tuya_cloud_API) device.
  - Custom 'SW only' device, i.e. feature modules: see [system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system)
  - MQTT devices, using custom driver nodes: see [PDMtimer](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study)
  - Custom devices using ESP-10 (ESP8266): see [watchdog](https://github.com/msillano/tuyaDEAMON-applications/wiki/note-5:-Watchdog-for-IOT#note-esp-01-programming)
@@ -162,7 +163,7 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
  
 _With the version 2.0 tuyaDAEMON reaches 2 milestones: the ability to use and create custom devices in a [hierarchical OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices), and the ability to create distributed [TuyaDAEMON network](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#networking-tuyadaemon)._
  
-  _Last [version 2.2.2](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)_
+  _Last [version 2.2.4](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)_
  
  ---------------
 This project is a work-in-progress: it is provided "as is", without warranties of any kind, implicit or explicit.<br>
