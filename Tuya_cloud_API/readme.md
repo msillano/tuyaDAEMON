@@ -56,7 +56,7 @@ The `nr_Tuya_OpenAPI_2.0` flow is a minimal implementation, for testing and API 
 
 **notes:**
  - You may need to add `node-red-contrib-crypto-js-dynamic` from the palette manager.
- - OpenAPI uses `codes` (tuya names for DPs) and not DPs. The output of the `Get SCHEMA V2.0` flow maps DPs <=> codes.
+ - OpenAPI uses `codes` (tuya names for DPs) and not DPs. The output of the `Get SCHEMA V2.0` flow maps `DPs <=> codes` for a device.
  - API reference:
      - IoT-Core: Start [here](https://developer.tuya.com/en/docs/cloud) (registration required). 
  - This project is derived from the project by NotEnoughTech ([https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya Cloud API](https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya%20Cloud%20API))
