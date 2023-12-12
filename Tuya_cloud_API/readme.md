@@ -89,8 +89,7 @@ The ability to access OpenAPI can open up interesting scenarios in TuyaDAEMON. L
 
 > TuyaDAEMON uses '[shares](https://github.com/msillano/tuyaDAEMON/wiki/40.-tuyaDAEMOM-global.alldevices#devices-structuration)' as meta-language for user device automation and OO definition. As language is Turing complete, so more powerful than what is available in other environments (including Tuya 'smart scene linkage').
 
-**conclusion**
-From an open-strategy perspective, it is beneficial to create in TuyaDAEMON a new optional communication channel for OpenAPI, to be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud.
+**conclusion:**  From an open-strategy perspective, it is beneficial to create in TuyaDAEMON a new optional communication channel for OpenAPI, to be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud.
 
 ### core_OPENAPI custom device (preliminary)
   A custom device, **core_OPENAPI** implements the TuyaDAEMON extension to OpenAPI (work in progress), with the following objectives:
