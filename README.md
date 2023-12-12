@@ -19,7 +19,7 @@ TuyaDAEMON has some unique features that make it stand out from the competition.
 
 If you are looking for an IoT development framework that is powerful, versatile, and easy to use, then TuyaDAEMON is a good option to consider.
 
- _All the details of the communication with devices are resolved by **tuyaDAEMON**, using 3 bidirectional communication channels transparently to the user:_
+ _All the details of the communication with devices are resolved by **tuyaDAEMON**, using 4 bidirectional communication channels transparently to the user:_
 
 ### LOW LEVEL MQTT (see tuya [DEAMON core](./tuyaDAEMON/README.md) + CORE_devices)
 
@@ -37,6 +37,10 @@ The TRIGGERs do not connect to individual devices, but create a direct and bidir
                          tvchannel: "RAI3 HD"
                          comment: "available: 'RAI1 HD’,’RAI2 HD’,’RAI3 HD’..."
 ````
+
+### LOW LEVEL OpenAPI (see device [core_OPENAPI](https://github.com/msillano/tuyaDAEMON/tree/main/Tuya_cloud_API))
+
+Since Ver 2.2.4, this new optional communication channel for Tuya Cloud can be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud. Doing complete access at all APIs can be used for reading the device's status, for sending instructions to devices, and for accessing some non-basic aspects of device control (e.g., spaces (home), groups, automation) not manageable via TRIGGER + Automation.
 
 ### CUSTOM CHANNEL (see [system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) and 'fake' devices)
 
