@@ -40,7 +40,7 @@ The TRIGGERs do not connect to individual devices, but create a direct and bidir
 
 ### LOW LEVEL OpenAPI (see device [core_OPENAPI](https://github.com/msillano/tuyaDAEMON/tree/main/Tuya_cloud_API))
 
-Since Ver 2.2.4, this new optional communication channel for Tuya Cloud can be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud. Doing complete access at all APIs can be used for reading the device's status, for sending instructions to devices, and for accessing some non-basic aspects of device control (e.g., spaces (home), groups, automation) not manageable via TRIGGER + Automation.
+Since Ver 2.2.4, this new optional communication channel for Tuya Cloud can be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud. Doing complete access at all APIs, via REST, can be used for reading the device's status, for sending instructions to devices, and for accessing some non-basic aspects of device control (e.g., spaces (home), groups, automation) not manageable via TRIGGER + Automation.
 
 ### CUSTOM CHANNEL (see [system](https://github.com/msillano/tuyaDAEMON/wiki/custom-device-_system) and 'fake' devices)
 
