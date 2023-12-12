@@ -11,7 +11,7 @@
 Additionally, OpenAPI v. 2.0 introduces the concept of _space_ and _subspace_ for defining the spatial location of devices. Spaces represent large areas, such as a home or office, while subspaces represent smaller areas within a space, such as a living room or bedroom.
 
 note:
-  - OpenAPI v. 2.0 also introduces _virtual devices_ (i.e. SW-only models from custom projects or TuyaGo) not to be confused with TyaDAEMON's _virtual devices_ (subdevices: Tuya HW devices using a hub). The _Tuya virtual devices_ do not affect TuyaDEAMON.
+  - OpenAPI v. 2.0 also introduces _virtual devices_ (i.e. SW-only models from custom projects or TuyaGo) not to be confused with TyaDAEMON's _virtual devices_ (i.e. subdevices: Tuya HW devices using a hub). The _Tuya virtual devices_ do not affect TuyaDEAMON.
   - For APPs (SmartLife) Max. Limits (2023-09-19) see [here](https://support.tuya.com/en/help/_detail/K9q79msw3accz).
 
 **The 'standard' access**
