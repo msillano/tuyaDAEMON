@@ -95,7 +95,7 @@ The ability to access OpenAPI can open up interesting scenarios in [TuyaDAEMON](
   A custom device, **core_OPENAPI** implements the TuyaDAEMON extension to OpenAPI, with the following objectives:
   
 - Complete the access to/from Tuya devices, potentially setting/getting all available data to/from the Tuya Cloud.
-- Enables one-time access to information on devices, their DPs etc..
+- Enables access to information on devices, their DPs, etc...
 - Extend the TuyaDAEMON/Tuya Cloud collaboration in areas (space, groups, smart scenes, etc.) application-related.
 - Use and implementation of core_OPENAPI must be minimal, optional, and complete (all API must be callables).
 - Minimal minds that API URL construction and the map code <=> DP are user-local, defined in call parameters, and not global: this is to exclude heavy `global.alldevices` extensions. 
@@ -108,7 +108,7 @@ The ability to access OpenAPI can open up interesting scenarios in [TuyaDAEMON](
      - Input
          - `method` (string), one of GET, PUT, POST, DELETE
          - `APIurl` (URI) complete (like "/v2.0/cloud/scene/rule?space_id=123456789")
-         - `body` (JSON)  with required parameters (like {"properties":{"switch_1":false}} )
+         - `body` (JSON)  with required parameters (like {"properties":{"switch_1": false}} )
      - Output:
          - A msg for `global.tuyastatus.openapi._callAPI` logging, having as `value` the result from OpenAPI (a JSON structure), 
          - or an error message.
@@ -119,7 +119,7 @@ Example (API device info):
     "property": "_callAPI",
     "value": {
         "method": "GET",
-        "APIurl": "/v2.0/cloud/thing/a_devide_id",
+        "APIurl": "/v2.0/cloud/thing/&lt;a_device_id>",      // deviceId, also in 'device info' from SmartLife
         "body": ""
     }
 }
@@ -130,27 +130,27 @@ RESULT: "RX: openapi/_callAPI"
     success: true
     result: {
         active_time: 1692989353
-        category: "kg"
+        category: "kg"              // manufacturer defined 
         create_time: 1613403089
-        custom_name: "tuya_bridge"
+        custom_name: "tuya_bridge"  // in  SmartLife
         icon: "smart/device_icon/eu1580902146346G23Gy/bf8c4fd0c03067079cplb1461381627983590.png"
-        id: "1234567xx"
-        ip: "2.2.2.178"
+        id: "1234567xx"             // same as in the call, required by tuya-smart-device (Device Virtual ID)
+        local_key: "12345kk"        // required by tuya-smart-device (Device key)
+        ip: "2.2.2.178"             // your public network IP address
         is_online: true
+        product_id: "123456pp"      // Tuya unique label for each independent product. 
+        model: "1CH"                // manufacturer defined
+        name: "1CH 2"               // (brand) + (product) + (module model), manufacturer defined
+        product_name: "1CH"         // manufacturer defined
+        sub: false                  // is subdevice?
         lat: "41.9"
-        local_key: "12345kk"
         lon: "12.4"
-        model: "1CH"
-        name: "1CH 2"
-        product_id: "123456pp"
-        product_name: "1CH"
-        sub: false
         time_zone: "+02:00"
         update_time: 1693051814
-        uuid: "987654321"
+        uuid: "987654321"           // Tuya internal use
 }}
 ````
-- **_APIstatus** pseudoDP: uses the Tuya API 'query_properties', is a replacement for "GET schema". Using this API has the advantage that the API result includes also the DPs.
+- **_APIstatus** pseudoDP: uses the Tuya API 'query_properties', it is a replacement for "GET schema". Using this API has the advantage that the API result includes also the DPs.
      - Input: none
      - Output:
          - A msg for `global.tuyastatus.openapi._APIstatus` logging, having as `value` the API result (JSON),
@@ -182,14 +182,14 @@ RESULT: "RX: openapi/_APIstatus"
        .....
 }}
 
-plus, for any property, a msg like (to update tuyastatus and DB):
+plus, for any property (8 in example), a msg like (to update tuyastatus and DB) this:
 
    ["RX: tuya_bridge/relay", "ON"]
 ````
-note: _in Tuya_DAEMON `tuya_bridge` is the device's user name, `relay` is the DP 1 user name, and `ON` is the value `true` decoded as defined in datasheet and global.alldevices._     
+note: _in TuyaDAEMON `tuya_bridge` is the device's user_name, `relay` is the 'DP 1' user_name, and `ON` is the value `true` decoded as defined in the datasheet, and in `global.alldevices` ('BOOLEANONOFF' coding)._     
          - 
          
-- **_APIinstruction** pseudoDP: uses the Tuya API 'send_properties', is a replacement for "MULTIPLE SET":
+- **_APIinstruction** pseudoDP: uses the Tuya API 'send_properties', it is a replacement for "MULTIPLE SET":
      - Input:
         - An object with couples (code:value) required by OpenAPI.
         -  _note: the `value` must be coded, if required by the DP definition (see device datasheet)._
@@ -244,7 +244,7 @@ To simplify user tasks, i.e. to use tuya_OPENAPI in a more controlled and automa
                     ]
                 },
     
-To call 'clear' use the standard SET TuyaDAEMON msg:
+To call 'clear' you use the standard SET TuyaDAEMON msg:
 
 {
     "device": "tuya_bridge",
@@ -261,6 +261,11 @@ RESULT on debug pad:
 
 ````
 
+#### Installation
+Requires CORE ver. 2.2.4.
+As usual, see for updated details the node `*Global OPENAPI config` in the 'core_OPENAPI' flow.
+
+-----
 **global.alldevice update**
  - The only change is to make the device `id` _mandatory_ also for subdevices controlled by a hub (in `global.alldevice.virtual`, now optional). This is necessary to be able to use the new psudoDP. The device `id` can be provided by 'tuya_cli wizard' or SmartLife APP.
  - This change is without consequences because the 'virtual' test is always done looking at the presence of the CID, and, in the TuyaDAEMON's command messages, we can use any of `user_name | CID | ID` as an index for the device.
@@ -285,9 +290,9 @@ RESULT on debug pad:
         },
    ````
 
-note: Although `_APIstatus` and `_APIinstruction` are actually _pseudoDP_, they are present as DP in `alldevice`, to allow definition and control of log output.
+note: Although `_APIstatus` and `_APIinstruction` are actually _pseudoDP_, they are present as DP in `alldevice`, to allow definition and control of the log output.
    
-**tools update** (preliminary)
+### tools update (preliminary)
 * The use of OpenAPI could allow the automation of some tedious manual steps still required by the tools, such as identifying the DPs of a new device.
 * It also opens up the possibility of new tools, like an 'automation tool', to build a more user-friendly alternative to existing APPs like SmartLife.
 
