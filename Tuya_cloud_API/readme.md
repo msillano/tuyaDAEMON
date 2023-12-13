@@ -154,7 +154,7 @@ RESULT: "RX: openapi/_callAPI"
      - Input: none
      - Output:
          - A msg for `global.tuyastatus.openapi._APIstatus` logging, having as `value` the API result (JSON),
-         - A msg for `global.tuyastatus.&lt;device>` logging, having the read DP:values,
+         - A msg for `global.tuyastatus.&lt;device>` logging, having the read DP: values,
          - _note: if required, the DP's `values` are decoded by the standard CORE DP logging process._
          - or an error msg.
 ````
@@ -182,11 +182,11 @@ RESULT: "RX: openapi/_APIstatus"
        .....
 }}
 
-plus, for any property (8 in example), a msg like (to update tuyastatus and DB) this:
+plus, for any property (8 in the example), a msg like this, to update 'tuyastatus' and DB:
 
    ["RX: tuya_bridge/relay", "ON"]
 ````
-note: _in TuyaDAEMON `tuya_bridge` is the device's user_name, `relay` is the 'DP 1' user_name, and `ON` is the value `true` decoded as defined in the datasheet, and in `global.alldevices` ('BOOLEANONOFF' coding)._     
+note: _in TuyaDAEMON `tuya_bridge` is the device's user_name, `relay` is the 'DP 1' user_name, and `ON` is the value `true` decoded by 'BOOLEANONOFF' user decode function, as defined in the datasheet, and in `global.alldevices`._     
          - 
          
 - **_APIinstruction** pseudoDP: uses the Tuya API 'send_properties', it is a replacement for "MULTIPLE SET":
@@ -215,13 +215,13 @@ RESULT: "RX: openapi/_APIinstruction"
     result: { empty }
     }
 ````
-note: _the msg ["RX: tuya_bridge/relay", "OFF"] is sent by the device as an echo of the executed instruction._
+note: _the msg ["RX: tuya_bridge/relay", "OFF"] is sent by the device as an echo of the executed instruction, if `tuya_bridge/relay` changed._
 
 **error handling**
 
 Having data entered by the user presents the possibility of errors. However, the error messages provided by OpenAPI are detailed, and this immediately identifies the affected area (token, parameters, deviceID, etc.).
 
-To simplify user tasks, i.e. to use tuya_OPENAPI in a more controlled and automatic way, it is possible to use a 'share'. For example, the following snippet adds a _new method_ (DP) for a switch (e.g. 'tuya_bridge'), defined as 'clear' (_note: the same result can be achieved without using `openapi`; here just as a simple example_):
+To simplify user tasks, i.e. to use tuya_OPENAPI in a more controlled and automatic way, it is possible to use a 'share'. The following snippet adds a _new method_ (DP) for a switch (e.g. 'tuya_bridge'), defined as 'clear' (_note: the same result can be achieved without using `openapi`; here just as a simple example_):
 ````
                {
                     "dp": "_clear",
@@ -244,7 +244,7 @@ To simplify user tasks, i.e. to use tuya_OPENAPI in a more controlled and automa
                     ]
                 },
     
-To call 'clear' you use the standard SET TuyaDAEMON msg:
+Now to call 'clear' you use the standard SET TuyaDAEMON msg:
 
 {
     "device": "tuya_bridge",
@@ -256,8 +256,8 @@ RESULT on debug pad:
 
 [ "RX: tuya_bridge/clear", "any" ]
 [ "RX: openapi/_APIinstruction", object ]
-[ "RX: tuya_bridge/relay", "OFF" ]         // only if tuya_bridge/relay changed
-[ "RX: tuya_bridge/trigger", 0 ]           // only if tuya_bridge/trigger changed
+[ "RX: tuya_bridge/relay", "OFF" ]         // only if 'tuya_bridge/relay' changed
+[ "RX: tuya_bridge/trigger", 0 ]           // only if 'tuya_bridge/trigger' changed
 
 ````
 
