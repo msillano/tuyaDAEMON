@@ -221,7 +221,7 @@ note: _the msg ["RX: tuya_bridge/relay", "OFF"] is sent by the device as an echo
 
 Having data entered by the user presents the possibility of errors. However, the error messages provided by OpenAPI are detailed, and this immediately identifies the affected area (token, parameters, deviceID, etc.).
 
-To simplify user tasks, i.e. to use tuya_OPENAPI in a more controlled and automatic way, it is possible to use a 'share'. For example, the following snippet adds a _new method_ (DP) for a switch (e.g. 'tuya_bridge'), defined as 'clear':
+To simplify user tasks, i.e. to use tuya_OPENAPI in a more controlled and automatic way, it is possible to use a 'share'. For example, the following snippet adds a _new method_ (DP) for a switch (e.g. 'tuya_bridge'), defined as 'clear' (_note: the same result can be achieved without using `openapi`; here just as a simple example_):
 ````
                {
                     "dp": "_clear",
