@@ -83,7 +83,7 @@ The ability to access OpenAPI can open up interesting scenarios in [TuyaDAEMON](
 
  In SmartLife the 'smart scene' management is not exactly user-friendly. In particular, I noticed the following problem:
  
-*  When a device changes ID (for re-connection or replacement) all the smart scenes connected to that device are "unavailable" (ok). As a result, users have to change the automation by manually re-entering SmartLife with all the data or conditions for the new device, when a simple ID replacement would suffice. This can be really frustrating.
+*  When a device changes ID (for re-connection or replacement) all the _smart scenes_ connected to that device are "unavailable" (OK). Unfortunately, the same effect occurred when Tuya introduced 'standard devices' with a breaking update: the device `codes` changed (e.g. `countdown` becames `countdown_1`) and every automation is now "unavailable" (KO). As a result, a user has to change the automation by manually re-entering _SmartLife_ with all the data or conditions, when a simple `ID` or `code` replacement would suffice. This can be really frustrating.
   
 *  Manual Enable DP: "On the Tuya Smart platform, select your device on the Product page, click Extensions, and click Settings next to Scenario Connection Settings to check whether DPs for executing actions are configured for your device. If your device uses a standard solution, the DPs are fixed and enabled by default. If your device uses a non-standard solution, selected standard functions are enabled by default. However, you need to enable custom functions on the Scenario Connection Settings page." 
 
@@ -105,7 +105,7 @@ The ability to access OpenAPI can open up interesting scenarios in [TuyaDAEMON](
    The new device OPENAPI automatically gets and refreshes the token, and exposes only `one property` and `two new [pseudoDP](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#pseudodp)`. The `pseudoDPs` are usable on any real/virtual tuyaDEAMON device (not on custom - fake - devices, not handled by Tuya Cloud):
 
 - **_callAPI DP**:   Allows calls to any API, so the input data must be complete.
-     - Input
+     - Input (`value`):
          - `method` (string), one of GET, PUT, POST, DELETE
          - `APIurl` (URI) complete (like "/v2.0/cloud/scene/rule?space_id=123456789")
          - `body` (JSON)  with required parameters (like {"properties":{"switch_1": false}} )
@@ -191,7 +191,7 @@ note: _in TuyaDAEMON `tuya_bridge` is the device's user_name, `relay` is the 'DP
          
 - **_APIinstruction** pseudoDP: uses the Tuya API 'send_properties', it is a replacement for "MULTIPLE SET":
      - Input:
-        - An object with couples (code:value) required by OpenAPI.
+        - An object "properties" with couples (code: value) as required by the API body.
         -  _note: the `value` must be coded, if required by the DP definition (see device datasheet)._
      - Output:
         - A msg for `global.tuyastatus.openapi._APIinstruction` logging, having as `value` the result from API.
@@ -290,9 +290,9 @@ As usual, see for updated details the node `*Global OPENAPI config` in the 'core
         },
    ````
 
-note: Although `_APIstatus` and `_APIinstruction` are actually _pseudoDP_, they are present as DP in `alldevice`, to allow definition and control of the log output.
+note: Although `_APIstatus` and `_APIinstruction` are actually _pseudoDP_, they are present as DP in `alldevice.fake`, to allow definition and control of the log output.
    
 ### tools update (preliminary)
 * The use of OpenAPI could allow the automation of some tedious manual steps still required by the tools, such as identifying the DPs of a new device.
-* It also opens up the possibility of new tools, like an 'automation tool', to build a more user-friendly alternative to existing APPs like SmartLife.
+* It also opens up the possibility of new tools, like an 'automation tool', to build a more user-friendly alternative to existing APPs like SmartLife (for example, as required by 'mirror' devices setup).
 
