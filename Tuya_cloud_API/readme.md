@@ -256,8 +256,8 @@ RESULT on debug pad:
 
 [ "RX: tuya_bridge/clear", "any" ]
 [ "RX: openapi/_APIinstruction", object ]
-[ "RX: tuya_bridge/relay", "OFF" ]
-[ "RX: tuya_bridge/trigger", 0 ]
+[ "RX: tuya_bridge/relay", "OFF" ]         // only if tuya_bridge/relay changed
+[ "RX: tuya_bridge/trigger", 0 ]           // only if tuya_bridge/trigger changed
 
 ````
 
