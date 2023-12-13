@@ -252,7 +252,7 @@ To call 'clear' use the standard SET TuyaDAEMON msg:
     "value": "any"
 }
 
-RESULTt on debug pad:
+RESULT on debug pad:
 
 [ "RX: tuya_bridge/clear", "any" ]
 [ "RX: openapi/_APIinstruction", object ]
