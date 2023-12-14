@@ -69,7 +69,7 @@ The ability to access OpenAPI can open up interesting scenarios in [TuyaDAEMON](
 
 * Local access to Tuya real (WiFi) device properties is quite good with the [`tuya-smart-device`](https://github.com/vinodsr/node-red-contrib-tuya-smart-device) node; only in rare cases, the access via CloudAPI will be useful.
 
-* Tuya devices such as WiFi low-power sensors, which cannot be managed with the `tuya-smart-device` node, are currently controlled in TuyaDAEMON with [TRIGGER](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER). While the Trigger technique is reliable and more stable than CloudAPI, it has limitations in reading numerical measurements. In such cases, the use of CloudAPI (e.g., API `Query_Properties`) could be beneficial.
+* Tuya devices such as WiFi low-power sensors, which cannot be managed with the `tuya-smart-device` node, are currently controlled in TuyaDAEMON with [TRIGGER](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaTRIGGER). While the Trigger technique, event-driven, is reliable and more stable than CloudAPI, it has limitations in reading numerical measurements. In such cases, the use of CloudAPI (e.g., API `Query_Properties` in polling) could be beneficial.
 
 * Some [subdevices](https://github.com/msillano/tuyaDEAMON-applications/wiki/note-4:-Gateways-and-sensors) (using a hub) could also benefit from CloudAPI when not all DPs are accessible via the `tuya-smart-device` node.
 
@@ -83,7 +83,7 @@ The ability to access OpenAPI can open up interesting scenarios in [TuyaDAEMON](
 
  In SmartLife the 'smart scene' management is not exactly user-friendly. In particular, I noticed the following problem:
  
-*  When a device changes ID (for re-connection or replacement) all the _smart scenes_ connected to that device are "unavailable" (OK). Unfortunately, the same effect occurred when Tuya introduced 'standard devices' with a breaking update: the device `codes` changed (e.g. `countdown` becames `countdown_1`) and every automation is now "unavailable" (KO). As a result, a user has to change the automation by manually re-entering _SmartLife_ with all the data or conditions, when a simple `ID` or `code` replacement would suffice. This can be really frustrating.
+*  When a device changes ID (for re-connection or replacement) all the _smart scenes_ connected to that device are "unavailable" (OK). Unfortunately, the same effect occurred when Tuya introduced 'standard devices' with a breaking update: the device `codes` changed (e.g. `countdown` becomes `countdown_1`) and every automation is now "unavailable" (KO). As a result, a user has to change the automation by manually re-entering _SmartLife_ with all the data or conditions, when a simple `ID` or `code` replacement would suffice. This can be really frustrating.
   
 *  Manual Enable DP: "On the Tuya Smart platform, select your device on the Product page, click Extensions, and click Settings next to Scenario Connection Settings to check whether DPs for executing actions are configured for your device. If your device uses a standard solution, the DPs are fixed and enabled by default. If your device uses a non-standard solution, selected standard functions are enabled by default. However, you need to enable custom functions on the Scenario Connection Settings page." 
 
