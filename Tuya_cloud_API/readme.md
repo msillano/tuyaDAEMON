@@ -225,8 +225,7 @@ note: _the msg ["RX: tuya_bridge/relay", "OFF"] is sent by the device as an echo
          - `body` (JSON)  with required parameters (like {"properties":{"switch_1": false}} )
      - Output: like _callAPI:
          - A msg having in 'payload' the result from OpenAPI (a JSON structure), 
-       
-````
+
 Example (API device info):
 ````
        {
