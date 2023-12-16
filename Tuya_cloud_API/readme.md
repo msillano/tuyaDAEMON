@@ -12,7 +12,7 @@ Additionally, OpenAPI v. 2.0 introduces the concept of _space_ and _subspace_ fo
 
 note:
   - OpenAPI v. 2.0 also introduces _virtual devices_ (i.e. SW-only models from custom projects or TuyaGo) not to be confused with TyaDAEMON's _virtual devices_ (i.e. subdevices: Tuya HW devices using a hub). The _Tuya virtual devices_ do not affect TuyaDEAMON.
-  - For APPs (SmartLife) Max. Limits (2023-09-19) see [here](https://support.tuya.com/en/help/_detail/K9q79msw3accz).
+  - For APPs (SmartLife) Max. Limits (2023-09-19) see [here](https://support.tuya.com/en/help/_detail/K9q79msw3accz). For user limits see [here](https://support.tuya.com/en/help/_detail/K927ttzta56wa).
 
 **The 'standard' access**
 > "The _standard instruction set_ lets you control devices from different manufacturers with a single set of instructions. However, to achieve standardization, mapping relationships shall be manually created, and Tuya cannot guarantee that all hardware products support this function."
@@ -59,7 +59,7 @@ The `nr_Tuya_OpenAPI_2.0` flow is a minimal implementation, for testing and API 
  - OpenAPI uses `codes` (tuya names for DPs) and not DPs. The output of the `Get SCHEMA V2.0` flow maps `DPs <=> codes` for a device.
  - API reference:
      - IoT-Core: Start [here](https://developer.tuya.com/en/docs/cloud) (registration required). 
- - This project is derived from the project by NotEnoughTech ([https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya Cloud API](https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya%20Cloud%20API))
+ - This project is derived from the project by NotEnoughTech ([https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya Cloud API](https://github.com/notenoughtech/NodeRED-Projects/tree/master/Tuya%20Cloud%20API)). See also [here](https://forum.hacf.fr/t/api-tuya-depuis-node-red/28774).
 
 ---
 ### TuyaDAEMON and Tuya Cloud API
