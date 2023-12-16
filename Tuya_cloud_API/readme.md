@@ -102,7 +102,7 @@ The ability to access OpenAPI can open up interesting scenarios in [TuyaDAEMON](
   
 **Specifications**
 
-   The new device OPENAPI automatically gets and refreshes the token, and exposes only `one property` and `two new [pseudoDP](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#pseudodp)`. The `pseudoDPs` are usable on any real/virtual tuyaDEAMON device (not on custom - fake - devices, not handled by Tuya Cloud):
+   The new device OPENAPI automatically gets and refreshes the token, and exposes only `one property`, `two new [pseudoDP](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#pseudodp)`, and a function. The `pseudoDPs` are usable on any real/virtual tuyaDEAMON device (not on custom - fake - devices, not handled by Tuya Cloud):
 
 - **_callAPI DP**:   Allows calls to any API, so the input data must be complete.
      - Input (`value`):
@@ -216,6 +216,26 @@ RESULT: "RX: openapi/_APIinstruction"
     }
 ````
 note: _the msg ["RX: tuya_bridge/relay", "OFF"] is sent by the device as an echo of the executed instruction, if `tuya_bridge/relay` changed._
+
+
+- **openapi_in** function: called by a 'link call' node, this entry-point allow the use of core_OPENAPI as a function, in any TuyaDAEMON flow.
+-      - Input: like _callAPI, but in `msg.payload`:
+         - `method` (string), one of GET, PUT, POST, DELETE
+         - `APIurl` (URI) complete (like "/v2.0/cloud/scene/rule?space_id=123456789")
+         - `body` (JSON)  with required parameters (like {"properties":{"switch_1": false}} )
+     - Output: like _callAPI:
+         - A msg having in 'payload' the result from OpenAPI (a JSON structure), 
+       
+````
+Example (API device info):
+````
+       {
+        "method": "GET",
+        "APIurl": "/v2.0/cloud/thing/&lt;a_device_id>",     
+        "body": ""
+       }
+````
+RESULT: see _callAPI
 
 **error handling**
 
