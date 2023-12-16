@@ -218,8 +218,8 @@ RESULT: "RX: openapi/_APIinstruction"
 note: _the msg ["RX: tuya_bridge/relay", "OFF"] is sent by the device as an echo of the executed instruction, if `tuya_bridge/relay` changed._
 
 
-- **openapi_in** function: called by a 'link call' node, this entry-point allow the use of core_OPENAPI as a function, in any TuyaDAEMON flow.
--      - Input: like _callAPI, but in `msg.payload`:
+- **openapi_in** function(): called by a 'link call' node, this entry-point allows the use of `core_OPENAPI` as a function, in any TuyaDAEMON flow.
+     - Input: like _callAPI, but in `msg.payload`:
          - `method` (string), one of GET, PUT, POST, DELETE
          - `APIurl` (URI) complete (like "/v2.0/cloud/scene/rule?space_id=123456789")
          - `body` (JSON)  with required parameters (like {"properties":{"switch_1": false}} )
