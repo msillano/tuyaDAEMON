@@ -99,7 +99,7 @@ See, as an example, [tuyaDAEMON.toolkit](https://github.com/msillano/tuyaDAEMON/
 
 ### MQTT interface
 
-But with version 2.1 I added to  **tuyaDAEMON** a _MQTT broker_ and a _MQTT interface_, both for events and commands. This was done thinking to UI. On PC (and portables), **node-red** offers good interfaces, but is required some development time. **SmartLife** UI is good, but become fast too big to be very friendly. Interfaces can be done in **HTML/js/php** but also in this case the development is not for all (see [example](https://github.com/msillano/tuyaDEAMON-applications/wiki/note-3-%E2%80%90-dynamic-HTML-pages)). Using **MQTT** it is easy to find ready UI:
+But with version 2.1 I added to  **tuyaDAEMON** a _MQTT broker_ and a _MQTT interface_, both for events and commands. This was done thinking to UI. On PC (and portables), **node-red** offers good interfaces, but is required some development time. **SmartLife** UI is good, you will continue to use it for many maintenance operations, but becomes fast too big to be very friendly. Interfaces can be done in **HTML/js/php** but also, in this case, the development is not for all (see [example](https://github.com/msillano/tuyaDEAMON-applications/wiki/note-3-%E2%80%90-dynamic-HTML-pages)). Using **MQTT** it is easy to find ready UI:
 - For PC I use the client ['mqtt-explorer'](http://mqtt-explorer.com), which shows all data, locals, and remotes, also with charts, and allows to send any command ([use example](https://github.com/msillano/tuyaDAEMON/raw/main/pics/Immagine%202022-04-07%20184055.png)). Ready, car does not require customization. A good tool for developers, it can be the general [purpose UI](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ScreenShot_20210612210400.png) for **tyuaDAEMON**.
 <table><tr><td>
  <img  src="https://github.com/msillano/tuyaDAEMON/blob/main/pics/ScreenShot_20210612210400.png?raw=true">
@@ -107,7 +107,7 @@ But with version 2.1 I added to  **tuyaDAEMON** a _MQTT broker_ and a _MQTT inte
  <img src="https://github.com/msillano/tuyaDAEMON/blob/main/pics/Immagine%202022-04-07%20184055.png?raw=true">
 </td></tr></table>
 
-- For Android, as portable UI (but also on PC with a simulator), I found very good and customizable, but still simple, the client ['IOT MQTT panel'](https://play.google.com/store/apps/details?id=snr.lab.iotmqttpanel.prod), with a nice look and JSON handling. The look is equivalent to node-red.dashboard, I used it to make some specialized UI. Any UI is a file JSON. that can be exported and imported.
+- For Android, as portable UI (but also on PC with a simulator), I found very good and customizable, but still simple, the client ['IOT MQTT panel'](https://play.google.com/store/apps/details?id=snr.lab.iotmqttpanel.prod), with a nice look and JSON handling. The look is equivalent to node-red.dashboard, I used it to make some specialized UI. Any UI is a file JSON that can be exported and imported.
 As an example see [here](https://github.com/msillano/tuyaDAEMON/wiki/custom-device--MQTT-'Ozone_PDMtimer'-case-study) the `node-red` and `IOT MQTT panel` implementations of the same interface, side by side.
 
 The MQTT topics structure is simple:
@@ -126,7 +126,7 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
   
 ### DataBase interface
 
- **TuyaDEAMON** automatically logs user select messages and measurements on one or more DB tables (`'messages'`), a useful option for control, analysis, and statistics.
+ **TuyaDEAMON** automatically logs user-select messages and measurements on one or more DB tables (`'messages'`), a useful option for control, analysis, and statistics.
   _Since ver. 2.0:_
  
  ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/dbtuyathome03.png)
@@ -161,7 +161,7 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
 
 ### Version 2.0
  
-_With the version 2.0 tuyaDAEMON reaches 2 milestones: the ability to use and create custom devices in a [hierarchical OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices), and the ability to create distributed [TuyaDAEMON network](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#networking-tuyadaemon)._
+_With version 2.0 tuyaDAEMON reaches 2 milestones: the ability to use and create custom devices in a [hierarchical OO perspective](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#oo-devices), and the ability to create distributed [TuyaDAEMON network](https://github.com/msillano/tuyaDAEMON/wiki/20.-ver.-2.0--milestones#networking-tuyadaemon)._
  
   _Last [version 2.2.4](https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON)_
  
