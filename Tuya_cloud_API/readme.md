@@ -88,6 +88,8 @@ The ability to access OpenAPI can open up interesting scenarios in [TuyaDAEMON](
 *  Manual Enable DP: "On the Tuya Smart platform, select your device on the Product page, click Extensions, and click Settings next to Scenario Connection Settings to check whether DPs for executing actions are configured for your device. If your device uses a standard solution, the DPs are fixed and enabled by default. If your device uses a non-standard solution, selected standard functions are enabled by default. However, you need to enable custom functions on the Scenario Connection Settings page." 
 
 > TuyaDAEMON uses '[shares](https://github.com/msillano/tuyaDAEMON/wiki/30.-tuyaDAEMON-as-event-processor#share-and-command-chains)' as meta-language for user device automation and OO definition. This language is with an expressive power (Turing complete) not found in other IOT environments (including Tuya 'smart scene linkage').
+ 
+> The use of [TRIGGER](https://github.com/msillano/tuyaDAEMON/blob/main/tuyaTRIGGER/README.md) allows bidiectional communication betwnen TuyaDAEMON 'share' and Tuya 'smart scene', i.e. a Tuya automation can use the TuyaDAEMON expressive power and vice-versa. This ability of mix meta-languages is not found in other IOT environments. 
 
 **conclusion:**  From an open-strategy perspective, it is beneficial to create in TuyaDAEMON a new optional communication channel for OpenAPI, to be used only in essential cases, to minimize the TuyaDAEMON's dependences on the evolution and strategy of Tuya Cloud.
 
