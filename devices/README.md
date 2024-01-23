@@ -24,6 +24,8 @@ It is an open list, you can contribute using [tuyaDeamon toolkit](https://github
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico__system.jpg) [_system (SW custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_system/device__system.pdf) 
 
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico__system.jpg) [_trigger (SW custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_trigger/device__trigger.pdf) 
+
+- ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico__system.jpg) [_openapi (SW custom)](https://github.com/msillano/tuyaDAEMON/blob/main/devices/_openapi/device__openapi.pdf) 
    
 - ![](https://github.com/msillano/tuyaDAEMON/blob/main/pics/ico_ACmeter.jpg) [ACmeter](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device_ACmeter.pdf) 
 
