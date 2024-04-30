@@ -157,7 +157,9 @@ Compare it to tuyaDAEMON standard [commands](https://github.com/msillano/tuyaDAE
 <hr>
 
 ### New: [tuyaDEAMON-applications](https://github.com/msillano/tuyaDEAMON-applications) repository.
- <hr>
+### New: [TuyaDaemon User Grop (international)](https://www.facebook.com/groups/805215414822650) in Facebook.
+
+<hr>
 
 ### Version 2.0
  
